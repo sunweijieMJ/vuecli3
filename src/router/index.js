@@ -2,47 +2,30 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 
+// 引入二级路由
+import Idea from './Idea';
+
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/DashBoard/Idea/IdeaList'
     },
     {
-      path: '/home',
-      name: 'Home',
-      component: () => import('../views/Home.vue')
+      path: '/DashBoard',
+      component: () => import('../views/DashBoard.vue'),
+      children: [Idea]
     },
     {
-      path: '/idea',
-      name: 'Idea',
-      component: () => import('../views/Idea.vue')
-    },
-    {
-      path: '/okr',
-      name: 'OKR',
-      component: () => import('../views/OKR.vue')
-    },
-    {
-      path: '/message',
-      name: 'Message',
-      component: () => import('../views/Message.vue')
-    },
-    {
-      path: '/mine',
-      name: 'Mine',
-      component: () => import('../views/Mine.vue')
-    },
-    {
-      path: '/profile',
-      name: 'Profile',
-      component: () => import('../views/Profile.vue')
+      path: '/System',
+      component: () => import('../views/System.vue'),
+      children: []
     },
     {
       path: '*',
-      redirect: '/home'
+      component: () => import('../views/Error.vue')
     }
   ]
 });
