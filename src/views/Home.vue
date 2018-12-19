@@ -29,8 +29,14 @@
   </el-container>
 </template>
 <script>
-  export default {
+  import systemApi from '../api/System';
 
+  export default {
+    created() {
+      systemApi().getGlobalInfo().then(res => {
+        console.log(res);
+      });
+    }
   };
 </script>
 <style lang="scss" scoped>

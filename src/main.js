@@ -17,11 +17,6 @@ for (let key in filters) {
   });
 }
 
-import systemApi from './api/System';
-systemApi().getGlobalInfo().then(res => {
-  console.log(res);
-});
-
 new Vue({
   router,
   store,

@@ -9,7 +9,7 @@ const urlDict = {
   }
 };
 
-function getUrl(biz, UrlName) {
+const getUrl = (biz, UrlName) => {
   try {
     if (!biz || !UrlName) {
       throw new Error('getUrl Must input Biz And UrlName');
@@ -25,7 +25,7 @@ function getUrl(biz, UrlName) {
   } catch (err) {
     console.error(err);
   }
-}
+};
 
 export default {
   getUrl

@@ -6,6 +6,7 @@
 import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
+import storeApi from '../utils/storage';
 const baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
@@ -24,9 +25,7 @@ class Abstract {
    */
   constructor() {
     this.ApiUrl = ApiUrl;
-    this._header = {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    };
+    this.linsign = linsign;
   }
 
   apiAxios(method, url, params) {
@@ -35,11 +34,11 @@ class Abstract {
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
     // 签名加密
     if (method === 'POST') {
-      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}lh_authinfo=${encodeURIComponent(window.localStorage.lh_authinfo)}&__platform=m`;
-      url = url + `&sign=${linsign.resignHash(url, params)}`;
+      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}lh_authinfo=${encodeURIComponent(storeApi('localstorage').get('lh_authinfo'))}&__platform=m`;
+      url = url + `&sign=${that.linsign.resignHash(url, params)}`;
     } else {
       params.__platform = 'm';
-      params.sign = linsign.signHash(url, params);
+      params.sign = that.linsign.signHash(url, params);
     }
 
     return new Promise((resolve, reject) => {
