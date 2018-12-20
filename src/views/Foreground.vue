@@ -94,7 +94,6 @@
     }
     .el-main {
       min-height: calc(100% - 60px);
-      padding-top: 12px;
       background-color: #F6F6F6;
     }
   }

@@ -4,6 +4,7 @@ Vue.use(Router);
 
 // 引入二级路由
 import Idea from './Idea';
+import Mine from './Mine';
 
 export default new Router({
   mode: 'history',
@@ -11,16 +12,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/DashBoard/Idea/IdeaList'
+      redirect: '/Foreground/Idea/IdeaList'
     },
     {
-      path: '/DashBoard',
-      component: () => import('../views/DashBoard.vue'),
-      children: [Idea]
+      path: '/Foreground',
+      component: () => import('../views/Foreground.vue'),
+      children: [Idea, Mine]
     },
     {
-      path: '/System',
-      component: () => import('../views/System.vue'),
+      path: '/Background',
+      component: () => import('../views/Background.vue'),
       children: []
     },
     {

@@ -6,12 +6,17 @@
         <i class="iconfont icon-qianming"></i>
       </div>
     </div>
+    <public-list></public-list>
   </div>
 </template>
 <script>
   import systemApi from '../../../api/System';
+  import {PublicList} from '../../../components/business/index.js';
 
   export default {
+    components: {
+      PublicList
+    },
     created() {
       systemApi().getGlobalInfo().then(res => {
         console.log(res);
@@ -23,6 +28,7 @@
   .idea-list {
     width: 1040px;
     margin: auto;
+    padding-top: 12px;
     .idea-write {
       display: flex;
       justify-content: flex-end;
