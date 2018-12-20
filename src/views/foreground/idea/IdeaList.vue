@@ -7,6 +7,7 @@
       </div>
     </div>
     <public-list></public-list>
+    <!-- <CommentPublish></CommentPublish> -->
   </div>
 </template>
 <script>
