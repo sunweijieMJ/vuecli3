@@ -11,17 +11,11 @@
   </div>
 </template>
 <script>
-  import systemApi from '../../../api/System';
   import {PublicList} from '../../../components/business/index.js';
 
   export default {
     components: {
       PublicList
-    },
-    created() {
-      systemApi().getGlobalInfo().then(res => {
-        console.log(res);
-      });
     }
   };
 </script>

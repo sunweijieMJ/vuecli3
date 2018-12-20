@@ -2,7 +2,14 @@
   <div class="profile">
     <div class="profile-user">
       <div class="user">
-        <div class="user-photo"></div>
+        <div class="user-photo">
+          <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+          <div class="photo-change" @click="chooseIcon">
+            <i class="iconfont icon-xiangji"></i>
+            <span>修改头像</span>
+            <input type="file" name="icon" accept="image/*">
+          </div>
+        </div>
         <div class="user-msg">
           <div class="msg-name">
             <h4>
@@ -40,12 +47,23 @@
         </el-tabs>
       </div>
       <div class="achieve">
-        <div class="achieve-title">
-          <h4>个人成就</h4>
-        </div>
-        <div class="achieve-detail">
-
-        </div>
+        <h4 class="achieve-title">个人成就</h4>
+        <ul class="achieve-detail">
+          <li>
+            <p>
+              <i class="iconfont icon-ai45"></i>
+              <span>收到的赞</span>
+            </p>
+            <span>5000</span>
+          </li>
+          <li>
+            <p>
+              <i class="iconfont icon-ai45"></i>
+              <span>收到的赞</span>
+            </p>
+            <span>5000</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -58,6 +76,9 @@
       };
     },
     methods: {
+      chooseIcon() {
+        this.$el.querySelector('[type=file]').click();
+      },
       handleClick(tab, event) {
         console.log(tab, event);
       }
@@ -88,8 +109,37 @@
           width: 112px;
           height: 112px;
           border-radius: 50%;
-          background: rgba(136,135,136,1);
-          border: 2px solid rgba(136,135,136,1);
+          img {
+            width: inherit;
+            height: inherit;
+            border-radius: inherit;
+          }
+          &:hover .photo-change{
+            display: flex;
+            background: rgba(136,135,136,0.8);
+          }
+          .photo-change {
+            position: absolute;
+            left: 0;top: 0;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: inherit;
+            height: inherit;
+            border-radius: inherit;
+            cursor: pointer;
+            color: #fff;
+            i {
+              font-size: 27px;
+            }
+            span {
+              font-size:16px;
+            }
+            input {
+              display: none;
+            }
+          }
         }
         .user-msg {
           display: flex;
@@ -154,15 +204,7 @@
       padding-top: 12px;
       margin: auto;
       .list {
-        .el-tabs {
-          width: 750px;
-          height: 56px;
-          box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
-          background-color: #fff;
-          li {
 
-          }
-        }
       }
       .achieve {
         width: 275px;
@@ -175,12 +217,59 @@
           align-items: center;
           height: 56px;
           border:1px solid rgba(246,246,246,1);
-          h4 {
-            text-align: center;
+        }
+        .achieve-detail {
+          padding: 30px;
+          li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+            p {
+              display: flex;
+              align-items: center;
+              i {
+                font-size: 16px;
+              }
+              span {
+                font-size: 16px;
+                font-weight: 400;
+                color: #606266;
+              }
+            }
+            >span {
+              font-size: 22px;
+              font-weight: 400;
+              color: #FF7678;
+            }
           }
         }
       }
     }
   }
 </style>
-
+<style lang="scss">
+  .profile {
+    .el-tabs {
+      box-sizing: border-box;
+      width: 750px;
+      box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
+      background-color: #fff;
+      .el-tabs__nav-wrap {
+        padding: 0 60px;
+        .el-tabs__active-bar {
+          bottom: 15px;
+          background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
+        }
+        .el-tabs__item {
+          height: 56px;
+          line-height: 56px;
+          color: #909399;
+          &.is-active {
+            color: #303133;
+          }
+        }
+      }
+    }
+  }
+</style>

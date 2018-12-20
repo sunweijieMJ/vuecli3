@@ -1,6 +1,6 @@
 <template>
   <ul class="public-list">
-    <li>
+    <li v-for="(vitem, vindex) in 3" :key="vindex" @click="skipDetail(1)">
       <!-- 列表头部用户信息 -->
       <div class="list-header">
         <div class="header-author">
@@ -47,7 +47,13 @@
       </div>
       <!-- 评论区 -->
       <div class="list-comment">
-
+        <h4>精彩评论</h4>
+        <ul class="comment">
+          <li v-for="(witem, windex) in 3" :key="windex">
+            <h5>PADDY：</h5>
+            <p>大家对pgs有什么问题都可以留言哦～不管什么方面的都可以提，大家… </p>
+          </li>
+        </ul>
       </div>
     </li>
   </ul>
@@ -56,13 +62,17 @@
   import Paragraph from './Paragraph.js';
 
   export default {
-    components: {Paragraph}
+    components: {Paragraph},
+    methods: {
+      skipDetail(id) {
+        this.$router.push({name: 'IdeaDetail', params: {id}});
+      }
+    }
   };
 </script>
-
 <style lang="scss" scoped>
   .public-list {
-    li {
+    >li {
       box-sizing: border-box;
       width: 750px;
       padding: 32px 58px;
@@ -134,7 +144,6 @@
         justify-content: space-between;
         align-items: center;
         padding: 21px 0;
-        border-bottom: 1px solid rgba(246,246,246,1);
         .num-left {
           display: flex;
           align-items: center;
@@ -169,6 +178,33 @@
             }
             i {
               font-size:18px;
+            }
+          }
+        }
+      }
+      .list-comment {
+        padding: 15px 25px;
+        height: 102px;
+        background: rgba(246,246,246,1);
+        h4 {
+          margin-bottom: 4px;
+          font-size:16px;
+          font-weight: 400;
+          color: #303133;
+          line-height: 22px;
+        }
+        .comment {
+          >li {
+            display: flex;
+            align-items: center;
+            line-height: 25px;
+            h5 {
+              font-size:16px;
+              color: #5581C7;
+            }
+            p {
+              font-size:16px;
+              color: #606266;
             }
           }
         }

@@ -1,8 +1,8 @@
 /**
- * PGS System API 集合类
+ * PGS Notice API 集合类
  * 所有工具相关的接口统一封装
  * 集成Abstract
- * @date 2018-12-19
+ * @date 2018-12-20
  */
 import Abstract from './Abstract.js';
 
@@ -10,13 +10,6 @@ class System extends Abstract {
 
   constructor() {
     super();
-  }
-
-  /**
-   * 获取全局变量
-   */
-  getGlobalInfo() {
-    return this.getReq('System.GlobalInfo', {});
   }
 
 }

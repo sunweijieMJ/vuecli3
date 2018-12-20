@@ -7,12 +7,12 @@
             <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
           </h1>
           <li v-for="(item, index) in router.slice(0, 2)" :key="index" :class="{active: index === current}">
-            <a href="javascript:;" @click="select(index)">{{item.text}}</a>
+            <a href="javascript:;" @click="select(item)">{{item.text}}</a>
           </li>
         </ul>
         <ul class="nav-right">
           <li v-for="(item, index) in router.slice(2, 4)" :key="index" :class="{active: index === current}">
-            <i class="iconfont" :class="item.icon"></i>
+            <i class="iconfont" :class="item.icon" @click="select(item)"></i>
           </li>
         </ul>
       </nav>
@@ -42,14 +42,15 @@
           },
           {
             icon: 'icon-touxiang',
-            name: 'Mine'
+            name: 'Profile'
           }
         ]
       };
     },
     methods: {
-      select(index) {
-        this.current = index;
+      select(item) {
+        this.current = item.index;
+        this.$router.push({name: item.name});
       }
     }
   };
@@ -94,6 +95,7 @@
     }
     .el-main {
       min-height: calc(100% - 60px);
+      padding: 0;
       background-color: #F6F6F6;
     }
   }

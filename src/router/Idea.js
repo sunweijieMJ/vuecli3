@@ -8,7 +8,7 @@ export default {
       component: () => import('../views/foreground/idea/IdeaList.vue')
     },
     {
-      path: 'IdeaDetail',
+      path: 'IdeaDetail/:id',
       name: 'IdeaDetail',
       component: () => import('../views/foreground/idea/IdeaDetail.vue')
     }
