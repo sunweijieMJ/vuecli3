@@ -12,7 +12,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/Foreground/Idea/IdeaList'
+      redirect: '/Foreground/Idea/NewsList'
     },
     {
       path: '/Foreground',

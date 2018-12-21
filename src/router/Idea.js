@@ -11,6 +11,11 @@ export default {
       path: 'IdeaDetail/:id',
       name: 'IdeaDetail',
       component: () => import('../views/foreground/idea/IdeaDetail.vue')
+    },
+    {
+      path: 'NewsList',
+      name: 'NewsList',
+      component: () => import('../views/foreground/idea/NewsList.vue')
     }
   ]
 };
