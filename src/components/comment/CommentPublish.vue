@@ -1,15 +1,15 @@
 <template>
   <div class="comment-publish">
     <div class="hello">
-      <div class="new-idea">新想法 <div class="shut">X</div></div>
+      <div class="new-idea">新想法 <div class="shut" @click="shutDown">X</div></div>
       <div class="comment-idea">
         <textarea name="" id="text" cols="30" rows="10"
           @blur="dealContent"
           @keyup="keyCode($event)"
           @input="content"
-          @click="curse" placeholder="分享你得想法吧"></textarea>
+          @click.stop="curse" placeholder="分享你得想法吧"></textarea>
         <ul v-if="show" :style="at_style">
-          <li v-for="(a, index) in 5" :key="index" @click="insertAtCursor(friend)">{{friend}}</li>
+          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend)">{{friend}}</li>
         </ul>
       </div>
       <div class="upload-img">
@@ -35,6 +35,10 @@ export default {
     };
   },
   methods: {
+    // 关闭弹层
+    shutDown(){
+      this.$emit('shutDown', false);
+    },
     // 失去焦点事件
     dealContent(){
       // this.show = false;
@@ -54,7 +58,7 @@ export default {
         return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
       }
       // 创建镜像内容，复制样式
-      let mirror = '<div style="font-size:12px;" id="' + 'text' + '">'
+      let mirror = '<div style="font-size:22px;" id="' + 'text' + '">'
       + escape(beforeText)
       + '<span id="cursor">|</span>'
       + escape(afterText)
@@ -66,7 +70,7 @@ export default {
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
       console.log('字节计算 ：', finaly)
-      this.at_style.top = (finaly.bottom - 476) + 'px';
+      this.at_style.top = (finaly.bottom - 400) + 'px';
       this.at_style.left = finaly.left + 'px';
       console.log('这是啥：', finaly)
       console.log('你是正确的')
@@ -122,7 +126,7 @@ export default {
         this.curse(e);
       }
     },
-    // 插入文本6
+    // 插入文本
     insertAtCursor(myValue) {
       // IE 浏览器  获取当前输入框dom元素
       let myField = document.getElementById('text');
@@ -159,8 +163,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0,0,0,0.5);;
-  // opacity: 0.5;
+  background-color: rgba(0,0,0,0.5);
   .hello{
     width: 687px;
     margin: auto;
@@ -169,7 +172,6 @@ export default {
     font-size: 12px;
     letter-spacing: normal;
     background-color: white;
-    // position: relative;
     .new-idea{
       padding: 27px 37px;
       font-size:22px;
@@ -183,29 +185,29 @@ export default {
       padding: 0px 41px;
       z-index: 1001;
       width: 604px;
-      height: 498px;
+      height: 422px;
       overflow: hidden;
       #text {
         margin-top: 22px;
         width: 604px;
-        height: 476px;
+        height: 400px;
         box-sizing: border-box;
         border: 1px solid orange;
-        font-size: 12px;
+        font-size: 22px;
         border: none;
         resize: none;
       }
       textarea::-webkit-input-placeholder{
-          color:#C0C4CC;
+        color:#C0C4CC;
       }
       textarea::-moz-placeholder{   /* Mozilla Firefox 19+ */
-          color:#C0C4CC;
+        color:#C0C4CC;
       }
       textarea:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
-          color:#C0C4CC;
+        color:#C0C4CC;
       }
       textarea:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
-          color:#C0C4CC;
+        color:#C0C4CC;
       }
     }
     .upload-img{
@@ -229,6 +231,7 @@ export default {
     }
   }
   .shut{
+    cursor: pointer;
     position: absolute;
     top: -10px;
     right: -40px;
@@ -243,9 +246,16 @@ export default {
   }
   li{
     list-style: none;
-    padding: 5px 0px;
+    padding: 13px 15px;
     border-top: 1px solid #eee;
-    width: 100%;
+    font-size:16px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(48,49,51,1);
+    background-color: white;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   li:first-of-type{
     border-top:none;

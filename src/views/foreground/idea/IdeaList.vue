@@ -1,21 +1,39 @@
 <template>
   <div class="idea-list">
     <div class="idea-write">
-      <div class="write-btn">
+      <div class="write-btn" @click="present">
         <span>提出你的想法</span>
         <i class="iconfont icon-qianming"></i>
       </div>
+    </div>
+    <div v-if="show">
+      <CommentPublish @shutDown="shutDown"></CommentPublish>
     </div>
     <public-list></public-list>
   </div>
 </template>
 <script>
   import {PublicList} from '../../../components/business/index.js';
+  import CommentPublish from '../../../components/comment/CommentPublish';
 
   export default {
     components: {
-      PublicList
+      PublicList, CommentPublish
+    },
+    data(){
+      return {
+        show: false
+      };
+    },
+    methods:{
+      present(){
+        this.show = true;
+      },
+      shutDown(){
+        this.show = false;
+      }
     }
+
   };
 </script>
 <style lang="scss" scoped>

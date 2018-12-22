@@ -38,7 +38,7 @@
           },
           {
             icon: 'icon-lingdang',
-            name: 'Message'
+            name: 'NewsList'
           },
           {
             icon: 'icon-touxiang',
