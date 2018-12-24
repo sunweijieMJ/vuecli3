@@ -62,7 +62,14 @@ module.exports = {
   },
 
   // 所有 webpack-dev-server 的选项都支持
-  devServer: {},
+  devServer: {
+    open: true,
+    host: '0.0.0.0',
+    port: 8080,
+    https: false,
+    hotOnly: false,
+    proxy: null
+  },
 
   // 是否为 Babel 或 TypeScript 使用 thread-loader
   parallel: require('os').cpus().length > 1,
