@@ -3,35 +3,24 @@
     <div class="hello">
       <div class="new-idea">新想法 <div class="shut" @click="shutDown">X</div></div>
       <div class="comment-idea">
-        <textarea name="" id="text" cols="30" rows="10"
+        <!-- <textarea name="" id="text" cols="30" rows="10"
           @blur="dealContent"
           @keyup="keyCode($event)"
           @input="content"
-          @click.stop="curse" placeholder="分享你得想法吧"></textarea>
+          @click.stop="curse" placeholder="分享你得想法吧"></textarea> -->
+
+
+        <div contenteditable="true" id="text"
+          @blur="dealContent"
+          @keyup="keyCode($event)"
+          @input="content"
+          @click.stop="curse"
+        ></div>
         <ul v-if="show" :style="at_style">
           <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend)">{{friend}}</li>
         </ul>
       </div>
-      <!-- <div class="upload-imgs">
-        <span>
-          <i class="iconfont icon-qianming"></i>
-          <span>上传图片</span>
-        </span>
-        <span class="submit">发布</span>
-      </div> -->
-      <div class="add-img">
-        <div class="quantity">
-          <i class="iconfont icon-qianming"></i>
-          <span>上传图片</span>
-          <span>(2/9)</span>
-        </div>
-        <div class="image">
-          <upLoadImg></upLoadImg>
-        </div>
-        <div class="raise">
-          <span class="submit">发布</span>
-        </div>
-      </div>
+      
     </div>
   </div>
 </template>
@@ -46,7 +35,7 @@ export default {
       at_style: {
         position: 'absolute',
         top: '',
-        left: ''
+        // left: ''
       },
       show: false,
       div_caretOffset: ''
@@ -63,37 +52,19 @@ export default {
     },
     // 计算镜像光标位置
     mirrorCompute(){
-      let textarea = document.getElementById('text');
+      let range = window.getSelection().getRangeAt(0);
+      let finaly = range.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
+      console.log(finaly)
+      this.at_style.top = (finaly.bottom) + 'px';
+      this.at_style.left = (finaly.x) + 'px';
       // 光标位置
-      let end = textarea.selectionEnd;
-      // 光标前的内容
-      console.log('内容：', textarea)
-      let beforeText = textarea.value.slice(0, end);
-      // 光标后的内容
-      let afterText = textarea.value.slice(end);
-      // 对影响 UI 的特殊元素编码
-      let escape = function(textarea) {
-        return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
-      }
-      // 创建镜像内容，复制样式
-      let mirror = '<div contenteditable="true" style="font-size:22px;" id="' + 'text' + '">'
-      + escape(beforeText)
-      + '<span id="cursor">|</span>'
-      + escape(afterText)
-      + '</div>';
-      // 添加到 textarea 同级，注意设置定位及 zIndex，使两个元素重合
-      textarea.insertAdjacentHTML('afterend', mirror);
-      // 通过镜像元素中的假光标占位元素获取像素位置
-      let cursor = document.getElementById('cursor');
-      // 获取页面元素位置
-      let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      this.at_style.top = (finaly.bottom - 400) + 'px';
-      this.at_style.left = finaly.x + 'px';
     },
     // textarea 内容改变触发
     content(event){
-      let text = document.getElementById('text').value;
+      let text = document.getElementById('text').textContent;
       let value = text.charAt(text.length - 1);
+      console.log(value)
+      console.log('nedasda', text, value);
       if(value === '@'){
         this.mirrorCompute();
         this.show = true;
@@ -122,8 +93,9 @@ export default {
       } else if (element.selectionStart || element.selectionStart == '0') {
         cursorPos = element.selectionStart;
       }
-      let text = document.getElementById('text').value;
+      let text = document.getElementById('text').textContent;
       let value = text.charAt(cursorPos - 1);
+      console.log('cursorPos', cursorPos)
       if(value === '@'){
         this.mirrorCompute();
         this.show = true;
@@ -133,6 +105,29 @@ export default {
       }
       this.div_caretOffset = cursorPos;
       return cursorPos;
+    },
+    getDivPosition(element) {
+      let caretOffset = 0;
+      let doc = element.ownerDocument || element.document;
+      let win = doc.defaultView || doc.parentWindow;
+      let sel;
+      if (typeof win.getSelection != "undefined") {//谷歌、火狐
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {//选中的区域
+          let range = win.getSelection().getRangeAt(0);
+          let preCaretRange = range.cloneRange();//克隆一个选中区域
+          preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
+          preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
+          caretOffset = preCaretRange.toString().length;
+        }
+      } else if ((sel = doc.selection) && sel.type != "Control") {//IE
+        let textRange = sel.createRange();
+        let preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text.length;
+      }
+      // return caretOffset;
     },
     keyCode(e){
       if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 8){
@@ -200,6 +195,7 @@ export default {
       width: 604px;
       height: 422px;
       overflow: hidden;
+      // position: relative;
       #text {
         margin-top: 22px;
         width: 604px;
