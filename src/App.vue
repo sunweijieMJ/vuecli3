@@ -1,11 +1,15 @@
 <template>
   <div id="app">
     <router-view/>
+    <show-image></show-image>
   </div>
 </template>
 <script>
+  import ShowImage from './components/popup/ShowImage.vue';
+
   export default {
-    name: 'APP'
+    name: 'APP',
+    components: {ShowImage}
   };
 </script>
 <style lang="scss">

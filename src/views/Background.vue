@@ -6,7 +6,7 @@
         <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
       </h2>
       <ul class="nav">
-        <li v-for="(item, index) in nav" :key="index">
+        <li v-for="(item, index) in nav" :key="index" @click="skip(item.name)">
           <i class="iconfont icon-qianming"></i>
           <span>{{item.text}}</span>
         </li>
@@ -23,13 +23,22 @@
       return {
         nav: [
           {
-            text: '组织架构'
+            text: '组织架构',
+            icon: '',
+            name: 'IdeaListManage'
           },
           {
-            text: '管理想法'
+            text: '管理想法',
+            icon: '',
+            name: 'FrameManage'
           }
         ]
       };
+    },
+    methods: {
+      skip(name) {
+        this.$router.push({name});
+      }
     }
   };
 </script>

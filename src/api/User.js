@@ -6,10 +6,17 @@
  */
 import Abstract from './Abstract.js';
 
-class System extends Abstract {
+class User extends Abstract {
 
   constructor() {
     super();
+  }
+
+  /**
+   * 用户详情
+   */
+  getUserDetail(data) {
+    return this.getReq('User.UserDetail', data);
   }
 
 }
@@ -18,6 +25,6 @@ class System extends Abstract {
 let instance;
 export default () => {
   if (instance) return instance;
-  instance = new System();
+  instance = new User();
   return instance;
 };

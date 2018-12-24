@@ -8,6 +8,7 @@ import ForeMine from './foreground/mine';
 import ForeNotice from './foreground/notice';
 // background
 import BackIdea from './background/idea';
+import BackFrame from './background/frame';
 // system
 import System from './system/system';
 
@@ -27,7 +28,7 @@ export default new Router({
     {
       path: '/Background',
       component: () => import('../views/Background.vue'),
-      children: [BackIdea]
+      children: [BackFrame, BackIdea]
     },
     {
       path: '/System',

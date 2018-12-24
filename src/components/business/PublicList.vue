@@ -23,7 +23,7 @@
           <paragraph :text="vitem.sContent"></paragraph>
         </div>
         <div class="main-images">
-          <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem.img" alt="">
+          <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem.img" alt="" @click.stop="showImage(vitem.photos, windex)">
         </div>
       </div>
       <!-- 时间 | 点赞 | 评论 -->
@@ -60,10 +60,12 @@
 </template>
 <script>
   import Paragraph from './Paragraph.js';
+  import frequent from '../../mixins/frequent.js';
 
   export default {
     props: ['list'],
     components: {Paragraph},
+    mixins: [frequent],
     methods: {
       skipDetail(type, id) {
         this.$router.push({name: 'IdeaDetail', params: {id}});
@@ -86,6 +88,7 @@
           width: 48px;
           height: 48px;
           border-radius: 50%;
+          cursor: pointer;
         }
         .author-name {
           display: flex;

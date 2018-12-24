@@ -3,7 +3,7 @@
     <div class="profile-user">
       <div class="user">
         <div class="user-photo">
-          <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+          <img :src="user_info.sheaderPhoto" alt="">
           <div class="photo-change" @click="chooseIcon">
             <i class="iconfont icon-xiangji"></i>
             <span>修改头像</span>
@@ -11,29 +11,32 @@
           </div>
         </div>
         <div class="user-msg">
-          <div class="msg-name">
-            <h4>
-              <span>PADDY</span>
-              <i class="iconfont icon-personal_ic_man"></i>
-            </h4>
-            <a href="javascript:;">修改个人资料</a>
+          <div class="msg-name" v-if="nameEnabled">
+            <span>{{user_info.sUserName}}</span>
+            <i class="iconfont icon-personal_ic_man"></i>
+            <a href="javascript:;" @click="nameEnabled = false">修改昵称</a>
+          </div>
+          <div class="name-modify" v-else>
+            <input type="text" placeholder="昵称每月仅可修改一次">
+            <span @click="nameEnabled = true">取消</span>
+            <button @click="changeName">确认</button>
           </div>
           <div class="msg-detail">
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>刘沛</span>
+              <span>{{user_info.sRealName}}</span>
             </p>
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>数字产品部</span>
+              <span>{{user_info.sDepartmentName}}</span>
             </p>
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>13973330236</span>
+              <span>{{user_info.iMobile}}</span>
             </p>
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>paddyliu@lanehub.inc</span>
+              <span>{{user_info.sEmail}}</span>
             </p>
           </div>
         </div>
@@ -54,14 +57,14 @@
               <i class="iconfont icon-ai45"></i>
               <span>收到的赞</span>
             </p>
-            <span>5000</span>
+            <span>{{user_info.iZan}}</span>
           </li>
           <li>
             <p>
               <i class="iconfont icon-ai45"></i>
-              <span>收到的赞</span>
+              <span>创造的阅读量</span>
             </p>
-            <span>5000</span>
+            <span>{{user_info.iThinksViewNums}}</span>
           </li>
         </ul>
       </div>
@@ -69,15 +72,29 @@
   </div>
 </template>
 <script>
+  import UserApi from '../../../api/User.js';
   export default {
     data() {
       return {
+        user_info: {},
+        nameEnabled: true,
         activeName: 'second'
       };
     },
+    created() {
+      this.getUserDetail();
+    },
     methods: {
+      getUserDetail() {
+        UserApi().getUserDetail({userIds: 1}).then(res => {
+          this.user_info = res.data;
+        });
+      },
       chooseIcon() {
         this.$el.querySelector('[type=file]').click();
+      },
+      changeName() {
+        this.nameEnabled = true;
       },
       handleClick(tab, event) {
         console.log(tab, event);
@@ -86,6 +103,8 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import '../../../assets/scss/_base.scss';
+
   .profile {
     background-color: #F6F6F6;
     .profile-user {
@@ -99,7 +118,7 @@
         bottom: 0;
         margin: auto;
         display: flex;
-        padding: 0 38px 0 196px;
+        padding-left: 203px;
         width: 1038px;
         height: 107px;
         background: rgba(0, 0, 0, 0.8);
@@ -148,27 +167,78 @@
           width: 100%;
           .msg-name {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            h4 {
-              display: flex;
-              align-items: center;
-              span {
-                font-size: 24px;
-                font-weight: 500;
-                color: #fff;
-              }
-              i {
-                margin-left: 8px;
-                font-size: 18px;
-                color: #5581C7;
-              }
+            height: 40px;
+            margin-bottom: 5px;
+            span {
+              font-size: 24px;
+              font-weight: 500;
+              line-height: 33px;
+              color: #fff;
+            }
+            i {
+              margin-left: 6px;
+              font-size: 18px;
+              color: #5581C7;
             }
             a {
+              margin-left: 10px;
               font-size: 16px;
-              font-weight: 400;
-              color: #5581C7;
+              color: $linkBlue;
+            }
+          }
+          .name-modify {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            input {
+              display: flex;
+              align-items: center;
+              padding: 0 20px;
+              width:280px;
+              height:40px;
+              background:rgba(0,0,0,1);
+              border-radius:20px;
+              color: #fff;
+              &::placeholder{
+                font-size: 18px;
+                color: $h2Color;
+              }
+              &::-webkit-input-placeholder {
+                font-size: 18px;
+                color: $h2Color;
+              }
+              &:-moz-placeholder{
+                font-size: 18px;
+                color: $h2Color;
+              }
+              &::-moz-placeholder{
+                font-size: 18px;
+                color: $h2Color;
+              }
+              &:-ms-input-placeholder{
+                font-size: 18px;
+                color: $h2Color;
+              }
+            }
+            span {
+              margin: 0 27px;
+              font-size: 18px;
+              font-weight: 500;
+              line-height: 25px;
+              color: #fff;
+              cursor: pointer;
+            }
+            button {
+              width: 90px;
+              height: 40px;
+              background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
+              border-radius: 20px;
+              font-size: 18px;
+              font-weight: 500;
+              line-height: 25px;
+              color: #fff;
+              cursor: pointer;
             }
           }
           .msg-detail {
@@ -177,19 +247,18 @@
             p {
               display: flex;
               align-items: center;
-              margin-right: 57px;
+              margin-right: 50px;
               &:last-child {
                 margin-right: 0;
               }
               i {
                 font-size: 16px;
-                color: #C0C4CC
+                color: $h4Color;
               }
               span {
                 margin-left: 4px;
                 font-size: 16px;
-                font-weight: 400;
-                color:rgba(246,246,246,1);
+                color: #f6f6f6;
               }
             }
           }
@@ -203,9 +272,6 @@
       height: 300px;
       padding-top: 12px;
       margin: auto;
-      .list {
-
-      }
       .achieve {
         width: 275px;
         height: 197px;
@@ -249,8 +315,10 @@
   }
 </style>
 <style lang="scss">
+  @import '../../../assets/scss/_base.scss';
+
   .profile {
-    .el-tabs {
+    .list .el-tabs {
       box-sizing: border-box;
       width: 750px;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -263,10 +331,11 @@
         }
         .el-tabs__item {
           height: 56px;
+          font-size: 18px;
           line-height: 56px;
-          color: #909399;
+          color: $h3Color;
           &.is-active {
-            color: #303133;
+            color: $h1Color;
           }
         }
       }

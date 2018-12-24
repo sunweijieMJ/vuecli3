@@ -2,8 +2,8 @@
 const state = {
   image_popup: { // ETC 查看大图
     status: false,
-    index: 0,
-    source: ''
+    source: '',
+    index: 0
   }
 };
 

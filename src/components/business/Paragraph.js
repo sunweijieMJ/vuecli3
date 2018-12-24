@@ -17,6 +17,9 @@ export default {
             return createElement(
               'a',
               {
+                attrs: {
+                  href: 'javascript:;'
+                },
                 domProps: {
                   innerHTML: item
                 },
@@ -42,6 +45,9 @@ export default {
             return createElement(
               'a',
               {
+                attrs: {
+                  href: 'javascript:;'
+                },
                 on: {
                   click: (e) => {
                     if (that.forbid) return;
@@ -68,6 +74,9 @@ export default {
                     return createElement(
                       'span',
                       {
+                        style: {
+                          cursor: 'pointer'
+                        },
                         domProps: {
                           innerHTML: item.replace(/#/g, '').trim()
                         }
