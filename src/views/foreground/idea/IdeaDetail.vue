@@ -14,15 +14,43 @@
       <div class="common-title">
         <h4>评论 (123)</h4>
       </div>
-      <comment-list :list="3"></comment-list>
+      <comment-list :list="common_list.commentslist"></comment-list>
     </div>
   </div>
 </template>
 <script>
+  import IdeaApi from '../../../api/Idea.js';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
-    components: {PublicDetail, CommentList}
+    components: {PublicDetail, CommentList},
+    data() {
+      return {
+        idea_id: +this.$route.params.id, // ETC 详情id
+        ieda_detail: {}, // ETC 详情
+        splendid_list: [], // ETC 精彩评论
+        common_list: [] // ETC 普通评论
+      };
+    },
+    created() {
+      let that = this;
+      that.getIdeaDetail(that.idea_id);
+      that.getCommentList(that.idea_id);
+    },
+    methods: {
+      getIdeaDetail(id) {
+        IdeaApi().getIdeaDetail({tId: id}).then(res => {
+          console.log(res)
+          this.ieda_detail = res.data;
+        });
+      },
+      getCommentList(id) {
+        IdeaApi().getCommentList({tId: id}).then(res => {
+          console.log(res)
+          this.common_list = res.data;
+        });
+      }
+    }
   };
 </script>
 <style lang="scss" scoped>

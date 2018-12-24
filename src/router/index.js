@@ -2,11 +2,14 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 
-// 引入二级路由
-import Idea from './Idea';
-import Mine from './Mine';
-import Notice from './Notice';
-import System from './System';
+// foreground
+import ForeIdea from './foreground/idea';
+import ForeMine from './foreground/mine';
+import ForeNotice from './foreground/notice';
+// background
+import BackIdea from './background/idea';
+// system
+import System from './system/system';
 
 export default new Router({
   mode: 'history',
@@ -19,12 +22,12 @@ export default new Router({
     {
       path: '/Foreground',
       component: () => import('../views/Foreground.vue'),
-      children: [Idea, Mine, Notice]
+      children: [ForeIdea, ForeMine, ForeNotice]
     },
     {
       path: '/Background',
       component: () => import('../views/Background.vue'),
-      children: []
+      children: [BackIdea]
     },
     {
       path: '/System',

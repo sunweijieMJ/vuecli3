@@ -1,18 +1,18 @@
 <template>
   <ul class="public-list">
-    <li v-for="(vitem, vindex) in 3" :key="vindex" @click="skipDetail(1)">
+    <li v-for="(vitem, vindex) in list" :key="vindex" @click="skipDetail(1, vitem.iThinksId)">
       <!-- 列表头部用户信息 -->
       <div class="list-header">
         <div class="header-author">
-          <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+          <img :src="vitem.userinfo.sheaderPhoto" alt="" @click="skipDetail(2, vitem.userinfo.iUserId)">
           <div class="author-name">
             <h4>
-              <span class="name">PADDY</span>
-              <span class="stick" v-if="1">置顶</span>
+              <span class="name">{{vitem.userinfo.sRealName}}</span>
+              <span class="stick" v-if="vitem.iIsTop">置顶</span>
             </h4>
             <p>
-              <span>数字产品部</span>
-              <span>2018-12-31 10:30</span>
+              <span>{{vitem.userinfo.sDepartmentName}}</span>
+              <span>{{vitem.sPublishTime}}</span>
             </p>
           </div>
         </div>
@@ -20,10 +20,10 @@
       <!-- 文本内容 -->
       <div class="list-main">
         <div class="main-paragraph">
-          <paragraph :text="'PGS今天正式上线啦，大家快去玩。PGS今天正式线啦，大家快去玩起来。PGS天正式上线啦，大家快去玩起来。PGS今天正式线啦，大家快去玩起来。'"></paragraph>
+          <paragraph :text="vitem.sContent"></paragraph>
         </div>
         <div class="main-images">
-          <img v-for="(witem, windex) in 5" :key="windex" src="https://pic2.lanehub.cn/production/37a84f42381015e1396997d28baa7608.jpg?x-oss-process=style/m-00001" alt="">
+          <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem.img" alt="">
         </div>
       </div>
       <!-- 时间 | 点赞 | 评论 -->
@@ -31,17 +31,17 @@
         <div class="num-left">
           <p>
             <i class="iconfont icon-ai45"></i>
-            <span>123</span>
+            <span>{{vitem.iZan}}</span>
           </p>
           <p>
             <i class="iconfont icon-tubiaozhizuo-"></i>
-            <span>123</span>
+            <span>{{vitem.iCommentNum}}</span>
           </p>
         </div>
         <div class="num-right">
           <p>
             <i class="iconfont icon-ai-eye"></i>
-            <span>123</span>
+            <span>{{vitem.iViews}}</span>
           </p>
         </div>
       </div>
@@ -49,9 +49,9 @@
       <div class="list-comment">
         <h4>精彩评论</h4>
         <ul class="comment">
-          <li v-for="(witem, windex) in 3" :key="windex">
-            <h5>PADDY：</h5>
-            <p>大家对pgs有什么问题都可以留言哦～不管什么方面的都可以提，大家… </p>
+          <li v-for="(witem, windex) in vitem.comments" :key="windex">
+            <h5>{{witem.sUserName}}：</h5>
+            <p>{{witem.sCommentContent}}</p>
           </li>
         </ul>
       </div>
@@ -62,9 +62,10 @@
   import Paragraph from './Paragraph.js';
 
   export default {
+    props: ['list'],
     components: {Paragraph},
     methods: {
-      skipDetail(id) {
+      skipDetail(type, id) {
         this.$router.push({name: 'IdeaDetail', params: {id}});
       }
     }
@@ -131,6 +132,7 @@
         }
         .main-images {
           display: flex;
+          height: 149px;
           overflow: hidden;
           img {
             width: 149px;
@@ -152,6 +154,7 @@
             align-items: center;
             &:first-child {
               margin-right: 50px;
+              cursor: pointer;
             }
             span {
               margin-left: 3px;
@@ -201,6 +204,7 @@
             h5 {
               font-size:16px;
               color: #5581C7;
+              cursor: pointer;
             }
             p {
               font-size:16px;

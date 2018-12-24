@@ -9,11 +9,12 @@
     <div v-if="show">
       <CommentPublish @shutDown="shutDown"></CommentPublish>
     </div>
-    <public-list></public-list>
+    <public-list :list="idea_list"></public-list>
   </div>
 </template>
 <script>
   import {PublicList} from '../../../components/business/index.js';
+  import IdeaApi from '../../../api/Idea.js';
   import CommentPublish from '../../../components/comment/CommentPublish';
 
   export default {
@@ -22,10 +23,16 @@
     },
     data(){
       return {
-        show: false
+        show: false,
+        idea_list: []
       };
     },
-    methods:{
+    created() {
+      IdeaApi().getIdeaList({curPage: 1}).then(res => {
+        this.idea_list = res.data;
+      });
+    },
+    methods: {
       present(){
         this.show = true;
       },

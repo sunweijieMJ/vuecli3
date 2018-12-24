@@ -6,10 +6,31 @@
  */
 import Abstract from './Abstract.js';
 
-class System extends Abstract {
+class Idea extends Abstract {
 
   constructor() {
     super();
+  }
+
+  /**
+   * 想法列表
+   */
+  getIdeaList(data) {
+    return this.getReq('Idea.IdeaList', data);
+  }
+
+  /**
+   * 想法详情
+   */
+  getIdeaDetail(data) {
+    return this.getReq('Idea.IdeaDetail', data);
+  }
+
+  /**
+   * 评论列表
+   */
+  getCommentList(data) {
+    return this.getReq('Idea.CommentList', data);
   }
 
 }
@@ -18,6 +39,6 @@ class System extends Abstract {
 let instance;
 export default () => {
   if (instance) return instance;
-  instance = new System();
+  instance = new Idea();
   return instance;
 };

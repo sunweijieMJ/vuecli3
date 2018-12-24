@@ -7,7 +7,8 @@ import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
 import storeApi from '../utils/storage';
-const baseURL = process.env.VUE_APP_BaseURL;
+const baseURL = 'http://mockapi.release.weiheinc.com/mock/5c2083a8903de30736b5b9f8/pgs';
+// const baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
 const Axios = axios.create({
