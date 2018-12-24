@@ -14,8 +14,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'initPage',
-      redirect: 'InitPage'
+      redirect: '/System/InitPage'
     },
     {
       path: '/Foreground',
