@@ -20,6 +20,7 @@
      -->
     <el-upload
       class="avatar-uploader"
+      v-if="limint <= 9"
       :disabled="disabled ? disabled : isDisabled"
       :action="uploadurl"
       :name="'file'"
@@ -35,7 +36,8 @@
       :before-upload="beforeUpload"
       :on-error="handleError"
       :on-preview="handlePreview"
-      :on-remove="handleRemove">
+      :on-remove="handleRemove"
+      >
       <div @mouseover="show = !show" @mouseout="show = !show" class="img-box">
         <el-button v-if="!multi && imgUrl && showicon && show && !disabled" type='text' class="change">替换图片</el-button>
         <img class="img" v-if="!multi && imgUrl" :src="imgUrl" alt="" >
@@ -157,30 +159,46 @@
   };
 </script>
 <style lang="scss">
-  // .el-button{
-  //   background-color: #d8d8d8a4
-  // }
-  // .el-upload{
-  //   position: relative;
-  // }
-  // .img{
-  //   width: 146px;
-  //   height: 144px;
-  //   font-size: 0;
-  //   border-radius: 6px;
-  // }
-  // .change{
-  //   position: absolute;
-  //   width: 148px;
-  //   height: 144px;
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
+  .avatar-uploader{
+    width: 100% !important;
+    margin-top: 29px;
+    display: flex !important;
+    ul{
+      margin-right: 4px;
+      display: flex !important;
+      justify-content: flex-start;
+    }
+  }
   .avatar-uploader, .img-box, .el-upload--picture-card {
-    width: inherit;
-    height: inherit;
-    line-height: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    li{
+      margin-right: 4px !important;
+      width: 64px !important;
+      height: 64px !important;
+      .el-upload-list__item-actions{
+        span{
+          font-size: 12px !important;
+        }
+      }
+    }
+    li:last-of-type{
+      margin-right: 0 !important;
+    }
+    width: 64px;
+    height: 64px;
+  }
+  .avatar-uploader, .img-box{
+    width: 64px;
+    height: 64px;
+    position: relative;
+    .el-icon-plus{
+      width: 64px;
+      line-height: 64px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 
 </style>

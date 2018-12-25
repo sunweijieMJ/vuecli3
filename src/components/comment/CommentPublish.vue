@@ -9,7 +9,10 @@
           @input="content"
           @click.stop="curse" placeholder="分享你得想法吧"></textarea>
         <ul v-if="show" :style="at_style">
-          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend)">{{friend}}</li>
+          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend + ' ')">{{friend}}</li>
+        </ul>
+        <ul v-if="jshow" :style="at_style">
+          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(topic + '# ')">{{topic}}</li>
         </ul>
       </div>
       <!-- <div class="upload-imgs">
@@ -26,7 +29,9 @@
           <span>(2/9)</span>
         </div>
         <div class="image">
-          <upLoadImg></upLoadImg>
+          <upLoadImg :multiple="true" :limint="9"
+            :disabled="false"
+            ></upLoadImg>
         </div>
         <div class="raise">
           <span class="submit">发布</span>
@@ -43,12 +48,14 @@ export default {
   data() {
     return {
       friend: '好友列表',
+      topic: '话题列表',
       at_style: {
         position: 'absolute',
         top: '',
         left: ''
       },
       show: false,
+      jshow: false,
       div_caretOffset: ''
     };
   },
@@ -76,19 +83,19 @@ export default {
         return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
       }
       // 创建镜像内容，复制样式
-      let mirror = '<div contenteditable="true" style="font-size:22px;" id="' + 'text' + '">'
+      let mirror = '<p style="font-size:21px;font-family:PingFangSC-Medium;" id="' + 'text' + '">'
       + escape(beforeText)
       + '<span id="cursor">|</span>'
       + escape(afterText)
-      + '</div>';
+      + '</p>';
       // 添加到 textarea 同级，注意设置定位及 zIndex，使两个元素重合
       textarea.insertAdjacentHTML('afterend', mirror);
       // 通过镜像元素中的假光标占位元素获取像素位置
       let cursor = document.getElementById('cursor');
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      this.at_style.top = (finaly.bottom - 400) + 'px';
-      this.at_style.left = finaly.x + 'px';
+      this.at_style.top = (finaly.bottom - 317) + 'px';
+      this.at_style.left = (finaly.x - 10) + 'px';
     },
     // textarea 内容改变触发
     content(event){
@@ -100,15 +107,21 @@ export default {
       }else{
         this.show = false;
       }
+      if(value === '#'){
+        this.jshow = true;
+        this.mirrorCompute();
+      }else{
+        this.jshow = false;
+      }
     },
     curse(e){
       let eleP = e.target.parentNode; // ETC 获取父级元素
       let pos = 0;
-      if (e.target.nodeName == 'DIV') {
-        pos = this.getDivPosition(e.target);
-      } else {
-        pos = this.getPosition(e.target);
-      }
+      // if (e.target.nodeName == 'DIV') {
+      //   pos = this.getDivPosition(e.target);
+      // } else {
+      pos = this.getPosition(e.target);
+      // }
       let spanEle = (eleP.childNodes)[1];
       spanEle.innerText = pos;
     },
@@ -131,6 +144,12 @@ export default {
       }else{
         this.show = false;
       }
+      if(value === '#'){
+        this.jshow = true;
+        this.mirrorCompute();
+      }else{
+        this.jshow = false;
+      }
       this.div_caretOffset = cursorPos;
       return cursorPos;
     },
@@ -143,20 +162,22 @@ export default {
     insertAtCursor(myValue) {
       // IE 浏览器  获取当前输入框dom元素
       let myField = document.getElementById('text');
+      console.log('1:', myField)
       if (document.selection) {
         myField.focus();
         let sel = document.selection.createRange();
         sel.text = myValue;
         sel.select();
       }else if (myField.selectionStart || myField.selectionStart == '0') { // ETC FireFox、Chrome等
+        console.log('1:1', myField.selectionStart)
         let startPos = myField.selectionStart;
         let endPos = myField.selectionEnd;
         // 保存滚动条
-        let restoreTop = myField.scrollTop;
+        // let restoreTop = myField.scrollTop;
         myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-        if (restoreTop > 0) {
-          myField.scrollTop = restoreTop;
-        }
+        // if (restoreTop > 0) {
+        //   myField.scrollTop = restoreTop;
+        // }
         myField.selectionStart = startPos + myValue.length;
         myField.selectionEnd = startPos + myValue.length;
         myField.focus();
@@ -165,6 +186,7 @@ export default {
         myField.focus();
       }
       this.show = false;
+      this.jshow = false;
     }
   }
 };
@@ -198,12 +220,12 @@ export default {
       padding: 0px 41px;
       z-index: 1001;
       width: 604px;
-      height: 422px;
-      overflow: hidden;
+      height: 337px;
+      // overflow: hidden;
       #text {
         margin-top: 22px;
         width: 604px;
-        height: 400px;
+        height: 315px;
         box-sizing: border-box;
         // border: 1px solid orange;
         font-size: 22px;

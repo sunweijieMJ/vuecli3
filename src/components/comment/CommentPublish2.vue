@@ -8,19 +8,16 @@
           @keyup="keyCode($event)"
           @input="content"
           @click.stop="curse" placeholder="分享你得想法吧"></textarea> -->
-
-
         <div contenteditable="true" id="text"
           @blur="dealContent"
           @keyup="keyCode($event)"
           @input="content"
           @click.stop="curse"
         ></div>
-        <ul v-if="show" :style="at_style">
-          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend)">{{friend}}</li>
-        </ul>
       </div>
-      
+      <ul v-if="show" :style="at_style">
+        <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend)">{{friend}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -35,9 +32,11 @@ export default {
       at_style: {
         position: 'absolute',
         top: '',
-        // left: ''
+        left: ''
       },
       show: false,
+      startOffset: '', // ETC 起始选中区域节点
+      endOffset: '', // ETC 结尾选中区域节点
       div_caretOffset: ''
     };
   },
@@ -50,21 +49,21 @@ export default {
     dealContent(){
       // this.show = false;
     },
-    // 计算镜像光标位置
+    // 计算光标位置
     mirrorCompute(){
       let range = window.getSelection().getRangeAt(0);
       let finaly = range.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
       console.log(finaly)
-      this.at_style.top = (finaly.bottom) + 'px';
-      this.at_style.left = (finaly.x) + 'px';
+      this.at_style.top = (finaly.top + finaly.height) + 'px';
+      this.at_style.left = (finaly.left - 21) + 'px';
       // 光标位置
     },
     // textarea 内容改变触发
     content(event){
+      this.getSelectData();
       let text = document.getElementById('text').textContent;
       let value = text.charAt(text.length - 1);
-      console.log(value)
-      console.log('nedasda', text, value);
+      console.log(text.length)
       if(value === '@'){
         this.mirrorCompute();
         this.show = true;
@@ -72,30 +71,62 @@ export default {
         this.show = false;
       }
     },
+    // 获取选中区域的数据
+    getSelectData(){
+      let sel = window.getSelection();
+      // console.log('当前页面被选中区域:', sel);
+      let objRange = sel.getRangeAt(0);
+      this.startOffset = objRange.startOffset;
+      this.endOffset = objRange.endOffset;
+      // console.log('选中区域的range对象:', objRange);
+      // objRange.rangeCount; // ETC 表示选中区域的range对象数量
+      // sel.removeAllRanges(); // ETC 可以移除选中区域的range对象
+      // document.createRange(); // ETC 可以创建新的range对象
+      // sel.addRange(range); // ETC 可以给选中区域添加range对象
+    },
+    // 鼠标聚焦
     curse(e){
+      this.getSelectData();
+      // console.log('鼠标聚焦', e)
       let eleP = e.target.parentNode; // ETC 获取父级元素
       let pos = 0;
       if (e.target.nodeName == 'DIV') {
         pos = this.getDivPosition(e.target);
+        // console.log('执行getDivPosition')
       } else {
         pos = this.getPosition(e.target);
+        console.log('执行getPosition')
       }
-      let spanEle = (eleP.childNodes)[1];
-      spanEle.innerText = pos;
+      // let spanEle = (eleP.childNodes)[0];
+      // spanEle.innerText = pos;
     },
-    // 获取光标位置
-    getPosition(element) {
-      let cursorPos = 0;
-      if (document.selection) { // ETC IE
-        let selectRange = document.selection.createRange();
-        selectRange.moveStart('character', -element.value.length);
-        cursorPos = selectRange.text.length;
-      } else if (element.selectionStart || element.selectionStart == '0') {
-        cursorPos = element.selectionStart;
+    // 可编辑div获取坐标
+    getDivPosition(element) {
+      // console.log('element', element)
+      let caretOffset = 0;
+      let doc = element.ownerDocument || element.document;
+      let win = doc.defaultView || doc.parentWindow;
+      let sel;
+      if (typeof win.getSelection !== 'undefined') {// ETC 谷歌、火狐
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {// ETC 选中的区域
+          let range = win.getSelection().getRangeAt(0);
+          let preCaretRange = range.cloneRange();// ETC 克隆一个选中区域
+          preCaretRange.selectNodeContents(element);// ETC 设置选中区域的节点内容为当前节点
+          preCaretRange.setEnd(range.endContainer, range.endOffset);  // ETC 重置选中区域的结束位置
+          caretOffset = preCaretRange.toString().length;
+        }
+      } else if ((sel === doc.selection) && sel.type !== 'Control') {// ETC IE
+        // console.log('这个是啥 sel === doc.selection && sel.type Control', sel.type)
+        let textRange = sel.createRange();
+        let preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint('EndToEnd', textRange);
+        caretOffset = preCaretTextRange.text.length;
       }
+
       let text = document.getElementById('text').textContent;
-      let value = text.charAt(cursorPos - 1);
-      console.log('cursorPos', cursorPos)
+      let value = text.charAt(caretOffset - 1);
       if(value === '@'){
         this.mirrorCompute();
         this.show = true;
@@ -103,60 +134,46 @@ export default {
       }else{
         this.show = false;
       }
-      this.div_caretOffset = cursorPos;
-      return cursorPos;
+      // this.div_caretOffset = caretOffset;
+      return caretOffset;
     },
-    getDivPosition(element) {
-      let caretOffset = 0;
-      let doc = element.ownerDocument || element.document;
-      let win = doc.defaultView || doc.parentWindow;
-      let sel;
-      if (typeof win.getSelection != "undefined") {//谷歌、火狐
-        sel = win.getSelection();
-        if (sel.rangeCount > 0) {//选中的区域
-          let range = win.getSelection().getRangeAt(0);
-          let preCaretRange = range.cloneRange();//克隆一个选中区域
-          preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
-          preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
-          caretOffset = preCaretRange.toString().length;
-        }
-      } else if ((sel = doc.selection) && sel.type != "Control") {//IE
-        let textRange = sel.createRange();
-        let preCaretTextRange = doc.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text.length;
-      }
-      // return caretOffset;
-    },
-    keyCode(e){
-      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 8){
-        this.curse(e);
+    keyCode(es){
+      this.getSelectData();
+      console.log('键盘:', es)
+      if(es.charCode === 13){
+        es.preventDefault();
+        this.show = false;
+        return false;
+      }else if(es.keyCode === 37 || es.keyCode === 38 || es.keyCode === 39 || es.keyCode === 40 || es.keyCode === 8){
+        this.curse(es);
       }
     },
     // 插入文本
     insertAtCursor(myValue) {
       // IE 浏览器  获取当前输入框dom元素
       let myField = document.getElementById('text');
+      
       if (document.selection) {
         myField.focus();
         let sel = document.selection.createRange();
         sel.text = myValue;
         sel.select();
-      }else if (myField.selectionStart || myField.selectionStart == '0') { // ETC FireFox、Chrome等
-        let startPos = myField.selectionStart;
-        let endPos = myField.selectionEnd;
+      }else if (this.startOffset || this.startOffset === '0') { // ETC FireFox、Chrome等
+        let startPos = this.startOffset;
+        let endPos = this.endOffset;
         // 保存滚动条
         let restoreTop = myField.scrollTop;
-        myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+        console.log('保存滚动条：', myField, restoreTop)
+        myField.textContent = myField.textContent.substring(0, startPos) + myValue + myField.textContent.substring(endPos, myField.textContent.length);
+        
         if (restoreTop > 0) {
           myField.scrollTop = restoreTop;
         }
-        myField.selectionStart = startPos + myValue.length;
-        myField.selectionEnd = startPos + myValue.length;
+        this.startOffset = startPos + myValue.length;
+        this.endOffset = startPos + myValue.length;
         myField.focus();
       } else {
-        myField.value += myValue;
+        myField.textContent += myValue;
         myField.focus();
       }
       this.show = false;
@@ -197,9 +214,11 @@ export default {
       overflow: hidden;
       // position: relative;
       #text {
+        &::-webkit-scrollbar {display:none}
         margin-top: 22px;
         width: 604px;
         height: 400px;
+        overflow-y: scroll;
         box-sizing: border-box;
         // border: 1px solid orange;
         font-size: 22px;

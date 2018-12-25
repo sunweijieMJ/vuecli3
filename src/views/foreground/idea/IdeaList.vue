@@ -6,7 +6,7 @@
         <i class="iconfont icon-qianming"></i>
       </div>
     </div>
-    <div v-if="show">
+    <div v-if="1">
       <CommentPublish @shutDown="shutDown"></CommentPublish>
     </div>
     <public-list :list="idea_list"></public-list>
