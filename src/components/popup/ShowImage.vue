@@ -53,7 +53,7 @@
           }
         }
         .el-carousel__indicators {
-          background-color: transparent;
+          display: none;
         }
       }
     }

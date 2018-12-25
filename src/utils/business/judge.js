@@ -9,6 +9,8 @@ const os = (u = window.navigator.userAgent) => {
     isAndroid: !!u.match(/(Android);?[\s/]+([\d.]+)?/),
     isiPhone: !!u.match(/(iPhone\sOS)\s([\d_]+)/),
     isSafari: !!u.match(/Safari/),
+    isFirefox: !!u.match(/Firefox/),
+    isOpera: !!u.match(/Opera/),
     isChrome: u.match(/Chrome/i) !== null && u.match(/Version\/\d+\.\d+(\.\d+)?\sChrome\//i) === null ? true : false,
     isDeskTop: (() => {
       const Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod', 'okhttp/3.9.1'];

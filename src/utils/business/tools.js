@@ -50,10 +50,8 @@ const parseUrl = () => {
   }
 };
 
-
 if (!Date.now) Date.now = () => new Date().getTime();
 const vendors = ['webkit', 'moz'];
-
 // 设置定时器
 const setTimer = (callback) => {
   for (let i = 0, LEN = vendors.length; i < LEN && !window.requestAnimationFrame; ++i) {
@@ -131,6 +129,51 @@ const throttle = (func, delay) => {
   };
 };
 
+// getComputedStyle兼容
+const getStyle = (ele, attr) => {
+  if (window.getComputedStyle) {
+    return window.getComputedStyle(ele)[attr];
+  } else {
+    return ele.currentStyle[attr];
+  }
+};
+
+/**
+ * 文本框根据输入内容自适应高度
+ * {HTMLElement}   输入框元素
+ * {Number}        设置光标与输入框保持的距离(默认0)
+ * {Number}        设置最大高度(可选)
+ */
+import {os} from './judge.js';
+const autoTextarea = (ele, extra = 0, maxHeight) => {
+  let [scrollTop, height, padding, style, minHeight] = [0, 0, 0, ele.style, parseFloat(getStyle(ele, 'height'))];
+
+  if (ele._length === ele.value.length) return;
+  ele._length = ele.value.length;
+
+  if (!os().isFirefox && !os().isOpera) {
+    padding = parseInt(getStyle(ele, 'paddingTop'), 10) + parseInt(getStyle(ele, 'paddingBottom'), 10);
+  }
+
+  scrollTop = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+  ele.style.height = minHeight + 'px';
+
+  if (ele.scrollHeight > minHeight) {
+    if (maxHeight && ele.scrollHeight > maxHeight) {
+      height = maxHeight - padding;
+    } else {
+      height = ele.scrollHeight - padding;
+    }
+    style.height = height + extra + 'px';
+    scrollTop += parseInt(style.height, 10) - ele.currHeight;
+
+    document.body.scrollTop = scrollTop;
+    document.documentElement.scrollTop = scrollTop;
+    window.pageYOffset = screenTop;
+    ele.currHeight = parseInt(style.height, 10);
+  }
+};
+
 export {
-  loadScript, pagetitle, parseUrl, setTimer, clearTimer, debounce, throttle
+  loadScript, pagetitle, parseUrl, setTimer, clearTimer, debounce, throttle, getStyle, autoTextarea
 };

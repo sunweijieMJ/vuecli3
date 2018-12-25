@@ -45,7 +45,7 @@ export default {
       this.$router.push({name: 'IdeaDetail'});
     },
     goProFile(){
-      this.$router.push({name: 'Profile'});
+      this.$router.push({name: 'Profile', params: {id: 1}});
     }
   }
 };

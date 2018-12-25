@@ -3,7 +3,7 @@
     <div class="profile-user">
       <div class="user">
         <div class="user-photo">
-          <img :src="user_info.sheaderPhoto" alt="">
+          <img :src="user_info.header_photo" alt="">
           <div class="photo-change" @click="chooseIcon">
             <i class="iconfont icon-xiangji"></i>
             <span>修改头像</span>
@@ -12,7 +12,7 @@
         </div>
         <div class="user-msg">
           <div class="msg-name" v-if="nameEnabled">
-            <span>{{user_info.sUserName}}</span>
+            <span>{{user_info.user_name}}</span>
             <i class="iconfont icon-personal_ic_man"></i>
             <a href="javascript:;" @click="nameEnabled = false">修改昵称</a>
           </div>
@@ -24,19 +24,19 @@
           <div class="msg-detail">
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>{{user_info.sRealName}}</span>
+              <span>{{user_info.real_name}}</span>
             </p>
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>{{user_info.sDepartmentName}}</span>
+              <span>{{user_info.department_name}}</span>
             </p>
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>{{user_info.iMobile}}</span>
+              <span>{{user_info.mobile}}</span>
             </p>
             <p>
               <i class="iconfont icon-touxiang"></i>
-              <span>{{user_info.sEmail}}</span>
+              <span>{{user_info.email}}</span>
             </p>
           </div>
         </div>
@@ -45,8 +45,12 @@
     <div class="profile-msg">
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="想法" name="first">想法</el-tab-pane>
-          <el-tab-pane label="OKR" name="second">OKR</el-tab-pane>
+          <el-tab-pane label="想法" name="first">
+            <public-list :list="idea_list"></public-list>
+          </el-tab-pane>
+          <el-tab-pane label="OKR" name="second">
+            <public-list :list="[]"></public-list>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="achieve">
@@ -57,14 +61,14 @@
               <i class="iconfont icon-ai45"></i>
               <span>收到的赞</span>
             </p>
-            <span>{{user_info.iZan}}</span>
+            <span>{{user_info.zan}}</span>
           </li>
           <li>
             <p>
               <i class="iconfont icon-ai45"></i>
               <span>创造的阅读量</span>
             </p>
-            <span>{{user_info.iThinksViewNums}}</span>
+            <span>{{user_info.thinks_view_nums}}</span>
           </li>
         </ul>
       </div>
@@ -73,31 +77,49 @@
 </template>
 <script>
   import UserApi from '../../../api/User.js';
+  import IdeaApi from '../../../api/Idea.js';
+  import {PublicList} from '../../../components/business';
+
   export default {
+    components: {PublicList},
     data() {
       return {
+        user_id: this.$route.params.id,
         user_info: {},
+        idea_list: [],
         nameEnabled: true,
-        activeName: 'second'
+        activeName: 'first'
       };
     },
     created() {
-      this.getUserDetail();
+      let that = this;
+      that.getUserDetail();
+      that.getIdeaList();
     },
     methods: {
+      // 用户个人信息
       getUserDetail() {
-        UserApi().getUserDetail({userIds: 1}).then(res => {
+        UserApi().getUserDetail({userIds: this.user_id}).then(res => {
           this.user_info = res.data;
         });
       },
+      // 用户想法列表
+      getIdeaList() {
+        IdeaApi().getIdeaList({curPage: 1}).then(res => {
+          this.idea_list = res.data;
+        });
+      },
+      // 修改头像
       chooseIcon() {
         this.$el.querySelector('[type=file]').click();
       },
+      // 修改昵称
       changeName() {
         this.nameEnabled = true;
       },
-      handleClick(tab, event) {
-        console.log(tab, event);
+      // 切换tab
+      handleClick(tab) {
+        console.log(tab);
       }
     }
   };

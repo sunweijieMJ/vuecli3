@@ -3,7 +3,7 @@ export default {
   component: () => import('../../views/foreground/Mine.vue'),
   children: [
     {
-      path: 'Profile',
+      path: 'Profile/:id',
       name: 'Profile',
       component: () => import('../../views/foreground/mine/Profile.vue')
     }

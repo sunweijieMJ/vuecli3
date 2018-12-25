@@ -1,7 +1,7 @@
 
 <template>
   <div class="idea-detail">
-    <public-detail></public-detail>
+    <public-detail :detail="ieda_detail"></public-detail>
     <!-- 精彩评论 -->
     <div class="detail-splendid">
       <div class="splendid-title">
@@ -40,7 +40,6 @@
     methods: {
       getIdeaDetail(id) {
         IdeaApi().getIdeaDetail({tId: id}).then(res => {
-          console.log(res)
           this.ieda_detail = res.data;
         });
       },
@@ -54,22 +53,24 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import '../../../assets/scss/_base.scss';
+
   .idea-detail {
     width: 800px;
     margin: 12px auto 0;
     background-color: #fff;
     .detail-common, .detail-splendid {
-      padding: 20px 66px;
+      padding: 15px 66px;
       .common-title, .splendid-title {
         display: flex;
         align-items: center;
-        height: 45px;
+        padding: 15px 0 10px;
         border-bottom: 1px solid #F6F6F6;
         h4 {
-          font-size:18px;
-          font-weight:500;
+          font-size: 18px;
+          font-weight: 500;
           line-height: 25px;
-          color: #303133;
+          color: $h1Color;
         }
       }
     }

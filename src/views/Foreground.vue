@@ -22,7 +22,7 @@
                   <li>PGS正式上线，你不知道的21个隐藏功能，我…</li>
                   <li>PGS正式上线，你不知道的21个隐藏功能，我…</li>
                 </ul>
-                <a href="javascript:;">全部提醒</a>
+                <a href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
               </div>
             </el-popover>
             <el-dropdown @command="handleCommand" trigger="click" v-else>
@@ -42,7 +42,10 @@
   </el-container>
 </template>
 <script>
+  import frequent from '../mixins/frequent.js';
+
   export default {
+    mixins: [frequent],
     data() {
       return {
         current: 0,
@@ -67,15 +70,17 @@
       };
     },
     methods: {
+      // 切换tab
       select(item, index) {
         this.current = index;
         this.$router.push({name: item.name});
       },
+      // 个人主页/退出登录
       handleCommand(command) {
         let that = this;
         switch (command) {
           case 'homepage':
-            that.$router.push({name: 'Profile'});
+            that.$router.push({name: 'Profile', params: {id: 1}});
             break;
           case 'exit':
             break;

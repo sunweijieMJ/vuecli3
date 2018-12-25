@@ -1,45 +1,47 @@
 <template>
   <div class="public-detail">
     <!-- 用户信息 -->
-    <div class="detail-author">
+    <div class="detail-author" v-if="detail.info && detail.info[0]">
       <el-popover
         placement="bottom"
-        trigger="click">
-        <img slot="reference" src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
-        <user-popover></user-popover>
+        trigger="hover">
+        <img slot="reference" :src="detail.info[0].header_photo" alt="">
+        <user-popover :userinfo="detail.info[0]"></user-popover>
       </el-popover>
       <div class="author-name">
         <h4>
-          <span class="name">PADDY</span>
-          <span class="stick" v-if="1">置顶</span>
+          <span class="name">{{detail.info[0].user_name}}</span>
+          <span class="stick" v-if="detail.is_top">置顶</span>
         </h4>
         <p>
-          <span>数字产品部</span>
-          <span>2018-12-31 10:30</span>
+          <span>{{detail.info[0].department_name}}</span>
+          <span>{{detail.create_time}}</span>
         </p>
       </div>
     </div>
     <!-- 详情内容 -->
     <div class="detail-main">
-      <paragraph :text="'PGS今天正式上线啦，大家快去玩。PGS今天正式线啦，大家快去玩起来。PGS天正式上线啦，大家快去玩起来。PGS今天正式线啦，大家快去玩起来。'"></paragraph>
+      <div class="main-paragraph">
+        <paragraph v-if="detail.content" :text="detail.content"></paragraph>
+      </div>
       <div class="main-images">
-        <img v-for="(item, index) in 6" :key="index" src="https://pic2.lanehub.cn/production/37a84f42381015e1396997d28baa7608.jpg?x-oss-process=style/m-00001" alt="">
+        <img v-for="(item, index) in detail.photos" :key="index" :src="item" alt="">
       </div>
       <div class="main-num">
         <div class="num-left">
           <p>
             <i class="iconfont icon-ai45"></i>
-            <span>123</span>
+            <span>{{detail.zan}}</span>
           </p>
           <p>
             <i class="iconfont icon-tubiaozhizuo-"></i>
-            <span>123</span>
+            <span>{{detail.zan}}</span>
           </p>
         </div>
         <div class="num-right">
           <p>
             <i class="iconfont icon-ai-eye"></i>
-            <span>123</span>
+            <span>{{detail.thinks_view_nums}}</span>
           </p>
         </div>
       </div>
@@ -55,16 +57,47 @@
     </div>
     <div class="detail-comment">
       <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
-      <p>写下你的评论…</p>
+      <div class="comment-publish">
+        <textarea ref="textarea" placeholder="回复PADDY:"
+          @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled = true"
+          ></textarea>
+        <div class="publish-btn" v-if="textEnabled">
+          <span @click="textEnabled = false">取消</span>
+          <button @click="sendComment">发送</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
   import {Paragraph} from '../../components/business';
+  import {autoTextarea} from '../../utils/business/tools.js';
   import {UserPopover} from '../../components/popup';
 
   export default {
-    components: {Paragraph, UserPopover}
+    components: {Paragraph, UserPopover},
+    props: ['detail'],
+    data() {
+      return {
+        autoTextarea,
+        textEnabled: false
+      };
+    },
+    methods: {
+      sendComment() {
+        this.textEnabled = false;
+      }
+    },
+    watch: {
+      textEnabled(cur) {
+        let that = this;
+        if(cur) {
+          that.$nextTick(() => {
+            that.$refs.textarea.focus();
+          });
+        }
+      }
+    }
   };
 </script>
 <style lang="scss" scoped>
@@ -74,7 +107,7 @@
     .detail-author {
       display: flex;
       padding: 20px 66px;
-      border-bottom: 1px solid #F6F6F6;
+      border-bottom: 1px solid $lineColor;
       img {
         width: 48px;
         height: 48px;
@@ -88,23 +121,25 @@
         h4 {
           display: flex;
           align-items: center;
+          font-weight: 400;
           .name {
-            margin-right: 10px;
-            font-size:16px;
-            font-weight:400;
-            color:rgba(48,49,51,1);
+            margin-right: 15px;
+            font-size: 16px;
+            line-height: 22px;
+            color: $h1Color;
           }
           .stick {
             box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
-            width:36px;
-            height:19px;
-            border-radius:2px;
-            border:1px solid rgba(255,118,120,1);
-            font-size:14px;
-            color:rgba(255,118,120,1);
+            width: 36px;
+            height: 20px;
+            border-radius: 2px;
+            border:1px solid $themeColor;
+            font-size: 14px;
+            line-height: 20px;
+            color: $themeColor;
           }
         }
         p {
@@ -113,17 +148,17 @@
           span {
             margin-right: 14px;
             font-size:14px;
-            font-weight:400;
-            color:rgba(144,147,153,1);
+            line-height: 20px;
+            color: $h3Color;
           }
         }
       }
     }
     .detail-main {
-      padding: 20px 66px;
-      border-bottom: 1px solid #F6F6F6;
-      >p {
-        margin-bottom: 4px;
+      padding: 0 66px;
+      border-bottom: 1px solid $lineColor;
+      .main-paragraph {
+        margin: 20px 0 8px;
       }
       .main-images {
         display: flex;
@@ -142,7 +177,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 30px 0 10px;
+        padding: 30px;
         .num-left {
           display: flex;
           align-items: center;
@@ -153,13 +188,14 @@
               margin-right: 50px;
             }
             span {
-              margin-left: 3px;
-              font-size:16px;
-              font-weight:400;
-              color:rgba(96,98,102,1);
+              margin-left: 10px;
+              font-size: 18px;
+              line-height: 25px;
+              color: $themeColor;
             }
             i {
-              font-size:18px;
+              font-size: 20px;
+              color: $themeColor;
             }
           }
         }
@@ -170,56 +206,123 @@
             display: flex;
             align-items: center;
             span {
-              margin-left: 3px;
-              font-size:16px;
-              font-weight:400;
-              color:rgba(96,98,102,1);
+              margin-left: 7px;
+              font-size: 18px;
+              line-height: 25px;
+              color: $themeColor;
             }
             i {
-              font-size:18px;
+              font-size: 20px;
+              color: $themeColor;
             }
           }
         }
       }
     }
     .detail-thump {
-      padding: 37px 66px;
+      padding: 35px 66px;
       .thump-title {
         margin-bottom: 20px;
-        font-size:18px;
-        font-weight:500;
-        line-height:25px;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 25px;
         color: $h1Color;
       }
       .thump-icon {
         display: flex;
         flex-wrap: wrap;
         img {
-          width: 31px;
-          height: 31px;
-          margin: 0 12px 12px 0;
+          width: 30px;
+          height: 30px;
+          margin: 0 10px 10px 0;
           border-radius: 50%;
         }
       }
     }
     .detail-comment {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 66px;
+      padding: 25px 66px;
       img {
         width: 48px;
         height: 48px;
         border-radius: 50%;
+        margin-right: 30px;
       }
-      p {
-        display: flex;
-        align-items: center;
-        width: 569px;
-        height: 48px;
-        padding-left: 20px;
-        background: rgba(246,246,246,1);
-        border-radius: 2px;
+      .comment-publish {
+        flex: 1;
+        textarea {
+          box-sizing: border-box;
+          width: 100%;
+          height: 48px;
+          padding: 10px 20px;
+          border-radius: 2px;
+          font-size: 16px;
+          line-height: 25px;
+          resize: none;
+          border: none;
+          background: $backColor;
+          &::placeholder {
+            font-size: 16px;
+            line-height: 28px;
+            color: $h3Color;
+          }
+          &::-webkit-input-placeholder {
+            font-size: 16px;
+            line-height: 28px;
+            color: $h3Color;
+          }
+          &:-moz-placeholder {
+            font-size: 16px;
+            line-height: 28px;
+            color: $h3Color;
+          }
+          &::-moz-placeholder {
+            font-size: 16px;
+            line-height: 28px;
+            color: $h3Color;
+          }
+          &:-ms-input-placeholder {
+            font-size: 16px;
+            line-height: 28px;
+            color: $h3Color;
+          }
+        }
+        .publish-btn {
+          margin-top: 15px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          span {
+            font-size: 16px;
+            line-height: 22px;
+            color: $h1Color;
+            cursor: pointer;
+          }
+          button {
+            margin-left: 20px;
+            width: 74px;
+            height: 36px;
+            background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
+            border-radius: 20px;
+            color: #fff;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+</style>
+<style lang="scss">
+  @import '../../assets/scss/_base.scss';
+
+  .public-detail .main-paragraph {
+    p {
+      font-size: 16px;
+      line-height: 25px;
+      color: $h2Color;
+      a {
+        font-size: 16px;
+        color: $linkBlue;
       }
     }
   }
