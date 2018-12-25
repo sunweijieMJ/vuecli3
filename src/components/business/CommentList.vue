@@ -18,11 +18,18 @@
             </p>
             <p class="reply">
               <i class="iconfont icon-ai45"></i>
-              <span>回复</span>
+              <span @click="textEnabled = true">回复</span>
             </p>
           </div>
           <div class="num-right">
             <span>2018-12-12 10:30</span>
+          </div>
+        </div>
+        <div class="comment-publish" v-if="textEnabled">
+          <textarea placeholder="回复PADDY:"></textarea>
+          <div class="publish-btn">
+            <span @click="textEnabled = false">取消</span>
+            <button @click="sendComment">发送</button>
           </div>
         </div>
       </div>
@@ -34,7 +41,17 @@
 
   export default {
     components: {Paragraph},
-    props: ['list']
+    props: ['list'],
+    data() {
+      return {
+        textEnabled: false
+      };
+    },
+    methods: {
+      sendComment() {
+        this.textEnabled = true;
+      }
+    }
   };
 </script>
 <style lang="scss" scoped>
@@ -93,6 +110,9 @@
                 line-height:20px;
                 color: #909399;
               }
+              &.reply {
+                cursor: pointer;
+              }
             }
           }
           .num-right {
@@ -100,6 +120,65 @@
               font-size: 12px;
               line-height: 18px;
               color: #909399;
+            }
+          }
+        }
+        .comment-publish {
+          margin-top: 20px;
+          textarea {
+            width: 100%;
+            height: 28px;
+            padding: 10px 20px;
+            background: $backColor;
+            border-radius: 2px;
+            line-height: 28px;
+            resize: none;
+            border: none;
+            &::placeholder {
+              font-size: 16px;
+              line-height: 28px;
+              color: $h3Color;
+            }
+            &::-webkit-input-placeholder {
+              font-size: 16px;
+              line-height: 28px;
+              color: $h3Color;
+            }
+            &:-moz-placeholder {
+              font-size: 16px;
+              line-height: 28px;
+              color: $h3Color;
+            }
+            &::-moz-placeholder {
+              font-size: 16px;
+              line-height: 28px;
+              color: $h3Color;
+            }
+            &:-ms-input-placeholder {
+              font-size: 16px;
+              line-height: 28px;
+              color: $h3Color;
+            }
+          }
+          .publish-btn {
+            margin-top: 16px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            span {
+              font-size: 16px;
+              line-height: 22px;
+              color: $h1Color;
+              cursor: pointer;
+            }
+            button {
+              margin-left: 20px;
+              width: 74px;
+              height: 36px;
+              background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
+              border-radius: 20px;
+              color: #fff;
+              cursor: pointer;
             }
           }
         }

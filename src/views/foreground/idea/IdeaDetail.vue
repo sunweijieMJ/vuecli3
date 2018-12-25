@@ -14,7 +14,7 @@
       <div class="common-title">
         <h4>评论 (123)</h4>
       </div>
-      <comment-list :list="common_list.commentslist"></comment-list>
+      <comment-list :list="3"></comment-list>
     </div>
   </div>
 </template>

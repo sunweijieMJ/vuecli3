@@ -2,7 +2,12 @@
   <div class="public-detail">
     <!-- 用户信息 -->
     <div class="detail-author">
-      <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+      <el-popover
+        placement="bottom"
+        trigger="click">
+        <img slot="reference" src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+        <user-popover></user-popover>
+      </el-popover>
       <div class="author-name">
         <h4>
           <span class="name">PADDY</span>
@@ -56,8 +61,10 @@
 </template>
 <script>
   import {Paragraph} from '../../components/business';
+  import {UserPopover} from '../../components/popup';
+
   export default {
-    components: {Paragraph}
+    components: {Paragraph, UserPopover}
   };
 </script>
 <style lang="scss" scoped>

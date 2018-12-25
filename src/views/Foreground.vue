@@ -7,12 +7,31 @@
             <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
           </h1>
           <li v-for="(item, index) in router.slice(0, 2)" :key="index" :class="{active: index === current}">
-            <a href="javascript:;" @click="select(item)">{{item.text}}</a>
+            <a href="javascript:;" @click="select(item, index)">{{item.text}}</a>
           </li>
         </ul>
         <ul class="nav-right">
           <li v-for="(item, index) in router.slice(2, 4)" :key="index" :class="{active: index === current}">
-            <i class="iconfont" :class="item.icon" @click="select(item)"></i>
+            <el-popover
+              v-if="!index"
+              placement="bottom"
+              trigger="click">
+              <i slot="reference" class="iconfont" :class="item.icon" v-if="!index"></i>
+              <div class="message">
+                <ul>
+                  <li>PGS正式上线，你不知道的21个隐藏功能，我…</li>
+                  <li>PGS正式上线，你不知道的21个隐藏功能，我…</li>
+                </ul>
+                <a href="javascript:;">全部提醒</a>
+              </div>
+            </el-popover>
+            <el-dropdown @command="handleCommand" trigger="click" v-else>
+              <i class="iconfont" :class="item.icon"></i>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
+                <el-dropdown-item command="exit">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </li>
         </ul>
       </nav>
@@ -48,14 +67,28 @@
       };
     },
     methods: {
-      select(item) {
-        this.current = item.index;
+      select(item, index) {
+        this.current = index;
         this.$router.push({name: item.name});
+      },
+      handleCommand(command) {
+        let that = this;
+        switch (command) {
+          case 'homepage':
+            that.$router.push({name: 'Profile'});
+            break;
+          case 'exit':
+            break;
+          default:
+            break;
+        }
       }
     }
   };
 </script>
 <style lang="scss" scoped>
+  @import '../assets/scss/_base.scss';
+
   .el-container {
     height: 100%;
     .el-header {
@@ -101,8 +134,50 @@
   }
 </style>
 <style lang="scss">
+  @import '../assets/scss/_base.scss';
+
   html, body, #app {
     height: 100%;
+  }
+  .el-popover {
+    padding: 1px 0 0;
+    border: none;
+    .message {
+      ul {
+        li {
+          padding: 14px 22px;
+          border-bottom: 1px solid $lineColor;
+          font-size: 16px;
+          line-height: 25px;
+          color: $h1Color;
+        }
+      }
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 55px;
+        font-size: 16px;
+        color: $linkBlue;
+      }
+    }
+  }
+
+  .el-dropdown-menu {
+    padding: 20px 0;
+    .el-dropdown-menu__item {
+      padding: 0 40px;
+      font-size: 16px;
+      line-height: 30px;
+      color: $h1Color;
+      &:first-child {
+        margin-bottom: 20px;
+      }
+      &:hover {
+        color: $h1Color;
+        background-color: #ccc;
+      }
+    }
   }
 </style>
 

@@ -4,6 +4,7 @@ Vue.use(Router);
 
 // foreground
 import ForeIdea from './foreground/idea';
+import ForeOkr from './foreground/okr';
 import ForeMine from './foreground/mine';
 import ForeNotice from './foreground/notice';
 // background
@@ -23,7 +24,7 @@ export default new Router({
     {
       path: '/Foreground',
       component: () => import('../views/Foreground.vue'),
-      children: [ForeIdea, ForeMine, ForeNotice]
+      children: [ForeIdea, ForeOkr, ForeMine, ForeNotice]
     },
     {
       path: '/Background',

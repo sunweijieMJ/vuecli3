@@ -4,7 +4,12 @@
       <!-- 列表头部用户信息 -->
       <div class="list-header">
         <div class="header-author">
-          <img :src="vitem.userinfo.sheaderPhoto" alt="" @click="skipDetail(2, vitem.userinfo.iUserId)">
+          <el-popover
+            placement="bottom"
+            trigger="hover">
+            <img slot="reference" :src="vitem.userinfo.sheaderPhoto" alt="" @click="skipDetail(2, vitem.userinfo.iUserId)">
+            <user-popover :userinfo="vitem.userinfo"></user-popover>
+          </el-popover>
           <div class="author-name">
             <h4>
               <span class="name">{{vitem.userinfo.sRealName}}</span>
@@ -59,12 +64,13 @@
   </ul>
 </template>
 <script>
-  import Paragraph from './Paragraph.js';
+  import {Paragraph} from './index.js';
+  import {UserPopover} from '../popup';
   import frequent from '../../mixins/frequent.js';
 
   export default {
     props: ['list'],
-    components: {Paragraph},
+    components: {Paragraph, UserPopover},
     mixins: [frequent],
     methods: {
       skipDetail(type, id) {
@@ -141,6 +147,7 @@
             width: 149px;
             height: 149px;
             margin-right: 3px;
+            cursor: pointer;
           }
         }
       }
