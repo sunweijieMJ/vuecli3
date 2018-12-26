@@ -29,6 +29,30 @@ class User extends Abstract {
     return this.postReq('User.UserUpdate', data);
   }
 
+  /**
+   * 登陆
+   * @param {string} email 邮箱
+   * @param {num} passwd 密码
+   */
+  getLogin(data){
+    return this.postReq('User.UserLogin', data);
+  }
+
+  /**
+   * 用户列表
+   * @param {string} keyword 关键字
+   */
+  getAdminList(data){
+    return this.getReq('User.UserList', data);
+  }
+
+  /**
+   * 获取密码
+   * @param {num} email 用户邮箱
+   */
+  getPssword(data){
+    return this.postReq('User.UserPass', data);
+  }
 }
 
 // 单列模式返回对象

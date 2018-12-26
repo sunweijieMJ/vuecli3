@@ -12,7 +12,8 @@ const urlDict = {
     'UserLogin': '/user/login', // ETC 用户登录
     'UserDetail': '/user/detail', // ETC 用户详情
     'UserUpdate': '/user/update', // ETC 用户信息更新
-    'UserList': '/user/list' // ETC 用户列表
+    'UserList': '/user/list', // ETC 用户列表
+    'UserPass': '/user/initpwd' // ETC 密码获取
   },
   'Notice': {
     'MessageList': '/com/messagelist', // ETC 消息列表

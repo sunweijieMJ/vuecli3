@@ -12,6 +12,12 @@ class System extends Abstract {
     super();
   }
 
+  /**
+   * 消息列表
+   */
+  getNewList(data){
+    return this.getReq('Notice.MessageList', data);
+  }
 }
 
 // 单列模式返回对象

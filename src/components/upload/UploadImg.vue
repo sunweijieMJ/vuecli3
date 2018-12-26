@@ -18,9 +18,9 @@
         list: [{url: 'xxx', hash: 'xxx', cover: Boolean}]
         cover 封面图 true为封面图(有且只有一个)  false为普通图片
      -->
+     <!-- :on-preview="handlePreview" -->
     <el-upload
       class="avatar-uploader"
-      v-if="limint <= 9"
       :disabled="disabled ? disabled : isDisabled"
       :action="uploadurl"
       :name="'file'"
@@ -35,11 +35,11 @@
       :on-success="handleSuccess"
       :before-upload="beforeUpload"
       :on-error="handleError"
-      :on-preview="handlePreview"
+      
       :on-remove="handleRemove"
       >
-      <div @mouseover="show = !show" @mouseout="show = !show" class="img-box">
-        <el-button v-if="!multi && imgUrl && showicon && show && !disabled" type='text' class="change">替换图片</el-button>
+      <div @mouseover="show = !show" @mouseout="show = !show" v-if="num < 9" class="img-box">
+        <!-- <el-button v-if="!multi && imgUrl && showicon && show && !disabled" type='text' class="change">替换图片</el-button> -->
         <img class="img" v-if="!multi && imgUrl" :src="imgUrl" alt="" >
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </div>
@@ -56,7 +56,7 @@
   const root = process.env.VUE_APP_BaseURL;
 
   export default {
-    props: ['multiple', 'accepts', 'list', 'limint', 'disabled', 'name', 'showicon', 'indexnum', 'Ossprivate'],
+    props: ['multiple', 'accepts', 'list', 'limint', 'disabled', 'name', 'showicon', 'indexnum', 'Ossprivate', 'hashNum'],
     data() {
       return {
         show: false,
@@ -91,9 +91,9 @@
       handleSuccess(response, file, fileList) {
         if (!this.multi) {
           this.imgUrl = response.result.file.image_url;
-          this.$emit('handleSuccess', {name: this.index, file: this.setOneData(file), indexnum: this.indexnum});
+          this.$emit('handleSuccess', {name: this.index, file: this.setOneData(file), indexnum: this.indexnum, origin: fileList});
         } else {
-          this.$emit('handleSuccess', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList), indexnum: this.indexnum});
+          this.$emit('handleSuccess', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList), indexnum: this.indexnum, origin: fileList});
         }
       },
       // 文件上传失败
@@ -101,13 +101,13 @@
         this.$emit('handleError', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList)});
       },
       // 点击已上传文件
-      handlePreview(file) {
-        this.isDialog = true;
-        this.imgUrl = file.url;
-      },
+      // handlePreview(file) {
+      //   this.isDialog = true;
+      //   this.imgUrl = file.url;
+      // },
       // 删除文件
       handleRemove(file, fileList) {
-        this.$emit('handleRemove', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList)});
+        this.$emit('handleRemove', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList), origin: fileList});
       },
       // 处理数据结构 --> 数组
       setData(data) {
@@ -149,6 +149,9 @@
       }
     },
     watch: {
+      hashNum(){
+        this.num = this.hashNum;
+      },
       imglist(val) {
         return val;
       },
@@ -163,6 +166,8 @@
     width: 100% !important;
     margin-top: 29px;
     display: flex !important;
+    flex-wrap: wrap;
+    overflow: hidden;
     ul{
       margin-right: 4px;
       display: flex !important;

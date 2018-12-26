@@ -40,6 +40,22 @@ class Idea extends Abstract {
     return this.getReq('Idea.ThumpList', data);
   }
 
+  /**
+   * 话题列表
+   * @param {string} keywords 关键字
+   */
+  getTopicList(data){
+    return this.getReq('Idea.TopicList', data);
+  }
+
+  /**
+   * 发布想法
+   * @param {string} 
+   * 
+   */
+  PublishFor(data){
+    return this.postReq('Idea.IdeaPublish', data);
+  }
 }
 
 // 单列模式返回对象

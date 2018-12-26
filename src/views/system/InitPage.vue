@@ -1,9 +1,9 @@
 <template>
   <div class="init">
     <div class="title">PGS</div>
-    <div class="discription" v-if="0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
-    <div class="discription" v-if="0">Ops…好像没有输入正确的工作邮箱</div>
-    <div class="discription">已发送密码至你的邮箱 {{ruleForm2.email}} ，请在邮件中查看</div>
+    <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
+    <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
+    <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{ruleForm2.email}} ，请在邮件中查看</div>
     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
       <el-form-item
       prop="email">
@@ -23,13 +23,16 @@
   </div>
 </template>
 <script>
+import userApi from '../../api/User.js';
 export default {
   name: 'initpage',
   data(){
     return{
-      firm_dis: true,
+      status: 0, // ETC 提示信息展示
+      firm_dis: true, // ETC 获取密码防抖
+      login_status: true, // ETC 登陆防抖
       show: false,
-      time: '',
+      time: '', // ETC 倒计时
       ruleForm2: {
         pass: '',
         email: ''
@@ -49,38 +52,47 @@ export default {
         callback(new Error('请输入密码'));
       }
     },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
-      this.$message({message: '登陆成功', type: 'success', duration: 1000});
-      setTimeout(() => {
-        this.$router.push({name: 'IdeaList'});
-      }, 1000);
+    submitForm() {
+      this.login_status = false;
+      if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status){
+        userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
+          if(res.status){
+            this.$message({message: '登陆成功', type: 'success', duration: 1000});
+            setTimeout(() => {
+              this.$router.push({name: 'IdeaList'});
+              this.status = 0;
+              this.login_status = true;
+            }, 1000);
+          }
+        });
+      }else{
+        this.$message({message: '密码不正确', type: 'warning'});
+      }
     },
     // 计时器
     countDown(){
       this.firm_dis = false;
-      if(this.ruleForm2.email){
-        // this.$store.dispatch('receive_member/getIdentify', {mobile: +this.tel, country_num: JSON.parse(this.test('country')) ? JSON.parse(this.test('country')).countynum : this.num, forgot: 0});
-        let time = 50;
-        let timeStop = setInterval(() => {
-          time--;
-          if (time > 0) {
-            this.show = true;
-            this.time = time + ' ' + 's ' + '后可再次发送';
-          }else{
-            time = 50; // ETC当减到0时赋值为60
-            this.show = false;
-            clearInterval(timeStop);// ETC 清除定时器
+      let Reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+      if(!this.firm_dis && this.ruleForm2.email && Reg.test(this.ruleForm2.email)){
+        userApi().getPssword({email: this.ruleForm2.email}).then(res => {
+          if(res.status){
+            this.status = 1;
+            let time = 50;
+            let timeStop = setInterval(() => {
+              time--;
+              if (time > 0) {
+                this.show = true;
+                this.time = time + ' ' + 's ' + '后可再次发送';
+              }else{
+                time = 50; // ETC当减到0时赋值为60
+                this.show = false;
+                clearInterval(timeStop);// ETC 清除定时器
+              }
+            }, 1000);
           }
-        }, 1000);
+        });
       }else{
+        this.status = 2;
         this.$message({message: '请填写正确的邮箱', type: 'warning'});
       }
       setTimeout(() => {

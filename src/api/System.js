@@ -19,7 +19,6 @@ class System extends Abstract {
   uploadImg(data) {
     return this.postReq('System.UploadImg', data);
   }
-
 }
 
 // 单列模式返回对象

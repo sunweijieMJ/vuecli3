@@ -33,6 +33,7 @@
   </div>
 </template>
 <script>
+import NoticeApi from '../../../api/Notice.js';
 export default {
   name: 'NewsList',
   data(){
@@ -47,6 +48,11 @@ export default {
     goProFile(){
       this.$router.push({name: 'Profile', params: {id: 1}});
     }
+  },
+  mounted(){
+    NoticeApi().getNewList({}).then(res => {
+      console.log(res)
+    })
   }
 };
 </script>

@@ -9,31 +9,35 @@
           @input="content"
           @click.stop="curse" placeholder="分享你得想法吧"></textarea>
         <ul v-if="show" :style="at_style">
-          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(friend + ' ')">{{friend}}</li>
+          <li v-for="(a, index) in friend" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}</li>
         </ul>
         <ul v-if="jshow" :style="at_style">
-          <li v-for="(a, index) in 5" :key="index" @click.stop="insertAtCursor(topic + '# ')">{{topic}}</li>
+          <li>创建话题#PGS上线啦#</li>
+          <li v-for="(tpic, index) in topic" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
         </ul>
       </div>
-      <!-- <div class="upload-imgs">
-        <span>
-          <i class="iconfont icon-qianming"></i>
+      <div class="upload-imgs" v-if="!upLoad_state">
+        <span @click="viewUploadImg" class="u-i-i">
+          <i class="iconfont icon-tupian" style="font-size: 22px;"></i>
           <span>上传图片</span>
         </span>
-        <span class="submit">发布</span>
-      </div> -->
-      <div class="add-img">
+        <span class="submit" @click="ideaSubmit">发布</span>
+      </div>
+      <div class="add-img" v-if="upLoad_state">
         <div class="quantity">
-          <i class="iconfont icon-qianming"></i>
+          <i class="iconfont icon-tupian" style="font-size: 22px;"></i>
           <span>上传图片</span>
-          <span>(2/9)</span>
+          <span>({{hash_num.length}}/9)</span>
         </div>
         <div class="image">
           <upLoadImg :multiple="true" :limint="9"
             :disabled="false"
+            @handleSuccess="handleSuccess"
+            @handleRemove="handleRemove"
+            :hashNum="hash_num.length"
             ></upLoadImg>
         </div>
-        <div class="raise">
+        <div class="raise" @click="ideaSubmit">
           <span class="submit">发布</span>
         </div>
       </div>
@@ -41,12 +45,16 @@
   </div>
 </template>
 <script>
+import IdeaApi from '../../api/Idea.js';
+import UserApi from '../../api/User.js';
 import upLoadImg from '../upload/UploadImg';
 export default {
   name: 'commentpublish',
   components: {upLoadImg},
   data() {
     return {
+      upLoad_state: false,
+      publish_state: true, // ETC 发布防抖
       friend: '好友列表',
       topic: '话题列表',
       at_style: {
@@ -54,12 +62,22 @@ export default {
         top: '',
         left: ''
       },
-      show: false,
-      jshow: false,
-      div_caretOffset: ''
+      show: false, // ETC 用户列表状态
+      jshow: false, // ETC 话题列表状态
+      div_caretOffset: '',
+      hash_num: [], // ETC 记录hash数
+      At_anchor: '', // ETC 保存@出现的节点位置
+      content_end: '', // ETC 保存@输入内容的末尾节点位置
+
+      topic_anchor: '', // ETC 保存话题#出现的节点位置
+      string_length: 0, // ETC 保存搜索的字符长度
+      thinksPhotos: '' // ETC 图片Hash
     };
   },
   methods: {
+    viewUploadImg(){
+      this.upLoad_state = true;
+    },
     // 关闭弹层
     shutDown(){
       this.$emit('shutDown', false);
@@ -74,7 +92,6 @@ export default {
       // 光标位置
       let end = textarea.selectionEnd;
       // 光标前的内容
-      console.log('内容：', textarea)
       let beforeText = textarea.value.slice(0, end);
       // 光标后的内容
       let afterText = textarea.value.slice(end);
@@ -100,28 +117,81 @@ export default {
     // textarea 内容改变触发
     content(event){
       let text = document.getElementById('text').value;
+      this.content_end = text.length;
       let value = text.charAt(text.length - 1);
       if(value === '@'){
+        this.At_anchor = text.length;
         this.mirrorCompute();
         this.show = true;
       }else{
         this.show = false;
       }
+
+      // 搜索用户关键字截取
+      if(this.At_anchor){
+        let final_content = text.substring(this.At_anchor + 1, this.content_end);
+        this.string_length = final_content.length + 1; // ETC 搜索的字符长度
+        let noneArr = [];
+        for (let j = 0; j < final_content.length; j++) {
+          noneArr.push(final_content[j]);
+        }
+        if(noneArr.length && noneArr.indexOf(' ') === -1){
+          this.show = true;
+          this.searchData(final_content);
+        }else if(!noneArr.length){
+          this.searchData();
+        }else{
+          this.show = false;
+          this.At_anchor = '';
+        }
+      }
+
       if(value === '#'){
+        this.topic_anchor = text.length;
         this.jshow = true;
         this.mirrorCompute();
       }else{
         this.jshow = false;
       }
+      // 搜索话题关键字截取
+      if(this.topic_anchor){
+        let final_content = text.substring(this.topic_anchor + 1, this.content_end);
+        this.string_length = final_content.length + 1; // ETC 搜索的字符长度
+        let noneArr = [];
+        for (let j = 0; j < final_content.length; j++) {
+          noneArr.push(final_content[j]);
+        }
+        if(noneArr.length && noneArr.indexOf('#') === -1){
+          this.jshow = true;
+          this.searchTopic(final_content);
+        }else if(!noneArr.length){
+          this.searchTopic();
+        }else{
+          this.jshow = false;
+          this.topic_anchor = '';
+        }
+      }
     },
+    // 用户列表搜索
+    searchData(key){
+      UserApi().getAdminList({keyword: key ? key : ''}).then(res => {
+        console.log(res);
+        this.friend = res.data;
+      });
+      console.log('搜索数据', key);
+    },
+    // 话题列表搜索
+    searchTopic(key){
+      IdeaApi().getTopicList({keyword: key ? key : ''}).then(res => {
+        console.log('话题数据', res);
+        this.topic = res.data;
+      });
+    },
+    // 鼠标光标
     curse(e){
       let eleP = e.target.parentNode; // ETC 获取父级元素
       let pos = 0;
-      // if (e.target.nodeName == 'DIV') {
-      //   pos = this.getDivPosition(e.target);
-      // } else {
       pos = this.getPosition(e.target);
-      // }
       let spanEle = (eleP.childNodes)[1];
       spanEle.innerText = pos;
     },
@@ -140,11 +210,10 @@ export default {
       if(value === '@'){
         this.mirrorCompute();
         this.show = true;
-        console.log('你是正确的');
       }else{
         this.show = false;
       }
-      if(value === '#'){
+      if(value === '# '){
         this.jshow = true;
         this.mirrorCompute();
       }else{
@@ -162,24 +231,24 @@ export default {
     insertAtCursor(myValue) {
       // IE 浏览器  获取当前输入框dom元素
       let myField = document.getElementById('text');
-      console.log('1:', myField)
       if (document.selection) {
         myField.focus();
         let sel = document.selection.createRange();
         sel.text = myValue;
         sel.select();
       }else if (myField.selectionStart || myField.selectionStart == '0') { // ETC FireFox、Chrome等
-        console.log('1:1', myField.selectionStart)
         let startPos = myField.selectionStart;
         let endPos = myField.selectionEnd;
         // 保存滚动条
-        // let restoreTop = myField.scrollTop;
-        myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-        // if (restoreTop > 0) {
-        //   myField.scrollTop = restoreTop;
-        // }
-        myField.selectionStart = startPos + myValue.length;
-        myField.selectionEnd = startPos + myValue.length;
+        if(this.string_length > 1){
+          myField.value = myField.value.substring(0, startPos - this.string_length) + myValue + myField.value.substring(endPos, myField.value.length);
+          myField.selectionStart = startPos - this.string_length + myValue.length;
+          myField.selectionEnd = startPos - this.string_length + myValue.length;
+        }else{
+          myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+          myField.selectionStart = startPos + myValue.length;
+          myField.selectionEnd = startPos + myValue.length;
+        }
         myField.focus();
       } else {
         myField.value += myValue;
@@ -187,6 +256,62 @@ export default {
       }
       this.show = false;
       this.jshow = false;
+      this.string_length = 0;
+    },
+    // 图片上传成功的函数
+    handleSuccess(response){
+      let res = response;
+      this.imageDeal(res);
+    },
+    // 删除图片的函数
+    handleRemove(file){
+      this.imageDeal(file);
+    },
+    // name处理
+    urlName(url){
+      let img_type = '';
+      let img_name = '';
+      let num = url.lastIndexOf('.');
+      img_name = url.substring(0, num);
+      img_type = url.substring(num + 1, url.length);
+      return '|' + img_name + '|' + img_type;
+    },
+    // URL处理
+    imageDeal(img){
+      let arr = '';
+      let newarr = [];
+      if(img && img.fileList.length){
+        for (let i = 0; i < img.fileList.length; i++) {
+          if(!arr){
+            arr = img.fileList[i].hash + this.urlName(img.origin[i].name);
+          }else{
+            arr += ',' + img.fileList[i].hash + this.urlName(img.origin[i].name);
+          }
+          newarr.push(img.fileList[i].hash);
+        }
+      }
+      this.thinksPhotos = arr;
+      this.hash_num = newarr;
+    },
+    // 发布新想法
+    ideaSubmit(){
+      let text = document.getElementById('text').value;
+      this.publish_state = false;
+      if((text || this.thinksPhotos) && !this.publish_state){
+        IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
+          if(res.status){
+            this.$message({message: '发布成功', type: 'success', duration: 1000});
+            setTimeout(() => {
+              this.$emit('shutDown', false);
+            }, 1000);
+          }
+        });
+      }else{
+        this.$message({message: '请填写您想要的发布内容', type: 'warning'});
+      }
+      setTimeout(() => {
+        this.publish_state = true;
+      }, 1000);
     }
   }
 };
@@ -221,7 +346,7 @@ export default {
       z-index: 1001;
       width: 604px;
       height: 337px;
-      // overflow: hidden;
+      overflow: hidden;
       #text {
         margin-top: 22px;
         width: 604px;
@@ -252,6 +377,16 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .u-i-i{
+        cursor: pointer;
+        font-size: 16px;
+        color:rgba(48,49,51,1);
+        display: flex;
+        align-items: center;
+        span{
+          margin-left: 8px;
+        }
+      }
       .submit{
         width: 90px;
         height: 40px;
@@ -272,6 +407,13 @@ export default {
       font-size:16px;
       font-weight:400;
       color:rgba(48,49,51,1);
+      .quantity{
+        display: flex;
+        align-items: center;
+        span{
+          margin-left: 8px;
+        }
+      }
       .image{
         height: 64px;
         width: 100%;
@@ -303,6 +445,7 @@ export default {
     font-size: 30px;
   }
   ul{
+    z-index: 1002;
     border: 1px solid #eee;
     margin: auto;
     padding: 0 0;
