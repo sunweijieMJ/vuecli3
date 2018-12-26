@@ -66,24 +66,27 @@
     },
     methods: {
       // 详情信息
-      getIdeaDetail(tId) {
-        IdeaApi().getIdeaDetail({tId}).then(res => {
-          this.ieda_detail = res.data;
+      getIdeaDetail(thinksId) {
+        let that = this;
+        IdeaApi().getIdeaDetail({thinksId}).then(res => {
+          that.ieda_detail = res.data;
+          const user_infos = res.data.info;
+          that.ieda_detail.user_info = user_infos[that.ieda_detail.user_id];
         });
       },
       // 点赞用户列表
       getThumpList(thinksId) {
         IdeaApi().getThumpList({thinksId}).then(res => {
-          this.thump_list = res.data.lists;
+          this.thump_list = Object.values(res.data.list);
         });
       },
       // 评论列表
       getCommentList(tId) {
         let that = this;
         IdeaApi().getCommentList({tId}).then(res => {
-          that.splendid_list = res.data.lists.hot_comments;
-          that.common_list = res.data.lists.comments_info;
-          const user_infos = res.data.lists.user_infos;
+          that.splendid_list = res.data.hot_comments;
+          that.common_list = res.data.list;
+          const user_infos = res.data.user_infos;
           for(let i = 0, ILEN = that.splendid_list.length; i < ILEN; i++) {
             that.splendid_list[i].user_info = user_infos[that.splendid_list[i].user_id];
             for(let j = 0, JLEN = that.splendid_list[i].replys.length; j < JLEN; j++) {

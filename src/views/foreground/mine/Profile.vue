@@ -81,7 +81,6 @@
 <script>
   import UserApi from '../../../api/User.js';
   import IdeaApi from '../../../api/Idea.js';
-  import SystemApi from '../../../api/System.js';
   import {PublicList} from '../../../components/business';
 
   export default {
@@ -125,19 +124,24 @@
           }
         });
       },
+      // 更新用户信息
+      async updateUserMsg({userId, headerPhoto, userName}) {
+        return await UserApi().updateUserMsg({userId, headerPhoto, userName});
+      },
+      // 用户icon上传
       handleSuccess(response) {
         let that = this;
-        UserApi().updateUserMsg({userId: that.user_id, headerPhoto: response.result.file.image_hash}).then(res => {
-          console.log(res);
+        that.updateUserMsg({userId: that.user_id, headerPhoto: response.result.file.image_hash}).then(() => {
+          that.getUserDetail();
         });
       },
-      // 修改昵称
+      // 用户昵称修改
       changeName(userId, userName) {
         let that = this;
         if(!userName) {
           this.$message({message: '昵称不能为空', type: 'warning'});
         } else {
-          UserApi().updateUserMsg({userId, userName}).then(res => {
+          that.updateUserMsg({userId, userName}).then((res) => {
             if(res.status) {
               that.getUserDetail().then(() => {
                 that.nameEnabled.status = true;

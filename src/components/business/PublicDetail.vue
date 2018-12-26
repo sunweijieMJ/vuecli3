@@ -1,30 +1,30 @@
 <template>
   <div class="public-detail">
     <!-- 用户信息 -->
-    <div class="detail-author" v-if="detail.info && detail.info[0]">
+    <div class="detail-author" v-if="detail.user_info">
       <el-popover
         placement="bottom"
         trigger="hover">
-        <img slot="reference" :src="detail.info[0].header_photo" alt="">
-        <user-popover :userinfo="detail.info[0]"></user-popover>
+        <img slot="reference" :src="detail.user_info.header_photo" alt="">
+        <user-popover :userinfo="detail.user_info"></user-popover>
       </el-popover>
       <div class="author-name">
         <h4>
-          <span class="name">{{detail.info[0].user_name}}</span>
+          <span class="name">{{detail.user_info.user_name}}</span>
           <span class="stick" v-if="detail.is_top">置顶</span>
         </h4>
         <p>
-          <span>{{detail.info[0].department_name}}</span>
+          <span>{{detail.user_info.department_name}}</span>
           <span>{{detail.create_time}}</span>
         </p>
       </div>
     </div>
     <!-- 详情内容 -->
     <div class="detail-main">
-      <div class="main-paragraph">
-        <paragraph v-if="detail.content" :text="detail.content"></paragraph>
+      <div class="main-paragraph" v-if="detail.content">
+        <paragraph :text="detail.content"></paragraph>
       </div>
-      <div class="main-images">
+      <div class="main-images" v-if="detail.photos && detail.photos.length">
         <img v-for="(item, index) in detail.photos" :key="index" :src="item" alt="">
       </div>
       <div class="main-num">

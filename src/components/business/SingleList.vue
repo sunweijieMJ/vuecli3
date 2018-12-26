@@ -23,10 +23,10 @@
     </div>
     <!-- 文本内容 -->
     <div class="list-main">
-      <div class="main-paragraph">
+      <div class="main-paragraph" v-if="vitem.content">
         <paragraph :text="vitem.content"></paragraph>
       </div>
-      <div class="main-images">
+      <div class="main-images" v-if="vitem.photos.length">
         <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="" @click.stop="showImage(vitem.photos, windex)">
       </div>
     </div>
@@ -50,7 +50,7 @@
       </div>
     </div>
     <!-- 评论区 -->
-    <div class="list-comment" v-if="vitem.replys">
+    <div class="list-comment" v-if="vitem.replys.length">
       <h4>精彩评论</h4>
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
