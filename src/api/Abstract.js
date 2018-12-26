@@ -7,8 +7,8 @@ import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
 import storeApi from '../utils/storage';
-const baseURL = 'http://mockapi.release.weiheinc.com/mock/5c2083a8903de30736b5b9f8/pgs';
-// const baseURL = process.env.VUE_APP_BaseURL;
+// const baseURL = 'http://mockapi.release.weiheinc.com/mock/5c2083a8903de30736b5b9f8/pgs';
+const baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
 const Axios = axios.create({
@@ -50,7 +50,7 @@ class Abstract {
         params: method === 'GET' || method === 'DELETE' ? params : null,
         data: method === 'POST' || method === 'PUT' ? params : null
       }).then((res) => {
-        if (res.data.code === '00006') {
+        if (res.data.status) {
           resolve({status: true, message: 'success', data: res.data.data});
         } else {
           resolve({status: false, message: res.data.message, data: null});

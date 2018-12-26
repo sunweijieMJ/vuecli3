@@ -6,7 +6,7 @@
  */
 import Abstract from './Abstract.js';
 
-class System extends Abstract {
+class Notice extends Abstract {
 
   constructor() {
     super();
@@ -18,12 +18,13 @@ class System extends Abstract {
   getNewList(data){
     return this.getReq('Notice.MessageList', data);
   }
+
 }
 
 // 单列模式返回对象
 let instance;
 export default () => {
   if (instance) return instance;
-  instance = new System();
+  instance = new Notice();
   return instance;
 };

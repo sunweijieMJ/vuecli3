@@ -14,7 +14,6 @@ class System extends Abstract {
 
   /**
    * 图片上传
-   * @param {string} userName 用户名称
    */
   uploadImg(data) {
     return this.postReq('System.UploadImg', data);

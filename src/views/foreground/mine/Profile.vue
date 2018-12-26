@@ -2,24 +2,27 @@
   <div class="profile">
     <div class="profile-user">
       <div class="user">
-        <div class="user-photo">
+        <el-upload
+          class="user-photo"
+          action="http://manageapi.linzhongren.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11"
+          :show-file-list="false"
+          :on-success="handleSuccess">
           <img :src="user_info.header_photo" alt="">
-          <div class="photo-change" @click="chooseIcon">
+          <div class="photo-change">
             <i class="iconfont icon-xiangji"></i>
             <span>修改头像</span>
-            <input type="file" name="icon" accept="image/*">
           </div>
-        </div>
+        </el-upload>
         <div class="user-msg">
-          <div class="msg-name" v-if="nameEnabled">
+          <div class="msg-name" v-if="nameEnabled.status">
             <span>{{user_info.user_name}}</span>
             <i class="iconfont icon-personal_ic_man"></i>
-            <a href="javascript:;" @click="nameEnabled = false">修改昵称</a>
+            <a href="javascript:;" @click="nameEnabled.status = false">修改昵称</a>
           </div>
           <div class="name-modify" v-else>
-            <input type="text" placeholder="昵称每月仅可修改一次">
-            <span @click="nameEnabled = true">取消</span>
-            <button @click="changeName">确认</button>
+            <input type="text" placeholder="昵称每月仅可修改一次" v-model="nameEnabled.name">
+            <span @click="nameEnabled.status = true">取消</span>
+            <button @click="changeName(user_id, nameEnabled.name)">确认</button>
           </div>
           <div class="msg-detail">
             <p>
@@ -78,6 +81,7 @@
 <script>
   import UserApi from '../../../api/User.js';
   import IdeaApi from '../../../api/Idea.js';
+  import SystemApi from '../../../api/System.js';
   import {PublicList} from '../../../components/business';
 
   export default {
@@ -87,19 +91,22 @@
         user_id: this.$route.params.id,
         user_info: {},
         idea_list: [],
-        nameEnabled: true,
+        nameEnabled: {
+          status: true,
+          name: ''
+        },
         activeName: 'first'
       };
     },
     created() {
       let that = this;
       that.getUserDetail();
-      that.getIdeaList();
+      // that.getIdeaList();
     },
     methods: {
       // 用户个人信息
-      getUserDetail() {
-        UserApi().getUserDetail({userIds: this.user_id}).then(res => {
+      async getUserDetail() {
+        await UserApi().getUserDetail({userIds: [this.user_id]}).then(res => {
           this.user_info = res.data;
         });
       },
@@ -118,16 +125,26 @@
           }
         });
       },
-      // 修改头像
-      chooseIcon() {
-        this.$el.querySelector('[type=file]').click();
-        UserApi().updateUserMsg().then(res => {
+      handleSuccess(response) {
+        let that = this;
+        UserApi().updateUserMsg({userId: that.user_id, headerPhoto: response.result.file.image_hash}).then(res => {
           console.log(res);
         });
       },
       // 修改昵称
-      changeName() {
-        this.nameEnabled = true;
+      changeName(userId, userName) {
+        let that = this;
+        if(!userName) {
+          this.$message({message: '昵称不能为空', type: 'warning'});
+        } else {
+          UserApi().updateUserMsg({userId, userName}).then(res => {
+            if(res.status) {
+              that.getUserDetail().then(() => {
+                that.nameEnabled.status = true;
+              });
+            }
+          });
+        }
       },
       // 切换tab
       handleClick(tab) {
@@ -156,44 +173,6 @@
         width: 1038px;
         height: 107px;
         background: rgba(0, 0, 0, 0.8);
-        .user-photo {
-          position: absolute;
-          left: 58px; top: -28px;
-          width: 112px;
-          height: 112px;
-          border-radius: 50%;
-          img {
-            width: inherit;
-            height: inherit;
-            border-radius: inherit;
-          }
-          &:hover .photo-change{
-            display: flex;
-            background: rgba(136,135,136,0.8);
-          }
-          .photo-change {
-            position: absolute;
-            left: 0;top: 0;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: inherit;
-            height: inherit;
-            border-radius: inherit;
-            cursor: pointer;
-            color: #fff;
-            i {
-              font-size: 27px;
-            }
-            span {
-              font-size:16px;
-            }
-            input {
-              display: none;
-            }
-          }
-        }
         .user-msg {
           display: flex;
           flex-direction: column;
@@ -370,6 +349,46 @@
           color: $h3Color;
           &.is-active {
             color: $h1Color;
+          }
+        }
+      }
+    }
+    .profile-user .user-photo {
+      position: absolute;
+      left: 58px; top: -28px;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      .el-upload {
+        width: inherit;
+        height: inherit;
+        border-radius: inherit;
+        img {
+          width: inherit;
+          height: inherit;
+          border-radius: inherit;
+        }
+        &:hover .photo-change{
+          display: flex;
+          background: rgba(136,135,136,0.8);
+        }
+        .photo-change {
+          position: absolute;
+          left: 0;top: 0;
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: inherit;
+          height: inherit;
+          border-radius: inherit;
+          cursor: pointer;
+          color: #fff;
+          i {
+            font-size: 27px;
+          }
+          span {
+            font-size:16px;
           }
         }
       }
