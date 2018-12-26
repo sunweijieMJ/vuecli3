@@ -120,6 +120,7 @@ export default {
       this.content_end = text.length;
       let value = text.charAt(text.length - 1);
       if(value === '@'){
+        this.topic_anchor = '';
         this.At_anchor = text.length;
         this.mirrorCompute();
         this.show = true;
@@ -147,6 +148,7 @@ export default {
       }
 
       if(value === '#'){
+        this.At_anchor = '';
         this.topic_anchor = text.length;
         this.jshow = true;
         this.mirrorCompute();
@@ -213,7 +215,7 @@ export default {
       }else{
         this.show = false;
       }
-      if(value === '# '){
+      if(value === '#'){
         this.jshow = true;
         this.mirrorCompute();
       }else{
