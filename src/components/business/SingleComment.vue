@@ -1,19 +1,19 @@
 <template>
   <div class="single-comment">
     <div class="comment-icon">
-      <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+      <img :src="item.user_info.header_photo" alt="">
     </div>
     <div class="comment-info">
       <h4>
-        <span>PADDY</span>
-        <span>(作者)</span>
+        <span>{{item.user_info.user_name}}</span>
+        <span>{{item.user_info.real_name}}</span>
       </h4>
-      <paragraph :text="'PGS今天正式上线啦，大家快去玩。PGS今天正式线啦，大家快去玩起来。PGS天正式上线啦，大家快去玩起来。PGS今天正式线啦，大家快去玩起来。'"></paragraph>
+      <paragraph :text="item.comment_content"></paragraph>
       <div class="info-num">
         <div class="num-left">
           <p class="praise">
             <i class="iconfont icon-ai45"></i>
-            <span>12</span>
+            <span>{{item.zan}}</span>
           </p>
           <p class="reply">
             <i class="iconfont icon-tubiaozhizuo-"></i>
@@ -21,11 +21,11 @@
           </p>
         </div>
         <div class="num-right">
-          <span>2018-12-12 10:30</span>
+          <span>{{item.publish_time}}</span>
         </div>
       </div>
       <div class="comment-publish" v-if="textEnabled">
-        <textarea ref="textarea" placeholder="回复PADDY:"
+        <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`"
           @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)"></textarea>
         <div class="publish-btn">
           <span @click="textEnabled = false">取消</span>
@@ -40,6 +40,7 @@
   import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
+    props: ['item'],
     components: {Paragraph},
     data() {
       return {
@@ -69,9 +70,8 @@
 
   .single-comment {
     display: flex;
-    padding: 14px 0 20px;
-    border-bottom: 1px solid $lineColor;
     .comment-icon {
+      padding: 14px 0 20px;
       width: 48px;
       img {
         width: 48px;
@@ -82,7 +82,8 @@
     .comment-info {
       flex: 1;
       margin-left: 12px;
-      padding-top: 13px;
+      padding: 27px 0 20px;
+      border-bottom: 1px solid $lineColor;
       h4 {
         span {
           font-size:16px;

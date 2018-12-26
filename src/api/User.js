@@ -19,6 +19,16 @@ class User extends Abstract {
     return this.getReq('User.UserDetail', data);
   }
 
+  /**
+   * 用户信息更新
+   * @param {number | required} userId 用户id
+   * @param {string} headerPhoto 用户头像
+   * @param {string} userName 用户名称
+   */
+  updateUserMsg(data) {
+    return this.postReq('User.UserUpdate', data);
+  }
+
 }
 
 // 单列模式返回对象

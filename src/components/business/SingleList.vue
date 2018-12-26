@@ -1,22 +1,22 @@
 <template>
-  <div class="single-list" @click="skipDetail(1, vitem.iThinksId)">
+  <div class="single-list" @click="skipDetail(1, vitem.thinks_id)">
     <!-- 列表头部用户信息 -->
     <div class="list-header">
       <div class="header-author">
         <el-popover
           placement="bottom"
           trigger="hover">
-          <img slot="reference" :src="vitem.userinfo.sheaderPhoto" alt="" @click="skipDetail(2, vitem.userinfo.iUserId)">
-          <user-popover :userinfo="vitem.userinfo"></user-popover>
+          <img slot="reference" :src="vitem.user_info.header_photo" alt="" @click="skipDetail(2, vitem.user_info.user_id)">
+          <user-popover :userinfo="vitem.user_info"></user-popover>
         </el-popover>
         <div class="author-name">
           <h4>
-            <span class="name">{{vitem.userinfo.sUserName}}</span>
-            <span class="stick" v-if="vitem.iIsTop">置顶</span>
+            <span class="name">{{vitem.user_info.user_name}}</span>
+            <span class="stick" v-if="vitem.is_top">置顶</span>
           </h4>
           <p>
-            <span>{{vitem.userinfo.sDepartmentName}}</span>
-            <span>{{vitem.sPublishTime}}</span>
+            <span>{{vitem.user_info.department_name}}</span>
+            <span>{{vitem.publish_time}}</span>
           </p>
         </div>
       </div>
@@ -24,10 +24,10 @@
     <!-- 文本内容 -->
     <div class="list-main">
       <div class="main-paragraph">
-        <paragraph :text="vitem.sContent"></paragraph>
+        <paragraph :text="vitem.content"></paragraph>
       </div>
       <div class="main-images">
-        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem.img" alt="" @click.stop="showImage(vitem.photos, windex)">
+        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="" @click.stop="showImage(vitem.photos, windex)">
       </div>
     </div>
     <!-- 时间 | 点赞 | 评论 -->
@@ -35,27 +35,27 @@
       <div class="num-left">
         <p>
           <i class="iconfont icon-ai45"></i>
-          <span>{{vitem.iZan}}</span>
+          <span>{{vitem.zan}}</span>
         </p>
         <p>
           <i class="iconfont icon-tubiaozhizuo-"></i>
-          <span>{{vitem.iCommentNum}}</span>
+          <span>{{vitem.total_comments}}</span>
         </p>
       </div>
       <div class="num-right">
         <p>
           <i class="iconfont icon-ai-eye"></i>
-          <span>{{vitem.iViews}}</span>
+          <span>{{vitem.thinks_view_nums}}</span>
         </p>
       </div>
     </div>
     <!-- 评论区 -->
-    <div class="list-comment">
+    <div class="list-comment" v-if="vitem.replys">
       <h4>精彩评论</h4>
       <ul class="comment">
-        <li v-for="(witem, windex) in vitem.comments" :key="windex">
-          <h5>{{witem.sUserName}}：</h5>
-          <p>{{witem.sCommentContent}}</p>
+        <li v-for="(witem, windex) in vitem.replys" :key="windex">
+          <h5>{{witem.user_info.user_name}}：</h5>
+          <p>{{witem.comment_content}}</p>
         </li>
       </ul>
     </div>
@@ -156,7 +156,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 0;
+      padding-top: 20px;
       .num-left {
         display: flex;
         align-items: center;
@@ -202,6 +202,7 @@
       }
     }
     .list-comment {
+      margin-top: 20px;
       padding: 15px 25px;
       background-color: $backColor;
       h4 {

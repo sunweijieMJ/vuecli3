@@ -13,10 +13,11 @@ class System extends Abstract {
   }
 
   /**
-   * 获取全局变量
+   * 图片上传
+   * @param {string} userName 用户名称
    */
-  getGlobalInfo() {
-    return this.getReq('System.GlobalInfo', {});
+  uploadImg(data) {
+    return this.postReq('System.UploadImg', data);
   }
 
 }

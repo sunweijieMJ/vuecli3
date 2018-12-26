@@ -46,58 +46,15 @@
         </div>
       </div>
     </div>
-    <!-- 赞和评论 -->
-    <div class="detail-thump">
-      <div class="thump-title">
-        他们都觉得很赞
-      </div>
-      <div class="thump-icon">
-        <img v-for="(val, i) in 30" :key="i" src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
-      </div>
-    </div>
-    <div class="detail-comment">
-      <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
-      <div class="comment-publish">
-        <textarea ref="textarea" placeholder="回复PADDY:"
-          @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled = true"
-          ></textarea>
-        <div class="publish-btn" v-if="textEnabled">
-          <span @click="textEnabled = false">取消</span>
-          <button @click="sendComment">发送</button>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
   import {Paragraph} from '../../components/business';
-  import {autoTextarea} from '../../utils/business/tools.js';
   import {UserPopover} from '../../components/popup';
 
   export default {
     components: {Paragraph, UserPopover},
-    props: ['detail'],
-    data() {
-      return {
-        autoTextarea,
-        textEnabled: false
-      };
-    },
-    methods: {
-      sendComment() {
-        this.textEnabled = false;
-      }
-    },
-    watch: {
-      textEnabled(cur) {
-        let that = this;
-        if(cur) {
-          that.$nextTick(() => {
-            that.$refs.textarea.focus();
-          });
-        }
-      }
-    }
+    props: ['detail']
   };
 </script>
 <style lang="scss" scoped>
@@ -215,97 +172,6 @@
               font-size: 20px;
               color: $themeColor;
             }
-          }
-        }
-      }
-    }
-    .detail-thump {
-      padding: 35px 66px;
-      .thump-title {
-        margin-bottom: 20px;
-        font-size: 18px;
-        font-weight: 500;
-        line-height: 25px;
-        color: $h1Color;
-      }
-      .thump-icon {
-        display: flex;
-        flex-wrap: wrap;
-        img {
-          width: 30px;
-          height: 30px;
-          margin: 0 10px 10px 0;
-          border-radius: 50%;
-        }
-      }
-    }
-    .detail-comment {
-      display: flex;
-      padding: 25px 66px;
-      img {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        margin-right: 30px;
-      }
-      .comment-publish {
-        flex: 1;
-        textarea {
-          box-sizing: border-box;
-          width: 100%;
-          height: 48px;
-          padding: 10px 20px;
-          border-radius: 2px;
-          font-size: 16px;
-          line-height: 25px;
-          resize: none;
-          border: none;
-          background: $backColor;
-          &::placeholder {
-            font-size: 16px;
-            line-height: 28px;
-            color: $h3Color;
-          }
-          &::-webkit-input-placeholder {
-            font-size: 16px;
-            line-height: 28px;
-            color: $h3Color;
-          }
-          &:-moz-placeholder {
-            font-size: 16px;
-            line-height: 28px;
-            color: $h3Color;
-          }
-          &::-moz-placeholder {
-            font-size: 16px;
-            line-height: 28px;
-            color: $h3Color;
-          }
-          &:-ms-input-placeholder {
-            font-size: 16px;
-            line-height: 28px;
-            color: $h3Color;
-          }
-        }
-        .publish-btn {
-          margin-top: 15px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          span {
-            font-size: 16px;
-            line-height: 22px;
-            color: $h1Color;
-            cursor: pointer;
-          }
-          button {
-            margin-left: 20px;
-            width: 74px;
-            height: 36px;
-            background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
-            border-radius: 20px;
-            color: #fff;
-            cursor: pointer;
           }
         }
       }

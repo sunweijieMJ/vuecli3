@@ -6,7 +6,7 @@
         <i class="iconfont icon-qianming"></i>
       </div>
     </div>
-    <div v-if="1">
+    <div v-if="0">
       <CommentPublish @shutDown="shutDown"></CommentPublish>
     </div>
     <public-list :list="idea_list"></public-list>
@@ -28,11 +28,23 @@
       };
     },
     created() {
-      IdeaApi().getIdeaList({curPage: 1}).then(res => {
-        this.idea_list = res.data;
-      });
+      this.getIdeaList();
     },
     methods: {
+      getIdeaList() {
+        let that = this;
+        IdeaApi().getIdeaList({curPage: 1}).then(res => {
+          that.idea_list = res.data.lists.thinks_info;
+          const user_infos = res.data.lists.user_infos;
+          for(let i = 0, ILEN = that.idea_list.length; i < ILEN; i++) {
+            that.idea_list[i].user_info = user_infos[that.idea_list[i].user_id];
+            if(!that.idea_list[i].replys) continue;
+            for(let j = 0, JLEN = that.idea_list[i].replys.length; j < JLEN; j++) {
+              that.idea_list[i].replys[j].user_info = user_infos[that.idea_list[i].replys[j].user_id];
+            }
+          }
+        });
+      },
       present(){
         this.show = true;
       },

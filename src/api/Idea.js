@@ -33,6 +33,13 @@ class Idea extends Abstract {
     return this.getReq('Idea.CommentList', data);
   }
 
+  /**
+   * 点赞用户列表
+   */
+  getThumpList(data) {
+    return this.getReq('Idea.ThumpList', data);
+  }
+
 }
 
 // 单列模式返回对象

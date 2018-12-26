@@ -1,15 +1,15 @@
 <template>
   <div class="user-popover">
     <div class="user">
-      <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
+      <img :src="userinfo.header_photo" alt="">
       <div class="user-info">
         <h4>
-          <span>{{userinfo.sUserName}}</span>
+          <span>{{userinfo.user_name}}</span>
           <i class="iconfont icon-personal_ic_man"></i>
         </h4>
         <p>
-          <span>{{userinfo.sRealName}}</span>
-          <span>{{userinfo.sDepartmentName}}</span>
+          <span>{{userinfo.real_name}}</span>
+          <span>{{userinfo.department_name}}</span>
         </p>
       </div>
     </div>
@@ -19,14 +19,14 @@
           <i class="iconfont icon-ai45"></i>
           <span>收到的赞</span>
         </p>
-        <span>{{userinfo.iZan}}</span>
+        <span>{{userinfo.zan}}</span>
       </li>
       <li>
         <p>
           <i class="iconfont icon-ai-eye"></i>
           <span>创造的阅读量</span>
         </p>
-        <span>{{userinfo.iThinksViewNums}}</span>
+        <span>{{userinfo.thinks_view_nums}}</span>
       </li>
     </div>
   </div>
