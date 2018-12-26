@@ -36,8 +36,8 @@ export default {
       show: false,
       time: '', // ETC 倒计时
       ruleForm2: {
-        pass: '936e1d',
-        email: 'liuyuanyuan@lanehubinc.com'
+        pass: '',
+        email: ''
       },
       rules2: {
         email: [
