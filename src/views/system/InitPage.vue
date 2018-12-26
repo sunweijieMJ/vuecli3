@@ -23,6 +23,8 @@
   </div>
 </template>
 <script>
+const storageApi = require('../../utils/storage')('cookie');
+
 import userApi from '../../api/User.js';
 export default {
   name: 'initpage',
@@ -34,8 +36,8 @@ export default {
       show: false,
       time: '', // ETC 倒计时
       ruleForm2: {
-        pass: '',
-        email: ''
+        pass: '936e1d',
+        email: 'liuyuanyuan@lanehubinc.com'
       },
       rules2: {
         email: [
@@ -56,11 +58,13 @@ export default {
       this.login_status = false;
       if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
+           
           if(res.status){
+            storageApi.set('pgs_authinfo', res.data.pgs_authinfo);
             this.$message({message: '登陆成功', type: 'success', duration: 1000});
             setTimeout(() => {
               this.$router.push({name: 'IdeaList'});
-              this.status = 0;
+              // this.status = 0;
               this.login_status = true;
             }, 1000);
           }
@@ -122,6 +126,7 @@ export default {
     margin-bottom: 18px;
   }
   .security{
+    cursor: pointer;
     padding: 0 10px;
     display: flex;
     justify-content: flex-end;
