@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/index';
 import store from './store/index';
+import storeApi from './utils/storage';
 
 Vue.config.productionTip = false;
 
@@ -16,6 +17,16 @@ for (let key in filters) {
     return filters[key](...val);
   });
 }
+
+// 全局守卫
+router.beforeEach((to, from, next) => {
+  const token = storeApi('cookie').get('pgs_authinfo');
+  if (token || to.name === 'InitPage') {
+    next();
+  } else {
+    next({name: 'InitPage'});
+  }
+});
 
 new Vue({
   router,
