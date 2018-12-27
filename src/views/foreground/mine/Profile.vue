@@ -51,7 +51,10 @@
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="想法" name="first">
-            <public-list :list="idea_list" @thumpIdeaSuccess="thumpIdeaSuccess"></public-list>
+            <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+              <public-list :list="idea_list"></public-list>
+              <loading :loading="disabled && idea_list.length !== pageInfo.page_total"></loading>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="OKR" name="second">
             <public-list :list="[]"></public-list>
@@ -83,47 +86,68 @@
 <script>
   import UserApi from '../../../api/User.js';
   import IdeaApi from '../../../api/Idea.js';
+  import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
 
   export default {
-    components: {PublicList},
+    components: {PublicList, Loading},
     data() {
       return {
         user_id: this.$route.params.id, // ETC 用户ID
         user_info: {}, // ETC 用户信息
         idea_list: [], // ETC 用户想法列表
+        activeName: 'first', // ETC 当前选中tab
+        disabled: false, // ETC 加载开关
         nameEnabled: { // ETC 昵称修改状态
           status: true,
           name: ''
         },
-        activeName: 'first' // ETC 当前选中tab
+        pageInfo: { // ETC 页码信息
+          current_page: 0,
+          page_total: 0
+        }
       };
     },
     created() {
       let that = this;
       that.getUserDetail();
-      that.getIdeaList(that.user_id);
     },
     methods: {
+      // 触底刷新
+      infinite() {
+        let that = this;
+        that.disabled = true;
+        that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
+          // 触底判断
+          that.disabled = false;
+          if(that.idea_list.length === that.pageInfo.page_total){
+            that.disabled = true;
+          }
+        });
+      },
       // 用户个人信息
       async getUserDetail() {
-        await UserApi().getUserDetail({userIds: [this.user_id]}).then(res => {
+        return await UserApi().getUserDetail({userIds: [this.user_id]}).then(res => {
           this.user_info = res.data;
         });
       },
       // 用户想法列表
-      getIdeaList(userId) {
+      async getIdeaList(userId, curPage) {
         let that = this;
-        IdeaApi().getIdeaList({userId}).then(res => {
-          that.idea_list = res.data.list;
+        return await IdeaApi().getIdeaList({userId, curPage}).then(res => {
+          const idea_list = res.data.list;
           const user_infos = res.data.user_infos;
-          for(let i = 0, ILEN = that.idea_list.length; i < ILEN; i++) {
-            that.idea_list[i].user_info = user_infos[that.idea_list[i].user_id];
-            if(!that.idea_list[i].replys) continue;
-            for(let j = 0, JLEN = that.idea_list[i].replys.length; j < JLEN; j++) {
-              that.idea_list[i].replys[j].user_info = user_infos[that.idea_list[i].replys[j].user_id];
+          that.pageInfo.page_total = res.data.total;
+          // 数据整理
+          for(let i = 0, ILEN = idea_list.length; i < ILEN; i++) {
+            idea_list[i].user_info = user_infos[idea_list[i].user_id];
+            if(!idea_list[i].replys) continue;
+            for(let j = 0, JLEN = idea_list[i].replys.length; j < JLEN; j++) {
+              idea_list[i].replys[j].user_info = user_infos[idea_list[i].replys[j].user_id];
             }
           }
+
+          that.idea_list = that.idea_list.concat(idea_list);
         });
       },
       // 更新用户信息
@@ -152,11 +176,6 @@
           });
         }
       },
-      // 点赞成功回调
-      thumpIdeaSuccess() {
-        let that = this;
-        that.getIdeaList(that.user_id);
-      },
       // 切换tab
       handleClick(tab) {
         console.log(tab);
@@ -172,7 +191,7 @@
     .profile-user {
       position: relative;
       height: 245px;
-      background-image: url('http://static06.lanehub.cn/static/img/cooperate_img_banner.214d771.jpg');
+      background-image: url('http://static06.lanehub.cn/static/img/banner.526748e.png');
       .user {
         box-sizing: border-box;
         position: absolute;

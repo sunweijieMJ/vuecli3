@@ -23,7 +23,7 @@
             <span>{{item.zan}}</span>
           </p>
           <p class="reply">
-            <i class="iconfont icon-tubiaozhizuo-"></i>
+            <i class="iconfont icon-pinglun"></i>
             <span @click="textEnabled = true">回复</span>
           </p>
         </div>
@@ -73,8 +73,12 @@
       },
       // 评论点赞
       thumpComment(commentId) {
+        let that = this;
         IdeaApi().thumpComment({commentId}).then(res => {
-          if(res.status) this.$emit('thumpCommentSuccess');
+          if(res.status) {
+            that.item.self_zan = !that.item.self_zan;
+            that.item.self_zan ? that.item.zan++ : that.item.zan--;
+          }
         });
       }
     },

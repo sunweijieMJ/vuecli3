@@ -38,13 +38,13 @@
           <span>{{vitem.zan}}</span>
         </p>
         <p @click.stop="pathSkip(`IdeaDetail/${vitem.thinks_id}`, {active: true})">
-          <i class="iconfont icon-tubiaozhizuo-"></i>
+          <i class="iconfont icon-pinglun"></i>
           <span>{{vitem.total_comments}}</span>
         </p>
       </div>
       <div class="num-right">
         <p>
-          <i class="iconfont icon-ai-eye"></i>
+          <i class="iconfont icon-login_ic_hide"></i>
           <span>{{vitem.thinks_view_nums}}</span>
         </p>
       </div>
@@ -74,8 +74,12 @@
     methods: {
       // 想法点赞
       thumpIdea(thinksId) {
+        let that = this;
         IdeaApi().thumpIdea({thinksId}).then(res => {
-          if(res.status) this.$emit('thumpIdeaSuccess');
+          if(res.status) {
+            that.vitem.self_zan = !that.vitem.self_zan;
+            that.vitem.self_zan ? that.vitem.zan++ : that.vitem.zan--;
+          }
         });
       }
     }
@@ -171,6 +175,7 @@
           &:first-child {
             margin-right: 50px;
             i {
+              // font-size:18px;
               color: $h2Color;
               &.self_zan {
                 color: $themeColor;
@@ -184,7 +189,7 @@
             color: $h2Color;
           }
           i {
-            font-size:18px;
+            font-size:20px;
             color: $h2Color;
           }
         }
@@ -202,7 +207,7 @@
             color: $h2Color;
           }
           i {
-            font-size: 18px;
+            font-size: 20px;
             color: $h2Color;
           }
         }

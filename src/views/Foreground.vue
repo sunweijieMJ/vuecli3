@@ -6,27 +6,28 @@
           <h1>
             <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
           </h1>
-          <li v-for="(item, index) in router.slice(0, 2)" :key="index" :class="{active: index === current}">
-            <a href="javascript:;" @click="select(item, index)">{{item.text}}</a>
+          <li v-for="(vitem, vindex) in router.slice(0, 2)" :key="vindex" :class="{active: vindex === current}">
+            <a href="javascript:;" @click="select(vitem, vindex)">{{vitem.text}}</a>
           </li>
         </ul>
         <ul class="nav-right">
-          <li v-for="(item, index) in router.slice(2, 4)" :key="index" :class="{active: index === current}">
+          <li v-for="(vitem, vindex) in router.slice(2, 4)" :key="vindex" :class="{active: vindex === current}">
             <el-popover
-              v-if="!index"
+              v-if="!vindex"
               placement="bottom"
               trigger="click">
-              <i slot="reference" class="iconfont" :class="item.icon" v-if="!index"></i>
+              <i slot="reference" class="iconfont" :class="vitem.icon" v-if="!vindex"></i>
               <div class="message">
                 <ul>
-                  <li>PGS正式上线，你不知道的21个隐藏功能，我…</li>
-                  <li>PGS正式上线，你不知道的21个隐藏功能，我…</li>
+                  <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
+                    <p>{{witem.user_info.user_name}}<span>在</span>{{readMore(witem.origin_msg.content, 30, '...')}}<span>中评论了你的想法</span></p>
+                  </li>
                 </ul>
                 <a href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
               </div>
             </el-popover>
             <el-dropdown @command="handleCommand" trigger="click" v-else>
-              <i class="iconfont" :class="item.icon"></i>
+              <i class="iconfont" :class="vitem.icon"></i>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
                 <el-dropdown-item command="exit">退出登录</el-dropdown-item>
@@ -46,9 +47,10 @@
   </el-container>
 </template>
 <script>
-  import frequent from '../mixins/frequent.js';
-  import NoticeApi from '../api/Notice.js';
   import storage from '../utils/storage';
+  import NoticeApi from '../api/Notice.js';
+  import frequent from '../mixins/frequent.js';
+  import readMore from '../utils/filters/readMore.js';
 
   export default {
     mixins: [frequent],
@@ -72,11 +74,13 @@
             icon: 'icon-touxiang',
             name: 'Profile'
           }
-        ]
+        ],
+        readMore,
+        message_list: []
       };
     },
     created() {
-      // this.getMessageList();
+      this.getMessageList();
     },
     methods: {
       // 切换tab
@@ -86,8 +90,16 @@
       },
       // 消息列表
       getMessageList() {
-        NoticeApi().getMessageList({}).then(res => {
-          console.log(res);
+        let that = this;
+        NoticeApi().getMessageList({waitRead: 1, pages: 4}).then(res => {
+          const origin_msg = res.data.origin_msg;
+          const users_info = res.data.users_info;
+          that.message_list = res.data.list;
+          // 数据整理
+          for(let i = 0, LEN = that.message_list.length; i < LEN; i++) {
+            that.message_list[i].user_info = users_info[that.message_list[i].push_user_id];
+            that.message_list[i].origin_msg = origin_msg[that.message_list[i].business_type][that.message_list[i].business_id];
+          }
         });
       },
       // 个人主页/退出登录
@@ -182,13 +194,20 @@
     padding: 1px 0 0;
     border: none;
     .message {
+      width: 340px;
       ul {
         li {
           padding: 14px 22px;
           border-bottom: 1px solid $lineColor;
           font-size: 16px;
           line-height: 25px;
-          color: $h1Color;
+          p {
+            color: $linkBlue;
+            cursor: pointer;
+            span {
+              color: $h1Color;
+            }
+          }
         }
       }
       a {

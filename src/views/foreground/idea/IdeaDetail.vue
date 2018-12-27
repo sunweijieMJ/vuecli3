@@ -1,7 +1,7 @@
 
 <template>
-  <div class="idea-detail">
-    <public-detail :detail="ieda_detail" :commentNums="common_list.total" @thumpIdeaSuccess="thumpIdeaSuccess" @activeComment="activeComment"></public-detail>
+  <div class="idea-detail" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+    <public-detail :detail="ieda_detail" :commentNums="common_list.total" @activeComment="activeComment"></public-detail>
     <!-- 点赞用户列表 -->
     <div class="detail-thump" v-if="thump_list.length">
       <div class="thump-title">
@@ -29,34 +29,37 @@
       <div class="splendid-title">
         <h4>精彩评论 ({{splendid_list.length}})</h4>
       </div>
-      <comment-list :list="splendid_list.list" @thumpCommentSuccess="thumpCommentSuccess"></comment-list>
+      <comment-list :list="splendid_list.list"></comment-list>
     </div>
     <!-- 普通评论 -->
     <div class="detail-common" v-if="common_list.list.length">
       <div class="common-title">
         <h4>评论 ({{common_list.total}})</h4>
       </div>
-      <comment-list :list="common_list.list" @thumpCommentSuccess="thumpCommentSuccess" @commentSuccess="commentSuccess"></comment-list>
+      <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
+      <loading :loading="disabled && common_list.list.length !== pageInfo.page_total"></loading>
     </div>
   </div>
 </template>
 <script>
   import IdeaApi from '../../../api/Idea.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
+  import {Loading} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
-    components: {PublicDetail, CommentList},
+    components: {PublicDetail, CommentList, Loading},
     data() {
       return {
         autoTextarea,
+        idea_id: +this.$route.params.id, // ETC 详情id
+        ieda_detail: {}, // ETC 详情
+        thump_list: [], // ETC 点赞用户列表
+        disabled: false, // ETC 加载开关
         textEnabled: { // ETC textarea 状态
           status: false,
           text: ''
         },
-        idea_id: +this.$route.params.id, // ETC 详情id
-        ieda_detail: {}, // ETC 详情
-        thump_list: [], // ETC 点赞用户列表
         splendid_list: { // ETC 精彩评论
           list: [],
           total: 0
@@ -64,6 +67,10 @@
         common_list: { // ETC 普通评论
           list: [],
           total: 0
+        },
+        pageInfo: { // ETC 页码信息
+          current_page: 0,
+          page_total: 0
         }
       };
     },
@@ -71,7 +78,6 @@
       let that = this;
       that.getIdeaDetail(that.idea_id);
       that.getThumpList(that.idea_id);
-      that.getCommentList(that.idea_id);
       that.sendIdeaView(that.idea_id);
     },
     mounted() {
@@ -82,6 +88,18 @@
       });
     },
     methods: {
+      // 触底刷新
+      infinite() {
+        let that = this;
+        that.disabled = true;
+        that.getCommentList(that.idea_id).then(() => {
+          // 触底判断
+          that.disabled = false;
+          if(that.common_list.list.length === that.pageInfo.page_total){
+            that.disabled = true;
+          }
+        });
+      },
       // 详情信息
       getIdeaDetail(thinksId) {
         let that = this;
@@ -98,42 +116,47 @@
         });
       },
       // 评论列表
-      getCommentList(thinksId) {
+      async getCommentList(thinksId) {
         let that = this;
-        IdeaApi().getCommentList({thinksId}).then(res => {
-          that.splendid_list.list = res.data.hot_comments || [];
-          that.common_list.list = res.data.list || [];
-          that.common_list.total = res.data.total_comments;
+        await IdeaApi().getCommentList({thinksId, curPage: ++that.pageInfo.current_page}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
-          // 数据整理
-          for(let i = 0, ILEN = that.splendid_list.list.length; i < ILEN; i++) {
+          const common = res.data.list;
+          const splendid = res.data.hot_comments;
+          that.common_list.total = res.data.total_comments;
+          that.pageInfo.page_total = res.data.total;
+
+          // 精彩评论
+          for(let i = 0, ILEN = splendid.length; i < ILEN; i++) {
             // 点赞整理
-            that.splendid_list.list[i].self_zan = self_zan[that.splendid_list.list[i].comment_id];
+            splendid[i].self_zan = self_zan[splendid[i].comment_id];
             // 用户整理
-            that.splendid_list.list[i].user_info = user_infos[that.splendid_list.list[i].user_id];
-            if(!that.splendid_list.list[i].replys) continue;
-            for(let j = 0, JLEN = that.splendid_list.list[i].replys.length; j < JLEN; j++) {
+            splendid[i].user_info = user_infos[splendid[i].user_id];
+            if(!splendid[i].replys) continue;
+            for(let j = 0, JLEN = splendid[i].replys.length; j < JLEN; j++) {
               // 点赞整理
-              that.splendid_list.list[i].replys[j].self_zan = self_zan[that.splendid_list.list[i].replys[j].comment_id];
+              splendid[i].replys[j].self_zan = self_zan[splendid[i].replys[j].comment_id];
               // 用户整理
-              that.splendid_list.list[i].replys[j].user_info = user_infos[that.splendid_list.list[i].replys[j].user_id];
+              splendid[i].replys[j].user_info = user_infos[splendid[i].replys[j].user_id];
+            }
+          }
+          // 普通评论
+          for(let i = 0, ILEN = common.length; i < ILEN; i++) {
+            // 点赞整理
+            common[i].self_zan = self_zan[common[i].comment_id];
+            // 用户整理
+            common[i].user_info = user_infos[common[i].user_id];
+            if(!common[i].replys) continue;
+            for(let j = 0, JLEN = common[i].replys.length; j < JLEN; j++) {
+              // 点赞整理
+              common[i].replys[j].self_zan = self_zan[common[i].replys[j].comment_id];
+              // 用户整理
+              common[i].replys[j].user_info = user_infos[common[i].replys[j].user_id];
             }
           }
 
-          for(let i = 0, ILEN = that.common_list.list.length; i < ILEN; i++) {
-            // 点赞整理
-            that.common_list.list[i].self_zan = self_zan[that.common_list.list[i].comment_id];
-            // 用户整理
-            that.common_list.list[i].user_info = user_infos[that.common_list.list[i].user_id];
-            if(!that.common_list.list[i].replys) continue;
-            for(let j = 0, JLEN = that.common_list.list[i].replys.length; j < JLEN; j++) {
-              // 点赞整理
-              that.common_list.list[i].replys[j].self_zan = self_zan[that.common_list.list[i].replys[j].comment_id];
-              // 用户整理
-              that.common_list.list[i].replys[j].user_info = user_infos[that.common_list.list[i].replys[j].user_id];
-            }
-          }
+          that.common_list.list = that.common_list.list.concat(common);
+          that.splendid_list.list = that.splendid_list.list.concat(splendid);
         });
       },
       // 单页浏览数增加
@@ -157,11 +180,6 @@
       thumpCommentSuccess() {
         let that = this;
         that.getCommentList(that.idea_id);
-      },
-      // 想法点赞成功回调
-      thumpIdeaSuccess() {
-        let that = this;
-        that.getIdeaDetail(that.idea_id);
       },
       // 评论成功
       commentSuccess() {

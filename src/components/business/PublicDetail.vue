@@ -34,13 +34,13 @@
             <span>{{detail.zan}}</span>
           </p>
           <p @click.stop="activeComment">
-            <i class="iconfont icon-tubiaozhizuo-"></i>
+            <i class="iconfont icon-pinglun"></i>
             <span>{{commentNums}}</span>
           </p>
         </div>
         <div class="num-right">
           <p>
-            <i class="iconfont icon-ai-eye"></i>
+            <i class="iconfont icon-login_ic_hide"></i>
             <span>{{detail.thinks_view_nums}}</span>
           </p>
         </div>
@@ -61,8 +61,12 @@
     methods: {
       // 想法点赞
       thumpIdea(thinksId) {
+        let that = this;
         IdeaApi().thumpIdea({thinksId}).then(res => {
-          if(res.status) this.$emit('thumpIdeaSuccess');
+          if(res.status) {
+            that.detail.self_zan = !that.detail.self_zan;
+            that.detail.self_zan ? that.detail.zan++ : that.detail.zan--;
+          }
         });
       },
       // 评论回调

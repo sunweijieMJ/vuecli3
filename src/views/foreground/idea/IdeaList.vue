@@ -1,68 +1,76 @@
 <template>
   <div class="idea-list">
     <div class="idea-write">
-      <div class="write-btn" @click="present">
+      <div class="write-btn" @click="comment_popup = true">
         <span>提出你的想法</span>
         <i class="iconfont icon-qianming"></i>
       </div>
     </div>
-    <div v-if="show">
-      <CommentPublish @shutDown="shutDown"></CommentPublish>
+    <comment-publish v-if="comment_popup" @shutDown="comment_popup = false"></comment-publish>
+    <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+      <public-list :list="idea_list"></public-list>
+      <loading :loading="disabled && idea_list.length !== pageInfo.page_total"></loading>
     </div>
-    <public-list :list="idea_list" @thumpIdeaSuccess="thumpIdeaSuccess"></public-list>
   </div>
 </template>
 <script>
-  import {PublicList} from '../../../components/business/index.js';
   import IdeaApi from '../../../api/Idea.js';
+  import {Loading} from '../../../components/public';
+  import {PublicList} from '../../../components/business';
   import CommentPublish from '../../../components/comment/CommentPublish';
 
   export default {
     components: {
-      PublicList, CommentPublish
+      Loading, PublicList, CommentPublish
     },
     data(){
       return {
-        show: false,
-        idea_list: []
+        idea_list: [], // ETC 想法列表
+        disabled: false, // ETC 加载开关
+        comment_popup: false, // ETC 评论弹框
+        pageInfo: { // ETC 页码信息
+          current_page: 0,
+          page_total: 0
+        }
       };
-    },
-    created() {
-      this.getIdeaList();
     },
     methods: {
       // 想法列表
-      getIdeaList() {
+      async getIdeaList(curPage) {
         let that = this;
-        IdeaApi().getIdeaList({curPage: 1}).then(res => {
-          that.idea_list = res.data.list;
+        return await IdeaApi().getIdeaList({curPage}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
+          const idea_list = res.data.list;
+          that.pageInfo.page_total = res.data.total;
           // 数据整理
-          for(let i = 0, ILEN = that.idea_list.length; i < ILEN; i++) {
+          for(let i = 0, ILEN = idea_list.length; i < ILEN; i++) {
             // 点赞整理
-            that.idea_list[i].self_zan = self_zan[that.idea_list[i].thinks_id];
-
-            that.idea_list[i].user_info = user_infos[that.idea_list[i].user_id];
-            if(!that.idea_list[i].replys) continue;
-            for(let j = 0, JLEN = that.idea_list[i].replys.length; j < JLEN; j++) {
-              that.idea_list[i].replys[j].user_info = user_infos[that.idea_list[i].replys[j].user_id];
+            idea_list[i].self_zan = self_zan[idea_list[i].thinks_id];
+            // 用户整理
+            idea_list[i].user_info = user_infos[idea_list[i].user_id];
+            if(!idea_list[i].replys) continue;
+            for(let j = 0, JLEN = idea_list[i].replys.length; j < JLEN; j++) {
+              idea_list[i].replys[j].user_info = user_infos[idea_list[i].replys[j].user_id];
             }
           }
+
+          that.idea_list = that.idea_list.concat(idea_list);
         });
       },
-      // 想法点赞成功回调
-      thumpIdeaSuccess() {
-        this.getIdeaList();
-      },
-      present(){
-        this.show = true;
-      },
-      shutDown(){
-        this.show = false;
+      // 触底刷新
+      infinite() {
+        let that = this;
+        that.disabled = true;
+        that.getIdeaList(++that.pageInfo.current_page).then(() => {
+          // 触底判断
+          that.disabled = false;
+          if(that.idea_list.length === that.pageInfo.page_total){
+            that.disabled = true;
+          }
+        });
       }
     }
-
   };
 </script>
 <style lang="scss" scoped>
@@ -93,6 +101,9 @@
           color:rgba(255,118,118,1);
         }
       }
+    }
+    .idea-content {
+      width: 750px;
     }
   }
 </style>

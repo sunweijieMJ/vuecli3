@@ -14,6 +14,9 @@ class Notice extends Abstract {
 
   /**
    * 消息列表
+   * @param {waitRead} 只拉取未读信息
+   * @param {curPage} 当前页
+   * @param {pages} 每页数量
    */
   getMessageList(data){
     return this.getReq('Notice.MessageList', data);

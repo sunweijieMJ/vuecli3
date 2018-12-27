@@ -5,7 +5,7 @@
         <h3 class="manage-name" slot="label">管理想法</h3>
       </el-tab-pane>
       <el-tab-pane label="管理" name="first">
-        管理
+        <idea-list-manage></idea-list-manage>
       </el-tab-pane>
       <el-tab-pane label="置顶" name="second">
         置顶
@@ -14,7 +14,9 @@
   </div>
 </template>
 <script>
+  import IdeaListManage from './ideamanage/IdeaListManage.vue';
   export default {
+    components: {IdeaListManage},
     data() {
       return {
         activeName: 'first' // ETC 当前选中tab
@@ -64,4 +66,3 @@
     }
   }
 </style>
-

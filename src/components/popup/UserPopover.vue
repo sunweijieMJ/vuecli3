@@ -23,7 +23,7 @@
       </li>
       <li>
         <p>
-          <i class="iconfont icon-ai-eye"></i>
+          <i class="iconfont icon-login_ic_hide"></i>
           <span>创造的阅读量</span>
         </p>
         <span>{{userinfo.thinks_view_nums}}</span>

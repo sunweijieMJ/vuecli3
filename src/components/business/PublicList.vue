@@ -1,7 +1,7 @@
 <template>
   <ul class="public-list">
     <li v-for="(vitem, vindex) in list" :key="vindex">
-      <single-list :vitem="vitem" @thumpIdeaSuccess="$emit('thumpIdeaSuccess')"></single-list>
+      <single-list :vitem="vitem"></single-list>
     </li>
   </ul>
 </template>
