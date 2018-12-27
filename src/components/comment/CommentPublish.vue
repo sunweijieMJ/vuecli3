@@ -1,7 +1,7 @@
 <template>
   <div class="comment-publish">
     <div class="hello">
-      <div class="new-idea">新想法 <div class="shut" @click="shutDown">X</div></div>
+      <div class="new-idea">新想法 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
       <div class="comment-idea">
         <textarea name="" id="text" cols="30" rows="10"
           @blur="dealContent"
@@ -64,7 +64,7 @@ export default {
       },
       show: false, // ETC 用户列表状态
       jshow: false, // ETC 话题列表状态
-      div_caretOffset: '',
+
       hash_num: [], // ETC 记录hash数
       At_anchor: '', // ETC 保存@出现的节点位置
       content_end: '', // ETC 保存@输入内容的末尾节点位置
@@ -100,7 +100,7 @@ export default {
         return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
       }
       // 创建镜像内容，复制样式
-      let mirror = '<p style="font-size:21px;font-family:PingFangSC-Medium;" id="' + 'text' + '">'
+      let mirror = '<p style="font-size:22px;font-family:monospace; line-height: normal;" id="' + 'text' + '">'
       + escape(beforeText)
       + '<span id="cursor">|</span>'
       + escape(afterText)
@@ -111,16 +111,21 @@ export default {
       let cursor = document.getElementById('cursor');
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      this.at_style.top = (finaly.bottom - 317) + 'px';
-      this.at_style.left = (finaly.x - 10) + 'px';
+      this.at_style.top = (finaly.bottom - 315) + 'px';
+      this.at_style.left = (finaly.x - 6) + 'px';
     },
     // textarea 内容改变触发
     content(event){
+      // 获取文本内容
       let text = document.getElementById('text').value;
+      // 得到文本长度
       this.content_end = text.length;
+      // 光标前一位的字符
       let value = text.charAt(text.length - 1);
       if(value === '@'){
+        // 置空话题#出现的节点位置
         this.topic_anchor = '';
+        // @符出现的节点位置
         this.At_anchor = text.length;
         this.mirrorCompute();
         this.show = true;
@@ -128,14 +133,16 @@ export default {
         this.show = false;
       }
 
-      // 搜索用户关键字截取
       if(this.At_anchor){
+        // 搜索用户的字符 用户关键字截取
         let final_content = text.substring(this.At_anchor + 1, this.content_end);
         this.string_length = final_content.length + 1; // ETC 搜索的字符长度
         let noneArr = [];
+        // 分解字符
         for (let j = 0; j < final_content.length; j++) {
           noneArr.push(final_content[j]);
         }
+        // 判断@后搜索字符是否包含 空 字符
         if(noneArr.length && noneArr.indexOf(' ') === -1){
           this.show = true;
           this.searchData(final_content);
@@ -149,6 +156,7 @@ export default {
       }
 
       if(value === '#'){
+        // 置空@节点位置
         this.At_anchor = '';
         this.topic_anchor = text.length; // ETC 话题#首次出现的节点
         this.jshow = true;
@@ -156,14 +164,16 @@ export default {
       }else{
         this.jshow = false;
       }
-      // 搜索话题关键字截取
       if(this.topic_anchor){
+        // 搜索话题关键字截取
         let final_content = text.substring(this.topic_anchor + 1, this.content_end);
         this.string_length = final_content.length + 1; // ETC 搜索的字符长度
         let noneArr = [];
+        // 拆分话题字符
         for (let j = 0; j < final_content.length; j++) {
           noneArr.push(final_content[j]);
         }
+        // 判断话题搜索字符中是否包含 # 字符
         if(noneArr.length && noneArr.indexOf('#') === -1){
           this.jshow = true;
           this.searchTopic(final_content);
@@ -212,18 +222,21 @@ export default {
       let text = document.getElementById('text').value;
       let value = text.charAt(cursorPos - 1);
       if(value === '@'){
+        // this.topic_anchor = '';
+        // this.At_anchor = text.length;
         this.mirrorCompute();
         this.show = true;
       }else{
         this.show = false;
       }
       if(value === '#'){
+        // this.At_anchor = '';
+        // this.topic_anchor = text.length;
         this.jshow = true;
         this.mirrorCompute();
       }else{
         this.jshow = false;
       }
-      this.div_caretOffset = cursorPos;
       return cursorPos;
     },
     keyCode(e){
@@ -344,6 +357,11 @@ export default {
       color:rgba(255,118,120,1);
       border-bottom:1px solid rgba(246,246,246,1);
       position: relative;
+      .shut{
+        .iconfont{
+          font-size: 28px;
+        }
+      }
     }
     .comment-idea{
       padding: 0px 41px;
@@ -356,6 +374,7 @@ export default {
         width: 604px;
         height: 315px;
         box-sizing: border-box;
+        font-family: monospace;
         // border: 1px solid orange;
         font-size: 22px;
         border: none;
