@@ -19,7 +19,6 @@ const Axios = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
   }
 });
-
 class Abstract {
   /**
    * 构造函数，单例模式，只会调用一次
@@ -30,16 +29,26 @@ class Abstract {
   }
 
   apiAxios(method, url, params) {
+    let pgs_authinfo = '';
+    if(storeApi('cookie').get('pgs_authinfo')){
+      pgs_authinfo = '&pgs_authinfo=' + storeApi('cookie').get('pgs_authinfo');
+    }else{
+      pgs_authinfo = '';
+    }
+
     let that = this;
     let _Url = url.split('.');
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
     // 签名加密
     if (method === 'POST') {
       url = url + `${url.indexOf('?') === -1 ? '?' : '&'}lh_authinfo=${encodeURIComponent(storeApi('localstorage').get('lh_authinfo'))}&__platform=m`;
-      url = url + `&sign=${that.linsign.resignHash(url, params)}`;
+      url = url + `&sign=${that.linsign.resignHash(url, params)}` + pgs_authinfo;
     } else {
       params.__platform = 'm';
       params.sign = that.linsign.signHash(url, params);
+      if(storeApi('cookie').get('pgs_authinfo')){
+        params.pgs_authinfo = storeApi('cookie').get('pgs_authinfo');
+      }
     }
 
     return new Promise((resolve, reject) => {
