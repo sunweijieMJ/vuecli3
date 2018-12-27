@@ -23,7 +23,7 @@ class CookieAPI {
   }
 
   remove(key) {
-    return self.set(key, '', -1);
+    return this.set(key, '', -1);
   }
 }
 

@@ -2,12 +2,12 @@
   <el-container>
     <el-aside width="200px">
       <h2 class="header">
-        <i class="iconfont icon-54"></i>
+        <i class="iconfont icon-54" @click="querySkip('IdeaList')"></i>
         <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
       </h2>
       <ul class="nav">
-        <li v-for="(item, index) in nav" :key="index" @click="skip(item.name)">
-          <i class="iconfont icon-qianming"></i>
+        <li v-for="(item, index) in nav" :key="index" @click="querySkip(item.name)">
+          <i class="iconfont" :class="item.icon"></i>
           <span>{{item.text}}</span>
         </li>
       </ul>
@@ -18,34 +18,34 @@
   </el-container>
 </template>
 <script>
+  import frequent from '../mixins/frequent.js';
   export default {
+    mixins: [frequent],
     data() {
       return {
         nav: [
           {
             text: '组织架构',
-            icon: '',
-            name: 'IdeaListManage'
+            icon: 'icon-zuzhijiagou-',
+            name: 'IdeaManage'
           },
           {
             text: '管理想法',
-            icon: '',
+            icon: 'icon-wenbenicon',
             name: 'FrameManage'
           }
         ]
       };
-    },
-    methods: {
-      skip(name) {
-        this.$router.push({name});
-      }
     }
   };
 </script>
 <style lang="scss" scoped>
+  @import '../assets/scss/_base.scss';
+
   .el-container {
     height: 100%;
     .el-aside {
+      background-color: $h1Color;
       .header {
         display: flex;
         align-items: center;
@@ -54,6 +54,7 @@
         cursor: pointer;
         i {
           font-size: 30px;
+          color: #fff;
         }
         img {
           width: 40px;
@@ -61,18 +62,31 @@
         }
       }
       .nav {
-        padding: 25px 18px;
+        padding: 25px 0;
         li {
-          height: 48px;
           display: flex;
           align-items: center;
+          height: 48px;
+          padding: 0 18px;
           cursor: pointer;
+          i {
+            font-size: 20px;
+            color: #fff;
+          }
+          span {
+            margin-left: 10px;
+            font-size: 18px;
+            line-height: 25px;
+            color: #fff;
+          }
+          &:hover {
+            background-color: $h2Color;
+          }
         }
       }
-      background-color: #D3DCE6;
     }
     .el-main {
-
+      padding: 0;
     }
   }
 </style>

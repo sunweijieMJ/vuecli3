@@ -50,7 +50,7 @@ export default {
     }
   },
   mounted(){
-    NoticeApi().getNewList({}).then(res => {
+    NoticeApi().getMessageList({}).then(res => {
       console.log(res)
     })
   }

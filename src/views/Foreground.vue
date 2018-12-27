@@ -33,6 +33,10 @@
               </el-dropdown-menu>
             </el-dropdown>
           </li>
+          <div class="admin" @click="querySkip('IdeaManage')">
+            <i class="iconfont icon-icon-test"></i>
+            <span>管理员</span>
+          </div>
         </ul>
       </nav>
     </el-header>
@@ -43,6 +47,8 @@
 </template>
 <script>
   import frequent from '../mixins/frequent.js';
+  import NoticeApi from '../api/Notice.js';
+  import storage from '../utils/storage';
 
   export default {
     mixins: [frequent],
@@ -69,11 +75,20 @@
         ]
       };
     },
+    created() {
+      // this.getMessageList();
+    },
     methods: {
       // 切换tab
       select(item, index) {
         this.current = index;
         this.$router.push({name: item.name});
+      },
+      // 消息列表
+      getMessageList() {
+        NoticeApi().getMessageList({}).then(res => {
+          console.log(res);
+        });
       },
       // 个人主页/退出登录
       handleCommand(command) {
@@ -83,6 +98,8 @@
             that.$router.push({name: 'Profile', params: {id: 1}});
             break;
           case 'exit':
+            storage('cookie').remove('pgs_authinfo');
+            that.$router.push({name: 'InitPage'});
             break;
           default:
             break;
@@ -126,6 +143,23 @@
             i {
               font-size: 36px;
               cursor: pointer;
+            }
+          }
+          .admin {
+            display: flex;
+            align-items: center;
+            margin-left: 40px;
+            padding-left: 40px;
+            border-left: 1px solid #DEDEDE;
+            cursor: pointer;
+            i {
+              font-size: 25px;
+            }
+            span {
+              margin-left: 8px;
+              font-size: 18px;
+              line-height: 25px;
+              color: $h1Color;
             }
           }
         }

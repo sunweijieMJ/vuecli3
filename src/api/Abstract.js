@@ -7,6 +7,7 @@ import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
 import storeApi from '../utils/storage';
+import router from '../router';
 // const baseURL = 'http://mockapi.release.weiheinc.com/mock/5c2083a8903de30736b5b9f8/pgs';
 const baseURL = process.env.VUE_APP_BaseURL;
 
@@ -29,26 +30,16 @@ class Abstract {
   }
 
   apiAxios(method, url, params) {
-    let pgs_authinfo = '';
-    if(storeApi('cookie').get('pgs_authinfo')){
-      pgs_authinfo = '&pgs_authinfo=' + storeApi('cookie').get('pgs_authinfo');
-    }else{
-      pgs_authinfo = '';
-    }
-
     let that = this;
     let _Url = url.split('.');
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
     // 签名加密
     if (method === 'POST') {
-      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}lh_authinfo=${encodeURIComponent(storeApi('localstorage').get('lh_authinfo'))}&__platform=m`;
-      url = url + `&sign=${that.linsign.resignHash(url, params)}` + pgs_authinfo;
+      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storeApi('cookie').get('pgs_authinfo'))}&pgs_authinfo=${storeApi('cookie').get('pgs_authinfo')}`;
+      url = url + `&sign=${that.linsign.resignHash(url, params)}`;
     } else {
-      params.__platform = 'm';
+      params.pgs_authinfo = storeApi('cookie').get('pgs_authinfo');
       params.sign = that.linsign.signHash(url, params);
-      if(storeApi('cookie').get('pgs_authinfo')){
-        params.pgs_authinfo = storeApi('cookie').get('pgs_authinfo');
-      }
     }
 
     return new Promise((resolve, reject) => {
@@ -61,6 +52,8 @@ class Abstract {
       }).then((res) => {
         if (res.data.status) {
           resolve({status: true, message: 'success', data: res.data.data});
+        } else if (res.data.status === -1) {
+          router.push({name: 'InitPage'});
         } else {
           resolve({status: false, message: res.data.message, data: null});
         }

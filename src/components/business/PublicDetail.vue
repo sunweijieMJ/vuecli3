@@ -25,7 +25,7 @@
         <paragraph :text="detail.content"></paragraph>
       </div>
       <div class="main-images" v-if="detail.photos && detail.photos.length">
-        <img v-for="(item, index) in detail.photos" :key="index" :src="item" alt="">
+        <img v-for="(item, index) in detail.photos" :key="index" :src="item" alt="" @click.stop="showImage(detail.photos, index)">
       </div>
       <div class="main-num">
         <div class="num-left">
@@ -51,9 +51,11 @@
 <script>
   import {Paragraph} from '../../components/business';
   import {UserPopover} from '../../components/popup';
+  import frequent from '../../mixins/frequent.js';
 
   export default {
     components: {Paragraph, UserPopover},
+    mixins: [frequent],
     props: ['detail']
   };
 </script>
@@ -125,6 +127,7 @@
           width: 220px;
           height: 220px;
           margin: 4px 4px 0 0;
+          cursor: pointer;
           &:nth-child(3n) {
             margin-right: 0;
           }

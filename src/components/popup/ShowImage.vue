@@ -7,7 +7,7 @@
           :arrow="(image_popup.source.entity_photo_hashes ? image_popup.source.entity_photo_hashes : image_popup.source).length === 1 ? 'never' : 'hover'"
           @change="imgChange">
           <el-carousel-item v-for="(item, index) in (image_popup.source.entity_photos ? (image_popup.source.entity_photos.length ? image_popup.source.entity_photos : (image_popup.source.entity_extra.from.entity_photos ? image_popup.source.entity_extra.from.entity_photos : [])) : image_popup.source)" :key="index">
-            <img :src="(item.img) || item" alt="">
+            <img :src="item" alt="">
           </el-carousel-item>
         </el-carousel>
     </el-dialog>
@@ -38,22 +38,27 @@
   .showImage{
     .el-dialog__wrapper{
       z-index: 3000 !important;
-      .el-dialog__header {
-        padding: 0;
-        .el-dialog__headerbtn {
-          right: -12px;
-        }
+      .el-dialog__header{
+        text-align: left;
       }
-      .el-dialog__body {
-        padding: 0;
-        .el-carousel__container {
-          .el-carousel__item {
-            display: flex;
-            justify-content: center;
+      .el-carousel__container{
+        .el-carousel__item{
+          display: flex;
+          justify-content: center;
+          img{
+            height: 400px;
+          }
+          &:nth-child(2n) {
+            background-color: #99a9bf;
+          }
+          &:nth-child(2n+1) {
+            background-color: #d3dce6;
           }
         }
-        .el-carousel__indicators {
-          display: none;
+      }
+      .el-carousel__indicators {
+        .el-carousel__button{
+          height: 10px;
         }
       }
     }

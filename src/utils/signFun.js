@@ -1,4 +1,5 @@
 import md5 from 'js-md5';
+import storeApi from './storage';
 import interceptorConf from '../config/Global';
 
 // 参数排序
@@ -16,11 +17,11 @@ function signHash(url, oldparams) {
   let _oldparams = JSON.parse(JSON.stringify(oldparams));
   _oldparams.sign = '';
   try {
-    _oldparams.lh_authinfo = decodeURIComponent(window.localStorage.lh_authinfo || '');
+    _oldparams.pgs_authinfo = decodeURIComponent(storeApi('cookie').get('pgs_authinfo') || '');
   } catch (error) {
-    _oldparams.lh_authinfo = '';
+    _oldparams.pgs_authinfo = '';
   }
-  /* oldparams.__platform='web'; */
+
   let params = objKeySort(_oldparams);
   let arr = [];
   let _params = '';

@@ -15,7 +15,7 @@ class Notice extends Abstract {
   /**
    * 消息列表
    */
-  getNewList(data){
+  getMessageList(data){
     return this.getReq('Notice.MessageList', data);
   }
 
