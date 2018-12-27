@@ -60,7 +60,8 @@
     data() {
       return {
         show: false,
-        uploadurl: root + '/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
+        // uploadurl: root + '/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
+        uploadurl: 'http://manageapi.linzhongren.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
         fileList: [],
         multi: this.multiple ? this.multiple : false, // ETC 是否多图上传
         index: this.name + '' ? this.name : '', // ETC 当前上传文件的唯一标识

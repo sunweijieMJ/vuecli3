@@ -9,11 +9,11 @@
           @input="content"
           @click.stop="curse" placeholder="分享你得想法吧"></textarea>
         <ul v-if="show" :style="at_style">
-          <li v-for="(a, index) in friend" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}</li>
+          <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}</li>
         </ul>
         <ul v-if="jshow" :style="at_style">
           <li>创建话题#PGS上线啦#</li>
-          <li v-for="(tpic, index) in topic" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
+          <li v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
         </ul>
       </div>
       <div class="upload-imgs" v-if="!upLoad_state">
