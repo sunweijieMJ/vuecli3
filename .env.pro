@@ -1,3 +1,3 @@
 NODE_ENV = 'production'
 
-VUE_APP_BaseURL = 'https://api.lanehub.cn/'
+VUE_APP_BaseURL = 'http://peoplegrowup.sogo.dev.weiheinc.com/api/'
