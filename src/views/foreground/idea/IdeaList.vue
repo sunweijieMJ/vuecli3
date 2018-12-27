@@ -9,7 +9,7 @@
     <div v-if="show">
       <CommentPublish @shutDown="shutDown"></CommentPublish>
     </div>
-    <public-list :list="idea_list" @thumpSuccess="thumpSuccess"></public-list>
+    <public-list :list="idea_list" @thumpIdeaSuccess="thumpIdeaSuccess"></public-list>
   </div>
 </template>
 <script>
@@ -37,7 +37,12 @@
         IdeaApi().getIdeaList({curPage: 1}).then(res => {
           that.idea_list = res.data.list;
           const user_infos = res.data.user_infos;
+          const self_zan = res.data.self_zan;
+          // 数据整理
           for(let i = 0, ILEN = that.idea_list.length; i < ILEN; i++) {
+            // 点赞整理
+            that.idea_list[i].self_zan = self_zan[that.idea_list[i].thinks_id];
+
             that.idea_list[i].user_info = user_infos[that.idea_list[i].user_id];
             if(!that.idea_list[i].replys) continue;
             for(let j = 0, JLEN = that.idea_list[i].replys.length; j < JLEN; j++) {
@@ -46,8 +51,8 @@
           }
         });
       },
-      // 点赞成功回调
-      thumpSuccess() {
+      // 想法点赞成功回调
+      thumpIdeaSuccess() {
         this.getIdeaList();
       },
       present(){

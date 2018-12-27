@@ -12,6 +12,10 @@ export default {
     paramsSkip(name, params) {
       this.$router.push({name, params});
     },
+    // path
+    pathSkip(path, query) {
+      this.$router.push({path, query});
+    },
     // 大图展示
     showImage(source, index) {
       this.$store.dispatch('changeImgPopup', {status: true, source, index});

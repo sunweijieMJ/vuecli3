@@ -1,17 +1,24 @@
 <template>
   <div class="single-comment">
     <div class="comment-icon">
-      <img :src="item.user_info.header_photo" alt="">
+      <img :src="item.user_info.header_photo" alt="" @click="paramsSkip('Profile', {id: item.user_info.user_id})">
     </div>
     <div class="comment-info">
-      <h4>
-        <span>{{item.user_info.user_name}}</span>
-        <span>{{item.user_info.real_name}}</span>
-      </h4>
-      <paragraph :text="item.comment_content"></paragraph>
+      <div class="info-name">
+        <p>
+          <span @click="paramsSkip('Profile', {id: item.user_info.user_id})">{{item.user_info.user_name}}</span>
+          <span v-if="root">&nbsp;(回复)&nbsp;</span>
+        </p>
+        <p v-if="root">
+          <span @click="paramsSkip('Profile', {id: root.user_id})">{{root.user_name}}</span>
+        </p>
+      </div>
+      <div class="info-paragraph">
+        <paragraph :text="item.comment_content"></paragraph>
+      </div>
       <div class="info-num">
         <div class="num-left">
-          <p class="praise" @click="thumpComment(item.comment_id)">
+          <p class="praise" @click="thumpComment(item.comment_id)" :class="{self_zan: item.self_zan}">
             <i class="iconfont icon-ai45"></i>
             <span>{{item.zan}}</span>
           </p>
@@ -38,11 +45,13 @@
 <script>
   import Paragraph from './Paragraph.js';
   import IdeaApi from '../../api/Idea.js';
+  import frequent from '../..//mixins/frequent.js';
   import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
-    props: ['item'],
+    props: ['item', 'root'],
     components: {Paragraph},
+    mixins: [frequent],
     data() {
       return {
         autoTextarea,
@@ -51,6 +60,7 @@
       };
     },
     methods: {
+      // 发送评论
       sendComment(commentId, commentContent) {
         let that = this;
         const thinksId = +that.$route.params.id;
@@ -64,7 +74,7 @@
       // 评论点赞
       thumpComment(commentId) {
         IdeaApi().thumpComment({commentId}).then(res => {
-          if(res.status) this.$emit('thumpSuccess');
+          if(res.status) this.$emit('thumpCommentSuccess');
         });
       }
     },
@@ -92,6 +102,7 @@
         width: 48px;
         height: 48px;
         border-radius: 50%;
+        cursor: pointer;
       }
     }
     .comment-info {
@@ -99,17 +110,24 @@
       margin-left: 12px;
       padding: 27px 0 20px;
       border-bottom: 1px solid $lineColor;
-      h4 {
-        span {
-          font-size:16px;
-          line-height:22px;
-          color: #5581C7;
-          &:last-child {
-            color: #909399;
+      .info-name {
+        display: flex;
+        align-items: center;
+        p {
+          display: flex;
+          align-items: center;
+          span {
+            font-size:16px;
+            line-height:22px;
+            color: $h3Color;
+            cursor: pointer;
+            &:first-child {
+              color: $linkBlue;
+            }
           }
         }
       }
-      >p {
+      .info-paragraph {
         margin: 6px 0 9px;
       }
       .info-num {
@@ -124,6 +142,9 @@
             align-items: center;
             margin-right: 33px;
             cursor: pointer;
+            &.self_zan {
+              color: $themeColor;
+            }
             i {
               font-size: 16px;
             }

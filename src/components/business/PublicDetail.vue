@@ -5,7 +5,7 @@
       <el-popover
         placement="bottom"
         trigger="hover">
-        <img slot="reference" :src="detail.user_info.header_photo" alt="">
+        <img slot="reference" @click.stop="paramsSkip('Profile', {id: detail.user_id})" :src="detail.user_info.header_photo" alt="">
         <user-popover :userinfo="detail.user_info"></user-popover>
       </el-popover>
       <div class="author-name">
@@ -29,13 +29,13 @@
       </div>
       <div class="main-num">
         <div class="num-left">
-          <p>
+          <p @click.stop="thumpIdea(detail.thinks_id)" :class="{self_zan: detail.self_zan}">
             <i class="iconfont icon-ai45"></i>
             <span>{{detail.zan}}</span>
           </p>
-          <p>
+          <p @click.stop="activeComment">
             <i class="iconfont icon-tubiaozhizuo-"></i>
-            <span>{{detail.zan}}</span>
+            <span>{{commentNums}}</span>
           </p>
         </div>
         <div class="num-right">
@@ -49,14 +49,27 @@
   </div>
 </template>
 <script>
-  import {Paragraph} from '../../components/business';
-  import {UserPopover} from '../../components/popup';
+  import IdeaApi from '../../api/Idea.js';
   import frequent from '../../mixins/frequent.js';
+  import {UserPopover} from '../../components/popup';
+  import {Paragraph} from '../../components/business';
 
   export default {
     components: {Paragraph, UserPopover},
     mixins: [frequent],
-    props: ['detail']
+    props: ['detail', 'commentNums'],
+    methods: {
+      // 想法点赞
+      thumpIdea(thinksId) {
+        IdeaApi().thumpIdea({thinksId}).then(res => {
+          if(res.status) this.$emit('thumpIdeaSuccess');
+        });
+      },
+      // 评论回调
+      activeComment() {
+        this.$emit('activeComment');
+      }
+    }
   };
 </script>
 <style lang="scss" scoped>
@@ -144,18 +157,24 @@
           p {
             display: flex;
             align-items: center;
+            cursor: pointer;
             &:first-child {
               margin-right: 50px;
+            }
+            &.self_zan {
+              span, i {
+                color: $themeColor;
+              }
             }
             span {
               margin-left: 10px;
               font-size: 18px;
               line-height: 25px;
-              color: $themeColor;
+              color: $h2Color;
             }
             i {
               font-size: 20px;
-              color: $themeColor;
+              color: $h2Color;
             }
           }
         }

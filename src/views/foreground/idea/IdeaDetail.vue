@@ -1,7 +1,7 @@
 
 <template>
   <div class="idea-detail">
-    <public-detail :detail="ieda_detail"></public-detail>
+    <public-detail :detail="ieda_detail" :commentNums="common_list.total" @thumpIdeaSuccess="thumpIdeaSuccess" @activeComment="activeComment"></public-detail>
     <!-- 点赞用户列表 -->
     <div class="detail-thump" v-if="thump_list.length">
       <div class="thump-title">
@@ -25,18 +25,18 @@
       </div>
     </div>
     <!-- 精彩评论 -->
-    <div class="detail-splendid" v-if="splendid_list.length">
+    <div class="detail-splendid" v-if="splendid_list.list.length">
       <div class="splendid-title">
-        <h4>精彩评论 (123)</h4>
+        <h4>精彩评论 ({{splendid_list.length}})</h4>
       </div>
-      <comment-list :list="splendid_list"></comment-list>
+      <comment-list :list="splendid_list.list" @thumpCommentSuccess="thumpCommentSuccess"></comment-list>
     </div>
     <!-- 普通评论 -->
-    <div class="detail-common" v-if="common_list.length">
+    <div class="detail-common" v-if="common_list.list.length">
       <div class="common-title">
-        <h4>评论 (123)</h4>
+        <h4>评论 ({{common_list.total}})</h4>
       </div>
-      <comment-list :list="common_list" @thumpSuccess="thumpSuccess" @commentSuccess="commentSuccess"></comment-list>
+      <comment-list :list="common_list.list" @thumpCommentSuccess="thumpCommentSuccess" @commentSuccess="commentSuccess"></comment-list>
     </div>
   </div>
 </template>
@@ -57,8 +57,14 @@
         idea_id: +this.$route.params.id, // ETC 详情id
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
-        splendid_list: [], // ETC 精彩评论
-        common_list: [] // ETC 普通评论
+        splendid_list: { // ETC 精彩评论
+          list: [],
+          total: 0
+        },
+        common_list: { // ETC 普通评论
+          list: [],
+          total: 0
+        }
       };
     },
     created() {
@@ -67,6 +73,13 @@
       that.getThumpList(that.idea_id);
       that.getCommentList(that.idea_id);
       that.sendIdeaView(that.idea_id);
+    },
+    mounted() {
+      let that = this;
+      if(!that.$route.query.active) return;
+      that.$nextTick(() => {
+        that.activeComment();
+      });
     },
     methods: {
       // 详情信息
@@ -88,19 +101,37 @@
       getCommentList(thinksId) {
         let that = this;
         IdeaApi().getCommentList({thinksId}).then(res => {
-          that.splendid_list = res.data.hot_comments;
-          that.common_list = res.data.list;
+          that.splendid_list.list = res.data.hot_comments || [];
+          that.common_list.list = res.data.list || [];
+          that.common_list.total = res.data.total_comments;
           const user_infos = res.data.user_infos;
-          for(let i = 0, ILEN = that.splendid_list.length; i < ILEN; i++) {
-            that.splendid_list[i].user_info = user_infos[that.splendid_list[i].user_id];
-            for(let j = 0, JLEN = that.splendid_list[i].replys.length; j < JLEN; j++) {
-              that.splendid_list[i].replys[j].user_info = user_infos[that.splendid_list[i].replys[j].user_id];
+          const self_zan = res.data.self_zan;
+          // 数据整理
+          for(let i = 0, ILEN = that.splendid_list.list.length; i < ILEN; i++) {
+            // 点赞整理
+            that.splendid_list.list[i].self_zan = self_zan[that.splendid_list.list[i].comment_id];
+            // 用户整理
+            that.splendid_list.list[i].user_info = user_infos[that.splendid_list.list[i].user_id];
+            if(!that.splendid_list.list[i].replys) continue;
+            for(let j = 0, JLEN = that.splendid_list.list[i].replys.length; j < JLEN; j++) {
+              // 点赞整理
+              that.splendid_list.list[i].replys[j].self_zan = self_zan[that.splendid_list.list[i].replys[j].comment_id];
+              // 用户整理
+              that.splendid_list.list[i].replys[j].user_info = user_infos[that.splendid_list.list[i].replys[j].user_id];
             }
           }
-          for(let i = 0, ILEN = that.common_list.length; i < ILEN; i++) {
-            that.common_list[i].user_info = user_infos[that.common_list[i].user_id];
-            for(let j = 0, JLEN = that.common_list[i].replys.length; j < JLEN; j++) {
-              that.common_list[i].replys[j].user_info = user_infos[that.common_list[i].replys[j].user_id];
+
+          for(let i = 0, ILEN = that.common_list.list.length; i < ILEN; i++) {
+            // 点赞整理
+            that.common_list.list[i].self_zan = self_zan[that.common_list.list[i].comment_id];
+            // 用户整理
+            that.common_list.list[i].user_info = user_infos[that.common_list.list[i].user_id];
+            if(!that.common_list.list[i].replys) continue;
+            for(let j = 0, JLEN = that.common_list.list[i].replys.length; j < JLEN; j++) {
+              // 点赞整理
+              that.common_list.list[i].replys[j].self_zan = self_zan[that.common_list.list[i].replys[j].comment_id];
+              // 用户整理
+              that.common_list.list[i].replys[j].user_info = user_infos[that.common_list.list[i].replys[j].user_id];
             }
           }
         });
@@ -122,15 +153,32 @@
           }
         });
       },
-      // 点赞成功
-      thumpSuccess() {
+      // 评论点赞成功回调
+      thumpCommentSuccess() {
         let that = this;
         that.getCommentList(that.idea_id);
+      },
+      // 想法点赞成功回调
+      thumpIdeaSuccess() {
+        let that = this;
+        that.getIdeaDetail(that.idea_id);
       },
       // 评论成功
       commentSuccess() {
         let that = this;
         that.getCommentList(that.idea_id);
+      },
+      // 激活评论区
+      activeComment() {
+        let that = this;
+        const comment = that.$el.querySelector('.detail-comment');
+        const textarea = that.$el.querySelector('.detail-comment textarea');
+        const scrollTop = comment.offsetTop;
+        // console.log(scrollTop);
+        // document.body.scrollTop = scrollTop;
+        // document.documentElement.scrollTop = scrollTop;
+        // window.pageYOffset = screenTop;
+        textarea.focus();
       }
     },
     watch: {

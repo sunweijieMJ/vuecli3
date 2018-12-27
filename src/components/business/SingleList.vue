@@ -1,12 +1,12 @@
 <template>
-  <div class="single-list" @click="skipDetail(1, vitem.thinks_id)">
+  <div class="single-list" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
     <!-- 列表头部用户信息 -->
     <div class="list-header">
       <div class="header-author">
         <el-popover
           placement="bottom"
           trigger="hover">
-          <img slot="reference" :src="vitem.user_info.header_photo" alt="" @click="skipDetail(2, vitem.user_info.user_id)">
+          <img slot="reference" :src="vitem.user_info.header_photo" alt="" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">
           <user-popover :userinfo="vitem.user_info"></user-popover>
         </el-popover>
         <div class="author-name">
@@ -34,10 +34,10 @@
     <div class="list-num">
       <div class="num-left">
         <p @click.stop="thumpIdea(vitem.thinks_id)">
-          <i class="iconfont icon-ai45"></i>
+          <i class="iconfont icon-ai45" :class="{self_zan: vitem.self_zan}"></i>
           <span>{{vitem.zan}}</span>
         </p>
-        <p>
+        <p @click.stop="pathSkip(`IdeaDetail/${vitem.thinks_id}`, {active: true})">
           <i class="iconfont icon-tubiaozhizuo-"></i>
           <span>{{vitem.total_comments}}</span>
         </p>
@@ -54,7 +54,7 @@
       <h4>精彩评论</h4>
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
-          <h5>{{witem.user_info.user_name}}：</h5>
+          <h5 @click.stop="paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}：</h5>
           <p>{{witem.comment_content}}</p>
         </li>
       </ul>
@@ -72,13 +72,10 @@
     components: {Paragraph, UserPopover},
     mixins: [frequent],
     methods: {
-      skipDetail(type, id) {
-        this.$router.push({name: 'IdeaDetail', params: {id}});
-      },
       // 想法点赞
       thumpIdea(thinksId) {
         IdeaApi().thumpIdea({thinksId}).then(res => {
-          if(res.status) this.$emit('thumpSuccess');
+          if(res.status) this.$emit('thumpIdeaSuccess');
         });
       }
     }
@@ -174,7 +171,10 @@
           &:first-child {
             margin-right: 50px;
             i {
-              color: $themeColor;
+              color: $h2Color;
+              &.self_zan {
+                color: $themeColor;
+              }
             }
           }
           span {

@@ -21,10 +21,18 @@ for (let key in filters) {
 // 全局守卫
 router.beforeEach((to, from, next) => {
   const token = storeApi('cookie').get('pgs_authinfo');
-  if (token || to.name === 'InitPage') {
-    next();
+  if (token) {
+    if (to.name === 'InitPage') {
+      next({name: 'IdeaList'});
+    } else {
+      next();
+    }
   } else {
-    next({name: 'InitPage'});
+    if(to.name === 'InitPage') {
+      next();
+    } else {
+      next({name: 'InitPage'});
+    }
   }
 });
 

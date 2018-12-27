@@ -3,12 +3,14 @@
     <div class="profile-user">
       <div class="user">
         <el-upload
+          :disabled="!user_info.self"
+          :class="{'isSelf': !user_info.self}"
           class="user-photo"
           action="http://manageapi.linzhongren.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11"
           :show-file-list="false"
           :on-success="handleSuccess">
           <img :src="user_info.header_photo" alt="">
-          <div class="photo-change">
+          <div class="photo-change" v-if="user_info.self">
             <i class="iconfont icon-xiangji"></i>
             <span>修改头像</span>
           </div>
@@ -17,7 +19,7 @@
           <div class="msg-name" v-if="nameEnabled.status">
             <span>{{user_info.user_name}}</span>
             <i class="iconfont icon-personal_ic_man"></i>
-            <a href="javascript:;" @click="nameEnabled.status = false">修改昵称</a>
+            <a href="javascript:;" @click="nameEnabled.status = false" v-if="user_info.self">修改昵称</a>
           </div>
           <div class="name-modify" v-else>
             <input type="text" placeholder="昵称每月仅可修改一次" v-model="nameEnabled.name">
@@ -49,7 +51,7 @@
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="想法" name="first">
-            <public-list :list="idea_list" @thumpSuccess="thumpSuccess"></public-list>
+            <public-list :list="idea_list" @thumpIdeaSuccess="thumpIdeaSuccess"></public-list>
           </el-tab-pane>
           <el-tab-pane label="OKR" name="second">
             <public-list :list="[]"></public-list>
@@ -151,7 +153,7 @@
         }
       },
       // 点赞成功回调
-      thumpSuccess() {
+      thumpIdeaSuccess() {
         let that = this;
         that.getIdeaList(that.user_id);
       },
@@ -368,6 +370,9 @@
       width: 112px;
       height: 112px;
       border-radius: 50%;
+      &.isSelf .el-upload{
+        cursor: auto;
+      }
       .el-upload {
         width: inherit;
         height: inherit;
@@ -391,7 +396,6 @@
           width: inherit;
           height: inherit;
           border-radius: inherit;
-          cursor: pointer;
           color: #fff;
           i {
             font-size: 27px;
