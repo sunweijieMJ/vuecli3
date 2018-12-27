@@ -8,7 +8,7 @@
           @keyup="keyCode($event)"
           @input="content"
           @click.stop="curse" placeholder="分享你得想法吧"></textarea>
-        <ul v-if="show" :style="at_style">
+        <ul v-if="show && friend.list && friend.list.length" :style="at_style">
           <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}</li>
         </ul>
         <ul v-if="jshow" :style="at_style">
@@ -144,12 +144,13 @@ export default {
         }else{
           this.show = false;
           this.At_anchor = '';
+          this.content_end = '';
         }
       }
 
       if(value === '#'){
         this.At_anchor = '';
-        this.topic_anchor = text.length;
+        this.topic_anchor = text.length; // ETC 话题#首次出现的节点
         this.jshow = true;
         this.mirrorCompute();
       }else{
@@ -171,6 +172,7 @@ export default {
         }else{
           this.jshow = false;
           this.topic_anchor = '';
+          this.content_end = '';
         }
       }
     },
@@ -225,7 +227,7 @@ export default {
       return cursorPos;
     },
     keyCode(e){
-      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 8){
+      if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40){
         this.curse(e);
       }
     },
