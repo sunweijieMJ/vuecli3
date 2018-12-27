@@ -33,7 +33,7 @@
     <!-- 时间 | 点赞 | 评论 -->
     <div class="list-num">
       <div class="num-left">
-        <p>
+        <p @click.stop="thumpIdea(vitem.thinks_id)">
           <i class="iconfont icon-ai45"></i>
           <span>{{vitem.zan}}</span>
         </p>
@@ -64,6 +64,7 @@
 <script>
   import {Paragraph} from './index.js';
   import {UserPopover} from '../popup';
+  import IdeaApi from '../../api/Idea.js';
   import frequent from '../../mixins/frequent.js';
 
   export default {
@@ -73,6 +74,12 @@
     methods: {
       skipDetail(type, id) {
         this.$router.push({name: 'IdeaDetail', params: {id}});
+      },
+      // 想法点赞
+      thumpIdea(thinksId) {
+        IdeaApi().thumpIdea({thinksId}).then(res => {
+          if(res.status) this.$emit('thumpSuccess');
+        });
       }
     }
   };

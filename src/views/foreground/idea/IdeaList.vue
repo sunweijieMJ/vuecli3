@@ -9,7 +9,7 @@
     <div v-if="show">
       <CommentPublish @shutDown="shutDown"></CommentPublish>
     </div>
-    <public-list :list="idea_list"></public-list>
+    <public-list :list="idea_list" @thumpSuccess="thumpSuccess"></public-list>
   </div>
 </template>
 <script>
@@ -31,6 +31,7 @@
       this.getIdeaList();
     },
     methods: {
+      // 想法列表
       getIdeaList() {
         let that = this;
         IdeaApi().getIdeaList({curPage: 1}).then(res => {
@@ -44,6 +45,10 @@
             }
           }
         });
+      },
+      // 点赞成功回调
+      thumpSuccess() {
+        this.getIdeaList();
       },
       present(){
         this.show = true;

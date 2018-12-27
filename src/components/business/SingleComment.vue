@@ -11,7 +11,7 @@
       <paragraph :text="item.comment_content"></paragraph>
       <div class="info-num">
         <div class="num-left">
-          <p class="praise">
+          <p class="praise" @click="thumpComment(item.comment_id)">
             <i class="iconfont icon-ai45"></i>
             <span>{{item.zan}}</span>
           </p>
@@ -25,11 +25,11 @@
         </div>
       </div>
       <div class="comment-publish" v-if="textEnabled">
-        <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`"
+        <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`" v-model="comment_content"
           @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)"></textarea>
         <div class="publish-btn">
           <span @click="textEnabled = false">取消</span>
-          <button @click="sendComment">发送</button>
+          <button @click="sendComment(item.comment_id, comment_content)">发送</button>
         </div>
       </div>
     </div>
@@ -37,6 +37,7 @@
 </template>
 <script>
   import Paragraph from './Paragraph.js';
+  import IdeaApi from '../../api/Idea.js';
   import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
@@ -45,12 +46,26 @@
     data() {
       return {
         autoTextarea,
-        textEnabled: false
+        textEnabled: false, // ETC textarea激活
+        comment_content: '' // ETC 评论内容
       };
     },
     methods: {
-      sendComment() {
-        this.textEnabled = false;
+      sendComment(commentId, commentContent) {
+        let that = this;
+        const thinksId = +that.$route.params.id;
+        IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
+          if(res.status) {
+            that.textEnabled = false;
+            that.$emit('commentSuccess');
+          }
+        });
+      },
+      // 评论点赞
+      thumpComment(commentId) {
+        IdeaApi().thumpComment({commentId}).then(res => {
+          if(res.status) this.$emit('thumpSuccess');
+        });
       }
     },
     watch: {

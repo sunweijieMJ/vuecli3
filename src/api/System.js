@@ -14,6 +14,7 @@ class System extends Abstract {
 
   /**
    * 图片上传
+   * @param {object | required} formdata
    */
   uploadImg(data) {
     return this.postReq('System.UploadImg', data);

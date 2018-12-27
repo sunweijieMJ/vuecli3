@@ -15,12 +15,12 @@
     <div class="detail-comment">
       <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
       <div class="comment-publish">
-        <textarea ref="textarea" placeholder="回复PADDY:"
-          @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled = true"
+        <textarea ref="textarea" placeholder="回复PADDY:" v-model="textEnabled.text"
+          @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
           ></textarea>
-        <div class="publish-btn" v-if="textEnabled">
-          <span @click="textEnabled = false">取消</span>
-          <button @click="sendComment">发送</button>
+        <div class="publish-btn" v-if="textEnabled.status">
+          <span @click="textEnabled.status = false">取消</span>
+          <button @click="sendComment(idea_id, textEnabled.text)">发送</button>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
       <div class="common-title">
         <h4>评论 (123)</h4>
       </div>
-      <comment-list :list="common_list"></comment-list>
+      <comment-list :list="common_list" @thumpSuccess="thumpSuccess" @commentSuccess="commentSuccess"></comment-list>
     </div>
   </div>
 </template>
@@ -50,7 +50,10 @@
     data() {
       return {
         autoTextarea,
-        textEnabled: false,
+        textEnabled: { // ETC textarea 状态
+          status: false,
+          text: ''
+        },
         idea_id: +this.$route.params.id, // ETC 详情id
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
@@ -63,6 +66,7 @@
       that.getIdeaDetail(that.idea_id);
       that.getThumpList(that.idea_id);
       that.getCommentList(that.idea_id);
+      that.sendIdeaView(that.idea_id);
     },
     methods: {
       // 详情信息
@@ -81,9 +85,9 @@
         });
       },
       // 评论列表
-      getCommentList(tId) {
+      getCommentList(thinksId) {
         let that = this;
-        IdeaApi().getCommentList({tId}).then(res => {
+        IdeaApi().getCommentList({thinksId}).then(res => {
           that.splendid_list = res.data.hot_comments;
           that.common_list = res.data.list;
           const user_infos = res.data.user_infos;
@@ -101,13 +105,36 @@
           }
         });
       },
+      // 单页浏览数增加
+      sendIdeaView(thinksId) {
+        IdeaApi().sendIdeaView({thinksId});
+      },
       // 发送评论
-      sendComment() {
-        this.textEnabled = false;
+      sendComment(thinksId, commentContent) {
+        let that = this;
+        IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
+          if(res.status) {
+            that.textEnabled = {
+              status: false,
+              text: ''
+            };
+            that.getCommentList(that.idea_id);
+          }
+        });
+      },
+      // 点赞成功
+      thumpSuccess() {
+        let that = this;
+        that.getCommentList(that.idea_id);
+      },
+      // 评论成功
+      commentSuccess() {
+        let that = this;
+        that.getCommentList(that.idea_id);
       }
     },
     watch: {
-      textEnabled(cur) {
+      'textEnabled.status'(cur) {
         let that = this;
         if(cur) {
           that.$nextTick(() => {

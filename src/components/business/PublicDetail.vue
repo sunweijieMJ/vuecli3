@@ -118,16 +118,16 @@
         margin: 20px 0 8px;
       }
       .main-images {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
         width: 668px;
+        overflow: hidden;
         img {
-          display: flex;
+          float: left;
           width: 220px;
           height: 220px;
-          margin-top: 4px;
+          margin: 4px 4px 0 0;
+          &:nth-child(3n) {
+            margin-right: 0;
+          }
         }
       }
       .main-num {

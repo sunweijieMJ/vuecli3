@@ -23,11 +23,13 @@ const urlDict = {
     'IdeaPublish': '/thinks/publish', // ETC 发布信息
     'IdeaList': '/thinks/list', // ETC 想法列表
     'IdeaDetail': '/thinks/detail', // ETC 想法详情
-    'PubComment': '/thinks/publishcomment', // ETC 发布评论
+    'PubishComment': '/thinks/publishcomment', // ETC 发布评论
     'CommentList': '/thinks/commentlist', // ETC 评论列表
     'TopicList': '/thinks/topiclist', // ETC 话题列表
     'IdeaView': '/thinks/thinksview', // ETC 单页浏览量
-    'ThumpList': '/thinks/zanlist' // ETC 点赞用户列表
+    'ThumpList': '/thinks/zanlist', // ETC 点赞用户列表
+    'IdeaThump': '/thinks/thinkszan', // ETC 想法点赞
+    'CommentThump': '/thinks/commentzan' // ETC 评论点赞
   }
 };
 

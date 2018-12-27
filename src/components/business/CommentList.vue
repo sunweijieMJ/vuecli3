@@ -1,13 +1,13 @@
 <template>
   <ul class="comment-list">
     <li v-for="(vitem, vindex) in list" :key="vindex">
-      <single-comment :item="vitem"></single-comment>
+      <single-comment :item="vitem" @thumpSuccess="$emit('thumpSuccess')" @commentSuccess="$emit('commentSuccess')"></single-comment>
       <ul class="second-list">
         <li v-for="(witem, windex) in (show_more ? vitem.replys : vitem.replys.slice(0, 2))" :key="windex">
-          <single-comment :item="witem"></single-comment>
+          <single-comment :item="witem" @thumpSuccess="$emit('thumpSuccess')" @commentSuccess="$emit('commentSuccess')"></single-comment>
         </li>
         <div class="more-comment" v-if="vitem.replys.length > 2 && !show_more">
-          <p @click="show_more = true">全部7条回复</p>
+          <p @click="show_more = true">全部{{vitem.replys.length}}条回复</p>
         </div>
       </ul>
     </li>

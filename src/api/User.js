@@ -14,6 +14,7 @@ class User extends Abstract {
 
   /**
    * 用户详情
+   * @param {number | required} userIds 用户id
    */
   getUserDetail(data) {
     return this.getReq('User.UserDetail', data);

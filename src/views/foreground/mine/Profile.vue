@@ -49,7 +49,7 @@
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="想法" name="first">
-            <public-list :list="idea_list"></public-list>
+            <public-list :list="idea_list" @thumpSuccess="thumpSuccess"></public-list>
           </el-tab-pane>
           <el-tab-pane label="OKR" name="second">
             <public-list :list="[]"></public-list>
@@ -87,20 +87,20 @@
     components: {PublicList},
     data() {
       return {
-        user_id: this.$route.params.id,
-        user_info: {},
-        idea_list: [],
-        nameEnabled: {
+        user_id: this.$route.params.id, // ETC 用户ID
+        user_info: {}, // ETC 用户信息
+        idea_list: [], // ETC 用户想法列表
+        nameEnabled: { // ETC 昵称修改状态
           status: true,
           name: ''
         },
-        activeName: 'first'
+        activeName: 'first' // ETC 当前选中tab
       };
     },
     created() {
       let that = this;
       that.getUserDetail();
-      // that.getIdeaList();
+      that.getIdeaList(that.user_id);
     },
     methods: {
       // 用户个人信息
@@ -110,11 +110,11 @@
         });
       },
       // 用户想法列表
-      getIdeaList() {
+      getIdeaList(userId) {
         let that = this;
-        IdeaApi().getIdeaList({curPage: 1}).then(res => {
-          that.idea_list = res.data.lists.thinks_info;
-          const user_infos = res.data.lists.user_infos;
+        IdeaApi().getIdeaList({userId}).then(res => {
+          that.idea_list = res.data.list;
+          const user_infos = res.data.user_infos;
           for(let i = 0, ILEN = that.idea_list.length; i < ILEN; i++) {
             that.idea_list[i].user_info = user_infos[that.idea_list[i].user_id];
             if(!that.idea_list[i].replys) continue;
@@ -149,6 +149,11 @@
             }
           });
         }
+      },
+      // 点赞成功回调
+      thumpSuccess() {
+        let that = this;
+        that.getIdeaList(that.user_id);
       },
       // 切换tab
       handleClick(tab) {
