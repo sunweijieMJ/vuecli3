@@ -37,7 +37,7 @@
         <h4>评论 ({{common_list.total}})</h4>
       </div>
       <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <loading :loading="disabled && common_list.list.length !== pageInfo.page_total"></loading>
+      <loading :loading="disabled && common_list.list.length < pageInfo.page_total"></loading>
     </div>
   </div>
 </template>
@@ -181,6 +181,7 @@
       commentSuccess(res) {
         let that = this;
         let comment = res.data;
+        comment.replys = [];
         comment.user_info = that.self_info;
         const common = JSON.parse(JSON.stringify(that.common_list.list));
         const splendid = JSON.parse(JSON.stringify(that.splendid_list.list));
