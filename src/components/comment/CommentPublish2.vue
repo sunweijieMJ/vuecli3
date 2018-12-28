@@ -53,7 +53,7 @@ export default {
     mirrorCompute(){
       let range = window.getSelection().getRangeAt(0);
       let finaly = range.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      console.log(finaly)
+      console.log(finaly);
       this.at_style.top = (finaly.top + finaly.height) + 'px';
       this.at_style.left = (finaly.left - 21) + 'px';
       // 光标位置
@@ -63,7 +63,7 @@ export default {
       this.getSelectData();
       let text = document.getElementById('text').textContent;
       let value = text.charAt(text.length - 1);
-      console.log(text.length)
+      console.log(text.length);
       if(value === '@'){
         this.mirrorCompute();
         this.show = true;
@@ -78,11 +78,13 @@ export default {
       let objRange = sel.getRangeAt(0);
       this.startOffset = objRange.startOffset;
       this.endOffset = objRange.endOffset;
-      // console.log('选中区域的range对象:', objRange);
-      // objRange.rangeCount; // ETC 表示选中区域的range对象数量
-      // sel.removeAllRanges(); // ETC 可以移除选中区域的range对象
-      // document.createRange(); // ETC 可以创建新的range对象
-      // sel.addRange(range); // ETC 可以给选中区域添加range对象
+      /*
+       * console.log('选中区域的range对象:', objRange);
+       * objRange.rangeCount; // ETC 表示选中区域的range对象数量
+       * sel.removeAllRanges(); // ETC 可以移除选中区域的range对象
+       * document.createRange(); // ETC 可以创建新的range对象
+       * sel.addRange(range); // ETC 可以给选中区域添加range对象
+       */
     },
     // 鼠标聚焦
     curse(e){
@@ -95,10 +97,12 @@ export default {
         // console.log('执行getDivPosition')
       } else {
         pos = this.getPosition(e.target);
-        console.log('执行getPosition')
+        console.log('执行getPosition');
       }
-      // let spanEle = (eleP.childNodes)[0];
-      // spanEle.innerText = pos;
+      /*
+       * let spanEle = (eleP.childNodes)[0];
+       * spanEle.innerText = pos;
+       */
     },
     // 可编辑div获取坐标
     getDivPosition(element) {
@@ -139,7 +143,7 @@ export default {
     },
     keyCode(es){
       this.getSelectData();
-      console.log('键盘:', es)
+      console.log('键盘:', es);
       if(es.charCode === 13){
         es.preventDefault();
         this.show = false;
@@ -152,7 +156,7 @@ export default {
     insertAtCursor(myValue) {
       // IE 浏览器  获取当前输入框dom元素
       let myField = document.getElementById('text');
-      
+
       if (document.selection) {
         myField.focus();
         let sel = document.selection.createRange();
@@ -163,9 +167,9 @@ export default {
         let endPos = this.endOffset;
         // 保存滚动条
         let restoreTop = myField.scrollTop;
-        console.log('保存滚动条：', myField, restoreTop)
+        console.log('保存滚动条：', myField, restoreTop);
         myField.textContent = myField.textContent.substring(0, startPos) + myValue + myField.textContent.substring(endPos, myField.textContent.length);
-        
+
         if (restoreTop > 0) {
           myField.scrollTop = restoreTop;
         }

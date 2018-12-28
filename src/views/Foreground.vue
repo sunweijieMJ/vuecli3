@@ -12,21 +12,22 @@
         </ul>
         <ul class="nav-right">
           <li v-for="(vitem, vindex) in router.slice(2, 4)" :key="vindex" :class="{active: vindex === current}">
-            <el-popover
-              v-if="!vindex"
-              placement="bottom"
-              trigger="click">
-              <i slot="reference" class="iconfont" :class="vitem.icon" v-if="!vindex"></i>
-              <div class="message">
-                <ul>
-                  <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
-                    <p>{{witem.user_info.user_name}}<span>在</span>{{readMore(witem.origin_msg.content, 30, '...')}}<span>中评论了你的想法</span></p>
-                  </li>
-                </ul>
-                <a href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
-              </div>
-            </el-popover>
-            <el-dropdown @command="handleCommand" trigger="click" v-else>
+            <el-badge :value="message_list.length" v-if="!vindex">
+              <el-popover
+                placement="bottom"
+                trigger="hover">
+                <i slot="reference" class="iconfont" :class="vitem.icon" v-if="!vindex"></i>
+                <div class="message">
+                  <ul>
+                    <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
+                      <p>{{witem.user_info.user_name}}<span>在</span>{{readMore(witem.origin_msg.content, 30, '...')}}<span>中评论了你的想法</span></p>
+                    </li>
+                  </ul>
+                  <a href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
+                </div>
+              </el-popover>
+            </el-badge>
+            <el-dropdown @command="handleCommand" trigger="hover" v-else>
               <i class="iconfont" :class="vitem.icon"></i>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
@@ -47,6 +48,7 @@
   </el-container>
 </template>
 <script>
+  import {mapState} from 'vuex';
   import storage from '../utils/storage';
   import NoticeApi from '../api/Notice.js';
   import frequent from '../mixins/frequent.js';
@@ -107,7 +109,7 @@
         let that = this;
         switch (command) {
           case 'homepage':
-            that.$router.push({name: 'Profile', params: {id: 1}});
+            that.$router.push({name: 'Profile', params: {id: that.self_info.user_id}});
             break;
           case 'exit':
             storage('cookie').remove('pgs_authinfo');
@@ -117,7 +119,10 @@
             break;
         }
       }
-    }
+    },
+    computed: mapState({
+      self_info: store => store.self_info
+    })
   };
 </script>
 <style lang="scss" scoped>

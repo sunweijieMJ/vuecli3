@@ -4,7 +4,8 @@ const state = {
     status: false,
     source: '',
     index: 0
-  }
+  },
+  self_info: {}
 };
 
 export default state;

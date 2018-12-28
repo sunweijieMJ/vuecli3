@@ -41,7 +41,7 @@ export default {
 
     };
   },
-  methods:{
+  methods: {
     goIdeaDetail(){
       this.$router.push({name: 'IdeaDetail'});
     },
@@ -51,8 +51,8 @@ export default {
   },
   mounted(){
     NoticeApi().getMessageList({}).then(res => {
-      console.log(res)
-    })
+      console.log(res);
+    });
   }
 };
 </script>

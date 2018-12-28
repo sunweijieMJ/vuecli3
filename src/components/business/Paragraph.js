@@ -1,3 +1,5 @@
+import UserApi from '../../api/User';
+
 export default {
   render(createElement) {
     let that = this;
@@ -26,22 +28,24 @@ export default {
                 on: {
                   click: (e) => {
                     if (that.forbid) return;
-                    let user_name = e.target.innerText.split('');
-                    user_name.shift() && (user_name = user_name.join(''));
-                    /*
-                     * ToolApi().getUserId(user_name).then(res => {
-                     *   if (res.status) {
-                     *     const id = res.data.id || -1;
-                     *     window.location.assign(`/profile/${id}`);
-                     *   }
-                     * });
-                     */
+                    let userNames = e.target.innerText.substring(1);
+                    userNames = userNames.split();
+                    UserApi().getUserByName({userNames}).then(res => {
+                      if (res.status) {
+                        if (!res.data.total) {
+                          that.$message({message: '用户不存在', type: 'warning'});
+                        } else {
+                          const id = Object.values(res.data.list)[0].user_id;
+                          that.$router.push({name: 'Profile', params: {id}});
+                        }
+                      }
+                    });
                     e.stopPropagation();
                   }
                 }
               }
             );
-          } else if (item.match(/#[^@#]+#/g)) {
+          } else if (0 && item.match(/#[^@#]+#/g)) {
             return createElement(
               'a',
               {
@@ -51,10 +55,7 @@ export default {
                 on: {
                   click: (e) => {
                     if (that.forbid) return;
-                    that.topic && that.topic.forEach((val) => {
-                      let topic = val.entity_title.replace(/\[话题\]/g, '').trim();
-                      if (topic === item.slice(1, -1).trim()) window.location.assign(`/topic_detail/${val.entity_id}`);
-                    });
+
                     e.stopPropagation();
                   }
                 }

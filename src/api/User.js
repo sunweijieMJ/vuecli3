@@ -54,6 +54,14 @@ class User extends Abstract {
   getPssword(data){
     return this.postReq('User.UserPass', data);
   }
+
+  /**
+   * 用户名获取用户信息
+   * @param {array} userNames 用户名数组
+   */
+  getUserByName(data) {
+    return this.postReq('User.UserByName', data);
+  }
 }
 
 // 单列模式返回对象

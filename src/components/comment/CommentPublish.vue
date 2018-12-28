@@ -98,13 +98,13 @@ export default {
       // 对影响 UI 的特殊元素编码
       let escape = function(textarea) {
         return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
-      }
+      };
       // 创建镜像内容，复制样式
-      let mirror = '<p style="font-size:22px;font-family:monospace; line-height: normal;" id="' + 'text' + '">'
-      + escape(beforeText)
-      + '<span id="cursor">|</span>'
-      + escape(afterText)
-      + '</p>';
+      let mirror = '<p style="font-size:22px;font-family:monospace; line-height: normal;" id="' + 'text' + '">' +
+      escape(beforeText) +
+      '<span id="cursor">|</span>' +
+      escape(afterText) +
+      '</p>';
       // 添加到 textarea 同级，注意设置定位及 zIndex，使两个元素重合
       textarea.insertAdjacentHTML('afterend', mirror);
       // 通过镜像元素中的假光标占位元素获取像素位置
@@ -222,16 +222,20 @@ export default {
       let text = document.getElementById('text').value;
       let value = text.charAt(cursorPos - 1);
       if(value === '@'){
-        // this.topic_anchor = '';
-        // this.At_anchor = text.length;
+        /*
+         * this.topic_anchor = '';
+         * this.At_anchor = text.length;
+         */
         this.mirrorCompute();
         this.show = true;
       }else{
         this.show = false;
       }
       if(value === '#'){
-        // this.At_anchor = '';
-        // this.topic_anchor = text.length;
+        /*
+         * this.At_anchor = '';
+         * this.topic_anchor = text.length;
+         */
         this.jshow = true;
         this.mirrorCompute();
       }else{

@@ -58,7 +58,7 @@ export default {
       this.login_status = false;
       if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
-           
+
           if(res.status){
             storageApi.set('pgs_authinfo', res.data.pgs_authinfo);
             this.$message({message: '登陆成功', type: 'success', duration: 1000});

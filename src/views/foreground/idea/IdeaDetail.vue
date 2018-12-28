@@ -13,9 +13,9 @@
     </div>
     <!-- 回复评论 -->
     <div class="detail-comment">
-      <img src="https://pic2.lanehub.cn/production/bf7aa8df072875322842df4ff220f1d7.jpg?x-oss-process=style/m-00004" alt="">
-      <div class="comment-publish">
-        <textarea ref="textarea" placeholder="回复PADDY:" v-model="textEnabled.text"
+      <img :src="self_info.header_photo" alt="">
+      <div class="comment-publish" v-if="ieda_detail.user_info">
+        <textarea ref="textarea" :placeholder="`回复${ieda_detail.user_info.user_name}:`" v-model="textEnabled.text"
           @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
           ></textarea>
         <div class="publish-btn" v-if="textEnabled.status">
@@ -27,7 +27,7 @@
     <!-- 精彩评论 -->
     <div class="detail-splendid" v-if="splendid_list.list.length">
       <div class="splendid-title">
-        <h4>精彩评论 ({{splendid_list.length}})</h4>
+        <h4>精彩评论 ({{splendid_list.list.length}})</h4>
       </div>
       <comment-list :list="splendid_list.list"></comment-list>
     </div>
@@ -42,6 +42,7 @@
   </div>
 </template>
 <script>
+  import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
   import {Loading} from '../../../components/public';
@@ -84,7 +85,7 @@
       let that = this;
       if(!that.$route.query.active) return;
       that.$nextTick(() => {
-        that.activeComment();
+        // that.activeComment();
       });
     },
     methods: {
@@ -121,10 +122,10 @@
         await IdeaApi().getCommentList({thinksId, curPage: ++that.pageInfo.current_page}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
-          const common = res.data.list;
-          const splendid = res.data.hot_comments;
-          that.common_list.total = res.data.total_comments;
-          that.pageInfo.page_total = res.data.total;
+          const common = res.data.list || [];
+          const splendid = res.data.hot_comments || [];
+          that.common_list.total = res.data.total_comments || 0;
+          that.pageInfo.page_total = res.data.total || 0;
 
           // 精彩评论
           for(let i = 0, ILEN = splendid.length; i < ILEN; i++) {
@@ -172,30 +173,49 @@
               status: false,
               text: ''
             };
-            that.getCommentList(that.idea_id);
+            that.commentSuccess({data: res.data});
           }
         });
       },
-      // 评论点赞成功回调
-      thumpCommentSuccess() {
-        let that = this;
-        that.getCommentList(that.idea_id);
-      },
       // 评论成功
-      commentSuccess() {
+      commentSuccess(res) {
         let that = this;
-        that.getCommentList(that.idea_id);
+        let comment = res.data;
+        comment.user_info = that.self_info;
+        const common = JSON.parse(JSON.stringify(that.common_list.list));
+        const splendid = JSON.parse(JSON.stringify(that.splendid_list.list));
+
+        // 一级评论
+        if(!res.hasOwnProperty('id')) {
+          common.unshift(comment);
+        } else {
+          // 二级评论
+          for(let i = 0, LEN = common.length; i < LEN; i++) {
+            if(common[i].comment_id !== res.id) continue;
+            if(res.hasOwnProperty('index')) {
+              common[i].replys.splice(res.index + 1, 0, comment);
+            } else {
+              common[i].replys.unshift(comment);
+            }
+          }
+          for(let i = 0, LEN = splendid.length; i < LEN; i++) {
+            if(splendid[i].comment_id !== res.id) continue;
+            if(res.hasOwnProperty('index')) {
+              splendid[i].replys.splice(res.index + 1, 0, comment);
+            } else {
+              splendid[i].replys.unshift(comment);
+            }
+          }
+        }
+
+        that.common_list.list = common;
+        that.splendid_list.list = splendid;
       },
       // 激活评论区
       activeComment() {
         let that = this;
-        const comment = that.$el.querySelector('.detail-comment');
+        // const comment = that.$el.querySelector('.detail-comment');
         const textarea = that.$el.querySelector('.detail-comment textarea');
-        const scrollTop = comment.offsetTop;
-        // console.log(scrollTop);
-        // document.body.scrollTop = scrollTop;
-        // document.documentElement.scrollTop = scrollTop;
-        // window.pageYOffset = screenTop;
         textarea.focus();
       }
     },
@@ -208,7 +228,10 @@
           });
         }
       }
-    }
+    },
+    computed: mapState({
+      self_info: store => store.self_info
+    })
   };
 </script>
 <style lang="scss" scoped>

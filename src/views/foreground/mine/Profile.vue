@@ -110,7 +110,7 @@
     },
     created() {
       let that = this;
-      that.getUserDetail();
+      that.getUserDetail([that.user_id]);
     },
     methods: {
       // 触底刷新
@@ -126,8 +126,8 @@
         });
       },
       // 用户个人信息
-      async getUserDetail() {
-        return await UserApi().getUserDetail({userIds: [this.user_id]}).then(res => {
+      async getUserDetail(userIds) {
+        return await UserApi().getUserDetail({userIds}).then(res => {
           this.user_info = res.data;
         });
       },
@@ -158,7 +158,7 @@
       handleSuccess(response) {
         let that = this;
         that.updateUserMsg({userId: that.user_id, headerPhoto: response.result.file.image_hash}).then(() => {
-          that.getUserDetail();
+          that.getUserDetail([that.user_id]);
         });
       },
       // 用户昵称修改
@@ -169,7 +169,7 @@
         } else {
           that.updateUserMsg({userId, userName}).then((res) => {
             if(res.status) {
-              that.getUserDetail().then(() => {
+              that.getUserDetail([that.user_id]).then(() => {
                 that.nameEnabled.status = true;
               });
             }
@@ -179,6 +179,11 @@
       // 切换tab
       handleClick(tab) {
         console.log(tab);
+      }
+    },
+    watch: {
+      $route(to) {
+        this.getUserDetail([to.params.id]);
       }
     }
   };

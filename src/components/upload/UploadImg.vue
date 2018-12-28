@@ -101,12 +101,14 @@
       handleError(response, file, fileList) {
         this.$emit('handleError', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList)});
       },
-      // 点击已上传文件
-      // handlePreview(file) {
-      //   this.isDialog = true;
-      //   this.imgUrl = file.url;
-      // },
-      // 删除文件
+      /*
+       * 点击已上传文件
+       * handlePreview(file) {
+       *   this.isDialog = true;
+       *   this.imgUrl = file.url;
+       * },
+       * 删除文件
+       */
       handleRemove(file, fileList) {
         this.$emit('handleRemove', {name: this.index, file: this.setOneData(file), fileList: this.setData(fileList), origin: fileList});
       },

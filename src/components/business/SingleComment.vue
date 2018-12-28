@@ -7,10 +7,10 @@
       <div class="info-name">
         <p>
           <span @click="paramsSkip('Profile', {id: item.user_info.user_id})">{{item.user_info.user_name}}</span>
-          <span v-if="root">&nbsp;(回复)&nbsp;</span>
+          <span v-if="root.user_info">&nbsp;(回复)&nbsp;</span>
         </p>
-        <p v-if="root">
-          <span @click="paramsSkip('Profile', {id: root.user_id})">{{root.user_name}}</span>
+        <p v-if="root.user_info">
+          <span @click="paramsSkip('Profile', {id: root.user_info.user_id})">{{root.user_info.user_name}}</span>
         </p>
       </div>
       <div class="info-paragraph">
@@ -67,7 +67,11 @@
         IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
           if(res.status) {
             that.textEnabled = false;
-            that.$emit('commentSuccess');
+            if(that.root.hasOwnProperty('index')) {
+              that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id, index: that.root.index});
+            } else {
+              that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id});
+            }
           }
         });
       },
@@ -228,6 +232,21 @@
             cursor: pointer;
           }
         }
+      }
+    }
+  }
+</style>
+<style lang="scss">
+  @import '../../assets/scss/_base.scss';
+
+  .single-comment .info-paragraph {
+    p {
+      font-size: 16px;
+      line-height: 25px;
+      color: $h2Color;
+      a {
+        font-size: 16px;
+        color: $linkBlue;
       }
     }
   }
