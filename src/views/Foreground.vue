@@ -35,7 +35,7 @@
               </el-dropdown-menu>
             </el-dropdown>
           </li>
-          <div class="admin" @click="querySkip('IdeaManage')">
+          <div class="admin" @click="querySkip('IdeaManage')" v-if="0">
             <i class="iconfont icon-icon-test"></i>
             <span>管理员</span>
           </div>
