@@ -68,11 +68,11 @@ export default {
               this.login_status = true;
             }, 1000);
           }else{
-            this.$message({message: '密码不正确', type: 'warning'});
+            this.$message({message: '密码不正确, 请确认密码再次输入', type: 'warning'});
           }
         });
       }else{
-        this.$message({message: '密码不正确', type: 'warning'});
+        this.$message({message: '密码不正确, 请确认密码再次输入', type: 'warning'});
       }
     },
     // 计时器

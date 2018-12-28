@@ -180,6 +180,11 @@
   .avatar-uploader, .img-box, .el-upload--picture-card {
     width: 100%;
     box-sizing: border-box;
+    .el-upload-list__item{
+      .el-upload-list__item-status-label{
+        display: none !important;
+      }
+    }
     li{
       margin-right: 4px !important;
       width: 64px !important;

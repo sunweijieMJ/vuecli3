@@ -80,11 +80,23 @@ export default {
     },
     // 关闭弹层
     shutDown(){
-      this.$emit('shutDown', false);
+      let text = document.getElementById('text').value;
+      if(text || this.thinksPhotos){
+        this.$confirm('你刚才填写的内容不会被保存', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$emit('shutDown', false);
+        });
+      }else{
+        this.$emit('shutDown', false);
+      }
     },
     // 失去焦点事件
     dealContent(){
       // this.show = false;
+      // this.jshow = false;
     },
     // 计算镜像光标位置
     mirrorCompute(){
