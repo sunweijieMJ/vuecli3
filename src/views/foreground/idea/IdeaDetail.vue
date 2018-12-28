@@ -37,7 +37,7 @@
         <h4>评论 ({{common_list.total}})</h4>
       </div>
       <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <loading :loading="disabled && common_list.list.length < pageInfo.page_total"></loading>
+      <loading :loading="disabled && common_list.list.length && common_list.list.length < pageInfo.page_total"></loading>
     </div>
   </div>
 </template>
@@ -96,7 +96,7 @@
         that.getCommentList(that.idea_id).then(() => {
           // 触底判断
           that.disabled = false;
-          if(that.common_list.list.length === that.pageInfo.page_total){
+          if(that.common_list.list.length === that.pageInfo.page_total || that.common_list.list.length){
             that.disabled = true;
           }
         });

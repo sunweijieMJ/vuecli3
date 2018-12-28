@@ -20,7 +20,10 @@
                 <div class="message">
                   <ul>
                     <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
-                      <p>{{witem.user_info.user_name}}<span>在</span>{{readMore(witem.origin_msg.content, 30, '...')}}<span>中评论了你的想法</span></p>
+                      <p>
+                        <span @click.stop="paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
+                        <span>{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
+                      </p>
                     </li>
                   </ul>
                   <a href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
@@ -207,10 +210,10 @@
           font-size: 16px;
           line-height: 25px;
           p {
-            color: $linkBlue;
-            cursor: pointer;
+            color: $h1Color;
             span {
-              color: $h1Color;
+              color: $linkBlue;
+              cursor: pointer;
             }
           }
         }

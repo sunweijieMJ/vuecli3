@@ -53,7 +53,7 @@
           <el-tab-pane label="想法" name="first">
             <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
               <public-list :list="idea_list"></public-list>
-              <loading :loading="disabled && idea_list.length !== pageInfo.page_total"></loading>
+              <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
             </div>
           </el-tab-pane>
           <el-tab-pane label="OKR" name="second">
@@ -120,7 +120,7 @@
         that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
           that.disabled = false;
-          if(that.idea_list.length === that.pageInfo.page_total){
+          if(that.idea_list.length === that.pageInfo.page_total || !that.idea_list.length){
             that.disabled = true;
           }
         });

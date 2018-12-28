@@ -9,7 +9,7 @@
     <comment-publish v-if="comment_popup" @shutDown="comment_popup = false"></comment-publish>
     <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
       <public-list :list="idea_list"></public-list>
-      <loading :loading="disabled && idea_list.length < pageInfo.page_total"></loading>
+      <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
     </div>
   </div>
 </template>
@@ -65,7 +65,7 @@
         that.getIdeaList(++that.pageInfo.current_page).then(() => {
           // 触底判断
           that.disabled = false;
-          if(that.idea_list.length === that.pageInfo.page_total){
+          if(that.idea_list.length === that.pageInfo.page_total || !that.idea_list.length){
             that.disabled = true;
           }
         });
