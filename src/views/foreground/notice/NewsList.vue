@@ -5,14 +5,14 @@
         提醒
       </div>
       <ul>
-        <li v-for="(a, index) in for_list" :key="index" @click="goIdeaDetail">
-          <div class="head-img" @click.stop="goProFile">
+        <li v-for="(a, index) in for_list" :key="index" @click="goIdeaDetail(a.to_user_id)">
+          <div class="head-img" @click.stop="goProFile(a.to_user_id)">
             <img :src="a.name.header_photo" alt="">
           </div>
           <div class="comment">
             <div class="reply">
               <span>
-                <span class="name">{{a.name.real_name}}</span><span class="idea">{{a.message_title}}</span>
+                <span class="name">{{a.name.user_name}}</span><span class="idea">{{a.message_title}}</span>
               </span>
               <span class="date">{{a.publish_time}}</span>
             </div>
@@ -30,7 +30,7 @@
         </li>
       </ul>
     </div>
-    <loading :loading="disabled && for_list.length !== pageInfo.page_total"></loading>
+    <loading :loading="disabled && for_list.length < pageInfo.page_total"></loading>
   </div>
 </template>
 <script>
@@ -52,11 +52,11 @@ export default {
     };
   },
   methods: {
-    goIdeaDetail(){
-      this.$router.push({name: 'IdeaDetail'});
+    goIdeaDetail(user_id){
+      this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
     },
-    goProFile(){
-      this.$router.push({name: 'Profile', params: {id: 1}});
+    goProFile(user_id){
+      this.$router.push({name: 'Profile', params: {id: user_id}});
     },
     // 触底刷新
     infinite() {
@@ -65,13 +65,13 @@ export default {
       that.getIdeaListData(++that.pageInfo.current_page).then(() => {
         // 触底判断
         that.disabled = false;
-        if(this.for_list.length <= that.pageInfo.page_total){
+        if(this.for_list.length === that.pageInfo.page_total){
           that.disabled = true;
         }
       });
     },
     async getIdeaListData(curpage){
-      return await NoticeApi().getMessageList({waitRead: 1, pages: 5, curPage: curpage}).then(res => {
+      return await NoticeApi().getMessageList({waitRead: 1, pages: 7, curPage: curpage}).then(res => {
         let for_list = res.data.list;
         for (let i = 0; i < for_list.length; i++) {
           for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
@@ -82,9 +82,6 @@ export default {
         this.for_list = this.for_list.concat(for_list);
       });
     }
-  },
-  mounted(){
-    this.getIdeaListData();
   }
 };
 </script>
