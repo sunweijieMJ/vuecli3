@@ -7,7 +7,7 @@
     "build": "vue-cli-service build --mode",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "pro": "yarn install && yarn run build"
+    "pro": "yarn install && yarn run build --mode"
   },
   "dependencies": {
     "axios": "^0.18.0",
