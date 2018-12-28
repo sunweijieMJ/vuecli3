@@ -145,8 +145,8 @@ const getStyle = (ele, attr) => {
  * {Number}        设置最大高度(可选)
  */
 import {os} from './judge.js';
-const autoTextarea = (ele, extra = 0, maxHeight) => {
-  let [scrollTop, height, padding, style, minHeight] = [0, 0, 0, ele.style, parseFloat(getStyle(ele, 'height'))];
+const autoTextarea = (ele, extra = 0, maxHeight, minHeight = 48) => {
+  let [scrollTop, height, padding, style] = [0, 0, 0, ele.style];
 
   if (ele._length === ele.value.length) return;
   ele._length = ele.value.length;
