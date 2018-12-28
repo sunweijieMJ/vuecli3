@@ -1,6 +1,6 @@
 <template>
   <div class="new-list">
-    <div class="new-box">
+    <div class="new-box" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
       <div class="warn">
         提醒
       </div>
@@ -30,15 +30,25 @@
         </li>
       </ul>
     </div>
+    <loading :loading="disabled && for_list.length !== pageInfo.page_total"></loading>
   </div>
 </template>
 <script>
 import NoticeApi from '../../../api/Notice.js';
+import {Loading} from '../../../components/public';
 export default {
   name: 'NewsList',
+  components: {
+    Loading
+  },
   data(){
     return {
-      for_list: [] // ETC 信息列表
+      for_list: [], // ETC 信息列表
+      disabled: false, // ETC 加载开关
+      pageInfo: { // ETC 页码信息
+        current_page: 0,
+        page_total: 0
+      }
     };
   },
   methods: {
@@ -47,17 +57,34 @@ export default {
     },
     goProFile(){
       this.$router.push({name: 'Profile', params: {id: 1}});
+    },
+    // 触底刷新
+    infinite() {
+      let that = this;
+      that.disabled = true;
+      that.getIdeaListData(++that.pageInfo.current_page).then(() => {
+        // 触底判断
+        that.disabled = false;
+        if(this.for_list.length <= that.pageInfo.page_total){
+          that.disabled = true;
+        }
+      });
+    },
+    async getIdeaListData(curpage){
+      return await NoticeApi().getMessageList({waitRead: 1, pages: 5, curPage: curpage}).then(res => {
+        let for_list = res.data.list;
+        for (let i = 0; i < for_list.length; i++) {
+          for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
+          let content = res.data.origin_msg[res.data.list[i].business_type];
+          for_list[i].content = content[res.data.list[i].business_id];
+        }
+        this.pageInfo.page_total = res.data.total;
+        this.for_list = this.for_list.concat(for_list);
+      });
     }
   },
   mounted(){
-    NoticeApi().getMessageList({waitRead: 1, pages: 5, curpage: 1}).then(res => {
-      this.for_list = res.data.list;
-      for (let i = 0; i < this.for_list.length; i++) {
-        this.for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
-        let content = res.data.origin_msg[res.data.list[i].business_type];
-        this.for_list[i].content = content[res.data.list[i].business_id];
-      }
-    });
+    this.getIdeaListData();
   }
 };
 </script>
