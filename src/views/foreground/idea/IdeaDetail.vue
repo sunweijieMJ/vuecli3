@@ -113,7 +113,7 @@
       // 点赞用户列表
       getThumpList(thinksId) {
         IdeaApi().getThumpList({thinksId}).then(res => {
-          this.thump_list = Object.values(res.data.list);
+          this.thump_list = Object.values(res.data.list || {});
         });
       },
       // 评论列表

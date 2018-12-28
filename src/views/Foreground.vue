@@ -12,12 +12,12 @@
         </ul>
         <ul class="nav-right">
           <li v-for="(vitem, vindex) in router.slice(2, 4)" :key="vindex" :class="{active: vindex === current}">
-            <el-badge :value="message_list.length" v-if="!vindex">
+            <el-badge :value="message_list.length ? message_list.length : ''" v-if="!vindex">
               <el-popover
                 placement="bottom"
                 trigger="hover">
-                <i slot="reference" class="iconfont" :class="vitem.icon" v-if="!vindex"></i>
-                <div class="message">
+                <i v-if="!vindex" slot="reference" class="iconfont" :class="vitem.icon" @click="querySkip('NewsList')"></i>
+                <div class="message" v-if="message_list.length">
                   <ul>
                     <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
                       <p>
@@ -38,7 +38,7 @@
               </el-dropdown-menu>
             </el-dropdown>
           </li>
-          <div class="admin" @click="querySkip('IdeaManage')" v-if="0">
+          <div class="admin" @click="querySkip('IdeaManage')" v-if="1">
             <i class="iconfont icon-icon-test"></i>
             <span>管理员</span>
           </div>
