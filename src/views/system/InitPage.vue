@@ -67,6 +67,8 @@ export default {
               // this.status = 0;
               this.login_status = true;
             }, 1000);
+          }else{
+            this.$message({message: '密码不正确', type: 'warning'});
           }
         });
       }else{

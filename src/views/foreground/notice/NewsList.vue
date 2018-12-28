@@ -5,25 +5,25 @@
         提醒
       </div>
       <ul>
-        <li v-for="(a, index) in 3" :key="index" @click="goIdeaDetail">
+        <li v-for="(a, index) in for_list" :key="index" @click="goIdeaDetail">
           <div class="head-img" @click.stop="goProFile">
-            <img src="https://p0.ssl.qhimgs4.com/t01fc20f943803bdb92.jpg" alt="">
+            <img :src="a.name.header_photo" alt="">
           </div>
           <div class="comment">
             <div class="reply">
               <span>
-                <span class="name">YANCY</span><span class="idea">回复了你的想法</span>
+                <span class="name">{{a.name.real_name}}</span><span class="idea">{{a.message_title}}</span>
               </span>
-              <span class="date">2018-12-12 10:30</span>
+              <span class="date">{{a.publish_time}}</span>
             </div>
             <div class="comment-idea">
               <p>
-                我觉得这个很好
+                {{a.message_desc}}
               </p>
             </div>
             <div class="distr">
               <p>
-                PGS正式上线，你不知道的21个隐藏功能。PGS正式上线，你不知道的21个隐藏功能，快…
+                {{a.content.content}}
               </p>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default {
   name: 'NewsList',
   data(){
     return {
-
+      for_list: [] // ETC 信息列表
     };
   },
   methods: {
@@ -50,8 +50,13 @@ export default {
     }
   },
   mounted(){
-    NoticeApi().getMessageList({}).then(res => {
-      console.log(res);
+    NoticeApi().getMessageList({waitRead: 1, pages: 5, curpage: 1}).then(res => {
+      this.for_list = res.data.list;
+      for (let i = 0; i < this.for_list.length; i++) {
+        this.for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
+        let content = res.data.origin_msg[res.data.list[i].business_type];
+        this.for_list[i].content = content[res.data.list[i].business_id];
+      }
     });
   }
 };

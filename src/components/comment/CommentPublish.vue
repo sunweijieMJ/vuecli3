@@ -116,27 +116,28 @@ export default {
     },
     // textarea 内容改变触发
     content(event){
+      console.log('内容变化')
       // 获取文本内容
       let text = document.getElementById('text').value;
       // 得到文本长度
       this.content_end = text.length;
+      
       // 光标前一位的字符
       let value = text.charAt(text.length - 1);
       if(value === '@'){
+        this.show = true;
+        this.mirrorCompute();
         // 置空话题#出现的节点位置
         this.topic_anchor = '';
         // @符出现的节点位置
         this.At_anchor = text.length;
-        this.mirrorCompute();
-        this.show = true;
       }else{
         this.show = false;
       }
-
       if(this.At_anchor){
         // 搜索用户的字符 用户关键字截取
-        let final_content = text.substring(this.At_anchor + 1, this.content_end);
-        this.string_length = final_content.length + 1; // ETC 搜索的字符长度
+        let final_content = text.substring(this.At_anchor, this.content_end);
+        this.string_length = final_content.length; // ETC 搜索的字符长度
         let noneArr = [];
         // 分解字符
         for (let j = 0; j < final_content.length; j++) {
@@ -147,27 +148,26 @@ export default {
           this.show = true;
           this.searchData(final_content);
         }else if(!noneArr.length){
+          this.show = true;
           this.searchData();
         }else{
           this.show = false;
-          this.At_anchor = '';
-          this.content_end = '';
         }
       }
 
       if(value === '#'){
+        this.jshow = true;
+        this.mirrorCompute();
         // 置空@节点位置
         this.At_anchor = '';
         this.topic_anchor = text.length; // ETC 话题#首次出现的节点
-        this.jshow = true;
-        this.mirrorCompute();
       }else{
         this.jshow = false;
       }
       if(this.topic_anchor){
         // 搜索话题关键字截取
-        let final_content = text.substring(this.topic_anchor + 1, this.content_end);
-        this.string_length = final_content.length + 1; // ETC 搜索的字符长度
+        let final_content = text.substring(this.topic_anchor, this.content_end);
+        this.string_length = final_content.length; // ETC 搜索的字符长度
         let noneArr = [];
         // 拆分话题字符
         for (let j = 0; j < final_content.length; j++) {
@@ -178,31 +178,29 @@ export default {
           this.jshow = true;
           this.searchTopic(final_content);
         }else if(!noneArr.length){
+          this.jshow = true;
           this.searchTopic();
         }else{
           this.jshow = false;
           this.topic_anchor = '';
-          this.content_end = '';
         }
       }
     },
     // 用户列表搜索
     searchData(key){
       UserApi().getAdminList({keyword: key ? key : ''}).then(res => {
-        console.log(res);
         this.friend = res.data;
       });
-      console.log('搜索数据', key);
     },
     // 话题列表搜索
     searchTopic(key){
       IdeaApi().getTopicList({keyword: key ? key : ''}).then(res => {
-        console.log('话题数据', res);
         this.topic = res.data;
       });
     },
     // 鼠标光标
     curse(e){
+      console.log('键盘事件')
       let eleP = e.target.parentNode; // ETC 获取父级元素
       let pos = 0;
       pos = this.getPosition(e.target);
@@ -261,7 +259,7 @@ export default {
         let startPos = myField.selectionStart;
         let endPos = myField.selectionEnd;
         // 保存滚动条
-        if(this.string_length > 1){
+        if(this.string_length){
           myField.value = myField.value.substring(0, startPos - this.string_length) + myValue + myField.value.substring(endPos, myField.value.length);
           myField.selectionStart = startPos - this.string_length + myValue.length;
           myField.selectionEnd = startPos - this.string_length + myValue.length;
@@ -415,6 +413,7 @@ export default {
         }
       }
       .submit{
+        cursor: pointer;
         width: 90px;
         height: 40px;
         text-align: center;
@@ -450,6 +449,7 @@ export default {
         display: flex;
         justify-content: flex-end;
         .submit{
+          cursor: pointer;
           width: 90px;
           height: 40px;
           text-align: center;
