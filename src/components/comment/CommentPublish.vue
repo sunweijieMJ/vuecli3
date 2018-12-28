@@ -7,7 +7,7 @@
           @blur="dealContent"
           @keyup="keyCode($event)"
           @input="content"
-          @click.stop="curse" placeholder="分享你得想法吧"></textarea>
+          @click.stop="curse" placeholder="分享你的想法吧"></textarea>
         <ul v-if="show && friend.list && friend.list.length" :style="at_style">
           <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}</li>
         </ul>
@@ -68,7 +68,7 @@ export default {
       hash_num: [], // ETC 记录hash数
       At_anchor: '', // ETC 保存@出现的节点位置
       content_end: '', // ETC 保存@输入内容的末尾节点位置
-
+      mouse_focus: '', // ETC 鼠标聚焦后搜索的字符串
       topic_anchor: '', // ETC 保存话题#出现的节点位置
       string_length: 0, // ETC 保存搜索的字符长度
       thinksPhotos: '' // ETC 图片Hash
@@ -116,14 +116,14 @@ export default {
     },
     // textarea 内容改变触发
     content(event){
-      console.log('内容变化')
+      // console.log('内容变化')
       // 获取文本内容
       let text = document.getElementById('text').value;
       // 得到文本长度
       this.content_end = text.length;
-      
       // 光标前一位的字符
       let value = text.charAt(text.length - 1);
+      // console.log('value:', value);
       if(value === '@'){
         this.show = true;
         this.mirrorCompute();
@@ -147,8 +147,7 @@ export default {
         if(noneArr.length && noneArr.indexOf(' ') === -1){
           this.show = true;
           this.searchData(final_content);
-        }else if(!noneArr.length){
-          this.show = true;
+        }else if(!noneArr.length && this.show){
           this.searchData();
         }else{
           this.show = false;
@@ -177,8 +176,7 @@ export default {
         if(noneArr.length && noneArr.indexOf('#') === -1){
           this.jshow = true;
           this.searchTopic(final_content);
-        }else if(!noneArr.length){
-          this.jshow = true;
+        }else if(!noneArr.length && this.jshow){
           this.searchTopic();
         }else{
           this.jshow = false;
@@ -200,7 +198,8 @@ export default {
     },
     // 鼠标光标
     curse(e){
-      console.log('键盘事件')
+      // console.log('鼠标')
+      this.content_end = '';
       let eleP = e.target.parentNode; // ETC 获取父级元素
       let pos = 0;
       pos = this.getPosition(e.target);
@@ -226,6 +225,8 @@ export default {
          */
         this.mirrorCompute();
         this.show = true;
+        this.string_length = 0;
+        this.searchData();
       }else{
         this.show = false;
       }
@@ -236,6 +237,8 @@ export default {
          */
         this.jshow = true;
         this.mirrorCompute();
+        this.string_length = 0;
+        this.searchTopic();
       }else{
         this.jshow = false;
       }
