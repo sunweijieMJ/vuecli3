@@ -10,7 +10,7 @@
       </el-popover>
       <div class="author-name">
         <h4>
-          <span class="name">{{detail.user_info.user_name}}</span>
+          <span class="name" @click.stop="paramsSkip('Profile', {id: detail.user_id})">{{detail.user_info.user_name}}</span>
           <span class="stick" v-if="detail.is_top">置顶</span>
         </h4>
         <p>
@@ -88,6 +88,7 @@
         width: 48px;
         height: 48px;
         border-radius: 50%;
+        cursor: pointer;
       }
       .author-name {
         display: flex;
@@ -103,6 +104,7 @@
             font-size: 16px;
             line-height: 22px;
             color: $h1Color;
+            cursor: pointer;
           }
           .stick {
             box-sizing: border-box;

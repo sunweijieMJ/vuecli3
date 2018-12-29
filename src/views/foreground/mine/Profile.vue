@@ -22,7 +22,7 @@
             <a href="javascript:;" @click="nameEnabled.status = false" v-if="user_info.self">修改昵称</a>
           </div>
           <div class="name-modify" v-else>
-            <input type="text" placeholder="昵称每月仅可修改一次" v-model="nameEnabled.name">
+            <input type="text" maxlength="12" placeholder="昵称每月仅可修改一次" v-model="nameEnabled.name">
             <span @click="nameEnabled.status = true">取消</span>
             <button @click="changeName(user_id, nameEnabled.name)">确认</button>
           </div>
@@ -73,7 +73,7 @@
           </li>
           <li>
             <p>
-              <i class="iconfont icon-ai45"></i>
+              <i class="iconfont icon-login_ic_hide"></i>
               <span>创造的阅读量</span>
             </p>
             <span>{{user_info.thinks_view_nums}}</span>
@@ -93,7 +93,7 @@
     components: {PublicList, Loading},
     data() {
       return {
-        user_id: this.$route.params.id, // ETC 用户ID
+        user_id: 0, // ETC 用户ID
         user_info: {}, // ETC 用户信息
         idea_list: [], // ETC 用户想法列表
         activeName: 'first', // ETC 当前选中tab
@@ -110,12 +110,14 @@
     },
     created() {
       let that = this;
+      that.user_id = +that.$route.params.id;
       that.getUserDetail([that.user_id]);
     },
     methods: {
       // 触底刷新
       infinite() {
         let that = this;
+        that.user_id = +that.$route.params.id;
         that.disabled = true;
         that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
@@ -184,13 +186,8 @@
     watch: {
       $route(to) {
         let that = this;
-        that.idea_list = [];
-        that.pageInfo = {
-          current_page: 0,
-          page_total: 0
-        };
+        Object.assign(that.$data, that.$options.data());
         that.getUserDetail([to.params.id]);
-        that.getIdeaList(that.user_id, ++that.pageInfo.current_page);
       }
     }
   };
@@ -329,15 +326,17 @@
       margin: auto;
       .achieve {
         width: 275px;
-        height: 197px;
+        height: 213px;
         background-color: #fff;
         .achieve-title {
-          box-sizing: border-box;
           display: flex;
           justify-content: center;
           align-items: center;
           height: 56px;
-          border:1px solid rgba(246,246,246,1);
+          border:1px solid $lineColor;
+          font-size: 18px;
+          font-weight: 400;
+          color: $h3Color;
         }
         .achieve-detail {
           padding: 30px;
@@ -353,15 +352,14 @@
                 font-size: 16px;
               }
               span {
+                margin-left: 7px;
                 font-size: 16px;
-                font-weight: 400;
-                color: #606266;
+                color: $h2Color;
               }
             }
             >span {
               font-size: 22px;
-              font-weight: 400;
-              color: #FF7678;
+              color: $themeColor;
             }
           }
         }

@@ -12,9 +12,10 @@
 
   // 多行省略
   @mixin erow($row: 2) {
-      @include css3(display, box, $prefix:false, $suffix:true);
-      @include css3(box-orient, vertical);
-      @include css3(line-clamp, $row);
+      position: relative;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
       overflow: hidden;
   }
 

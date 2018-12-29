@@ -11,7 +11,7 @@
         </el-popover>
         <div class="author-name">
           <h4>
-            <span class="name">{{vitem.user_info.user_name}}</span>
+            <span class="name" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">{{vitem.user_info.user_name}}</span>
             <span class="stick" v-if="vitem.is_top">置顶</span>
           </h4>
           <p>
@@ -117,6 +117,7 @@
             font-size: 16px;
             line-height: 22px;
             color: $h1Color;
+            cursor: pointer;
           }
           .stick {
             box-sizing: border-box;
@@ -153,8 +154,10 @@
         height: 149px;
         overflow: hidden;
         img {
+          box-sizing: border-box;
           width: 149px;
           height: 149px;
+          border: 1px solid $lineColor;
           margin-right: 3px;
         }
       }
@@ -248,6 +251,8 @@
 
   .single-list .main-paragraph {
     p {
+      @include erow(4);
+      max-height: 100px;
       font-size: 16px;
       line-height: 25px;
       color: $h2Color;

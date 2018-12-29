@@ -12,19 +12,19 @@
         </ul>
         <ul class="nav-right">
           <li v-for="(vitem, vindex) in router.slice(2, 4)" :key="vindex" :class="{active: vindex === current}">
-            <el-badge :value="unread_message ? unread_message : ''" v-if="!vindex">
-              <el-popover placement="bottom" trigger="hover">
-                <i v-if="!vindex" slot="reference" class="iconfont" :class="vitem.icon" @click="querySkip('NewsList')" @mouseenter="getMessageList"></i>
+            <el-badge :value="unread.num ? unread.num : ''" v-if="!vindex">
+              <el-popover placement="bottom" trigger="hover" v-model="unread.show">
+                <i v-if="!vindex" slot="reference" class="iconfont" :class="vitem.icon" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
                 <div class="message">
                   <ul>
-                    <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
+                    <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
                       <p>
-                        <span @click.stop="paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
-                        <span>{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
+                        <span @click.stop="unread.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
+                        <span @click.stop="unread.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
                       </p>
                     </li>
                   </ul>
-                  <a v-if="message_list.length" href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
+                  <a v-if="message.list.length" href="javascript:;" @click="unread.show = false || querySkip('NewsList')">全部提醒</a>
                 </div>
               </el-popover>
             </el-badge>
@@ -36,7 +36,7 @@
               </el-dropdown-menu>
             </el-dropdown>
           </li>
-          <div class="admin" @click="querySkip('IdeaManage')" v-if="1">
+          <div class="admin" @click="querySkip('IdeaManage')" v-if="self_info.is_manage">
             <i class="iconfont icon-icon-test"></i>
             <span>管理员</span>
           </div>
@@ -79,8 +79,14 @@
           }
         ],
         readMore,
-        unread_message: '', // ETC 未读消息数
-        message_list: [] // ETC 未读消息列表
+        unread: { // ETC 未读消息数
+          num: '',
+          show: false
+        },
+        message: { // ETC 未读消息列表
+          read: false,
+          list: []
+        }
       };
     },
     created() {
@@ -95,7 +101,7 @@
       // 消息未读数
       getMessageUnread() {
         NoticeApi().getMessageUnread({}).then(res => {
-          this.unread_message = res.data.cnt;
+          this.unread.num = res.data.cnt;
         });
       },
       // 消息列表
@@ -104,11 +110,12 @@
         NoticeApi().getMessageList({waitRead: 1, pages: 4}).then(res => {
           const origin_msg = res.data.origin_msg;
           const users_info = res.data.users_info;
-          that.message_list = res.data.list;
+          that.message.list = res.data.list;
+          that.message.read = true;
           // 数据整理
-          for(let i = 0, LEN = that.message_list.length; i < LEN; i++) {
-            that.message_list[i].user_info = users_info[that.message_list[i].push_user_id];
-            that.message_list[i].origin_msg = origin_msg[that.message_list[i].business_type][that.message_list[i].business_id];
+          for(let i = 0, LEN = that.message.list.length; i < LEN; i++) {
+            that.message.list[i].user_info = users_info[that.message.list[i].push_user_id];
+            that.message.list[i].origin_msg = origin_msg[that.message.list[i].business_type][that.message.list[i].business_id];
           }
         });
       },
@@ -120,8 +127,14 @@
             that.$router.push({name: 'Profile', params: {id: that.self_info.user_id}});
             break;
           case 'exit':
-            storage('cookie').remove('pgs_authinfo');
-            that.$router.push({name: 'Login'});
+            that.$confirm('确定注销用户?', '注销', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              storage('cookie').remove('pgs_authinfo');
+              that.$router.push({name: 'Login'});
+            }).catch(() => {});
             break;
           default:
             break;

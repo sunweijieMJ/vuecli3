@@ -158,8 +158,6 @@ const autoTextarea = (ele, extra = 0, maxHeight, minHeight = 48) => {
 
   scrollTop = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
   ele.style.height = minHeight + 'px';
-  console.log(ele._length);
-  console.log(ele.value.length);
 
   if (ele.scrollHeight > minHeight) {
     if (maxHeight && ele.scrollHeight > maxHeight) {

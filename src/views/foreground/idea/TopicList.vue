@@ -20,7 +20,7 @@
     },
     data(){
       return {
-        topic_id: this.$route.params.id, // ETC 话题id
+        topic_id: 0, // ETC 话题id
         topic_info: {}, // ETC 话题信息
         idea_list: [], // ETC 想法列表
         disabled: false, // ETC 加载开关
@@ -58,6 +58,7 @@
       // 触底刷新
       infinite() {
         let that = this;
+        that.topic_id = +that.$route.params.id;
         that.disabled = true;
         that.getTopicList(that.topic_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
@@ -69,14 +70,9 @@
       }
     },
     watch: {
-      $route(to) {
+      $route() {
         let that = this;
-        that.idea_list = [];
-        that.pageInfo = {
-          current_page: 0,
-          page_total: 0
-        };
-        that.getTopicList(to.params.id, ++that.pageInfo.current_page);
+        Object.assign(that.$data, that.$options.data());
       }
     }
   };

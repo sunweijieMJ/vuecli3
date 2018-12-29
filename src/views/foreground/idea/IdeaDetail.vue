@@ -53,7 +53,7 @@
     data() {
       return {
         autoTextarea,
-        idea_id: +this.$route.params.id, // ETC 详情id
+        idea_id: 0, // ETC 详情id
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
         disabled: false, // ETC 加载开关
@@ -77,6 +77,7 @@
     },
     created() {
       let that = this;
+      that.idea_id = +that.$route.params.id;
       that.getIdeaDetail(that.idea_id);
       that.getThumpList(that.idea_id);
       that.sendIdeaView(that.idea_id);
@@ -92,6 +93,7 @@
       // 触底刷新
       infinite() {
         let that = this;
+        that.idea_id = +that.$route.params.id;
         that.disabled = true;
         that.getCommentList(that.idea_id).then(() => {
           // 触底判断
@@ -232,6 +234,13 @@
             that.$refs.textarea.focus();
           });
         }
+      },
+      $route(to) {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        that.getIdeaDetail(to.params.id);
+        that.getThumpList(to.params.id);
+        that.sendIdeaView(to.params.id);
       }
     },
     computed: mapState({

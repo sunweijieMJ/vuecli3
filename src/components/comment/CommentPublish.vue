@@ -335,9 +335,7 @@ export default {
         IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
           if(res.status){
             this.$message({message: '发布成功', type: 'success', duration: 1000});
-            setTimeout(() => {
-              this.$emit('shutDown', false);
-            }, 1000);
+            this.$emit('publishSuccess');
           }
         });
       }else{
@@ -406,7 +404,7 @@ export default {
       textarea:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
         color:#C0C4CC;
       }
-      textarea:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+      textarea:-ms-input-placeholder{  /* Internet Explorer 10-11 */
         color:#C0C4CC;
       }
     }
