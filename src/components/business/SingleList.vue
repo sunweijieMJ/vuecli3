@@ -27,7 +27,7 @@
         <paragraph :text="vitem.content"></paragraph>
       </div>
       <div class="main-images" v-if="vitem.photos.length">
-        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="" @click.stop="showImage(vitem.photos, windex)">
+        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="">
       </div>
     </div>
     <!-- 时间 | 点赞 | 评论 -->
@@ -151,7 +151,7 @@
       .main-images {
         display: flex;
         height: 149px;
-        overflow-x: auto;
+        overflow: hidden;
         img {
           width: 149px;
           height: 149px;

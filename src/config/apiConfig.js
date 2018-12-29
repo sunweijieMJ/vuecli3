@@ -14,11 +14,12 @@ const urlDict = {
     'UserUpdate': '/user/update', // ETC 用户信息更新
     'UserList': '/user/list', // ETC 用户列表
     'UserPass': '/user/initpwd', // ETC 密码获取
-    'UserByName': '/user/getUsersbyname' // ETC 用户名获取用户信息
+    'UserByName': '/user/getusersbyname' // ETC 用户名获取用户信息
   },
   'Notice': {
     'MessageList': '/com/messagelist', // ETC 消息列表
-    'MessagePush': '/com/messagepush' // ETC 推送消息
+    'MessagePush': '/com/messagepush', // ETC 推送消息
+    'MessageUnread': '/com/unreadmessage' // ETC 未读信息总数
   },
   'Idea': {
     'IdeaPublish': '/thinks/publish', // ETC 发布信息
@@ -30,7 +31,8 @@ const urlDict = {
     'IdeaView': '/thinks/thinksview', // ETC 单页浏览量
     'ThumpList': '/thinks/zanlist', // ETC 点赞用户列表
     'IdeaThump': '/thinks/thinkszan', // ETC 想法点赞
-    'CommentThump': '/thinks/commentzan' // ETC 评论点赞
+    'CommentThump': '/thinks/commentzan', // ETC 评论点赞
+    'TopicByTitle': '/thinks/gettopicbytitle' // ETC 话题title获取话题信息
   }
 };
 

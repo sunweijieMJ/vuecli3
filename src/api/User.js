@@ -57,7 +57,7 @@ class User extends Abstract {
 
   /**
    * 用户名获取用户信息
-   * @param {array} userNames 用户名数组
+   * @param {array | required} userNames 用户名数组
    */
   getUserByName(data) {
     return this.postReq('User.UserByName', data);

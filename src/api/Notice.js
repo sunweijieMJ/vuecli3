@@ -22,6 +22,13 @@ class Notice extends Abstract {
     return this.getReq('Notice.MessageList', data);
   }
 
+  /**
+   * 未读信息总数
+   */
+  getMessageUnread(data) {
+    return this.getReq('Notice.MessageUnread', data);
+  }
+
 }
 
 // 单列模式返回对象

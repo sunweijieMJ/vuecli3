@@ -85,6 +85,7 @@
       };
     },
     created() {
+      // this.getMessageUnread();
       this.getMessageList();
     },
     methods: {
@@ -92,6 +93,12 @@
       select(item, index) {
         this.current = index;
         this.$router.push({name: item.name});
+      },
+      // 消息未读数
+      getMessageUnread() {
+        NoticeApi().getMessageUnread({}).then(res => {
+          console.log(res);
+        });
       },
       // 消息列表
       getMessageList() {

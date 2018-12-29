@@ -1,4 +1,5 @@
 import UserApi from '../../api/User';
+import IdeaApi from '../../api/Idea';
 
 export default {
   render(createElement) {
@@ -45,7 +46,7 @@ export default {
                 }
               }
             );
-          } else if (0 && item.match(/#[^@#]+#/g)) {
+          } else if (item.match(/#[^@#]+#/g)) {
             return createElement(
               'a',
               {
@@ -55,7 +56,17 @@ export default {
                 on: {
                   click: (e) => {
                     if (that.forbid) return;
-
+                    const topicTitles = e.target.innerText.split();
+                    IdeaApi().getTopicByTitle({topicTitles}).then(res => {
+                      if (res.status) {
+                        if (!res.data.length) {
+                          that.$message({message: '话题不存在', type: 'warning'});
+                        } else {
+                          const id = res.data[0].topic_id;
+                          that.$router.push({name: 'TopicList', params: {id}});
+                        }
+                      }
+                    });
                     e.stopPropagation();
                   }
                 }

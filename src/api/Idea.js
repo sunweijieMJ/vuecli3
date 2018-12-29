@@ -16,6 +16,7 @@ class Idea extends Abstract {
    * 想法列表
    * @param {number} extendTop 是否需要精华点评
    * @param {number} userId 用户ID,获取该用户所有的想法列表
+   * @param {number} topicId 话题ID,获取该话题下的想法列表
    * @param {number} curPage 页码
    * @param {number} pages 每页数
    */
@@ -98,6 +99,14 @@ class Idea extends Abstract {
    */
   sendIdeaView(data) {
     return this.postReq('Idea.IdeaView', data);
+  }
+
+  /**
+   * 话题title获取话题信息
+   * @param {array | required} topicTitles 话题title
+   */
+  getTopicByTitle(data) {
+    return this.postReq('Idea.TopicByTitle', data);
   }
 
 }

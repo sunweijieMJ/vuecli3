@@ -1,11 +1,11 @@
 <template>
   <div class="topic-list">
     <div class="list-header">
-      <h3>PGS正式上线啦</h3>
+      <h3>{{topic_info.sTopicTitle}}</h3>
     </div>
     <div class="list-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
-      <public-list :list="topic_list"></public-list>
-      <loading :loading="disabled && topic_list.length && topic_list.length < pageInfo.page_total"></loading>
+      <public-list :list="idea_list"></public-list>
+      <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
     </div>
   </div>
 </template>
@@ -20,7 +20,9 @@
     },
     data(){
       return {
-        topic_list: [], // ETC 想法列表
+        topic_id: this.$route.params.id, // ETC 话题id
+        topic_info: {}, // ETC 话题信息
+        idea_list: [], // ETC 想法列表
         disabled: false, // ETC 加载开关
         pageInfo: { // ETC 页码信息
           current_page: 0,
@@ -30,39 +32,51 @@
     },
     methods: {
       // 想法列表
-      async getTopicList(curPage) {
+      async getTopicList(topicId, curPage) {
         let that = this;
-        return await IdeaApi().getIdeaList({curPage}).then(res => {
+        return await IdeaApi().getIdeaList({topicId, curPage}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
-          const topic_list = res.data.list;
+          const idea_list = res.data.list;
+          that.topic_info = res.data.topic_info;
           that.pageInfo.page_total = res.data.total;
           // 数据整理
-          for(let i = 0, ILEN = topic_list.length; i < ILEN; i++) {
+          for(let i = 0, ILEN = idea_list.length; i < ILEN; i++) {
             // 点赞整理
-            topic_list[i].self_zan = self_zan[topic_list[i].thinks_id];
+            idea_list[i].self_zan = self_zan[idea_list[i].thinks_id];
             // 用户整理
-            topic_list[i].user_info = user_infos[topic_list[i].user_id];
-            if(!topic_list[i].replys) continue;
-            for(let j = 0, JLEN = topic_list[i].replys.length; j < JLEN; j++) {
-              topic_list[i].replys[j].user_info = user_infos[topic_list[i].replys[j].user_id];
+            idea_list[i].user_info = user_infos[idea_list[i].user_id];
+            if(!idea_list[i].replys) continue;
+            for(let j = 0, JLEN = idea_list[i].replys.length; j < JLEN; j++) {
+              idea_list[i].replys[j].user_info = user_infos[idea_list[i].replys[j].user_id];
             }
           }
 
-          that.topic_list = that.topic_list.concat(topic_list);
+          that.idea_list = that.idea_list.concat(idea_list);
         });
       },
       // 触底刷新
       infinite() {
         let that = this;
         that.disabled = true;
-        that.getTopicList(++that.pageInfo.current_page).then(() => {
+        that.getTopicList(that.topic_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
           that.disabled = false;
-          if(that.topic_list.length === that.pageInfo.page_total || !that.topic_list.length){
+          if(that.idea_list.length === that.pageInfo.page_total || !that.idea_list.length){
             that.disabled = true;
           }
         });
+      }
+    },
+    watch: {
+      $route(to) {
+        let that = this;
+        that.idea_list = [];
+        that.pageInfo = {
+          current_page: 0,
+          page_total: 0
+        };
+        that.getTopicList(to.params.id, ++that.pageInfo.current_page);
       }
     }
   };

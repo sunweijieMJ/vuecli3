@@ -183,7 +183,14 @@
     },
     watch: {
       $route(to) {
-        this.getUserDetail([to.params.id]);
+        let that = this;
+        that.idea_list = [];
+        that.pageInfo = {
+          current_page: 0,
+          page_total: 0
+        };
+        that.getUserDetail([to.params.id]);
+        that.getIdeaList(that.user_id, ++that.pageInfo.current_page);
       }
     }
   };

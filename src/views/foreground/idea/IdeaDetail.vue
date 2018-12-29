@@ -106,6 +106,7 @@
         let that = this;
         IdeaApi().getIdeaDetail({thinksId}).then(res => {
           that.ieda_detail = res.data;
+          if(!res.data.info) return;
           const user_infos = res.data.info;
           that.ieda_detail.user_info = user_infos[that.ieda_detail.user_id];
         });
