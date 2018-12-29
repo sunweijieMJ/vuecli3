@@ -27,7 +27,7 @@ const storageApi = require('../../utils/storage')('cookie');
 
 import userApi from '../../api/User.js';
 export default {
-  name: 'initpage',
+  name: 'login',
   data(){
     return{
       status: 0, // ETC 提示信息展示

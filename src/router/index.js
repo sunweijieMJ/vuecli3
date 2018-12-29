@@ -19,20 +19,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/System/InitPage'
+      redirect: '/system/login'
     },
     {
-      path: '/Foreground',
+      path: '/foreground',
       component: () => import('../views/Foreground.vue'),
       children: [ForeIdea, ForeOkr, ForeMine, ForeNotice]
     },
     {
-      path: '/Background',
+      path: '/background',
       component: () => import('../views/Background.vue'),
       children: [BackFrame, BackIdea]
     },
     {
-      path: '/System',
+      path: '/system',
       component: () => import('../views/System.vue'),
       children: [...System]
     },

@@ -1,9 +1,9 @@
 export default {
-  path: 'BackIdea',
+  path: 'back_idea',
   component: () => import('../../views/background/Idea.vue'),
   children: [
     {
-      path: 'IdeaManage',
+      path: 'idea_manage',
       name: 'IdeaManage',
       component: () => import('../../views/background/idea/IdeaManage.vue')
     }

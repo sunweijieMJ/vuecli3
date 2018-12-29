@@ -1,9 +1,9 @@
 export default {
-  path: 'BackFrame',
+  path: 'back_frame',
   component: () => import('../../views/background/Frame.vue'),
   children: [
     {
-      path: 'FrameManage',
+      path: 'frame_manage',
       name: 'FrameManage',
       component: () => import('../../views/background/frame/FrameManage.vue')
     }

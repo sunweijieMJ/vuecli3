@@ -1,7 +1,7 @@
 export default [
   {
-    path: 'InitPage',
-    name: 'InitPage',
-    component: resolve => require(['../../views/system/InitPage.vue'], resolve)
+    path: 'login',
+    name: 'Login',
+    component: resolve => require(['../../views/system/Login.vue'], resolve)
   }
 ];

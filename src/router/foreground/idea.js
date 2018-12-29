@@ -1,19 +1,19 @@
 export default {
-  path: 'ForeIdea',
+  path: 'fore_idea',
   component: () => import('../../views/foreground/Idea.vue'),
   children: [
     {
-      path: 'IdeaList',
+      path: 'idea_list',
       name: 'IdeaList',
       component: () => import('../../views/foreground/idea/IdeaList.vue')
     },
     {
-      path: 'IdeaDetail/:id',
+      path: 'idea_detail/:id',
       name: 'IdeaDetail',
       component: () => import('../../views/foreground/idea/IdeaDetail.vue')
     },
     {
-      path: 'TopicList/:id',
+      path: 'topic_list/:id',
       name: 'TopicList',
       component: () => import('../../views/foreground/idea/TopicList.vue')
     }

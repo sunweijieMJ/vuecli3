@@ -1,9 +1,9 @@
 export default {
-  path: 'ForeMine',
+  path: 'fore_mine',
   component: () => import('../../views/foreground/Mine.vue'),
   children: [
     {
-      path: 'Profile/:id',
+      path: 'profile/:id',
       name: 'Profile',
       component: () => import('../../views/foreground/mine/Profile.vue')
     }

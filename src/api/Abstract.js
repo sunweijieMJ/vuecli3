@@ -53,7 +53,7 @@ class Abstract {
         if (res.data.status) {
           resolve({status: true, message: 'success', data: res.data.data});
         } else if (res.data.status === -1) {
-          router.push({name: 'InitPage'});
+          router.push({name: 'Login'});
         } else {
           resolve({status: false, message: res.data.message, data: null});
         }

@@ -121,7 +121,7 @@
             break;
           case 'exit':
             storage('cookie').remove('pgs_authinfo');
-            that.$router.push({name: 'InitPage'});
+            that.$router.push({name: 'Login'});
             break;
           default:
             break;
