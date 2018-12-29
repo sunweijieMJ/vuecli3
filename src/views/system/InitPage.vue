@@ -71,8 +71,6 @@ export default {
             this.$message({message: '密码不正确, 请确认密码再次输入', type: 'warning'});
           }
         });
-      }else{
-        this.$message({message: '密码不正确, 请确认密码再次输入', type: 'warning'});
       }
     },
     // 计时器

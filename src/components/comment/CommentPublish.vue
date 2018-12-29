@@ -9,9 +9,9 @@
           @input="content"
           @click.stop="curse" placeholder="分享你的想法吧"></textarea>
         <ul v-if="show && friend.list && friend.list.length" :style="at_style">
-          <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}</li>
+          <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}({{a.real_name}})</li>
         </ul>
-        <ul v-if="jshow" :style="at_style">
+        <ul v-if="jshow && topic && topic.list.length" :style="at_style">
           <li>创建话题#PGS上线啦#</li>
           <li v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
         </ul>
@@ -112,7 +112,7 @@ export default {
         return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
       };
       // 创建镜像内容，复制样式
-      let mirror = '<p style="font-size:22px;font-family:monospace; line-height: normal;" id="' + 'text' + '">' +
+      let mirror = '<p style="font-size:16px;font-family:PingFangSC-Regular; line-height: normal;" id="' + 'text' + '">' +
       escape(beforeText) +
       '<span id="cursor">|</span>' +
       escape(afterText) +
@@ -391,9 +391,9 @@ export default {
         width: 604px;
         height: 315px;
         box-sizing: border-box;
-        font-family: monospace;
+        font-family: PingFangSC-Regular;
         // border: 1px solid orange;
-        font-size: 22px;
+        font-size: 16px;
         border: none;
         resize: none;
       }

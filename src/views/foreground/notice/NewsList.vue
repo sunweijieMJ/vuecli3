@@ -4,15 +4,19 @@
       <div class="warn">
         提醒
       </div>
-      <ul>
+      <ul v-if="for_list.length">
         <li v-for="(a, index) in for_list" :key="index" @click="goIdeaDetail(a.to_user_id)">
-          <div class="head-img" @click.stop="goProFile(a.to_user_id)">
-            <img :src="a.name.header_photo" alt="">
-          </div>
+          <el-popover
+            placement="bottom"
+            trigger="hover"
+            class="head-img">
+            <img slot="reference" v-if="a.name" :src="a.name.header_photo" alt="" @click.stop="goProFile(a.push_user_id)">
+            <user-popover :userinfo="a.name"></user-popover>
+          </el-popover>
           <div class="comment">
             <div class="reply">
               <span>
-                <span class="name">{{a.name.user_name}}</span><span class="idea">{{a.message_title}}</span>
+                <span v-if="a.name" class="name">{{a.name.user_name}}</span><span class="idea">{{a.message_title}}</span>
               </span>
               <span class="date">{{a.publish_time}}</span>
             </div>
@@ -22,7 +26,7 @@
               </p>
             </div>
             <div class="distr">
-              <p>
+              <p v-if="a.content">
                 {{a.content.content}}
               </p>
             </div>
@@ -34,12 +38,13 @@
   </div>
 </template>
 <script>
+import UserPopover from '../../../components/popup/UserPopover';
 import NoticeApi from '../../../api/Notice.js';
 import {Loading} from '../../../components/public';
 export default {
   name: 'NewsList',
   components: {
-    Loading
+    Loading, UserPopover
   },
   data(){
     return {
@@ -71,15 +76,17 @@ export default {
       });
     },
     async getIdeaListData(curpage){
-      return await NoticeApi().getMessageList({waitRead: 1, pages: 7, curPage: curpage}).then(res => {
+      return await NoticeApi().getMessageList({waitRead: 6, pages: 7, curPage: curpage}).then(res => {
         let for_list = res.data.list;
-        for (let i = 0; i < for_list.length; i++) {
-          for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
-          let content = res.data.origin_msg[res.data.list[i].business_type];
-          for_list[i].content = content[res.data.list[i].business_id];
+        if(for_list.length){
+          for (let i = 0; i < for_list.length; i++) {
+            for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
+            let content = res.data.origin_msg[res.data.list[i].business_type];
+            for_list[i].content = content[res.data.list[i].business_id];
+          }
+          this.pageInfo.page_total = res.data.total;
+          this.for_list = this.for_list.concat(for_list);
         }
-        this.pageInfo.page_total = res.data.total;
-        this.for_list = this.for_list.concat(for_list);
       });
     }
   }
