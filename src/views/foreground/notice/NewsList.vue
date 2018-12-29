@@ -5,7 +5,7 @@
         提醒
       </div>
       <ul v-if="for_list.length">
-        <li v-for="(a, index) in for_list" :key="index" @click="goIdeaDetail(a.to_user_id)">
+        <li v-for="(a, index) in for_list" :key="index" v-if="a.name" @click="goIdeaDetail(a.content.thinks_id)">
           <el-popover
             placement="bottom"
             trigger="hover"
@@ -15,7 +15,7 @@
           </el-popover>
           <div class="comment">
             <div class="reply">
-              <span>
+              <span @click.stop="goProFile(a.push_user_id)">
                 <span v-if="a.name" class="name">{{a.name.user_name}}</span><span class="idea">{{a.message_title}}</span>
               </span>
               <span class="date">{{a.publish_time}}</span>
@@ -59,6 +59,7 @@ export default {
   methods: {
     goIdeaDetail(user_id){
       this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
+      
     },
     goProFile(user_id){
       this.$router.push({name: 'Profile', params: {id: user_id}});
