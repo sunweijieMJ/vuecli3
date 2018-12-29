@@ -24,19 +24,19 @@
           </p>
           <p class="reply">
             <i class="iconfont icon-pinglun"></i>
-            <span @click="textEnabled = true">回复</span>
+            <span @click="textEnabled.status = true">回复</span>
           </p>
         </div>
         <div class="num-right">
           <span>{{item.publish_time}}</span>
         </div>
       </div>
-      <div class="comment-publish" v-if="textEnabled">
-        <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`" v-model="comment_content"
+      <div class="comment-publish" v-if="textEnabled.status">
+        <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`" v-model="textEnabled.text"
           @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)"></textarea>
         <div class="publish-btn">
-          <span @click="textEnabled = false">取消</span>
-          <button @click="sendComment(item.comment_id, comment_content)">发送</button>
+          <span @click="textEnabled.status = false">取消</span>
+          <button @click="sendComment(item.comment_id, textEnabled.text)">发送</button>
         </div>
       </div>
     </div>
@@ -55,8 +55,10 @@
     data() {
       return {
         autoTextarea,
-        textEnabled: false, // ETC textarea激活
-        comment_content: '' // ETC 评论内容
+        textEnabled: { // ETC textarea激活
+          status: false,
+          text: ''
+        }
       };
     },
     methods: {
@@ -66,7 +68,7 @@
         const thinksId = +that.$route.params.id;
         IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
           if(res.status) {
-            that.textEnabled = false;
+            that.textEnabled.status = false;
             if(that.root.hasOwnProperty('index')) {
               that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id, index: that.root.index});
             } else {
@@ -87,12 +89,19 @@
       }
     },
     watch: {
-      textEnabled(cur) {
+      'textEnabled.status'(cur) {
         let that = this;
         if(cur) {
           that.$nextTick(() => {
             that.$refs.textarea.focus();
           });
+        } else {
+          const textarea = that.$el.querySelector('.comment-publish textarea');
+          that.textEnabled = {
+            status: false,
+            text: ''
+          };
+          autoTextarea(textarea);
         }
       }
     }

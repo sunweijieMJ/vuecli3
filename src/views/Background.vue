@@ -27,12 +27,12 @@
           {
             text: '组织架构',
             icon: 'icon-zuzhijiagou-',
-            name: 'IdeaManage'
+            name: 'FrameManage'
           },
           {
             text: '管理想法',
             icon: 'icon-wenbenicon',
-            name: 'FrameManage'
+            name: 'IdeaManage'
           }
         ]
       };

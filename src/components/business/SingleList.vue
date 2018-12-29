@@ -37,7 +37,7 @@
           <i class="iconfont icon-ai45" :class="{self_zan: vitem.self_zan}"></i>
           <span>{{vitem.zan}}</span>
         </p>
-        <p @click.stop="pathSkip(`IdeaDetail/${vitem.thinks_id}`, {active: true})">
+        <p @click.stop="pathSkip(`idea_detail/${vitem.thinks_id}`, {active: true})">
           <i class="iconfont icon-pinglun"></i>
           <span>{{vitem.total_comments}}</span>
         </p>

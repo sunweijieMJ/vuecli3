@@ -158,6 +158,7 @@
         display: flex;
         justify-content: space-between;
         width: 1040px;
+        min-width: 1040px;
         margin: auto;
         h1 {
           cursor: pointer;

@@ -29,7 +29,7 @@
       <div class="splendid-title">
         <h4>精彩评论 ({{splendid_list.list.length}})</h4>
       </div>
-      <comment-list :list="splendid_list.list"></comment-list>
+      <comment-list :list="splendid_list.list" @commentSuccess="commentSuccess"></comment-list>
     </div>
     <!-- 普通评论 -->
     <div class="detail-common" v-if="common_list.list.length">
@@ -136,7 +136,7 @@
             splendid[i].self_zan = self_zan[splendid[i].comment_id];
             // 用户整理
             splendid[i].user_info = user_infos[splendid[i].user_id];
-            if(!splendid[i].replys) continue;
+            if(!splendid[i].replys) splendid[i].replys = [];
             for(let j = 0, JLEN = splendid[i].replys.length; j < JLEN; j++) {
               // 点赞整理
               splendid[i].replys[j].self_zan = self_zan[splendid[i].replys[j].comment_id];
@@ -150,7 +150,7 @@
             common[i].self_zan = self_zan[common[i].comment_id];
             // 用户整理
             common[i].user_info = user_infos[common[i].user_id];
-            if(!common[i].replys) continue;
+            if(!common[i].replys) common[i].replys = [];
             for(let j = 0, JLEN = common[i].replys.length; j < JLEN; j++) {
               // 点赞整理
               common[i].replys[j].self_zan = self_zan[common[i].replys[j].comment_id];
@@ -199,6 +199,7 @@
           // 二级评论
           for(let i = 0, LEN = common.length; i < LEN; i++) {
             if(common[i].comment_id !== res.id) continue;
+
             if(res.hasOwnProperty('index')) {
               common[i].replys.splice(res.index + 1, 0, comment);
             } else {
