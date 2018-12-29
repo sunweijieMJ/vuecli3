@@ -3,17 +3,17 @@
     <div class="header">组织架构</div>
     <div class="statistics">
       <div class="st-header">
-        <span>共15个部门，150个小伙伴</span>
+        <span>共 {{all_num.dep_total}} 个部门，{{all_num.user_total}} 个小伙伴</span>
         <span class="crease">新增</span>
       </div>
       <div class="staff-list">
         <ul class="left">
-          <li v-for="(a, index) in department" :key="index" @click="checkDepartment(a.id, index)">
+          <li v-for="(a, index) in department" :key="index" @click="checkDepartment(a.dep_id, index)">
             <div class="angle">
               <i class="iconfont icon-sanjiaoyou" v-if="show[index]"></i>
             </div>
             <div>
-              {{a.branch}}
+              {{a.department_name}}
             </div>
           </li>
         </ul>
@@ -21,16 +21,16 @@
           <div class="r-head">数字产品部-后台（5人）</div>
           <li v-for="(b, tindex) in department_staff" :key="tindex">
             <div class="staff-header-img">
-              <img :src="b.img" alt="">
+              <img :src="b.header_photo" alt="">
               <span class="sex">
-                <span class="iconfont icon-personal_ic_man" v-if="b.sex === 2"></span>
-                <span class="iconfont icon-nvxing" v-if="b.sex === 1"></span>
-                <span>{{b.name}}</span>
+                <span class="iconfont icon-personal_ic_man" v-if="b.gender === 1"></span>
+                <span class="iconfont icon-nvxing" v-if="b.gender === 2"></span>
+                <span>{{b.real_name}}</span>
               </span>
             </div>
             <div class="staff-formation">
               <div>
-                <span class="iconfont icon-shoujihao"></span><span>{{b.phone}}</span>
+                <span class="iconfont icon-shoujihao"></span><span>{{b.mobile}}</span>
               </div>
               <div>
                 <span class="iconfont icon-email"></span><span>{{b.email}}</span>
@@ -43,52 +43,12 @@
   </div>
 </template>
 <script>
+import ManageApi from '../../../api/Manage.js';
 export default {
   name: 'FrameManage',
   data(){
     return {
-      department: [
-        {
-          id: 1,
-          branch: '总裁办'
-        },
-        {
-          id: 2,
-          branch: '用户运营部'
-        },
-        {
-          id: 3,
-          branch: '财务部'
-        },
-        {
-          id: 4,
-          branch: '供应链'
-        },
-        {
-          id: 5,
-          branch: '数字产品-前台'
-        },
-        {
-          id: 6,
-          branch: '技术研发部'
-        },
-        {
-          id: 7,
-          branch: '产品企划部'
-        },
-        {
-          id: 7,
-          branch: '人力资源'
-        },
-        {
-          id: 7,
-          branch: '用户沟通部'
-        },
-        {
-          id: 7,
-          branch: '用户体验中心'
-        }
-      ], // ETC 部门列表
+      department: [], // ETC 部门列表
       department_staff: [
         {
           img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
@@ -133,7 +93,8 @@ export default {
           email: 'paddiliu@lanehub.com'
         }
       ], // ETC 部门人员
-      show: []
+      show: [],
+      all_num: ''
     };
   },
   methods:{
@@ -146,17 +107,39 @@ export default {
           this.show.push(false);
         }
       }
+      this.getStaffData(id);
+    },
+    getBasicData(){
+      ManageApi().getBasicData({}).then(res => {
+        this.all_num = res.data;
+      });
+    },
+    getDepartMentData(){
+      ManageApi().getDepartMentData({}).then(res => {
+        this.department = res.data.list;
+        if(this.department.length){
+          this.show = [];
+          for (let i = 0; i < this.department.length; i++) {
+            if(this.show.length){
+              this.show.push(false);
+            }else{
+              this.show.push(true);
+            }
+          }
+          this.getStaffData(res.data.list[1].dep_id);
+        }
+      });
+    },
+    getStaffData(id){
+      ManageApi().getStaffData({depId: id, curPage: 1, pages: 7}).then(res => {
+        this.department_staff = res.data.list;
+      });
     }
   },
   mounted(){
-    this.show = [];
-    for (let i = 0; i < this.department.length; i++) {
-      if(this.show.length){
-        this.show.push(false);
-      }else{
-        this.show.push(true);
-      }
-    }
+    this.getBasicData();
+    this.getDepartMentData();
+    
   }
 };
 </script>

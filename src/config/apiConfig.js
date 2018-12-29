@@ -33,6 +33,11 @@ const urlDict = {
     'IdeaThump': '/thinks/thinkszan', // ETC 想法点赞
     'CommentThump': '/thinks/commentzan', // ETC 评论点赞
     'TopicByTitle': '/thinks/gettopicbytitle' // ETC 话题title获取话题信息
+  },
+  'ManageIdea': {
+    'BasicData': 'crules/org/orgbasic', // ETC 组织结构基础数据
+    'DepartMentData': 'crules/org/departmentlist', // ETC 部门数据
+    'StaffData': 'crules/org/getstaffsbydep' // ETC 员工数据
   }
 };
 

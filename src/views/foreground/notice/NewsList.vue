@@ -100,7 +100,7 @@ export default {
   background-color: white;
   text-align: left;
   .new-box{
-    width: 1160px;
+    width: 1040px;
     margin: auto;
   }
   .warn{
