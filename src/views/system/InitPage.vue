@@ -3,7 +3,7 @@
     <div class="title">PGS</div>
     <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
     <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
-    <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{ruleForm2.email}} ，请在邮件中查看</div>
+    <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{push_email}} ，请在邮件中查看</div>
     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
       <el-form-item
       prop="email">
@@ -14,7 +14,7 @@
       </el-form-item>
       <el-form-item>
         <div class="security">
-          <span v-show="!show" @click="countDown">获取密码</span>
+          <span class="push-sec" v-show="!show" @click="countDown">获取密码</span>
           <span v-show="show" class="countdown">{{time}}</span>
         </div>
         <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
@@ -39,6 +39,7 @@ export default {
         pass: '',
         email: ''
       },
+      push_email: '', // ETC 发送邮箱密码显示的文本
       rules2: {
         email: [
           {required: true, message: '请输入邮箱地址', trigger: 'blur'},
@@ -80,6 +81,7 @@ export default {
       if(!this.firm_dis && this.ruleForm2.email && Reg.test(this.ruleForm2.email)){
         userApi().getPssword({email: this.ruleForm2.email}).then(res => {
           if(res.status){
+            this.push_email = this.ruleForm2.email;
             this.status = 1;
             let time = 50;
             let timeStop = setInterval(() => {
@@ -126,7 +128,6 @@ export default {
     margin-bottom: 18px;
   }
   .security{
-    cursor: pointer;
     padding: 0 10px;
     display: flex;
     justify-content: flex-end;
@@ -134,6 +135,9 @@ export default {
     font-weight:400;
     color:rgba(85,129,199,1);
     margin-bottom: 18px;
+    .push-sec{
+      cursor: pointer;
+    }
     .countdown{
       font-size:14px;
       font-weight:400;
@@ -145,7 +149,7 @@ export default {
   }
 }
 </style>
-<style>
+<style lang="scss">
 .init > .el-form{
   width: 315px;
   margin: auto;
@@ -157,6 +161,10 @@ export default {
 .init > .el-form > .el-form-item > .el-form-item__content{
   margin-left: 0 !important;
   line-height: 1;
+  .el-form-item__error{
+    left: 12px;
+  }
+
 }
 .init > .el-form > .el-form-item > .el-form-item__content > .el-input > .el-input__inner{
   border-radius: 20px;
