@@ -148,8 +148,10 @@
           p {
             display: flex;
             align-items: center;
-            margin-right: 33px;
             cursor: pointer;
+            &:first-child {
+              width: 70px;
+            }
             &.self_zan {
               color: $themeColor;
             }

@@ -146,6 +146,7 @@ const getStyle = (ele, attr) => {
  */
 import {os} from './judge.js';
 const autoTextarea = (ele, extra = 0, maxHeight, minHeight = 48) => {
+
   let [scrollTop, height, padding, style] = [0, 0, 0, ele.style];
 
   if (ele._length === ele.value.length) return;
@@ -157,6 +158,8 @@ const autoTextarea = (ele, extra = 0, maxHeight, minHeight = 48) => {
 
   scrollTop = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
   ele.style.height = minHeight + 'px';
+  console.log(ele._length);
+  console.log(ele.value.length);
 
   if (ele.scrollHeight > minHeight) {
     if (maxHeight && ele.scrollHeight > maxHeight) {

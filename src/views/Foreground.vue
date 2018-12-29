@@ -12,12 +12,10 @@
         </ul>
         <ul class="nav-right">
           <li v-for="(vitem, vindex) in router.slice(2, 4)" :key="vindex" :class="{active: vindex === current}">
-            <el-badge :value="message_list.length ? message_list.length : ''" v-if="!vindex">
-              <el-popover
-                placement="bottom"
-                trigger="hover">
-                <i v-if="!vindex" slot="reference" class="iconfont" :class="vitem.icon" @click="querySkip('NewsList')"></i>
-                <div class="message" v-if="message_list.length">
+            <el-badge :value="unread_message ? unread_message : ''" v-if="!vindex">
+              <el-popover placement="bottom" trigger="hover">
+                <i v-if="!vindex" slot="reference" class="iconfont" :class="vitem.icon" @click="querySkip('NewsList')" @mouseenter="getMessageList"></i>
+                <div class="message">
                   <ul>
                     <li v-for="(witem, windex) in message_list" :key="windex" @click="querySkip('NewsList')">
                       <p>
@@ -26,7 +24,7 @@
                       </p>
                     </li>
                   </ul>
-                  <a href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
+                  <a v-if="message_list.length" href="javascript:;" @click="querySkip('NewsList')">全部提醒</a>
                 </div>
               </el-popover>
             </el-badge>
@@ -81,12 +79,12 @@
           }
         ],
         readMore,
-        message_list: []
+        unread_message: '', // ETC 未读消息数
+        message_list: [] // ETC 未读消息列表
       };
     },
     created() {
-      // this.getMessageUnread();
-      this.getMessageList();
+      this.getMessageUnread();
     },
     methods: {
       // 切换tab
@@ -97,7 +95,7 @@
       // 消息未读数
       getMessageUnread() {
         NoticeApi().getMessageUnread({}).then(res => {
-          console.log(res);
+          this.unread_message = res.data.cnt;
         });
       },
       // 消息列表
@@ -146,7 +144,7 @@
       nav {
         display: flex;
         justify-content: space-between;
-        width: 1160px;
+        width: 1040px;
         margin: auto;
         h1 {
           cursor: pointer;

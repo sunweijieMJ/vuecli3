@@ -63,6 +63,7 @@
         h4 {
           display: flex;
           align-items: center;
+          margin-bottom: 5px;
           font-weight: 400;
           span {
             font-size: 16px;

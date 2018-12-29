@@ -170,6 +170,9 @@
         let that = this;
         IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
           if(res.status) {
+            const textarea = that.$el.querySelector('.detail-comment textarea');
+            textarea.value = '';
+            autoTextarea(textarea);
             that.textEnabled = {
               status: false,
               text: ''
@@ -242,6 +245,7 @@
   .idea-detail {
     width: 800px;
     margin: 12px auto 0;
+    padding-bottom: 50px;
     background-color: #fff;
     .detail-thump {
       padding: 35px 66px;

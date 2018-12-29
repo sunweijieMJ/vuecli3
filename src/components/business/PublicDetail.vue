@@ -163,7 +163,7 @@
             align-items: center;
             cursor: pointer;
             &:first-child {
-              margin-right: 50px;
+              width: 100px;
             }
             &.self_zan {
               span, i {

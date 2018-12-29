@@ -156,7 +156,6 @@
           width: 149px;
           height: 149px;
           margin-right: 3px;
-          cursor: pointer;
         }
       }
     }
@@ -173,9 +172,8 @@
           align-items: center;
           cursor: pointer;
           &:first-child {
-            margin-right: 50px;
+            width: 100px;
             i {
-              // font-size:18px;
               color: $h2Color;
               &.self_zan {
                 color: $themeColor;

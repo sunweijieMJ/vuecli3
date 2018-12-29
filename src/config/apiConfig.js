@@ -19,7 +19,7 @@ const urlDict = {
   'Notice': {
     'MessageList': '/com/messagelist', // ETC 消息列表
     'MessagePush': '/com/messagepush', // ETC 推送消息
-    'MessageUnread': '/com/unreadmessage' // ETC 未读信息总数
+    'MessageUnread': '/com/unreadmessagecnt' // ETC 未读信息总数
   },
   'Idea': {
     'IdeaPublish': '/thinks/publish', // ETC 发布信息
