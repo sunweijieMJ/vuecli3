@@ -61,7 +61,7 @@ export default {
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
 
           if(res.status){
-            storageApi.set('pgs_authinfo', res.data.pgs_authinfo);
+            storageApi.set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
             this.$message({message: '登陆成功', type: 'success', duration: 1000});
             setTimeout(() => {
               this.$router.push({name: 'IdeaList'});
