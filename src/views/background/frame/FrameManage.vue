@@ -197,7 +197,7 @@ export default {
       display: flex;
       .left{
         li{
-          padding:17px 22px;
+          padding:17px 22px 17px 0;
           line-height: 1;
           // font-size:14px;
           font-weight:400;

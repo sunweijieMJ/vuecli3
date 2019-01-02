@@ -350,7 +350,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .comment-publish{
-  z-index: 3000;
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
