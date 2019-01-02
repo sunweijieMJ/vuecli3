@@ -43,7 +43,7 @@ class User extends Abstract {
    * 用户列表
    * @param {string} keyword 关键字
    */
-  getAdminList(data){
+  getUserList(data){
     return this.getReq('User.UserList', data);
   }
 

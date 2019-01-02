@@ -198,7 +198,7 @@ export default {
     },
     // 用户列表搜索
     searchData(key){
-      UserApi().getAdminList({keyword: key ? key : ''}).then(res => {
+      UserApi().getUserList({keyword: key ? key : ''}).then(res => {
         this.friend = res.data;
       });
     },
