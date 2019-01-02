@@ -8,7 +8,7 @@
       </div>
       <div class="staff-list">
         <ul class="left">
-          <li v-for="(a, index) in department" :key="index" @click="checkDepartment(a.dep_id, index)">
+          <li v-for="(a, index) in department" :key="index" @click="checkDepartment(a.dep_id, index, a.department_name)">
             <div class="angle">
               <i class="iconfont icon-sanjiaoyou" v-if="show[index]"></i>
             </div>
@@ -17,15 +17,15 @@
             </div>
           </li>
         </ul>
-        <ul class="right">
-          <div class="r-head">数字产品部-后台（5人）</div>
-          <li v-for="(b, tindex) in department_staff" :key="tindex">
+        <ul class="right" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+          <div class="r-head">{{depart_name}}（{{pageInfo.page_total}}人）</div>
+          <li v-for="(b, tindex) in department_staff" :key="tindex" :class="{gray: quit(b.state)}">
             <div class="staff-header-img">
               <img :src="b.header_photo" alt="">
               <span class="sex">
                 <span class="iconfont icon-personal_ic_man" v-if="b.gender === 1"></span>
                 <span class="iconfont icon-nvxing" v-if="b.gender === 2"></span>
-                <span>{{b.real_name}}</span>
+                <span>{{b.nick_name}} ({{b.real_name}})</span>
               </span>
             </div>
             <div class="staff-formation">
@@ -40,65 +40,44 @@
         </ul>
       </div>
     </div>
+    <loading :loading="disabled && department_staff.length < pageInfo.page_total"></loading>
   </div>
 </template>
 <script>
 import ManageApi from '../../../api/Manage.js';
+import {Loading} from '../../../components/public';
 export default {
   name: 'FrameManage',
+  components: {
+    Loading
+  },
   data(){
     return {
       department: [], // ETC 部门列表
-      department_staff: [
-        {
-          img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
-          sex: 1,
-          name: 'Paddy（刘沛)',
-          phone: '13973330236',
-          email: 'paddiliu@lanehub.com'
-        },
-        {
-          img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
-          sex: 2,
-          name: 'Paddy（刘沛)',
-          phone: '13973330236',
-          email: 'paddiliu@lanehub.com'
-        },
-        {
-          img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
-          sex: 1,
-          name: 'Paddy（刘沛)',
-          phone: '13973330236',
-          email: 'paddiliu@lanehub.com'
-        },
-        {
-          img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
-          sex: 2,
-          name: 'Paddy（刘沛)',
-          phone: '13973330236',
-          email: 'paddiliu@lanehub.com'
-        },
-        {
-          img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
-          sex: 2,
-          name: 'Paddy（刘沛)',
-          phone: '13973330236',
-          email: 'paddiliu@lanehub.com'
-        },
-        {
-          img: 'https://s3m.mediav.com/galileo/240158-265a9af531a8bf02fb870114e24dc5db.jpg',
-          sex: 1,
-          name: 'Paddy（刘沛)',
-          phone: '13973330236',
-          email: 'paddiliu@lanehub.com'
-        }
-      ], // ETC 部门人员
+      department_staff: [], // ETC 部门人员
       show: [],
-      all_num: ''
+      depart_name: '', // ETC 部门名字
+      depart_num: '', // ETC 部门数量
+      all_num: '',
+
+      disabled: false, // ETC 加载开关
+      pageInfo: { // ETC 页码信息
+        current_page: 0,
+        page_total: 0
+      },
+      depart_id: '' // ETC 部门id
     };
   },
-  methods:{
-    checkDepartment(id, key){
+  methods: {
+    // 辞职样式
+    quit(val){
+      if(val !== '在职'){
+        return true;
+      }
+    },
+    checkDepartment(id, key, name){
+      this.disabled = false;
+      this.pageInfo.current_page = 1;
       this.show = [];
       for (let i = 0; i < this.department.length; i++) {
         if(key === i){
@@ -107,14 +86,18 @@ export default {
           this.show.push(false);
         }
       }
-      this.getStaffData(id);
+      this.depart_id = id;
+      this.getStaffData2(id);
+      this.depart_name = name;
     },
+    // 基础数据
     getBasicData(){
       ManageApi().getBasicData({}).then(res => {
         this.all_num = res.data;
       });
     },
-    getDepartMentData(){
+    // 部门列表
+    getDepartMentData(page){
       ManageApi().getDepartMentData({}).then(res => {
         this.department = res.data.list;
         if(this.department.length){
@@ -126,25 +109,55 @@ export default {
               this.show.push(true);
             }
           }
-          this.getStaffData(res.data.list[1].dep_id);
+          this.depart_id = res.data.list[0].dep_id;
+          this.getStaffData2(res.data.list[0].dep_id, page);
+          this.depart_name = res.data.list[0].department_name;
         }
       });
     },
-    getStaffData(id){
-      ManageApi().getStaffData({depId: id, curPage: 1, pages: 7}).then(res => {
-        this.department_staff = res.data.list;
+    // 员工列表
+    async getStaffData(id, page){
+      return await ManageApi().getStaffData({depId: id, curPage: page, pages: 20}).then(res => {
+        if(res.data.list){
+          this.department_staff = this.department_staff.concat(Object.values(res.data.list));
+        }
+        this.pageInfo.page_total = res.data.total;
+      });
+    },
+    getStaffData2(id){
+      ManageApi().getStaffData({depId: id, curPage: 1, pages: 20}).then(res => {
+        this.department_staff = Object.values(res.data.list);
+        // console.log(Object.values(res.data.list));
+        this.pageInfo.page_total = res.data.total;
+      });
+    },
+    // 触底刷新
+    infinite() {
+      let that = this;
+      that.disabled = true;
+      that.getStaffData(this.depart_id, ++that.pageInfo.current_page).then(() => {
+        // 触底判断
+        that.disabled = false;
+        if(this.department_staff.length === that.pageInfo.page_total){
+          that.disabled = true;
+        }
       });
     }
   },
   mounted(){
     this.getBasicData();
     this.getDepartMentData();
-    
+  },
+  watch: {
+    page_total(){
+      return true;
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .frame-manage{
+  padding-bottom: 20px;
   .header{
     font-size:23px;
     font-weight:500;
@@ -153,7 +166,7 @@ export default {
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
   }
   .statistics{
-    padding: 0 79px;
+    padding: 0 86px 0 79px;
     .st-header{
       padding: 14px 0;
       display: flex;
@@ -179,15 +192,14 @@ export default {
       }
     }
     .staff-list{
-      position: relative;
+      font-size:14px;
       margin-top: 20px;
       display: flex;
       .left{
         li{
-          width: 146px;
           padding:17px 22px;
           line-height: 1;
-          font-size:16px;
+          // font-size:14px;
           font-weight:400;
           color:rgba(48,49,51,1);
           display: flex;
@@ -206,15 +218,32 @@ export default {
       }
       .right{
         margin-left: 47px;
-        width: 839px;
         .r-head{
-          width: 100%;
           padding: 17px 0;
-          font-size:16px;
+          // font-size:14px;
           line-height: 1;
           font-weight:500;
           color:rgba(96,98,102,1);
           border-bottom:1px solid rgba(246,246,246,1);
+        }
+        .gray{
+          color:rgba(144,147,153,1);
+          .staff-header-img{
+            color:rgba(144,147,153,1);
+            .sex{
+              .iconfont{
+                color:rgba(144,147,153,1);
+              }
+              .icon-nvxing{
+                color:rgba(144,147,153,1);
+              }
+            }
+          }
+          .staff-formation{
+            div{
+              color:rgba(144,147,153,1);
+            }
+          }
         }
         li{
           padding: 15px 26px;
@@ -225,7 +254,7 @@ export default {
           .staff-header-img{
             display: flex;
             align-items: center;
-            font-size:16px;
+            // font-size:14px;
             font-weight:400;
             color:rgba(48,49,51,1);
             img{
@@ -242,7 +271,7 @@ export default {
               .iconfont{
                 margin-right: 7px;
                 color: rgba(85,129,199,1);
-                font-size: 16px;
+                font-size: 14px;
               }
               .icon-nvxing{
                 color: rgba(255,118,120,1);
@@ -251,15 +280,16 @@ export default {
           }
           .staff-formation{
             display: flex;
+            width: 60%;
             div{
-              margin-left: 55px;
-              font-size:16px;
+              margin-right: 55px;
+              // font-size:14px;
               font-weight:400;
               color:rgba(96,98,102,1);
               display: flex;
               align-items: center;
               .iconfont{
-                font-size: 15px;
+                font-size: 14px;
                 margin-right: 5px;
               }
             }
