@@ -43,6 +43,7 @@
   @import '../assets/scss/_base.scss';
 
   .el-container {
+    min-width: 1440px;
     height: 100%;
     .el-aside {
       background-color: $h1Color;
@@ -86,6 +87,7 @@
       }
     }
     .el-main {
+      min-width: 1240px;
       padding: 0;
     }
   }

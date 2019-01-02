@@ -17,8 +17,10 @@ class Idea extends Abstract {
    * @param {number} extendTop 是否需要精华点评
    * @param {number} userId 用户ID,获取该用户所有的想法列表
    * @param {number} topicId 话题ID,获取该话题下的想法列表
+   * @param {number} qTop 查询置顶数据
    * @param {number} curPage 页码
    * @param {number} pages 每页数
+   * @param {string} keyword 搜索,目前支持thinksId
    */
   getIdeaList(data) {
     return this.getReq('Idea.IdeaList', data);
@@ -109,6 +111,23 @@ class Idea extends Abstract {
     return this.postReq('Idea.TopicByTitle', data);
   }
 
+  /**
+   * 删除想法
+   * @param {number} thinksId 想法id
+   * @param {boolean} doDel
+   */
+  deleteIdea(data) {
+    return this.postReq('Idea.IdeaDelete', data);
+  }
+
+  /**
+   * 想法设置为置顶,或取消
+   * @param {number} thinksId 想法id
+   * @param {boolean} currTop 当前is_top 的状态
+   */
+  stickIdea(data) {
+    return this.postReq('Idea.IdeaStick', data);
+  }
 }
 
 // 单列模式返回对象

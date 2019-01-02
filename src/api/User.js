@@ -62,6 +62,7 @@ class User extends Abstract {
   getUserByName(data) {
     return this.postReq('User.UserByName', data);
   }
+
 }
 
 // 单列模式返回对象

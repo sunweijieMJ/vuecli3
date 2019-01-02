@@ -1,5 +1,6 @@
 import Loading from './Loading.vue';
+import Publish from './Publish.vue';
 
 export {
-  Loading
+  Loading, Publish
 };

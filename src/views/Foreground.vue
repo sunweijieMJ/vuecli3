@@ -127,11 +127,7 @@
             that.$router.push({name: 'Profile', params: {id: that.self_info.user_id}});
             break;
           case 'exit':
-            that.$confirm('确定注销用户?', '注销', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
+            that.$confirm('确定注销用户?', '注销', {type: 'warning'}).then(() => {
               storage('cookie').remove('pgs_authinfo');
               that.$router.push({name: 'Login'});
             }).catch(() => {});

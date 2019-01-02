@@ -15,9 +15,11 @@
     <div class="detail-comment">
       <img :src="self_info.header_photo" alt="">
       <div class="comment-publish" v-if="ieda_detail.user_info">
-        <textarea ref="textarea" :placeholder="`回复${ieda_detail.user_info.user_name}:`" v-model="textEnabled.text"
-          @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
-          ></textarea>
+        <publish>
+          <textarea ref="textarea" :placeholder="`回复${ieda_detail.user_info.user_name}:`" v-model="textEnabled.text"
+            @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
+            ></textarea>
+        </publish>
         <div class="publish-btn" v-if="textEnabled.status">
           <span @click="textEnabled.status = false">取消</span>
           <button @click="sendComment(idea_id, textEnabled.text)">发送</button>
@@ -45,11 +47,11 @@
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
-  import {Loading} from '../../../components/public';
+  import {Loading, Publish} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
-    components: {PublicDetail, CommentList, Loading},
+    components: {PublicDetail, CommentList, Loading, Publish},
     data() {
       return {
         autoTextarea,

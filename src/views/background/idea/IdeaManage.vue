@@ -5,18 +5,19 @@
         <h3 class="manage-name" slot="label">管理想法</h3>
       </el-tab-pane>
       <el-tab-pane label="管理" name="first">
-        <idea-list-manage></idea-list-manage>
+        <idea-list></idea-list>
       </el-tab-pane>
       <el-tab-pane label="置顶" name="second">
-        置顶
+        <idea-stick></idea-stick>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script>
-  import IdeaListManage from './ideamanage/IdeaListManage.vue';
+  import IdeaList from './ideamanage/IdeaList.vue';
+  import IdeaStick from './ideamanage/IdeaStick.vue';
   export default {
-    components: {IdeaListManage},
+    components: {IdeaList, IdeaStick},
     data() {
       return {
         activeName: 'first' // ETC 当前选中tab
@@ -33,7 +34,9 @@
   @import '../../../assets/scss/_base.scss';
 
   .idea-manage {
+    height: 100%;
     .el-tabs {
+      height: inherit;
       .el-tabs__header {
         margin: 0;
         box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -55,6 +58,13 @@
               color: $h1Color;
             }
           }
+        }
+      }
+      .el-tabs__content {
+        height: calc(100% - 56px);
+        overflow: auto;
+        .el-tab-pane {
+          height: 100%;
         }
       }
 

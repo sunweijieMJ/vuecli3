@@ -32,7 +32,9 @@ const urlDict = {
     'ThumpList': '/thinks/zanlist', // ETC 点赞用户列表
     'IdeaThump': '/thinks/thinkszan', // ETC 想法点赞
     'CommentThump': '/thinks/commentzan', // ETC 评论点赞
-    'TopicByTitle': '/thinks/gettopicbytitle' // ETC 话题title获取话题信息
+    'TopicByTitle': '/thinks/gettopicbytitle', // ETC 话题title获取话题信息
+    'IdeaDelete': '/crules/thinks/setdel', // ETC 删除想法
+    'IdeaStick': '/crules/thinks/setistop' // ETC 设置为置顶，或取消
   },
   'ManageIdea': {
     'BasicData': 'crules/org/orgbasic', // ETC 组织结构基础数据
