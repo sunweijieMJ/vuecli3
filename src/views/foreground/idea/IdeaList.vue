@@ -3,7 +3,7 @@
     <div class="idea-write">
       <div class="write-btn" @click="comment_popup = true">
         <span>提出你的想法</span>
-        <i class="iconfont icon-qianming"></i>
+        <img src="../../../../static/svg/icon_add_thought.svg" alt="">
       </div>
     </div>
     <comment-publish v-if="comment_popup" @shutDown="comment_popup = false" @publishSuccess="publishSuccess"></comment-publish>
@@ -102,9 +102,9 @@
           font-weight:400;
           color:rgba(255,118,118,1);
         }
-        i {
-          font-size: 24px;
-          color:rgba(255,118,118,1);
+        img {
+          width: 38px;
+          margin-left: 8px;
         }
       }
     }

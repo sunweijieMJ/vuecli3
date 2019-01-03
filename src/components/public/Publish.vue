@@ -6,7 +6,7 @@
     <ul class="user-list" v-if="user_list.length">
       <li v-for="(item, index) in user_list" :key="index">{{`${item.user_name}(${item.real_name})`}}</li>
     </ul>
-    <ul class="topic-list" v-if="topic_list">
+    <ul class="topic-list" v-if="topic_list.length">
       <li v-for="(item, index) in topic_list" :key="index">{{item}}</li>
     </ul>
   </div>

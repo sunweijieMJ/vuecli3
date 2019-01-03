@@ -3,7 +3,7 @@
     <el-header>
       <nav>
         <ul class="nav-left">
-          <h1>
+          <h1 @click="querySkip('IdeaList')">
             <img src="../../static/svg/icon_PGS.svg" alt=""/>
           </h1>
           <li v-for="(vitem, vindex) in router.slice(0, 2)" :key="vindex" :class="{active: vindex === current}">
@@ -165,7 +165,7 @@
         h1 {
           cursor: pointer;
           img {
-            width: 40px;
+            width: 62px;
           }
         }
         .nav-left {

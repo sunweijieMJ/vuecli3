@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-aside width="200px">
-      <h2 class="header">
-        <i class="iconfont icon-54" @click="querySkip('IdeaList')"></i>
+      <h1 class="header" @click="querySkip('IdeaList')">
+        <i class="iconfont icon-54"></i>
         <img src="../../static/svg/icon_PGS.svg" alt=""/>
-      </h2>
+      </h1>
       <ul class="nav">
         <li v-for="(item, index) in nav" :key="index" @click="querySkip(item.name)">
           <i class="iconfont" :class="item.icon"></i>
@@ -58,7 +58,7 @@
           color: #fff;
         }
         img {
-          width: 40px;
+          width: 62px;
           margin-left: 8px;
         }
       }

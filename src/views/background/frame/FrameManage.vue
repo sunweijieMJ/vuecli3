@@ -30,10 +30,10 @@
             </div>
             <div class="staff-formation">
               <div>
-                <span class="iconfont icon-shoujihao"></span><span>{{b.mobile}}</span>
+                <span class="iconfont icon-icon_phone"></span><span>{{b.mobile}}</span>
               </div>
               <div>
-                <span class="iconfont icon-email"></span><span>{{b.email}}</span>
+                <span class="iconfont icon-icon_mail"></span><span>{{b.email}}</span>
               </div>
             </div>
           </li>
