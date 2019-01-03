@@ -15,10 +15,10 @@
     <div class="detail-comment">
       <img :src="self_info.header_photo" alt="">
       <div class="comment-publish" v-if="ieda_detail.user_info">
-        <publish :user="user_list">
-          <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
+        <publish :textEnabled="textEnabled">
+          <!-- <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
             @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getUserList($event)" @focus="textEnabled.status = true"
-            ></textarea>
+            ></textarea> -->
         </publish>
         <div class="publish-btn" v-if="textEnabled.status">
           <span @click="textEnabled.status = false">取消</span>
@@ -46,7 +46,6 @@
 <script>
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
-  import UserApi from '../../../api/User.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
   import {Loading, Publish} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
@@ -60,7 +59,6 @@
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
         disabled: false, // ETC 加载开关
-        user_list: [], // ETC 用户列表
         textEnabled: { // ETC textarea 状态
           status: false,
           text: ''
@@ -171,16 +169,6 @@
       sendIdeaView(thinksId) {
         IdeaApi().sendIdeaView({thinksId});
       },
-      // 用户列表
-      getUserList(e) {
-        const textarea = this.$el.querySelector('.detail-comment textarea');
-        if(e.data === '@') {
-          const keyword = e.data;
-          UserApi().getUserList({keyword: ''}).then(res => {
-            this.user_list = Object.values(res.data.list);
-          });
-        }
-      },
       // 发送评论
       sendComment(thinksId, commentContent) {
         let that = this;
@@ -246,7 +234,8 @@
         let that = this;
         if(cur) {
           that.$nextTick(() => {
-            that.$refs.textarea.focus();
+            const textarea = that.$el.querySelector('.detail-comment textarea');
+            textarea.focus();
           });
         }
       },

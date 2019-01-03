@@ -19,11 +19,11 @@
       <div class="info-num">
         <div class="num-left">
           <p class="praise" @click="thumpComment(item.comment_id)" :class="{self_zan: item.self_zan}">
-            <i class="iconfont icon-ai45"></i>
+            <i class="iconfont icon-icon_like"></i>
             <span>{{item.zan}}</span>
           </p>
           <p class="reply">
-            <i class="iconfont icon-pinglun"></i>
+            <i class="iconfont icon-icon_comment"></i>
             <span @click="textEnabled.status = true">回复</span>
           </p>
         </div>

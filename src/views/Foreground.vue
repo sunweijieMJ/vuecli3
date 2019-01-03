@@ -4,7 +4,7 @@
       <nav>
         <ul class="nav-left">
           <h1>
-            <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
+            <img src="../../static/svg/icon_PGS.svg" alt=""/>
           </h1>
           <li v-for="(vitem, vindex) in router.slice(0, 2)" :key="vindex" :class="{active: vindex === current}">
             <a href="javascript:;" @click="select(vitem, vindex)">{{vitem.text}}</a>
@@ -13,7 +13,7 @@
         <div class="nav-right">
           <el-badge :value="unread.num ? unread.num : ''">
             <el-popover placement="bottom" trigger="hover" v-model="unread.show">
-              <i slot="reference" class="iconfont icon-lingdang" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
+              <i slot="reference" class="iconfont icon-icon_inbox" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
               <div class="message">
                 <ul>
                   <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
@@ -35,7 +35,7 @@
             </el-dropdown-menu>
           </el-dropdown>
           <div class="admin" @click="querySkip('IdeaManage')" v-if="self_info.is_manage">
-            <i class="iconfont icon-icon-test"></i>
+            <i class="iconfont icon-icon_manage"></i>
             <span>管理员</span>
           </div>
         </div>

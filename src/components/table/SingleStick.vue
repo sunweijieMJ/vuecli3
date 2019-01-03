@@ -2,8 +2,8 @@
   <div class="single-stick">
     <div class="stick-main">
       <div class="sort">
-        <i class="iconfont icon-shangchuan1"></i>
-        <i class="iconfont icon-xiala1"></i>
+        <i class="iconfont icon-shangchuan1" @click="move({id: item.thinks_id, type: 'up'})"></i>
+        <i class="iconfont icon-xiala1" @click="move({id: item.thinks_id, type: 'down'})"></i>
       </div>
       <div class="main">
         <div class="main-paragraph">
@@ -50,6 +50,9 @@
     mixins: [frequent],
     props: ['item'],
     methods: {
+      move(data) {
+        this.$emit('move', data);
+      },
       // 取消置顶
       cancelStick() {
         let that = this;

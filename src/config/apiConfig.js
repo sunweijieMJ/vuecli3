@@ -34,7 +34,8 @@ const urlDict = {
     'CommentThump': '/thinks/commentzan', // ETC 评论点赞
     'TopicByTitle': '/thinks/gettopicbytitle', // ETC 话题title获取话题信息
     'IdeaDelete': '/crules/thinks/setdel', // ETC 删除想法
-    'IdeaStick': '/crules/thinks/setistop' // ETC 设置为置顶，或取消
+    'IdeaStick': '/crules/thinks/setistop', // ETC 设置为置顶，或取消
+    'StickOrder': '/crules/thinks/settoporder' // ETC 置顶列表排序
   },
   'ManageIdea': {
     'BasicData': 'crules/org/orgbasic', // ETC 组织结构基础数据

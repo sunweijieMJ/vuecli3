@@ -5,7 +5,8 @@
       <div class="user-info">
         <h4>
           <span>{{userinfo.user_name}}</span>
-          <i class="iconfont icon-personal_ic_man"></i>
+          <i class="iconfont icon-icon_male1" v-if="userinfo.gender === 1"></i>
+          <i class="iconfont icon-icon_male" v-if="userinfo.gender === 2"></i>
         </h4>
         <p>
           <span>{{userinfo.real_name}}</span>
@@ -16,14 +17,14 @@
     <div class="num">
       <li>
         <p>
-          <i class="iconfont icon-ai45"></i>
+          <i class="iconfont icon-icon_like"></i>
           <span>收到的赞</span>
         </p>
         <span>{{userinfo.zan}}</span>
       </li>
       <li>
         <p>
-          <i class="iconfont icon-login_ic_hide"></i>
+          <i class="iconfont icon-icon_comment_mcopy"></i>
           <span>创造的阅读量</span>
         </p>
         <span>{{userinfo.thinks_view_nums}}</span>

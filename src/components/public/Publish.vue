@@ -1,22 +1,27 @@
 <template>
   <div class="publish">
-    <slot :input="getUserList"></slot>
-    <ul class="user-list" v-if="user.length">
-      <li v-for="(item, index) in user" :key="index">{{`${item.user_name}(${item.real_name})`}}</li>
+    <textarea id="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
+      @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
+      ></textarea>
+    <ul class="user-list" v-if="user_list.length">
+      <li v-for="(item, index) in user_list" :key="index">{{`${item.user_name}(${item.real_name})`}}</li>
     </ul>
-    <ul class="topic-list" v-if="topic">
-      <li v-for="(item, index) in topic" :key="index">{{item}}</li>
+    <ul class="topic-list" v-if="topic_list">
+      <li v-for="(item, index) in topic_list" :key="index">{{item}}</li>
     </ul>
   </div>
 </template>
 <script>
   import UserApi from '../../api/User.js';
+  import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
-    props: ['user', 'topic'],
+    props: ['textEnabled'],
     data() {
       return {
-        user_list: []
+        autoTextarea,
+        user_list: [],
+        topic_list: []
       };
     },
     methods: {
@@ -38,7 +43,45 @@
 
   .publish {
     position: relative;
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+      height: 48px;
+      padding: 10px 20px;
+      border-radius: 2px;
+      font-size: 16px;
+      line-height: 25px;
+      resize: none;
+      border: none;
+      background: $backColor;
+      &::placeholder {
+        font-size: 16px;
+        line-height: 28px;
+        color: $h3Color;
+      }
+      &::-webkit-input-placeholder {
+        font-size: 16px;
+        line-height: 28px;
+        color: $h3Color;
+      }
+      &:-moz-placeholder {
+        font-size: 16px;
+        line-height: 28px;
+        color: $h3Color;
+      }
+      &::-moz-placeholder {
+        font-size: 16px;
+        line-height: 28px;
+        color: $h3Color;
+      }
+      &:-ms-input-placeholder {
+        font-size: 16px;
+        line-height: 28px;
+        color: $h3Color;
+      }
+    }
     .user-list, .topic-list {
+      position: absolute;
       width: 275px;
       max-height: 317px;
       overflow-y: auto;

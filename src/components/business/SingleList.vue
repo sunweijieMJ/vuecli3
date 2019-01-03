@@ -34,17 +34,17 @@
     <div class="list-num">
       <div class="num-left">
         <p @click.stop="thumpIdea(vitem.thinks_id)">
-          <i class="iconfont icon-ai45" :class="{self_zan: vitem.self_zan}"></i>
+          <i class="iconfont icon-icon_like" :class="{self_zan: vitem.self_zan}"></i>
           <span>{{vitem.zan}}</span>
         </p>
         <p @click.stop="pathSkip(`idea_detail/${vitem.thinks_id}`, {active: true})">
-          <i class="iconfont icon-pinglun"></i>
+          <i class="iconfont icon-icon_comment"></i>
           <span>{{vitem.total_comments}}</span>
         </p>
       </div>
       <div class="num-right">
         <p>
-          <i class="iconfont icon-login_ic_hide"></i>
+          <i class="iconfont icon-icon_comment_mcopy"></i>
           <span>{{vitem.thinks_view_nums}}</span>
         </p>
       </div>

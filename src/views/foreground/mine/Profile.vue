@@ -11,14 +11,15 @@
           :on-success="handleSuccess">
           <img :src="user_info.header_photo" alt="">
           <div class="photo-change" v-if="user_info.self">
-            <i class="iconfont icon-xiangji"></i>
+            <i class="iconfont icon-icon_camera"></i>
             <span>修改头像</span>
           </div>
         </el-upload>
         <div class="user-msg">
           <div class="msg-name" v-if="nameEnabled.status">
             <span>{{user_info.user_name}}</span>
-            <i class="iconfont icon-personal_ic_man"></i>
+            <i class="iconfont icon-icon_male1" v-if="user_info.gender === 1"></i>
+            <i class="iconfont icon-icon_male" v-if="user_info.gender === 2"></i>
             <a href="javascript:;" @click="nameEnabled.status = false" v-if="user_info.self">修改昵称</a>
           </div>
           <div class="name-modify" v-else>
@@ -28,19 +29,19 @@
           </div>
           <div class="msg-detail">
             <p>
-              <i class="iconfont icon-touxiang"></i>
+              <i class="iconfont icon-icon_user"></i>
               <span>{{user_info.real_name}}</span>
             </p>
             <p>
-              <i class="iconfont icon-touxiang"></i>
+              <i class="iconfont icon-icon_apartment"></i>
               <span>{{user_info.department_name}}</span>
             </p>
             <p>
-              <i class="iconfont icon-touxiang"></i>
+              <i class="iconfont icon-icon_phone"></i>
               <span>{{user_info.mobile}}</span>
             </p>
             <p>
-              <i class="iconfont icon-touxiang"></i>
+              <i class="iconfont icon-icon_mail"></i>
               <span>{{user_info.email}}</span>
             </p>
           </div>
@@ -66,14 +67,14 @@
         <ul class="achieve-detail">
           <li>
             <p>
-              <i class="iconfont icon-ai45"></i>
+              <i class="iconfont icon-icon_like"></i>
               <span>收到的赞</span>
             </p>
             <span>{{user_info.zan}}</span>
           </li>
           <li>
             <p>
-              <i class="iconfont icon-login_ic_hide"></i>
+              <i class="iconfont icon-icon_comment_mcopy"></i>
               <span>创造的阅读量</span>
             </p>
             <span>{{user_info.thinks_view_nums}}</span>

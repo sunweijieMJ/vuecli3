@@ -3,7 +3,7 @@
     <el-aside width="200px">
       <h2 class="header">
         <i class="iconfont icon-54" @click="querySkip('IdeaList')"></i>
-        <img src="https://pic.lanehub.cn/production/204b0985a2e861350e50f8608507510f.jpg?x-oss-process=style/app-10001" alt=""/>
+        <img src="../../static/svg/icon_PGS.svg" alt=""/>
       </h2>
       <ul class="nav">
         <li v-for="(item, index) in nav" :key="index" @click="querySkip(item.name)">

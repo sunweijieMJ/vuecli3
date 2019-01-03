@@ -30,17 +30,17 @@
       <div class="main-num">
         <div class="num-left">
           <p @click.stop="thumpIdea(detail.thinks_id)" :class="{self_zan: detail.self_zan}">
-            <i class="iconfont icon-ai45"></i>
+            <i class="iconfont icon-icon_liked_m"></i>
             <span>{{detail.zan}}</span>
           </p>
           <p @click.stop="activeComment">
-            <i class="iconfont icon-pinglun"></i>
+            <i class="iconfont icon-icon_comment_m"></i>
             <span>{{commentNums}}</span>
           </p>
         </div>
         <div class="num-right">
           <p>
-            <i class="iconfont icon-login_ic_hide"></i>
+            <i class="iconfont icon-icon_comment_mcopy"></i>
             <span>{{detail.thinks_view_nums}}</span>
           </p>
         </div>

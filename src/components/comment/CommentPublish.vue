@@ -18,14 +18,14 @@
       </div>
       <div class="upload-imgs" v-if="!upLoad_state">
         <span @click="viewUploadImg" class="u-i-i">
-          <i class="iconfont icon-tupian" style="font-size: 22px;"></i>
+          <i class="iconfont icon-icon_pic" style="font-size: 22px;"></i>
           <span>上传图片</span>
         </span>
         <span class="submit" @click="ideaSubmit">发布</span>
       </div>
       <div class="add-img" v-if="upLoad_state">
         <div class="quantity">
-          <i class="iconfont icon-tupian" style="font-size: 22px;"></i>
+          <i class="iconfont icon-icon_pic" style="font-size: 22px;"></i>
           <span>上传图片</span>
           <span>({{hash_num.length}}/9)</span>
         </div>

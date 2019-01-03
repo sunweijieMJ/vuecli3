@@ -23,8 +23,8 @@
             <div class="staff-header-img">
               <img :src="b.header_photo" alt="">
               <span class="sex">
-                <span class="iconfont icon-personal_ic_man" v-if="b.gender === 1"></span>
-                <span class="iconfont icon-nvxing" v-if="b.gender === 2"></span>
+                <span class="iconfont icon-icon_male1" v-if="b.gender === 1"></span>
+                <span class="iconfont icon-icon_male" v-if="b.gender === 2"></span>
                 <span>{{b.nick_name}} ({{b.real_name}})</span>
               </span>
             </div>
@@ -234,7 +234,7 @@ export default {
               .iconfont{
                 color:rgba(144,147,153,1);
               }
-              .icon-nvxing{
+              .icon-icon_male{
                 color:rgba(144,147,153,1);
               }
             }
@@ -273,7 +273,7 @@ export default {
                 color: rgba(85,129,199,1);
                 font-size: 14px;
               }
-              .icon-nvxing{
+              .icon-icon_male{
                 color: rgba(255,118,120,1);
               }
             }

@@ -128,6 +128,14 @@ class Idea extends Abstract {
   stickIdea(data) {
     return this.postReq('Idea.IdeaStick', data);
   }
+
+  /**
+   * 置顶列表排序
+   * @param {array} orderlist 置顶列表(id)
+   */
+  orderStick(data) {
+    return this.postReq('Idea.StickOrder', data);
+  }
 }
 
 // 单列模式返回对象

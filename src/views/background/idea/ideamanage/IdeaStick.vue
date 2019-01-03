@@ -1,6 +1,7 @@
 <template>
   <div class="idea-stick">
-    <stick-list :list="stick_list" @cancelSuccess="cancelSuccess"></stick-list>
+    <stick-list :list="stick_list" @move="move" @cancelSuccess="cancelSuccess"></stick-list>
+    <a href="javascript:;" @click="orderStick">保存</a>
   </div>
 </template>
 <script>
@@ -38,6 +39,41 @@
           }
 
           that.stick_list = stick_list;
+        });
+      },
+      // 上下排序
+      move(data) {
+        let [that, index] = [this, 0];
+        for(let i = 0, LEN = that.stick_list.length; i < LEN; i++) {
+          if(that.stick_list[i].thinks_id === data.id) index = i;
+        }
+        switch (data.type) {
+          case 'up':
+            if(index === 0) {
+              that.$message({message: '已经是第一个了', type: 'warning'});
+              return;
+            }
+            this.stick_list[index] = this.stick_list.splice(index - 1, 1, this.stick_list[index])[0];
+            break;
+          case 'down':
+            if(index === that.stick_list.length - 1) {
+              that.$message({message: '已经是最后一个了', type: 'warning'});
+              return;
+            }
+            this.stick_list[index] = this.stick_list.splice(index + 1, 1, this.stick_list[index])[0];
+            break;
+          default:
+            break;
+        }
+      },
+      // 保存当前排序
+      orderStick() {
+        let [that, orderlist] = [this, []];
+        for(let i = 0, LEN = that.stick_list.length; i < LEN; i++) {
+          orderlist.push(that.stick_list[i].thinks_id);
+        }
+        IdeaApi().orderStick({orderlist}).then(res => {
+          console.log(res);
         });
       },
       // 取消置顶回调
