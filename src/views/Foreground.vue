@@ -10,37 +10,35 @@
             <a href="javascript:;" @click="select(vitem, vindex)">{{vitem.text}}</a>
           </li>
         </ul>
-        <ul class="nav-right">
-          <li v-for="(vitem, vindex) in router.slice(2, 4)" :key="vindex" :class="{active: vindex === current}">
-            <el-badge :value="unread.num ? unread.num : ''" v-if="!vindex">
-              <el-popover placement="bottom" trigger="hover" v-model="unread.show">
-                <i v-if="!vindex" slot="reference" class="iconfont" :class="vitem.icon" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
-                <div class="message">
-                  <ul>
-                    <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
-                      <p>
-                        <span @click.stop="unread.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
-                        <span @click.stop="unread.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
-                      </p>
-                    </li>
-                  </ul>
-                  <a v-if="message.list.length" href="javascript:;" @click="unread.show = false || querySkip('NewsList')">全部提醒</a>
-                </div>
-              </el-popover>
-            </el-badge>
-            <el-dropdown @command="handleCommand" trigger="hover" v-else>
-              <i class="iconfont" :class="vitem.icon"></i>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
-                <el-dropdown-item command="exit">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </li>
+        <div class="nav-right">
+          <el-badge :value="unread.num ? unread.num : ''">
+            <el-popover placement="bottom" trigger="hover" v-model="unread.show">
+              <i slot="reference" class="iconfont icon-lingdang" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
+              <div class="message">
+                <ul>
+                  <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
+                    <p>
+                      <span @click.stop="unread.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
+                      <span @click.stop="unread.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
+                    </p>
+                  </li>
+                </ul>
+                <a v-if="message.list.length" href="javascript:;" @click="unread.show = false || querySkip('NewsList')">全部提醒</a>
+              </div>
+            </el-popover>
+          </el-badge>
+          <el-dropdown @command="handleCommand" trigger="hover">
+            <img :src="self_info.header_photo" alt="">
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
+              <el-dropdown-item command="exit">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <div class="admin" @click="querySkip('IdeaManage')" v-if="self_info.is_manage">
             <i class="iconfont icon-icon-test"></i>
             <span>管理员</span>
           </div>
-        </ul>
+        </div>
       </nav>
     </el-header>
     <el-main>
@@ -51,6 +49,7 @@
 <script>
   import {mapState} from 'vuex';
   import storage from '../utils/storage';
+  import UserApi from '../api/User.js';
   import NoticeApi from '../api/Notice.js';
   import frequent from '../mixins/frequent.js';
   import readMore from '../utils/filters/readMore.js';
@@ -68,19 +67,11 @@
           {
             text: 'OKR',
             name: 'OKRList'
-          },
-          {
-            icon: 'icon-lingdang',
-            name: 'NewsList'
-          },
-          {
-            icon: 'icon-touxiang',
-            name: 'Profile'
           }
         ],
         readMore,
         unread: { // ETC 未读消息数
-          num: '',
+          num: 0,
           show: false
         },
         message: { // ETC 未读消息列表
@@ -90,9 +81,17 @@
       };
     },
     created() {
-      this.getMessageUnread();
+      let that = this;
+      that.getUserDetail();
+      that.getMessageUnread();
     },
     methods: {
+      // 用户个人信息
+      getUserDetail() {
+        UserApi().getUserDetail({}).then(res => {
+          if(res.status) this.$store.dispatch('getSelfInfo', res.data);
+        });
+      },
       // 切换tab
       select(item, index) {
         this.current = index;
@@ -137,6 +136,13 @@
         }
       }
     },
+    watch: {
+      $route(to) {
+        if(to.name === 'NewsList') {
+          this.getMessageUnread();
+        }
+      }
+    },
     computed: mapState({
       self_info: store => store.self_info
     })
@@ -162,7 +168,7 @@
             width: 40px;
           }
         }
-        ul {
+        .nav-left {
           display: flex;
           align-items: center;
           li {
@@ -175,8 +181,33 @@
               font-weight:500;
               color:rgba(144,147,153,1);
             }
+            img {
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
+              cursor: pointer;
+            }
             i {
               font-size: 36px;
+              cursor: pointer;
+            }
+          }
+        }
+        .nav-right {
+          display: flex;
+          align-items: center;
+          .el-badge {
+            i {
+              font-size: 36px;
+              cursor: pointer;
+            }
+          }
+          .el-dropdown {
+            margin-left: 36px;
+            img {
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
               cursor: pointer;
             }
           }

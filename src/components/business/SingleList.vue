@@ -1,5 +1,5 @@
 <template>
-  <div class="single-list" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+  <div class="single-list">
     <!-- 列表头部用户信息 -->
     <div class="list-header">
       <div class="header-author">
@@ -23,11 +23,11 @@
     </div>
     <!-- 文本内容 -->
     <div class="list-main">
-      <div class="main-paragraph" v-if="vitem.content">
+      <div class="main-paragraph" v-if="vitem.content" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
         <paragraph :text="vitem.content"></paragraph>
       </div>
       <div class="main-images" v-if="vitem.photos.length">
-        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="">
+        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
       </div>
     </div>
     <!-- 时间 | 点赞 | 评论 -->
@@ -148,6 +148,7 @@
     .list-main {
       .main-paragraph {
         margin-bottom: 7px;
+        cursor: pointer;
       }
       .main-images {
         display: flex;
@@ -159,6 +160,7 @@
           height: 149px;
           border: 1px solid $lineColor;
           margin-right: 3px;
+          cursor: pointer;
         }
       }
     }

@@ -15,9 +15,9 @@
     <div class="detail-comment">
       <img :src="self_info.header_photo" alt="">
       <div class="comment-publish" v-if="ieda_detail.user_info">
-        <publish>
-          <textarea ref="textarea" :placeholder="`回复${ieda_detail.user_info.user_name}:`" v-model="textEnabled.text"
-            @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
+        <publish :user="user_list">
+          <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
+            @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getUserList($event)" @focus="textEnabled.status = true"
             ></textarea>
         </publish>
         <div class="publish-btn" v-if="textEnabled.status">
@@ -46,6 +46,7 @@
 <script>
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
+  import UserApi from '../../../api/User.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
   import {Loading, Publish} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
@@ -59,6 +60,7 @@
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
         disabled: false, // ETC 加载开关
+        user_list: [], // ETC 用户列表
         textEnabled: { // ETC textarea 状态
           status: false,
           text: ''
@@ -169,6 +171,16 @@
       sendIdeaView(thinksId) {
         IdeaApi().sendIdeaView({thinksId});
       },
+      // 用户列表
+      getUserList(e) {
+        const textarea = this.$el.querySelector('.detail-comment textarea');
+        if(e.data === '@') {
+          const keyword = e.data;
+          UserApi().getUserList({keyword: ''}).then(res => {
+            this.user_list = Object.values(res.data.list);
+          });
+        }
+      },
       // 发送评论
       sendComment(thinksId, commentContent) {
         let that = this;
@@ -260,7 +272,7 @@
     padding-bottom: 50px;
     background-color: #fff;
     .detail-thump {
-      padding: 35px 66px;
+      padding: 35px 66px 25px;
       .thump-title {
         margin-bottom: 20px;
         font-size: 18px;

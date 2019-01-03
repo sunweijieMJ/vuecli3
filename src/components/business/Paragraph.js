@@ -72,8 +72,8 @@ export default {
                 }
               },
               [
-                item.split(/^#/g).map((item) => {
-                  if (!item) {
+                item.split(/^#/g).map((val) => {
+                  if (!val) {
                     return createElement(
                       'i',
                       {
@@ -90,7 +90,7 @@ export default {
                           cursor: 'pointer'
                         },
                         domProps: {
-                          innerHTML: item.replace(/#/g, '').trim()
+                          innerHTML: item.trim()
                         }
                       }
                     );
