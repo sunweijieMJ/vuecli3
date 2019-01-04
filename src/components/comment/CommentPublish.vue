@@ -11,7 +11,7 @@
         <ul v-if="show && friend.list && friend.list.length" :style="at_style">
           <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}({{a.real_name}})</li>
         </ul>
-        <ul v-if="jshow && topic && topic.list.length" :style="at_style">
+        <ul v-if="jshow && topic && topic.list && topic.list.length" :style="at_style">
           <li>创建话题#PGS上线啦#</li>
           <li v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
         </ul>
@@ -100,6 +100,7 @@ export default {
     },
     // 计算镜像光标位置
     mirrorCompute(){
+      // let clientHeight = document.documentElement.clientHeight;
       let textarea = document.getElementById('text');
       // 光标位置
       let end = textarea.selectionEnd;
@@ -123,7 +124,7 @@ export default {
       let cursor = document.getElementById('cursor');
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      this.at_style.top = (finaly.bottom - 315) + 'px';
+      this.at_style.top = (finaly.bottom - 265) + 'px';
       this.at_style.left = (finaly.x - 6) + 'px';
     },
     // textarea 内容改变触发
@@ -160,6 +161,7 @@ export default {
           this.show = true;
           this.searchData(final_content);
         }else if(!noneArr.length && this.show){
+          this.show = true;
           this.searchData();
         }else{
           this.show = false;
@@ -360,13 +362,13 @@ export default {
   .hello{
     width: 687px;
     margin: auto;
-    margin-top: 94px;
+    margin-top: 5%;
     text-align: left;
     font-size: 12px;
     letter-spacing: normal;
     background-color: white;
     .new-idea{
-      padding: 27px 37px;
+      padding: 2.8% 37px;
       font-size:22px;
       font-family:PingFangSC-Medium;
       font-weight:500;
@@ -383,12 +385,12 @@ export default {
       padding: 0px 41px;
       z-index: 1001;
       width: 604px;
-      height: 337px;
+      height: 287px;
       overflow: hidden;
       #text {
         margin-top: 22px;
         width: 604px;
-        height: 315px;
+        height: 265px;
         box-sizing: border-box;
         font-family: PingFangSC-Regular;
         // border: 1px solid orange;
@@ -410,7 +412,7 @@ export default {
       }
     }
     .upload-imgs{
-      margin-top: 22px;
+      margin-top: 2.4%;
       border-top:1px solid rgba(246,246,246,1);
       padding: 24px 38px;
       display: flex;
@@ -441,9 +443,9 @@ export default {
     }
     .add-img{
       color: red;
-      margin-top: 22px;
+      margin-top: 2.4%;
       border-top:1px solid rgba(246,246,246,1);
-      padding: 24px 38px;
+      padding: 2.6% 38px;
       font-size:16px;
       font-weight:400;
       color:rgba(48,49,51,1);
@@ -459,7 +461,7 @@ export default {
         width: 100%;
       }
       .raise{
-        margin-top: 24px;
+        margin-top: 2.6%;
         display: flex;
         justify-content: flex-end;
         .submit{

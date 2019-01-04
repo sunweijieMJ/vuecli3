@@ -167,7 +167,7 @@
 <style lang="scss">
   .avatar-uploader{
     width: 100% !important;
-    margin-top: 29px;
+    margin-top: 3.2%;
     display: flex !important;
     flex-wrap: wrap;
     overflow: hidden;

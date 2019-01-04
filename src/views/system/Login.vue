@@ -17,7 +17,7 @@
           <span class="push-sec" v-show="!show" @click="countDown">获取密码</span>
           <span v-show="show" class="countdown">{{time}}</span>
         </div>
-        <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
