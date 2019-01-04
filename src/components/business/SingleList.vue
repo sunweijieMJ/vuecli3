@@ -239,7 +239,10 @@
             cursor: pointer;
           }
           p {
-            @include tofl(520px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
             font-size:16px;
             color: $h2Color;
           }

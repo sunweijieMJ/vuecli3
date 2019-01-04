@@ -1,9 +1,9 @@
 <template>
   <div class="publish">
     <textarea id="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
-      @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
+      @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getPosition($event)" @focus="textEnabled.status = true"
       ></textarea>
-    <ul class="user-list" v-if="user_list.length">
+    <ul class="user-list" v-if="user_list.length" :style="{top: `${position.bottom}px`, left: `${position.left}px`}">
       <li v-for="(item, index) in user_list" :key="index">{{`${item.user_name}(${item.real_name})`}}</li>
     </ul>
     <ul class="topic-list" v-if="topic_list.length">
@@ -13,12 +13,14 @@
 </template>
 <script>
   import UserApi from '../../api/User.js';
+  import kingwolfofsky from './cursor.js';
   import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
     props: ['textEnabled'],
     data() {
       return {
+        position: {}, // ETC 光标位置
         autoTextarea,
         user_list: [],
         topic_list: []
@@ -26,13 +28,17 @@
     },
     methods: {
       // 用户列表
-      getUserList(e) {
-        const textarea = this.$el.querySelector('textarea');
-        if(e.data === '@') {
-          const keyword = e.data;
-          UserApi().getUserList({keyword: ''}).then(res => {
-            this.user_list = Object.values(res.data.list);
-          });
+      getUserList(keyword) {
+        UserApi().getUserList({keyword}).then(res => {
+          this.user_list = Object.values(res.data.list);
+        });
+      },
+      getPosition(e) {
+        let that = this;
+        const keyword = e.data;
+        that.position = kingwolfofsky().getInputPositon(e.target);
+        if (keyword === '@') {
+          // that.getUserList();
         }
       }
     }
@@ -42,7 +48,6 @@
   @import '../../assets/scss/_base.scss';
 
   .publish {
-    position: relative;
     textarea {
       box-sizing: border-box;
       width: 100%;
