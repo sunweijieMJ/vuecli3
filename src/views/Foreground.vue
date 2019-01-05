@@ -61,7 +61,7 @@
         current: 0,
         router: [
           {
-            text: '想法',
+            text: '瓴里圈',
             name: 'IdeaList'
           },
           {
@@ -100,7 +100,7 @@
       // 消息未读数
       getMessageUnread() {
         NoticeApi().getMessageUnread({}).then(res => {
-          this.unread.num = res.data.cnt;
+          if(res.status) this.unread.num = res.data.cnt;
         });
       },
       // 消息列表

@@ -35,10 +35,10 @@ class Abstract {
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
     // 签名加密
     if (method === 'POST') {
-      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${storeApi('cookie').get('pgs_authinfo')}`;
+      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storeApi('cookie').get('pgs_authinfo'))}`;
       url = url + `&sign=${that.linsign.resignHash(url, params)}`;
     } else {
-      params.pgs_authinfo = storeApi('cookie').get('pgs_authinfo');
+      params.pgs_authinfo = encodeURIComponent(storeApi('cookie').get('pgs_authinfo'));
       params.sign = that.linsign.signHash(url, params);
     }
 
@@ -50,10 +50,13 @@ class Abstract {
         params: method === 'GET' || method === 'DELETE' ? params : null,
         data: method === 'POST' || method === 'PUT' ? params : null
       }).then((res) => {
-        if (res.data.status) {
+        if (res.data.status === 1) {
           resolve({status: true, message: 'success', data: res.data.data});
         } else if (res.data.status === -1) {
+          resolve({status: false, message: res.data.message, data: null});
           router.push({name: 'Login'});
+        } else if (res.data.status === -2) {
+          resolve({status: false, message: res.data.message, data: null});
         } else {
           resolve({status: false, message: res.data.message, data: null});
         }

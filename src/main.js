@@ -25,11 +25,7 @@ for (let key in filters) {
 router.beforeEach((to, from, next) => {
   const token = storeApi('cookie').get('pgs_authinfo');
   if (token) {
-    if (to.name === 'Login') {
-      next({name: 'IdeaList'});
-    } else {
-      next();
-    }
+    next();
   } else {
     if (to.name === 'Login') {
       next();

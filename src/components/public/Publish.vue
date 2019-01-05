@@ -1,10 +1,11 @@
 <template>
   <div class="publish">
     <textarea id="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
-      @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getPosition($event)" @focus="textEnabled.status = true"
+      @click="getFocus"
+      @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getOffset($event)" @focus="textEnabled.status = true"
       ></textarea>
-    <ul class="user-list" v-if="user_list.length" :style="{top: `${position.bottom}px`, left: `${position.left}px`}">
-      <li v-for="(item, index) in user_list" :key="index">{{`${item.user_name}(${item.real_name})`}}</li>
+    <ul class="user-list" v-if="user_list.length" :style="{top: `${offset.top + 25}px`, left: `${offset.left}px`}">
+      <li v-for="(item, index) in user_list" :key="index" @click="selectUser(item)">{{`${item.user_name}(${item.real_name})`}}</li>
     </ul>
     <ul class="topic-list" v-if="topic_list.length">
       <li v-for="(item, index) in topic_list" :key="index">{{item}}</li>
@@ -13,14 +14,15 @@
 </template>
 <script>
   import UserApi from '../../api/User.js';
-  import kingwolfofsky from './cursor.js';
+  import Cursor from './cursor.js';
   import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
     props: ['textEnabled'],
     data() {
       return {
-        position: {}, // ETC 光标位置
+        offset: {}, // ETC 光标位置
+        cursor: 0,
         autoTextarea,
         user_list: [],
         topic_list: []
@@ -33,13 +35,29 @@
           this.user_list = Object.values(res.data.list);
         });
       },
-      getPosition(e) {
+      // 光标索引
+      getFocus(e) {
+        this.cursor = Cursor().getFocus(e.target);
+      },
+      // 光标坐标
+      getOffset(e) {
         let that = this;
         const keyword = e.data;
-        that.position = kingwolfofsky().getInputPositon(e.target);
+        that.cursor = Cursor().getFocus(e.target);
+        that.offset = Cursor().getInputPositon(e.target, that.$el);
         if (keyword === '@') {
-          // that.getUserList();
+          that.getUserList();
+        } else if(keyword === ' ') {
+          that.user_list = [];
         }
+      },
+      // 选择用户名
+      selectUser(userInfo) {
+        let that = this;
+        const textarea = that.$el.querySelector('textarea');
+        that.textEnabled.text += userInfo.user_name + ' ';
+        that.user_list = [];
+        textarea.focus();
       }
     }
   };
@@ -48,6 +66,7 @@
   @import '../../assets/scss/_base.scss';
 
   .publish {
+    position: relative;
     textarea {
       box-sizing: border-box;
       width: 100%;

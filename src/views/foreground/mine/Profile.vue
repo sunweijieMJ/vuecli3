@@ -51,7 +51,7 @@
     <div class="profile-msg">
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="想法" name="first">
+          <el-tab-pane label="瓴里圈" name="first">
             <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
               <public-list :list="idea_list"></public-list>
               <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
@@ -232,7 +232,12 @@
             i {
               margin-left: 6px;
               font-size: 18px;
-              color: #5581C7;
+              &.icon-icon_male1 {
+                color: $linkBlue;
+              }
+              &.icon-icon_male {
+                color: $themeColor;
+              }
             }
             a {
               margin-left: 10px;
@@ -376,20 +381,26 @@
       box-sizing: border-box;
       width: 750px;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
-      background-color: #fff;
-      .el-tabs__nav-wrap {
-        padding: 0 60px;
-        .el-tabs__active-bar {
-          bottom: 15px;
-          background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
-        }
-        .el-tabs__item {
-          height: 56px;
-          font-size: 18px;
-          line-height: 56px;
-          color: $h3Color;
-          &.is-active {
-            color: $h1Color;
+      .el-tabs__header {
+        margin-bottom: 0;
+        background-color: #fff;
+        .el-tabs__nav-wrap {
+          padding: 0 60px;
+          &:after {
+            position: static;
+          }
+          .el-tabs__active-bar {
+            bottom: 15px;
+            background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
+          }
+          .el-tabs__item {
+            height: 56px;
+            font-size: 18px;
+            line-height: 56px;
+            color: $h3Color;
+            &.is-active {
+              color: $h1Color;
+            }
           }
         }
       }

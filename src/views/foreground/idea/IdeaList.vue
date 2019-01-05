@@ -40,6 +40,7 @@
       async getIdeaList(curPage) {
         let that = this;
         return await IdeaApi().getIdeaList({curPage}).then(res => {
+          if(!res.status) return;
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
           const idea_list = res.data.list;

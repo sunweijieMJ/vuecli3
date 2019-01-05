@@ -9,7 +9,8 @@ class Cursor {
    * @param        {HTMLElement}   输入框元素
    * @return       {Object}        返回left和top,bottom
    */
-  getInputPositon(elem) {
+  getInputPositon(elem, ele) {
+    this.ele = ele;
     // IE Support
     if (document.selection) {
       elem.focus();
@@ -20,32 +21,32 @@ class Cursor {
         bottom: Sel.boundingTop + Sel.boundingHeight
       };
     } else {
-      let that = this;
-      let cloneDiv = '{$clone_div}', cloneLeft = '{$cloneLeft}', cloneFocus = '{$cloneFocus}', cloneRight = '{$cloneRight}';
+      let cloneDiv = '{$clone_div}', cloneLeft = '{$cloneLeft}', cloneFocus = '{$cloneFocus}';
       let none = '<span style="white-space:pre-wrap;"> </span>';
       let div = elem[cloneDiv] || document.createElement('div'), focus = elem[cloneFocus] || document.createElement('span');
       let text = elem[cloneLeft] || document.createElement('span');
-      let offset = that._offset(elem), index = this._getFocus(elem), focusOffset = {left: 0, top: 0};
+      let index = this.getFocus(elem), focusOffset = {left: 0, top: 0};
 
       if (!elem[cloneDiv]) {
         elem[cloneDiv] = div, elem[cloneFocus] = focus;
         elem[cloneLeft] = text;
         div.appendChild(text);
         div.appendChild(focus);
-        document.body.appendChild(div);
+        // document.body.appendChild(div);
+        this.ele.appendChild(div);
         focus.innerHTML = '|';
         focus.style.cssText = 'display:inline-block;width:0px;overflow:hidden;z-index:-100;word-wrap:break-word;word-break:break-all;';
-        div.className = this._cloneStyle(elem);
+        div.className = this.cloneStyle(elem);
         div.style.cssText = 'visibility:hidden;display:inline-block;position:absolute;z-index:-100;word-wrap:break-word;word-break:break-all;overflow:hidden;';
       }
-      div.style.left = this._offset(elem).left + 'px';
-      div.style.top = this._offset(elem).top + 'px';
+      div.style.left = this.offset(elem).left + 'px';
+      div.style.top = this.offset(elem).top + 'px';
       let strTmp = elem.value.substring(0, index).replace(/</g, '<').replace(/>/g, '>').replace(/\n/g, '<br/>').replace(/\s/g, none);
       text.innerHTML = strTmp;
 
       focus.style.display = 'inline-block';
       try {
-        focusOffset = this._offset(focus);
+        focusOffset = this.offset(focus);
       } catch (e) { }
       focus.style.display = 'none';
       return {
@@ -57,7 +58,7 @@ class Cursor {
   }
 
   // 克隆元素样式并返回类
-  _cloneStyle(elem, cache) {
+  cloneStyle(elem, cache) {
     if (!cache && elem['${cloneName}']) return elem['${cloneName}'];
     let className, name, rstyle = /^(number|string)$/;
     // Opera: content; IE8:outline && outlineWidth
@@ -79,12 +80,12 @@ class Cursor {
     }
     cssText = cssText.join('');
     elem['${cloneName}'] = className = 'clone' + (new Date).getTime();
-    this._addHeadStyle('.' + className + '{' + cssText + '}');
+    this.addHeadStyle('.' + className + '{' + cssText + '}');
     return className;
   }
 
   // 向页头插入样式
-  _addHeadStyle(content) {
+  addHeadStyle(content) {
     let style = this._style[document];
     if (!style) {
       style = this._style[document] = document.createElement('style');
@@ -94,7 +95,7 @@ class Cursor {
   }
 
   // 获取光标在文本框的位置
-  _getFocus(elem) {
+  getFocus(elem) {
     let index = 0;
     if (document.selection) {// IE Support
       elem.focus();
@@ -118,13 +119,12 @@ class Cursor {
   }
 
   // 获取元素在页面中位置
-  _offset(elem) {
-    let box = elem.getBoundingClientRect(), doc = elem.ownerDocument, body = doc.body, docElem = doc.documentElement;
-    let clientTop = docElem.clientTop || body.clientTop || 0, clientLeft = docElem.clientLeft || body.clientLeft || 0;
-    let top = box.top + (self.pageYOffset || docElem.scrollTop) - clientTop, left = box.left + (self.pageXOffset || docElem.scrollLeft) - clientLeft;
-    console.log(box.top);
-    console.log(self.pageYOffset || docElem.scrollTop);
-    console.log(clientTop);
+  offset(elem) {
+    const box = elem.getBoundingClientRect();
+    const scrollTop = this.ele.querySelector('textarea').scrollTop;
+    const left = elem.offsetLeft;
+    const top = elem.offsetTop - scrollTop;
+
     return {
       left,
       top,

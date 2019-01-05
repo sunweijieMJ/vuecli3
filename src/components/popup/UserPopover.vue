@@ -37,7 +37,6 @@
     props: ['userinfo']
   };
 </script>
-
 <style lang="scss" scoped>
   @import '../../assets/scss/_base.scss';
 
@@ -74,7 +73,12 @@
           i {
             margin-left: 5px;
             font-size: 14px;
-            color: $linkBlue;
+            &.icon-icon_male1 {
+              color: $linkBlue;
+            }
+            &.icon-icon_male {
+              color: $themeColor;
+            }
           }
         }
         p {
