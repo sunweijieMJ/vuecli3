@@ -59,7 +59,6 @@ export default {
   methods: {
     goIdeaDetail(user_id){
       this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
-      
     },
     goProFile(user_id){
       this.$router.push({name: 'Profile', params: {id: user_id}});
@@ -88,6 +87,7 @@ export default {
           this.pageInfo.page_total = res.data.total;
           this.for_list = this.for_list.concat(for_list);
         }
+        if(curpage === 1) this.$store.dispatch('getMessageUnread');
       });
     }
   }

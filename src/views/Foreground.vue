@@ -11,19 +11,19 @@
           </li>
         </ul>
         <div class="nav-right">
-          <el-badge :value="unread.num ? unread.num : ''">
-            <el-popover placement="bottom" trigger="hover" v-model="unread.show">
+          <el-badge :value="unread_msg.num ? unread_msg.num : ''">
+            <el-popover placement="bottom" trigger="hover" v-model="unread_msg.show" :disabled="!unread_msg.num">
               <i slot="reference" class="iconfont icon-icon_inbox" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
               <div class="message">
                 <ul>
                   <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
                     <p>
-                      <span @click.stop="unread.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
-                      <span @click.stop="unread.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
+                      <span @click.stop="unread_msg.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
+                      <span @click.stop="unread_msg.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
                     </p>
                   </li>
                 </ul>
-                <a v-if="message.list.length" href="javascript:;" @click="unread.show = false || querySkip('NewsList')">全部提醒</a>
+                <a v-if="message.list.length" href="javascript:;" @click="unread_msg.show = false || querySkip('NewsList')">全部提醒</a>
               </div>
             </el-popover>
           </el-badge>
@@ -70,10 +70,6 @@
           }
         ],
         readMore,
-        unread: { // ETC 未读消息数
-          num: 0,
-          show: false
-        },
         message: { // ETC 未读消息列表
           read: false,
           list: []
@@ -83,7 +79,7 @@
     created() {
       let that = this;
       that.getUserDetail();
-      that.getMessageUnread();
+      that.$store.dispatch('getMessageUnread');
     },
     methods: {
       // 用户个人信息
@@ -96,12 +92,6 @@
       select(item, index) {
         this.current = index;
         this.$router.push({name: item.name});
-      },
-      // 消息未读数
-      getMessageUnread() {
-        NoticeApi().getMessageUnread({}).then(res => {
-          if(res.status) this.unread.num = res.data.cnt;
-        });
       },
       // 消息列表
       getMessageList() {
@@ -138,7 +128,7 @@
     },
     computed: mapState({
       self_info: store => store.self_info,
-      message_tips: store => store.message_tips
+      unread_msg: store => store.unread_msg
     })
   };
 </script>
