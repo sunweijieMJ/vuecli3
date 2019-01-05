@@ -7,6 +7,9 @@ const mutations = {
   },
   [types.SELF_INFO]: (state, data) => {
     state.self_info = data;
+  },
+  [types.UNREAD_MSG]: (state, data) => {
+    state.unread_msg.num = data.cnt;
   }
 };
 

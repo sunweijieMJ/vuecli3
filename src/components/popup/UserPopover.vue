@@ -24,7 +24,7 @@
       </li>
       <li>
         <p>
-          <i class="iconfont icon-icon_comment_mcopy"></i>
+          <i class="iconfont icon-icon_saw"></i>
           <span>创造的阅读量</span>
         </p>
         <span>{{userinfo.thinks_view_nums}}</span>

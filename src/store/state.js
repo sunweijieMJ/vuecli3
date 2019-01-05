@@ -5,7 +5,11 @@ const state = {
     source: '',
     index: 0
   },
-  self_info: {}
+  self_info: {}, // ETC 用户个人信息
+  unread_msg: { // ETC 未读消息数
+    num: 0,
+    show: false
+  }
 };
 
 export default state;

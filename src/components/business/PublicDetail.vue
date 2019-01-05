@@ -143,9 +143,11 @@
         overflow: hidden;
         img {
           float: left;
+          box-sizing: border-box;
           width: 220px;
           height: 220px;
           margin: 4px 4px 0 0;
+          border: 1px solid $lineColor;
           cursor: pointer;
           &:nth-child(3n) {
             margin-right: 0;
@@ -179,7 +181,7 @@
               color: $h2Color;
             }
             i {
-              font-size: 20px;
+              font-size: 21px;
               color: $h2Color;
             }
           }
@@ -197,7 +199,7 @@
               color: $themeColor;
             }
             i {
-              font-size: 20px;
+              font-size: 27px;
               color: $themeColor;
             }
           }

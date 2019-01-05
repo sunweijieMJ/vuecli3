@@ -44,7 +44,7 @@
       </div>
       <div class="num-right">
         <p>
-          <i class="iconfont icon-icon_comment_mcopy"></i>
+          <i class="iconfont icon-icon_saw"></i>
           <span>{{vitem.thinks_view_nums}}</span>
         </p>
       </div>
@@ -146,21 +146,26 @@
       }
     }
     .list-main {
+      overflow: hidden;
       .main-paragraph {
         margin-bottom: 7px;
         cursor: pointer;
       }
       .main-images {
-        display: flex;
+        min-width: 760px;
         height: 149px;
         overflow: hidden;
         img {
+          float: left;
           box-sizing: border-box;
           width: 149px;
           height: 149px;
           border: 1px solid $lineColor;
           margin-right: 3px;
           cursor: pointer;
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
     }
@@ -192,7 +197,7 @@
             color: $h2Color;
           }
           i {
-            font-size:20px;
+            font-size: 18px;
             color: $h2Color;
           }
         }
@@ -210,7 +215,7 @@
             color: $h2Color;
           }
           i {
-            font-size: 20px;
+            font-size: 22px;
             color: $h2Color;
           }
         }

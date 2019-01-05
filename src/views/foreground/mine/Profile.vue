@@ -74,7 +74,7 @@
           </li>
           <li>
             <p>
-              <i class="iconfont icon-icon_comment_mcopy"></i>
+              <i class="iconfont icon-icon_saw"></i>
               <span>创造的阅读量</span>
             </p>
             <span>{{user_info.thinks_view_nums}}</span>
@@ -212,7 +212,7 @@
         padding-left: 203px;
         width: 1038px;
         height: 107px;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 1);
         .user-msg {
           display: flex;
           flex-direction: column;
@@ -310,7 +310,7 @@
                 margin-right: 0;
               }
               i {
-                font-size: 16px;
+                font-size: 18px;
                 color: $h4Color;
               }
               span {
@@ -339,7 +339,7 @@
           justify-content: center;
           align-items: center;
           height: 56px;
-          border:1px solid $lineColor;
+          border-bottom:1px solid $lineColor;
           font-size: 18px;
           font-weight: 400;
           color: $h3Color;
@@ -355,7 +355,7 @@
               display: flex;
               align-items: center;
               i {
-                font-size: 16px;
+                font-size: 20px;
               }
               span {
                 margin-left: 7px;

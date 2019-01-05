@@ -13,5 +13,10 @@
   };
 </script>
 <style lang="scss">
+  @import '../src/assets/scss/_base.scss';
   @import '../src/assets/scss/_reset.scss';
+
+  html, body, #app {
+    background-color: $backColor;
+  }
 </style>

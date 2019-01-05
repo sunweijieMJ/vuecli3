@@ -165,7 +165,7 @@
               color: $themeColor;
             }
             i {
-              font-size: 16px;
+              font-size: 14px;
             }
             span {
               margin-left: 4px;

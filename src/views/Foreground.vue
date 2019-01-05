@@ -28,7 +28,7 @@
             </el-popover>
           </el-badge>
           <el-dropdown @command="handleCommand" trigger="hover">
-            <img :src="self_info.header_photo" alt="">
+            <img :src="self_info.header_photo" alt="" @click="paramsSkip('Profile', {id: self_info.user_id})">
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
               <el-dropdown-item command="exit">退出登录</el-dropdown-item>
@@ -136,15 +136,9 @@
         }
       }
     },
-    watch: {
-      $route(to) {
-        if(to.name === 'NewsList') {
-          this.getMessageUnread();
-        }
-      }
-    },
     computed: mapState({
-      self_info: store => store.self_info
+      self_info: store => store.self_info,
+      message_tips: store => store.message_tips
     })
   };
 </script>
@@ -156,6 +150,7 @@
     .el-header {
       display: flex;
       height: 60px;
+      background-color: #fff;
       nav {
         display: flex;
         justify-content: space-between;

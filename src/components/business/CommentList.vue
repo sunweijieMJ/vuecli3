@@ -1,6 +1,6 @@
 <template>
   <ul class="comment-list">
-    <li v-for="(vitem, vindex) in list" :key="vindex">
+    <li v-for="(vitem, vindex) in list" :key="vindex" :class="{second: !vitem.replys.length}">
       <single-comment :item="vitem" :root="{comment_id: vitem.comment_id}" @commentSuccess="commentSuccess"></single-comment>
       <ul class="second-list" v-if="vitem.replys && vitem.replys.length">
         <li v-for="(witem, windex) in (show_more[vindex] ? vitem.replys : vitem.replys.slice(0, 2))" :key="windex">
@@ -38,17 +38,29 @@
     }
   };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   @import '../../assets/scss/_base.scss';
 
   .comment-list {
     >li {
       border-bottom: 1px solid $lineColor;
-      &:last-child {
-        border-bottom: 0;
+      &:last-child{
+        border-bottom: none 0 !important;
+        >.single-comment .comment-info {
+          border-bottom: none 0 !important;
+        }
+      }
+      &.second >.single-comment .comment-info {
+        border: none 0 !important;
+      }
+      &:last-child >.single-comment .comment-info{
+        border-bottom: 1px solid $lineColor;
       }
       .second-list {
         padding-left: 60px;
+        li:last-child .single-comment .comment-info{
+          border-bottom: none 0 !important;
+        }
         .more-comment {
           padding: 12px 0 12px 60px;
           p {
