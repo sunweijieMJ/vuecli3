@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     validatePass(rule, value, callback) {
-      if (value === '' && this.ruleForm2.email !== '') {
+      if (value === '') {
         callback(new Error('请输入密码'));
       }
     },
@@ -69,7 +69,6 @@ export default {
       this.login_status = false;
       if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
-
           if(res.status){
             storageApi.set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
             this.$message({message: '登陆成功', type: 'success', duration: 1000});
@@ -79,7 +78,7 @@ export default {
               this.login_status = true;
             }, 1000);
           }else{
-            this.$message({message: '邮箱或密码不正确', type: 'warning'});
+            this.$message({message: '邮箱或密码不正确', type: 'warning', duration: 1000});
           }
         });
       }
@@ -103,17 +102,17 @@ export default {
                 time = 50; // ETC当减到0时赋值为60
                 this.show = false;
                 clearInterval(timeStop);// ETC 清除定时器
+                this.firm_dis = true;
               }
             }, 1000);
           }
         });
       }else{
         this.status = 2;
-        this.$message({message: '请填写正确的邮箱', type: 'warning'});
       }
-      setTimeout(() => {
-        this.firm_dis = true;
-      }, 1000);
+      // setTimeout(() => {
+        // this.firm_dis = true;
+      // }, 1000);
     }
   }
 };
