@@ -2,8 +2,9 @@
   <div class="comment-publish">
     <div class="hello">
       <div class="new-idea">新想法 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
-      <div class="comment-idea">
+      <div class="comment-idea" :style="textarea_box_style">
         <textarea name="" id="text" cols="30" rows="10"
+          :style="textarea_style"
           @blur="dealContent"
           @keyup="keyCode($event)"
           @input="content"
@@ -11,19 +12,19 @@
         <ul v-if="show && friend.list && friend.list.length" :style="at_style">
           <li v-for="(a, index) in friend.list" :key="index" @click.stop="insertAtCursor(a.user_name + ' ')">{{a.user_name}}({{a.real_name}})</li>
         </ul>
-        <ul v-if="jshow && topic && topic.list && topic.list.length" :style="at_style">
-          <li>创建话题#PGS上线啦#</li>
-          <li v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
+        <ul :style="at_style">
+          <li v-if="jshow && topic_con" @click.stop="insertAtCursor(topic_con + '# ')">创建话题#{{topic_con}}#</li>
+          <li v-if="jshow" v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
         </ul>
       </div>
-      <div class="upload-imgs" v-if="!upLoad_state">
+      <div class="upload-imgs" v-show="!upLoad_state">
         <span @click="viewUploadImg" class="u-i-i">
           <i class="iconfont icon-icon_pic" style="font-size: 22px;"></i>
           <span>上传图片</span>
         </span>
         <span class="submit" @click="ideaSubmit">发布</span>
       </div>
-      <div class="add-img" v-if="upLoad_state">
+      <div class="add-img" v-show="upLoad_state">
         <div class="quantity">
           <i class="iconfont icon-icon_pic" style="font-size: 22px;"></i>
           <span>上传图片</span>
@@ -51,12 +52,20 @@ import upLoadImg from '../upload/UploadImg';
 export default {
   name: 'commentpublish',
   components: {upLoadImg},
+  props: ['clientHeight'],
   data() {
     return {
       upLoad_state: false,
       publish_state: true, // ETC 发布防抖
       friend: '好友列表',
       topic: '话题列表',
+      textarea_box_style: {
+        height: ((this.clientHeight * 90 / 100) - 320) + 'px'
+      },
+      textarea_style: {
+        height: ((this.clientHeight * 90 / 100) - 342) + 'px'
+      },
+      textarea_mirror: (this.clientHeight * 90 / 100) - 342,
       at_style: {
         position: 'absolute',
         top: '',
@@ -71,12 +80,15 @@ export default {
       mouse_focus: '', // ETC 鼠标聚焦后搜索的字符串
       topic_anchor: '', // ETC 保存话题#出现的节点位置
       string_length: 0, // ETC 保存搜索的字符长度
-      thinksPhotos: '' // ETC 图片Hash
+      thinksPhotos: '', // ETC 图片Hash
+      topic_con: '' // ETC 话题记录
     };
   },
   methods: {
     viewUploadImg(){
+      console.log(this.clientHeight)
       this.upLoad_state = true;
+      document.querySelector('.el-upload__input').click();
     },
     // 关闭弹层
     shutDown(){
@@ -124,7 +136,7 @@ export default {
       let cursor = document.getElementById('cursor');
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      this.at_style.top = (finaly.bottom - 265) + 'px';
+      this.at_style.top = (finaly.bottom - this.textarea_mirror) + 'px';
       this.at_style.left = (finaly.x - 6) + 'px';
     },
     // textarea 内容改变触发
@@ -180,6 +192,7 @@ export default {
       if(this.topic_anchor){
         // 搜索话题关键字截取
         let final_content = text.substring(this.topic_anchor, this.content_end);
+        this.topic_con = final_content.trim();
         this.string_length = final_content.length; // ETC 搜索的字符长度
         let noneArr = [];
         // 拆分话题字符
@@ -385,12 +398,12 @@ export default {
       padding: 0px 41px;
       z-index: 1001;
       width: 604px;
-      height: 287px;
+      // height: 287px;
       overflow: hidden;
       #text {
         margin-top: 22px;
         width: 604px;
-        height: 265px;
+        // height: 265px;
         box-sizing: border-box;
         font-family: PingFangSC-Regular;
         // border: 1px solid orange;
@@ -489,7 +502,7 @@ export default {
   }
   ul{
     z-index: 1002;
-    border: 1px solid #eee;
+    // border: 1px solid #eee;
     margin: auto;
     padding: 0 0;
     width: 300px;
@@ -498,6 +511,8 @@ export default {
     list-style: none;
     padding: 13px 15px;
     border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
     font-size:16px;
     font-family:PingFangSC-Regular;
     font-weight:400;
@@ -507,8 +522,8 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
   }
-  li:first-of-type{
-    border-top:none;
+  li:last-of-type{
+    border-bottom:1px solid #eee;
   }
 }
 </style>

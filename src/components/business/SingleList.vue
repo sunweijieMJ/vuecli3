@@ -6,16 +6,16 @@
         <el-popover
           placement="bottom"
           trigger="hover">
-          <img slot="reference" :src="vitem.user_info.header_photo" alt="" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">
+          <img slot="reference" v-if="vitem.user_info" :src="vitem.user_info.header_photo" alt="" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">
           <user-popover :userinfo="vitem.user_info"></user-popover>
         </el-popover>
         <div class="author-name">
           <h4>
-            <span class="name" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">{{vitem.user_info.user_name}}</span>
+            <span class="name" v-if="vitem.user_info" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">{{vitem.user_info.user_name}}</span>
             <span class="stick" v-if="vitem.is_top">置顶</span>
           </h4>
           <p>
-            <span>{{vitem.user_info.department_name}}</span>
+            <span v-if="vitem.user_info">{{vitem.user_info.department_name}}</span>
             <span>{{vitem.publish_time}}</span>
           </p>
         </div>

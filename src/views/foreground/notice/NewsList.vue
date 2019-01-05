@@ -158,6 +158,7 @@ export default {
             font-size:14px;
             font-family:PingFangSC-Regular;
             font-weight:400;
+            word-break: break-word;
             color:rgba(96,98,102,1);
             line-height:22px;
           }

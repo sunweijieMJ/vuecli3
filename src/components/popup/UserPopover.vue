@@ -1,6 +1,6 @@
 <template>
   <div class="user-popover">
-    <div class="user">
+    <div class="user" v-if="userinfo">
       <img :src="userinfo.header_photo" alt="">
       <div class="user-info">
         <h4>
@@ -14,7 +14,7 @@
         </p>
       </div>
     </div>
-    <div class="num">
+    <div class="num" v-if="userinfo">
       <li>
         <p>
           <i class="iconfont icon-icon_like"></i>

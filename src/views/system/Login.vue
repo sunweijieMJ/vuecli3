@@ -45,7 +45,7 @@ export default {
           {required: true, message: '请输入邮箱地址', trigger: 'blur'},
           {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur']}
         ],
-        pass: [{validator: this.validatePass, trigger: 'blur'}]
+        pass: [{validator: this.validatePass}]
       }
     };
   },
@@ -55,7 +55,17 @@ export default {
         callback(new Error('请输入密码'));
       }
     },
-    submitForm() {
+    submitForm(formName) {
+      // submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+      // },
       this.login_status = false;
       if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
@@ -69,7 +79,7 @@ export default {
               this.login_status = true;
             }, 1000);
           }else{
-            this.$message({message: '密码不正确, 请确认密码再次输入', type: 'warning'});
+            this.$message({message: '邮箱或密码不正确', type: 'warning'});
           }
         });
       }
@@ -115,17 +125,17 @@ export default {
   height: 100vh;
   text-align: center;
   .title{
-    padding-top: 166px;
+    padding-top: 147px;
     font-size:62px;
     font-weight:500;
     color:rgba(48,49,51,1);
-    margin-bottom: 52px;
+    margin-bottom: 50px;
   }
   .discription{
     font-size:20px;
     font-weight:500;
     color:rgba(96,98,102,1);
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
   .security{
     padding: 0 10px;
@@ -157,19 +167,23 @@ export default {
 .init > .el-form > .el-form-item > .el-form-item__content > .el-input {
   width: 315px !important;
   height: 40px !important;
+  background:rgba(255,255,255,1);
+  border-radius: 20px;
+  line-height: 40px;
 }
 .init > .el-form > .el-form-item > .el-form-item__content{
   margin-left: 0 !important;
   line-height: 1;
   .el-form-item__error{
-    left: 12px;
+    left: 19px;
   }
-
 }
 .init > .el-form > .el-form-item > .el-form-item__content > .el-input > .el-input__inner{
   border-radius: 20px;
   background:rgba(255,255,255,1);
   border: none;
+  height: 20px;
+  line-height: 20px;
 }
 .init > .el-form > .el-form-item > .el-form-item__content > .el-button {
   width: 312px;

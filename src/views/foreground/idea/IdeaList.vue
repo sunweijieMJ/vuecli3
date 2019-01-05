@@ -6,7 +6,7 @@
         <img src="../../../../static/svg/icon_add_thought.svg" alt="">
       </div>
     </div>
-    <comment-publish v-if="comment_popup" @shutDown="comment_popup = false" @publishSuccess="publishSuccess"></comment-publish>
+    <comment-publish v-if="comment_popup" @shutDown="comment_popup = false" @publishSuccess="publishSuccess" :clientHeight="clientHeight"></comment-publish>
     <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
       <public-list :list="idea_list"></public-list>
       <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
@@ -31,7 +31,8 @@
         pageInfo: { // ETC 页码信息
           current_page: 0,
           page_total: 0
-        }
+        },
+        clientHeight: ''
       };
     },
     methods: {
@@ -76,6 +77,9 @@
         Object.assign(that.$data, that.$options.data());
         that.infinite();
       }
+    },
+    mounted(){
+      this.clientHeight = document.documentElement.clientHeight;
     }
   };
 </script>
