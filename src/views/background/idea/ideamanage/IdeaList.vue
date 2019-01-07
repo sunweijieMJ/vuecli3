@@ -2,7 +2,7 @@
   <div class="idea-list-manage">
     <div class="header">
       <div class="form">
-        <el-input class="inp" v-model="idea_id" placeholder="输入想法ID"></el-input>
+        <el-input class="inp" v-model="idea_id" placeholder="输入内容ID"></el-input>
         <el-button @click="getIdeaList({keyword: idea_id})">搜索</el-button>
         <el-button @click="resetData">重置</el-button>
       </div>

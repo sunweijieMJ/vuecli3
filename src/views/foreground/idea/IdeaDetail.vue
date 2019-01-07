@@ -358,6 +358,7 @@
             height: 36px;
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
             border-radius: 20px;
+            font-size: 16px;
             color: #fff;
             cursor: pointer;
           }

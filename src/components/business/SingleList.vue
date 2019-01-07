@@ -94,6 +94,7 @@
     padding: 32px 58px;
     margin-top: 4px;
     background-color: #fff;
+    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     .list-header .header-author {
       display: flex;
       margin-bottom: 12px;
@@ -184,7 +185,6 @@
           &:first-child {
             width: 100px;
             i {
-              color: $h2Color;
               &.self_zan {
                 color: $themeColor;
               }

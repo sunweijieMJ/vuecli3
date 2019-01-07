@@ -57,9 +57,9 @@
               <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="OKR" name="second">
+          <!-- <el-tab-pane label="OKR" name="second">
             <public-list :list="[]"></public-list>
-          </el-tab-pane>
+          </el-tab-pane> -->
         </el-tabs>
       </div>
       <div class="achieve">
@@ -336,6 +336,7 @@
         width: 275px;
         height: 213px;
         background-color: #fff;
+        box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
         .achieve-title {
           display: flex;
           justify-content: center;
@@ -357,10 +358,14 @@
               display: flex;
               align-items: center;
               i {
-                font-size: 20px;
+                margin-right: 7px;
+                font-size: 18px;
+                &.icon-icon_saw {
+                  margin-right: 5px;
+                  font-size: 20px;
+                }
               }
               span {
-                margin-left: 7px;
                 font-size: 16px;
                 color: $h2Color;
               }
@@ -382,16 +387,17 @@
     .list .el-tabs {
       box-sizing: border-box;
       width: 750px;
-      box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
       .el-tabs__header {
         margin-bottom: 0;
         background-color: #fff;
+        box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
         .el-tabs__nav-wrap {
           padding: 0 60px;
           &:after {
             position: static;
           }
           .el-tabs__active-bar {
+            height: 3px;
             bottom: 15px;
             background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
           }

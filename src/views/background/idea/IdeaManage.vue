@@ -2,7 +2,7 @@
   <div class="idea-manage">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane disabled>
-        <h3 class="manage-name" slot="label">管理想法</h3>
+        <h3 class="manage-name" slot="label">管理瓴里圈</h3>
       </el-tab-pane>
       <el-tab-pane label="管理" name="first">
         <idea-list></idea-list>

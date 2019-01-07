@@ -2,7 +2,7 @@
   <div class="idea-list">
     <div class="idea-write">
       <div class="write-btn" @click="comment_popup = true">
-        <span>提出你的想法</span>
+        <span></span>
         <img src="../../../../static/svg/icon_add_thought.svg" alt="">
       </div>
     </div>

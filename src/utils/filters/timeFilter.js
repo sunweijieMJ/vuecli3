@@ -38,7 +38,7 @@ let timeFilter = (time) => {
       return `昨天 ${fillZero(hours)}:${fillZero(minutes)}`;
       break;
     case space >= YESTERDAY && THIS_YEAY:
-      return `${month}月${date}日`;
+      return `${month}月${date}日 ${fillZero(hours)}:${fillZero(minutes)}`;
       break;
     case LAST_YEAY:
       return `${year}年${month}月${date}日 ${fillZero(hours)}:${fillZero(minutes)}`;

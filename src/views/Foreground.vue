@@ -64,10 +64,10 @@
             text: '瓴里圈',
             name: 'IdeaList'
           },
-          {
-            text: 'OKR',
-            name: 'OKRList'
-          }
+          // {
+          //   text: 'OKR',
+          //   name: 'OKRList'
+          // }
         ],
         readMore,
         message: { // ETC 未读消息列表
@@ -230,6 +230,9 @@
   html, body, #app {
     height: 100%;
   }
+  .el-header {
+    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05) inset;
+  }
   .el-popover {
     padding: 1px 0 0;
     border: none;
@@ -260,7 +263,6 @@
       }
     }
   }
-
   .el-dropdown-menu {
     padding: 20px 0;
     .el-dropdown-menu__item {

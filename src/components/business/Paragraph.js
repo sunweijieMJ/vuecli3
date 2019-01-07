@@ -56,7 +56,7 @@ export default {
                 on: {
                   click: (e) => {
                     if (that.forbid) return;
-                    const topicTitles = e.target.innerText.split();
+                    const topicTitles = e.target.innerText.replace(/#/g, '').trim().split(' ');
                     IdeaApi().getTopicByTitle({topicTitles}).then(res => {
                       if (res.status) {
                         if (!res.data.length) {

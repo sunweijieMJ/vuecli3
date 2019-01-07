@@ -30,7 +30,7 @@
             name: 'FrameManage'
           },
           {
-            text: '管理想法',
+            text: '管理瓴里圈',
             icon: 'icon-wenbenicon',
             name: 'IdeaManage'
           }
