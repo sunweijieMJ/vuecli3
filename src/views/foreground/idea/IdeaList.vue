@@ -94,7 +94,8 @@
       align-items: center;
       width:750px;
       height:56px;
-      background:rgba(255,255,255,1);
+      margin-bottom: 4px;
+      background-color: #fff;
       box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
       .write-btn {
         display: flex;

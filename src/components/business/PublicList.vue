@@ -13,3 +13,10 @@
     components: {SingleList}
   };
 </script>
+<style lang="scss">
+  .public-list li:last-child{
+    .single-list {
+      margin-bottom: 0;
+    }
+  }
+</style>

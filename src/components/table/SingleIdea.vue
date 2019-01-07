@@ -3,7 +3,7 @@
     <div class="idea-main">
       <div class="main">
         <div class="main-paragraph">
-          <paragraph :text="item.content"></paragraph>
+          <paragraph v-if="item.content" :text="item.content"></paragraph>
         </div>
         <div class="main-images">
           <img v-for="(witem, windex) in item.photos.length > 5 ? item.photos.slice(0, 4) : item.photos" :key="windex" :src="witem" alt="" @click.stop="showImage(item.photos, windex)">
@@ -18,7 +18,7 @@
           <span>ID：</span>
           <p>{{item.thinks_id}}</p>
         </li>
-        <li>
+        <li v-if="item.user_info">
           <span>作者：</span>
           <p>{{`${item.user_info.user_name} (${item.user_info.real_name})`}}</p>
         </li>

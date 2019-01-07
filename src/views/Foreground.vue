@@ -235,7 +235,7 @@
     height: 100%;
   }
   .el-header {
-    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05) inset;
+    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
   }
   .el-popover {
     padding: 1px 0 0;

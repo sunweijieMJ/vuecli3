@@ -26,7 +26,7 @@
       <div class="main-paragraph" v-if="vitem.content" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
         <paragraph :text="vitem.content"></paragraph>
       </div>
-      <div class="main-images" v-if="vitem.photos.length">
+      <div class="main-images" v-if="vitem.photos && vitem.photos.length">
         <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
       </div>
     </div>
@@ -50,7 +50,7 @@
       </div>
     </div>
     <!-- 评论区 -->
-    <div class="list-comment" v-if="vitem.replys.length">
+    <div class="list-comment" v-if="vitem.replys && vitem.replys.length">
       <h4>精彩评论</h4>
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
@@ -92,7 +92,7 @@
     box-sizing: border-box;
     width: 750px;
     padding: 32px 58px;
-    margin-top: 4px;
+    margin-bottom: 4px;
     background-color: #fff;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     .list-header .header-author {

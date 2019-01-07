@@ -37,7 +37,7 @@
         return await IdeaApi().getIdeaList({topicId, curPage}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
-          const idea_list = res.data.list;
+          const idea_list = Object.values(res.data.list);
           that.topic_info = res.data.topic_info;
           that.pageInfo.page_total = res.data.total;
           // 数据整理
