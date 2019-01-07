@@ -123,7 +123,9 @@ export default {
 .init{
   background:rgba(246,246,246,1);
   background-image: url('../../../static/img/login_bg.png');
-  background-size: 100% 100%;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  min-width: 1280px;
   width: 100%;
   height: 100vh;
   .box{
