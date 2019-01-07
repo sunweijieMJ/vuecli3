@@ -203,7 +203,7 @@
       height: 245px;
       background-image: url('../../../../static/img/img_lighter.png'), url('../../../../static/img/img_bg_color.png');
       background-repeat: no-repeat, repeat-x;
-      background-position: 72.85% 10px, 0, 0;
+      background-position: 77% 10px, 0, 0;
       .user {
         box-sizing: border-box;
         position: absolute;
