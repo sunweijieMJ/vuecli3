@@ -229,7 +229,7 @@
           align-items: center;
           span {
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 500;
             line-height: 22px;
             color: $h1Color;
             cursor: pointer;
@@ -241,7 +241,7 @@
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
             border-radius: 20px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 500;
             color: #fff;
             cursor: pointer;
           }

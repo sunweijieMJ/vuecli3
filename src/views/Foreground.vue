@@ -166,7 +166,7 @@
             }
             a {
               font-size:18px;
-              font-weight: bold;
+              font-weight: 500;
               color:rgba(144,147,153,1);
             }
             img {
@@ -213,7 +213,7 @@
             span {
               margin-left: 8px;
               font-size: 18px;
-              font-weight: bold;
+              font-weight: 500;
               line-height: 25px;
               color: $h1Color;
             }

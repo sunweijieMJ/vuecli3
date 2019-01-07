@@ -397,7 +397,7 @@ export default {
       padding: 2.8% 37px;
       font-size:22px;
       font-family:PingFangSC-Medium;
-      font-weight: bold;
+      font-weight: 500;
       color:rgba(255,118,120,1);
       border-bottom:1px solid rgba(246,246,246,1);
       position: relative;
@@ -462,7 +462,7 @@ export default {
         line-height: 40px;
         background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
         border-radius:20px;
-        font-weight: bold;;
+        font-weight: 500;;
         font-size: 18px;
         color:rgba(255,255,255,1);
       }
@@ -497,7 +497,7 @@ export default {
           line-height: 40px;
           background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           border-radius:20px;
-          font-weight: bold;
+          font-weight: 500;
           font-size: 18px;
           color:rgba(255,255,255,1);
         }

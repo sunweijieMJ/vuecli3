@@ -136,7 +136,7 @@ export default {
   .title{
     padding-top: 147px;
     font-size:62px;
-    font-weight: bold;
+    font-weight: 500;
     color:rgba(255,255,255,1);
     margin-bottom: 50px;
   }
@@ -197,7 +197,7 @@ export default {
   border-radius: 20px;
   border: none;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
   color:rgba(255,255,255,1);
   background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
 }

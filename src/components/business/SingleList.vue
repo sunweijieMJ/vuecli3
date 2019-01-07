@@ -228,7 +228,7 @@
       h4 {
         margin-bottom: 4px;
         font-size: 16px;
-        font-weight: bold;
+        font-weight: 500;
         color: $h1Color;
         line-height: 22px;
       }

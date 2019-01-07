@@ -160,7 +160,7 @@ export default {
   padding-bottom: 20px;
   .header{
     font-size:23px;
-    font-weight: bold;
+    font-weight: 500;
     color:rgba(255,118,120,1);
     padding: 12px 79px;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -186,7 +186,7 @@ export default {
         text-align: center;
         line-height: 40px;
         font-size:18px;
-        font-weight: bold;
+        font-weight: 500;
         color:rgba(255,255,255,1);
       }
     }
@@ -220,7 +220,7 @@ export default {
           padding: 17px 0;
           // font-size:14px;
           line-height: 1;
-          font-weight: bold;
+          font-weight: 500;
           color:rgba(96,98,102,1);
           border-bottom:1px solid rgba(246,246,246,1);
         }

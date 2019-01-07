@@ -108,7 +108,7 @@ export default {
     padding: 20px 0;
     font-size:30px;
     font-family:PingFangSC-Medium;
-    font-weight: bold;
+    font-weight: 500;
     color:rgba(255,118,120,1);
     line-height:53px;
     border-bottom:1px solid rgba(246,246,246,1);
