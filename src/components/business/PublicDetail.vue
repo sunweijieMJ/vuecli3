@@ -15,7 +15,7 @@
         </h4>
         <p>
           <span>{{detail.user_info.department_name}}</span>
-          <span>{{detail.create_time}}</span>
+          <span>{{detail.create_time | timeFilter}}</span>
         </p>
       </div>
     </div>
