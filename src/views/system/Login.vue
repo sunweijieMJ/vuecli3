@@ -183,6 +183,7 @@ export default {
   border: none;
   height: 20px;
   line-height: 20px;
+  padding: 20px;
 }
 .init > .el-form > .el-form-item > .el-form-item__content > .el-button {
   width: 312px;
