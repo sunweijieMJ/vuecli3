@@ -8,7 +8,8 @@
         他们都觉得很赞
       </div>
       <div class="thump-icon">
-        <img v-for="(item, index) in thump_list" :key="index" :src="item.header_photo" alt="">
+        <img v-for="(item, index) in thump_list.slice(0,47)" :key="index" :src="item.header_photo" alt="">
+        <span v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>
       </div>
     </div>
     <!-- 回复评论 -->
@@ -277,6 +278,18 @@
           height: 30px;
           margin: 0 10px 10px 0;
           border-radius: 50%;
+        }
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+          background-color:$backColor;
+          border: 1px solid $lineColor;
+          border-radius: 50%;
+          font-size: 14px;
+          color: $h3Color;
         }
       }
     }

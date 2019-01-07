@@ -183,7 +183,8 @@
           align-items: center;
           .el-badge {
             i {
-              font-size: 36px;
+              font-size: 26px;
+              color: $h1Color;
               cursor: pointer;
             }
           }

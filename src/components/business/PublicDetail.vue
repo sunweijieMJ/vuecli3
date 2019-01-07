@@ -30,7 +30,7 @@
       <div class="main-num">
         <div class="num-left">
           <p @click.stop="thumpIdea(detail.thinks_id)" :class="{self_zan: detail.self_zan}">
-            <i class="iconfont icon-icon_liked_m"></i>
+            <i class="iconfont " :class="detail.self_zan ? 'icon-icon_liked_m' : 'icon-icon_like_m'"></i>
             <span>{{detail.zan}}</span>
           </p>
           <p @click.stop="activeComment">
@@ -169,20 +169,15 @@
             &:first-child {
               width: 100px;
             }
-            &.self_zan {
-              span, i {
-                color: $themeColor;
-              }
-            }
             span {
               margin-left: 10px;
               font-size: 18px;
               line-height: 25px;
-              color: $h2Color;
+              color: $themeColor;
             }
             i {
               font-size: 21px;
-              color: $h2Color;
+              color: $themeColor;
             }
           }
         }
