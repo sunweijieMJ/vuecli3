@@ -108,7 +108,7 @@ export default {
     padding: 20px 0;
     font-size:30px;
     font-family:PingFangSC-Medium;
-    font-weight:500;
+    font-weight: bold;
     color:rgba(255,118,120,1);
     line-height:53px;
     border-bottom:1px solid rgba(246,246,246,1);
@@ -140,7 +140,6 @@ export default {
           align-items: center;
           font-size:14px;
           font-family:PingFangSC-Regular;
-          font-weight:400;
           color: #303133;
           .name{
             color:rgba(85,129,199,1);
@@ -148,7 +147,6 @@ export default {
           .date{
             font-size:12px;
             font-family:PingFangSC-Regular;
-            font-weight:400;
             color:rgba(144,147,153,1);
           }
         }
@@ -157,7 +155,6 @@ export default {
           p{
             font-size:14px;
             font-family:PingFangSC-Regular;
-            font-weight:400;
             word-break: break-word;
             color:rgba(96,98,102,1);
             line-height:22px;
@@ -171,7 +168,6 @@ export default {
           p{
             font-size:14px;
             font-family:PingFangSC-Regular;
-            font-weight:400;
             color:rgba(96,98,102,1);
             line-height:25px;
             text-overflow: ellipsis;

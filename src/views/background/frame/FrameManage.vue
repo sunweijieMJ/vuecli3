@@ -160,7 +160,7 @@ export default {
   padding-bottom: 20px;
   .header{
     font-size:23px;
-    font-weight:500;
+    font-weight: bold;
     color:rgba(255,118,120,1);
     padding: 12px 79px;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -175,7 +175,6 @@ export default {
       border-bottom:1px solid rgba(246,246,246,1);
       span{
         font-size:16px;
-        font-weight:400;
         color:rgba(96,98,102,1);
       }
       .crease{
@@ -187,7 +186,7 @@ export default {
         text-align: center;
         line-height: 40px;
         font-size:18px;
-        font-weight:500;
+        font-weight: bold;
         color:rgba(255,255,255,1);
       }
     }
@@ -200,7 +199,6 @@ export default {
           padding:17px 22px 17px 0;
           line-height: 1;
           // font-size:14px;
-          font-weight:400;
           color:rgba(48,49,51,1);
           display: flex;
           align-items: center;
@@ -222,7 +220,7 @@ export default {
           padding: 17px 0;
           // font-size:14px;
           line-height: 1;
-          font-weight:500;
+          font-weight: bold;
           color:rgba(96,98,102,1);
           border-bottom:1px solid rgba(246,246,246,1);
         }
@@ -255,7 +253,6 @@ export default {
             display: flex;
             align-items: center;
             // font-size:14px;
-            font-weight:400;
             color:rgba(48,49,51,1);
             img{
               width:40px;
@@ -284,7 +281,6 @@ export default {
             div{
               margin-right: 55px;
               // font-size:14px;
-              font-weight:400;
               color:rgba(96,98,102,1);
               display: flex;
               align-items: center;

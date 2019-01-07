@@ -101,6 +101,10 @@
         align-items: center;
         margin-right: 58px;
         cursor: pointer;
+        span {
+          font-size:18px;
+          color:rgba(255,118,118,1);
+        }
         img {
           width: 38px;
         }

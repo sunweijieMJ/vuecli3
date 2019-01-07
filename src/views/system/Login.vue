@@ -1,25 +1,27 @@
 <template>
   <div class="init">
-    <div class="title">PGS</div>
-    <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
-    <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
-    <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{push_email}} ，请在邮件中查看</div>
-    <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-      <el-form-item
-      prop="email">
-        <el-input type="text" v-model="ruleForm2.email" autocomplete="off" placeholder="工作邮箱地址"></el-input>
-      </el-form-item>
-      <el-form-item prop="pass">
-        <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" placeholder="密码"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <div class="security">
-          <span class="push-sec" v-show="!show" @click="countDown">获取密码</span>
-          <span v-show="show" class="countdown">{{time}}</span>
-        </div>
-        <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="box">
+      <div class="title">PGS</div>
+      <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
+      <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
+      <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{push_email}} ，请在邮件中查看</div>
+      <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+        <el-form-item
+        prop="email">
+          <el-input type="text" v-model="ruleForm2.email" autocomplete="off" placeholder="工作邮箱地址"></el-input>
+        </el-form-item>
+        <el-form-item prop="pass">
+          <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" placeholder="密码"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <div class="security">
+            <span class="push-sec" v-show="!show" @click="countDown">获取密码</span>
+            <span v-show="show" class="countdown">{{time}}</span>
+          </div>
+          <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 <script>
@@ -42,8 +44,7 @@ export default {
       push_email: '', // ETC 发送邮箱密码显示的文本
       rules2: {
         email: [
-          {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-          {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur']}
+          {required: true, message: '请输入邮箱地址', trigger: 'blur'}
         ],
         pass: [{validator: this.validatePass}]
       }
@@ -109,6 +110,7 @@ export default {
         });
       }else{
         this.status = 2;
+        this.$message({message: '请输入正确的邮箱', type: 'warning', duration: 1000});
       }
       // setTimeout(() => {
         // this.firm_dis = true;
@@ -120,20 +122,27 @@ export default {
 <style lang="scss" scoped>
 .init{
   background:rgba(246,246,246,1);
+  background-image: url('../../../static/img/login_bg.png');
+  background-size: 100% 100%;
   width: 100%;
   height: 100vh;
-  text-align: center;
+  .box{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    right: 180px;
+  }
   .title{
     padding-top: 147px;
     font-size:62px;
-    font-weight:500;
-    color:rgba(48,49,51,1);
+    font-weight: bold;
+    color:rgba(255,255,255,1);
     margin-bottom: 50px;
   }
   .discription{
     font-size:20px;
-    font-weight:500;
-    color:rgba(96,98,102,1);
+    color:rgba(255,255,255,1);
     margin-bottom: 20px;
   }
   .security{
@@ -141,15 +150,13 @@ export default {
     display: flex;
     justify-content: flex-end;
     font-size:14px;
-    font-weight:400;
-    color:rgba(85,129,199,1);
+    color:#92B2E5;
     margin-bottom: 18px;
     .push-sec{
       cursor: pointer;
     }
     .countdown{
       font-size:14px;
-      font-weight:400;
       color:rgba(144,147,153,1);
     }
     span{
@@ -159,25 +166,25 @@ export default {
 }
 </style>
 <style lang="scss">
-.init > .el-form{
+.init > .box > .el-form{
   width: 315px;
   margin: auto;
 }
-.init > .el-form > .el-form-item > .el-form-item__content > .el-input {
+.init > .box > .el-form > .el-form-item > .el-form-item__content > .el-input {
   width: 315px !important;
   height: 40px !important;
   background:rgba(255,255,255,1);
   border-radius: 20px;
   line-height: 40px;
 }
-.init > .el-form > .el-form-item > .el-form-item__content{
+.init > .box > .el-form > .el-form-item > .el-form-item__content{
   margin-left: 0 !important;
   line-height: 1;
   .el-form-item__error{
     left: 19px;
   }
 }
-.init > .el-form > .el-form-item > .el-form-item__content > .el-input > .el-input__inner{
+.init > .box > .el-form > .el-form-item > .el-form-item__content > .el-input > .el-input__inner{
   border-radius: 20px;
   background:rgba(255,255,255,1);
   border: none;
@@ -185,12 +192,12 @@ export default {
   line-height: 20px;
   padding: 20px;
 }
-.init > .el-form > .el-form-item > .el-form-item__content > .el-button {
+.init > .box > .el-form > .el-form-item > .el-form-item__content > .el-button {
   width: 312px;
   border-radius: 20px;
   border: none;
   font-size: 18px;
-  font-weight:500;
+  font-weight: bold;
   color:rgba(255,255,255,1);
   background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
 }

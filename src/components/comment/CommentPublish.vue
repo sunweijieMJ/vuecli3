@@ -1,7 +1,7 @@
 <template>
   <div class="comment-publish">
     <div class="hello">
-      <div class="new-idea">新想法 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
+      <div class="new-idea">瓴里圈 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
       <div class="comment-idea" :style="textarea_box_style">
         <textarea name="" id="text" cols="30" rows="10"
           :style="textarea_style"
@@ -60,12 +60,12 @@ export default {
       friend: '好友列表',
       topic: '话题列表',
       textarea_box_style: {
-        height: ((this.clientHeight * 90 / 100) - 320) + 'px'
+        height: this.limitBoxHeight() + 'px'
       },
       textarea_style: {
-        height: ((this.clientHeight * 90 / 100) - 342) + 'px'
+        height: this.limitHeight() + 'px'
       },
-      textarea_mirror: (this.clientHeight * 90 / 100) - 342,
+      textarea_mirror: this.limitHeight(),
       at_style: {
         position: 'absolute',
         top: '',
@@ -85,6 +85,20 @@ export default {
     };
   },
   methods: {
+    limitHeight(){
+      if((this.clientHeight * 90 / 100) - 342 > 500){
+        return 500;
+      }else{
+        return (this.clientHeight * 90 / 100) - 342;
+      }
+    },
+    limitBoxHeight(){
+      if((this.clientHeight * 90 / 100) - 320 > 522){
+        return 522;
+      }else{
+        return (this.clientHeight * 90 / 100) - 320;
+      }
+    },
     viewUploadImg(){
       this.upLoad_state = true;
       document.querySelector('.el-upload__input').click();
@@ -383,7 +397,7 @@ export default {
       padding: 2.8% 37px;
       font-size:22px;
       font-family:PingFangSC-Medium;
-      font-weight:500;
+      font-weight: bold;
       color:rgba(255,118,120,1);
       border-bottom:1px solid rgba(246,246,246,1);
       position: relative;
@@ -448,7 +462,7 @@ export default {
         line-height: 40px;
         background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
         border-radius:20px;
-        font-weight:500;
+        font-weight: bold;;
         font-size: 18px;
         color:rgba(255,255,255,1);
       }
@@ -459,7 +473,6 @@ export default {
       border-top:1px solid rgba(246,246,246,1);
       padding: 2.6% 38px;
       font-size:16px;
-      font-weight:400;
       color:rgba(48,49,51,1);
       .quantity{
         display: flex;
@@ -484,7 +497,7 @@ export default {
           line-height: 40px;
           background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           border-radius:20px;
-          font-weight:500;
+          font-weight: bold;
           font-size: 18px;
           color:rgba(255,255,255,1);
         }
@@ -515,7 +528,6 @@ export default {
     border-right: 1px solid #eee;
     font-size:16px;
     font-family:PingFangSC-Regular;
-    font-weight:400;
     color:rgba(48,49,51,1);
     background-color: white;
     white-space: nowrap;
