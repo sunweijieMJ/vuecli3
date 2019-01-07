@@ -201,7 +201,7 @@
     .profile-user {
       position: relative;
       height: 245px;
-      background-image: url('http://static06.lanehub.cn/static/img/banner.526748e.png');
+      background-image: url('../../../../static/img/profile_bg.png');
       .user {
         box-sizing: border-box;
         position: absolute;
