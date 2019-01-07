@@ -18,7 +18,7 @@
               <span @click.stop="goProFile(a.push_user_id)">
                 <span v-if="a.name" class="name">{{a.name.user_name}}</span><span class="idea">{{a.message_title}}</span>
               </span>
-              <span class="date">{{a.publish_time}}</span>
+              <span class="date">{{a.publish_time | timeFilter}}</span>
             </div>
             <div class="comment-idea">
               <p>

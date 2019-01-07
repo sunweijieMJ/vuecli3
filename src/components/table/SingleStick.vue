@@ -28,7 +28,7 @@
         </li>
         <li>
           <span>时间：</span>
-          <p>{{item.publish_time}}</p>
+          <p>{{item.publish_time | timeFilter}}</p>
         </li>
       </div>
     </div>

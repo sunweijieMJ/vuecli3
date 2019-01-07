@@ -16,7 +16,7 @@
           </h4>
           <p>
             <span v-if="vitem.user_info">{{vitem.user_info.department_name}}</span>
-            <span>{{vitem.publish_time}}</span>
+            <span>{{vitem.publish_time | timeFilter}}</span>
           </p>
         </div>
       </div>

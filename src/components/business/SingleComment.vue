@@ -28,7 +28,7 @@
           </p>
         </div>
         <div class="num-right">
-          <span>{{item.publish_time}}</span>
+          <span>{{item.publish_time | timeFilter}}</span>
         </div>
       </div>
       <div class="comment-publish" v-if="textEnabled.status">
