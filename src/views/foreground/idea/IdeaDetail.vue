@@ -266,7 +266,7 @@
       .thump-title {
         margin-bottom: 20px;
         font-size: 18px;
-        font-weight: 500;
+        font-weight: bold;
         line-height: 25px;
         color: $h1Color;
       }
@@ -348,6 +348,7 @@
           align-items: center;
           span {
             font-size: 16px;
+            font-weight: bold;
             line-height: 22px;
             color: $h1Color;
             cursor: pointer;
@@ -359,6 +360,7 @@
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
             border-radius: 20px;
             font-size: 16px;
+            font-weight: bold;
             color: #fff;
             cursor: pointer;
           }
@@ -374,7 +376,7 @@
         border-bottom: 1px solid #F6F6F6;
         h4 {
           font-size: 18px;
-          font-weight: 500;
+          font-weight: bold;
           line-height: 25px;
           color: $h1Color;
         }

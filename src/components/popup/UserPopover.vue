@@ -1,5 +1,5 @@
 <template>
-  <div class="user-popover">
+  <div class="user-popover" @click.stop="paramsSkip('Profile', {id: userinfo.user_id})">
     <div class="user" v-if="userinfo">
       <img :src="userinfo.header_photo" alt="">
       <div class="user-info">
@@ -33,7 +33,9 @@
   </div>
 </template>
 <script>
+  import frequent from '../../mixins/frequent.js';
   export default {
+    mixins: [frequent],
     props: ['userinfo']
   };
 </script>
@@ -43,6 +45,7 @@
   .user-popover {
     width: 360px;
     height: 210px;
+    cursor: pointer;
     .user {
       box-sizing: border-box;
       display: flex;
@@ -64,7 +67,7 @@
           display: flex;
           align-items: center;
           margin-bottom: 5px;
-          font-weight: 400;
+          font-weight: normal;
           span {
             font-size: 16px;
             line-height: 22px;

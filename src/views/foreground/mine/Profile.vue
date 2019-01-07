@@ -227,7 +227,7 @@
             margin-bottom: 5px;
             span {
               font-size: 24px;
-              font-weight: 500;
+              font-weight: bold;
               line-height: 33px;
               color: #fff;
             }
@@ -284,7 +284,7 @@
             span {
               margin: 0 27px;
               font-size: 18px;
-              font-weight: 500;
+              font-weight: bold;
               line-height: 25px;
               color: #fff;
               cursor: pointer;
@@ -295,7 +295,7 @@
               background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
               border-radius: 20px;
               font-size: 18px;
-              font-weight: 500;
+              font-weight: bold;
               line-height: 25px;
               color: #fff;
               cursor: pointer;
@@ -344,7 +344,7 @@
           height: 56px;
           border-bottom:1px solid $lineColor;
           font-size: 18px;
-          font-weight: 400;
+          font-weight: normal;
           color: $h3Color;
         }
         .achieve-detail {
@@ -404,6 +404,7 @@
           .el-tabs__item {
             height: 56px;
             font-size: 18px;
+            font-weight: bold;
             line-height: 56px;
             color: $h3Color;
             &.is-active {

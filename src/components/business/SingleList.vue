@@ -112,7 +112,7 @@
         h4 {
           display: flex;
           align-items: center;
-          font-weight: 400;
+          font-weight: normal;
           .name {
             margin-right: 15px;
             font-size: 16px;
@@ -228,7 +228,7 @@
       h4 {
         margin-bottom: 4px;
         font-size: 16px;
-        font-weight: 500;
+        font-weight: bold;
         color: $h1Color;
         line-height: 22px;
       }
@@ -239,7 +239,7 @@
           line-height: 25px;
           h5 {
             font-size: 16px;
-            font-weight: 400;
+            font-weight: normal;
             color: $linkBlue;
             cursor: pointer;
           }

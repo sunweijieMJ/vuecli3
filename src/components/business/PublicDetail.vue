@@ -98,7 +98,7 @@
         h4 {
           display: flex;
           align-items: center;
-          font-weight: 400;
+          font-weight: normal;
           .name {
             margin-right: 15px;
             font-size: 16px;

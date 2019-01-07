@@ -138,7 +138,10 @@
   .el-container {
     height: 100%;
     .el-header {
+      position: fixed;
+      z-index: 2000;
       display: flex;
+      width: 100%;
       height: 60px;
       background-color: #fff;
       nav {
@@ -163,7 +166,7 @@
             }
             a {
               font-size:18px;
-              font-weight:500;
+              font-weight: bold;
               color:rgba(144,147,153,1);
             }
             img {
@@ -210,6 +213,7 @@
             span {
               margin-left: 8px;
               font-size: 18px;
+              font-weight: bold;
               line-height: 25px;
               color: $h1Color;
             }
@@ -218,8 +222,8 @@
       }
     }
     .el-main {
+      padding: 60px 0 0;
       min-height: calc(100% - 60px);
-      padding: 0;
       background-color: #F6F6F6;
     }
   }
