@@ -14,7 +14,7 @@
         </ul>
         <ul :style="at_style">
           <li v-if="jshow && topic_con" @click.stop="insertAtCursor(topic_con + '# ')">创建话题#{{topic_con}}#</li>
-          <li v-if="jshow" v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
+          <li v-show="jshow" v-for="(tpic, index) in topic.list" :key="index" @click.stop="insertAtCursor(tpic.topic_title + '# ')">{{tpic.topic_title}}</li>
         </ul>
       </div>
       <div class="upload-imgs" v-show="!upLoad_state">
@@ -86,7 +86,6 @@ export default {
   },
   methods: {
     viewUploadImg(){
-      console.log(this.clientHeight)
       this.upLoad_state = true;
       document.querySelector('.el-upload__input').click();
     },
@@ -508,6 +507,7 @@ export default {
     width: 300px;
   }
   li{
+    cursor: pointer;
     list-style: none;
     padding: 13px 15px;
     border-top: 1px solid #eee;
