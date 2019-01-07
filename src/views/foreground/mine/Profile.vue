@@ -201,7 +201,9 @@
     .profile-user {
       position: relative;
       height: 245px;
-      background-image: url('../../../../static/img/profile_bg.png');
+      background-image: url('../../../../static/img/img_lighter.png'), url('../../../../static/img/img_bg_color.png');
+      background-repeat: no-repeat, repeat-x;
+      background-position: 72.85% 10px, 0, 0;
       .user {
         box-sizing: border-box;
         position: absolute;
@@ -212,7 +214,7 @@
         padding-left: 203px;
         width: 1038px;
         height: 107px;
-        background: rgba(0, 0, 0, 1);
+        background: rgba(0, 0, 0, 0.6);
         .user-msg {
           display: flex;
           flex-direction: column;
