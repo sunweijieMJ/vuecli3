@@ -19,7 +19,7 @@
                   <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
                     <p>
                       <span @click.stop="unread_msg.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
-                      <span @click.stop="unread_msg.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中评论了你的想法
+                      <span @click.stop="unread_msg.show = false || paramsSkip('IdeaDetail', {id: witem.business_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中{{witem.message_title}}
                     </p>
                   </li>
                 </ul>
@@ -197,6 +197,7 @@
               width: 38px;
               height: 38px;
               border-radius: 50%;
+              border: 1px solid $lineColor;
               cursor: pointer;
             }
           }
@@ -209,6 +210,7 @@
             cursor: pointer;
             i {
               font-size: 25px;
+              color: $h1Color;
             }
             span {
               margin-left: 8px;

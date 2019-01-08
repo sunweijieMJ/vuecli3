@@ -1,7 +1,7 @@
 <template>
   <div class="topic-list">
     <div class="list-header">
-      <h3>{{topic_info.sTopicTitle}}</h3>
+      <h3>#{{topic_info.sTopicTitle}}#</h3>
     </div>
     <div class="list-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
       <public-list :list="idea_list"></public-list>
@@ -91,8 +91,9 @@
       width: 750px;
       height: 74px;
       padding-left: 58px;
-      background:rgba(255,255,255,1);
-      box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
+      margin-bottom: 4px;
+      background-color: #fff;
+      box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
       h3 {
         font-size: 20px;
         line-height: 28px;

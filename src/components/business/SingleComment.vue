@@ -28,7 +28,7 @@
           </p>
         </div>
         <div class="num-right">
-          <span>{{item.publish_time | timeFilter}}</span>
+          <p>{{item.publish_time | timeFilter}}</p>
         </div>
       </div>
       <div class="comment-publish" v-if="textEnabled.status">
@@ -166,12 +166,13 @@
             }
             i {
               font-size: 14px;
+              color: $h3Color;
             }
             span {
               margin-left: 4px;
               font-size:14px;
               line-height:20px;
-              color: #909399;
+              color: $h3Color;
             }
           }
         }
@@ -179,7 +180,7 @@
           p {
             font-size: 12px;
             line-height: 18px;
-            color: #909399;
+            color: $h3Color;
           }
         }
       }
