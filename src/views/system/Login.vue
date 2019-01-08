@@ -1,7 +1,15 @@
 <template>
   <div class="init">
     <div class="box">
-      <div class="title">PGS</div>
+      <div class="icon">
+        <div>
+          <span class="iconfont icon-icon_lanehub"></span>
+        </div>
+        <div class="line"></div>
+        <div>
+          <span class="iconfont icon-icon_PGS"></span>
+        </div>
+      </div>
       <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
       <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
       <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{push_email}} ，请在邮件中查看</div>
@@ -135,12 +143,28 @@ export default {
     position: relative;
     right: 180px;
   }
-  .title{
+  .icon{
     padding-top: 147px;
-    font-size:62px;
-    font-weight: 500;
-    color:rgba(255,255,255,1);
-    margin-bottom: 50px;
+    // margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .line{
+      margin-left: 32px;
+      margin-right: 32px;
+      width: 2px;
+      height: 44px;
+      background-color: white;
+    }
+    span{
+      color: white;
+    }
+    .icon-icon_lanehub{
+      font-size: 46px;
+    }
+    .icon-icon_PGS{
+      font-size: 110px;
+    }
   }
   .discription{
     font-size:20px;
