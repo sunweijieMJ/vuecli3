@@ -24,10 +24,12 @@
         </el-form-item>
         <el-form-item>
           <div class="security">
-            <span class="push-sec" v-show="!show" @click="countDown">获取密码</span>
+            <span class="push-sec" v-show="!show && !checkout_state" @click="countDown">获取密码</span>
+            <span class="push-sec" v-show="!show && checkout_state">获取密码</span>
             <span v-show="show" class="countdown">{{time}}</span>
           </div>
-          <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
+          <el-button type="primary" v-if="!login_checkout" @click="submitForm('ruleForm2')">登录</el-button>
+          <el-button type="primary" v-if="login_checkout">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -36,11 +38,15 @@
 <script>
 const storageApi = require('../../utils/storage')('cookie');
 
+import {blocked} from '../../utils/business/tools.js';
 import userApi from '../../api/User.js';
 export default {
   name: 'login',
   data(){
     return{
+      checkout_state: false, // ETC 获取验证码切换状态
+      login_checkout: false, // ETC 登陆切换状态
+
       status: 0, // ETC 提示信息展示
       firm_dis: true, // ETC 获取密码防抖
       login_status: true, // ETC 登陆防抖
@@ -71,7 +77,6 @@ export default {
       this.login_judge = false;
     },
     submitForm(formName) {
-      // submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           alert('submit!');
@@ -80,28 +85,31 @@ export default {
           return false;
         }
       });
-      // },
       this.login_status = false;
-      if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status){
+      this.login_checkout = true;
+      if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status && this.login_checkout){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
           if(res.status){
             storageApi.set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
-            this.$message({message: '登陆成功', type: 'success', duration: 1000});
+            this.$message({message: '登录成功', type: 'success', duration: 1000});
             setTimeout(() => {
               this.$router.push({name: 'IdeaList'});
               // this.status = 0;
               this.login_status = true;
               this.login_judge = false;
+              this.login_checkout = false;
             }, 1000);
           }else{
             this.login_judge = true;
+            this.login_checkout = false;
           }
         });
       }
     },
-    // 计时器
-    countDown(){
+    // 获取验证码
+    getConfirm(){
       this.firm_dis = false;
+      this.checkout_state = true;
       let Reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       if(!this.firm_dis && this.ruleForm2.email && Reg.test(this.ruleForm2.email)){
         let time = 50;
@@ -115,6 +123,7 @@ export default {
             this.show = false;
             clearInterval(timeStop);// ETC 清除定时器
             this.firm_dis = true;
+            this.checkout_state = false;
           }
         }, 1000);
         userApi().getPssword({email: this.ruleForm2.email}).then(res => {
@@ -127,9 +136,10 @@ export default {
         this.status = 2;
         this.$message({message: '请输入正确的邮箱', type: 'warning', duration: 1000});
       }
-      // setTimeout(() => {
-        // this.firm_dis = true;
-      // }, 1000);
+    },
+    // 计时器
+    countDown(){
+      blocked(this.getConfirm, 0.5)();
     }
   }
 };
@@ -151,7 +161,7 @@ export default {
   width: 100%;
   height: 100vh;
   .box{
-    width: 600px;
+    width: 800px;
     margin: auto;
     text-align: center;
     position: relative;

@@ -138,6 +138,20 @@ const getStyle = (ele, attr) => {
   }
 };
 
+const blocked = (func, delay) => {
+  let [timer, startTime] = [null, Date.now()];
+  return () => {
+    let [that, args, curTime] = [this, arguments, Date.now()];
+    const remaining = delay - (curTime - startTime);
+    clearTimeout(timer);
+    if (remaining <= 0) {
+      func.apply(that, args);
+      startTime = Date.now();
+    } else {
+      // timer = setTimeout(func, remaining);
+    }
+  };
+};
 /**
  * 文本框根据输入内容自适应高度
  * {HTMLElement}   输入框元素
@@ -176,5 +190,5 @@ const autoTextarea = (ele, extra = 0, maxHeight, minHeight = 48) => {
 };
 
 export {
-  loadScript, pagetitle, parseUrl, setTimer, clearTimer, debounce, throttle, getStyle, autoTextarea
+  loadScript, pagetitle, parseUrl, setTimer, clearTimer, debounce, throttle, getStyle, autoTextarea, blocked
 };
