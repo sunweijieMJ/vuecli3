@@ -16,10 +16,11 @@
       <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
         <el-form-item
         prop="email">
-          <el-input type="text" v-model="ruleForm2.email" autocomplete="off" placeholder="工作邮箱地址"></el-input>
+          <el-input type="text" v-model="ruleForm2.email" autocomplete="off" @input="change" placeholder="工作邮箱地址"></el-input>
         </el-form-item>
         <el-form-item prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" placeholder="密码"></el-input>
+          <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" @input="change" placeholder="密码"></el-input>
+          <p v-show="login_judge" class="pass_error">邮箱或密码不正确</p>
         </el-form-item>
         <el-form-item>
           <div class="security">
@@ -55,14 +56,19 @@ export default {
           {required: true, message: '请输入邮箱地址', trigger: 'blur'}
         ],
         pass: [{validator: this.validatePass}]
-      }
+      },
+      login_judge: false
     };
   },
   methods: {
     validatePass(rule, value, callback) {
       if (value === '') {
         callback(new Error('请输入密码'));
+        this.login_judge = false;
       }
+    },
+    change(){
+      this.login_judge = false;
     },
     submitForm(formName) {
       // submitForm(formName) {
@@ -85,9 +91,10 @@ export default {
               this.$router.push({name: 'IdeaList'});
               // this.status = 0;
               this.login_status = true;
+              this.login_judge = false;
             }, 1000);
           }else{
-            this.$message({message: '邮箱或密码不正确', type: 'warning', duration: 1000});
+            this.login_judge = true;
           }
         });
       }
@@ -97,23 +104,23 @@ export default {
       this.firm_dis = false;
       let Reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       if(!this.firm_dis && this.ruleForm2.email && Reg.test(this.ruleForm2.email)){
+        let time = 50;
+        let timeStop = setInterval(() => {
+          time--;
+          if (time > 0) {
+            this.show = true;
+            this.time = time + ' ' + 's ' + '后可再次发送';
+          }else{
+            time = 50; // ETC当减到0时赋值为60
+            this.show = false;
+            clearInterval(timeStop);// ETC 清除定时器
+            this.firm_dis = true;
+          }
+        }, 1000);
         userApi().getPssword({email: this.ruleForm2.email}).then(res => {
           if(res.status){
             this.push_email = this.ruleForm2.email;
             this.status = 1;
-            let time = 50;
-            let timeStop = setInterval(() => {
-              time--;
-              if (time > 0) {
-                this.show = true;
-                this.time = time + ' ' + 's ' + '后可再次发送';
-              }else{
-                time = 50; // ETC当减到0时赋值为60
-                this.show = false;
-                clearInterval(timeStop);// ETC 清除定时器
-                this.firm_dis = true;
-              }
-            }, 1000);
           }
         });
       }else{
@@ -128,6 +135,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.pass_error{
+  color: #f56c6c;
+  position: absolute;
+  left: 19px;
+  margin-top: 5px;
+  font-size: 12px;
+}
 .init{
   background:rgba(246,246,246,1);
   background-image: url('../../../static/img/login_bg.png');
@@ -202,6 +216,7 @@ export default {
   background:rgba(255,255,255,1);
   border-radius: 20px;
   line-height: 40px;
+  position: relative;
 }
 .init > .box > .el-form > .el-form-item > .el-form-item__content{
   margin-left: 0 !important;
