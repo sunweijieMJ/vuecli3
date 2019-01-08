@@ -139,16 +139,19 @@ const getStyle = (ele, attr) => {
 };
 
 const blocked = (func, delay) => {
-  let [timer, startTime] = [null, Date.now()];
+  let timer = 0;
+  let startTime = Date.now();
   return () => {
-    let [that, args, curTime] = [this, arguments, Date.now()];
+    let that = this;
+    let args = arguments;
+    let curTime = Date.now();
     const remaining = delay - (curTime - startTime);
     clearTimeout(timer);
     if (remaining <= 0) {
       func.apply(that, args);
       startTime = Date.now();
     } else {
-      // timer = setTimeout(func, remaining);
+      timer = setTimeout(func, remaining);
     }
   };
 };

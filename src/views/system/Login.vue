@@ -108,6 +108,7 @@ export default {
     },
     // 获取验证码
     getConfirm(){
+      this.status = 0;
       this.firm_dis = false;
       this.checkout_state = true;
       let Reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
@@ -130,6 +131,8 @@ export default {
           if(res.status){
             this.push_email = this.ruleForm2.email;
             this.status = 1;
+          }else{
+            this.$message({message: res.message, type: 'warning', duration: 1000});
           }
         });
       }else{
