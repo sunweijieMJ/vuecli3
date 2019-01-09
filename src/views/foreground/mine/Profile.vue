@@ -5,8 +5,9 @@
         <el-upload
           :disabled="!user_info.self"
           :class="{'isSelf': !user_info.self}"
+          :accept="'.jpg,.jpeg,.png,.JPEG'"
           class="user-photo"
-          action="http://manageapi.linzhongren.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11"
+          action="http://manageapi.mall.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11"
           :show-file-list="false"
           :on-success="handleSuccess">
           <img :src="user_info.header_photo" alt="">
