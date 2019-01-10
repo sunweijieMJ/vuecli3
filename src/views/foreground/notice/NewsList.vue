@@ -106,7 +106,7 @@ export default {
   .warn{
     width: 750px;
     padding: 20px 0;
-    font-size:30px;
+    font-size:37px;
     font-family:PingFangSC-Medium;
     font-weight: 500;
     color:rgba(255,118,120,1);
@@ -138,7 +138,7 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size:14px;
+          font-size: 15px;
           font-family:PingFangSC-Regular;
           color: #303133;
           .name{
@@ -153,7 +153,7 @@ export default {
         .comment-idea{
           margin-top: 9px;
           p{
-            font-size:14px;
+            font-size:15px;
             font-family:PingFangSC-Regular;
             word-break: break-word;
             color:rgba(96,98,102,1);
@@ -166,7 +166,7 @@ export default {
           padding: 14px 17px;
           background:rgba(246,246,246,1);
           p{
-            font-size:14px;
+            font-size:15px;
             font-family:PingFangSC-Regular;
             color:rgba(96,98,102,1);
             line-height:25px;
