@@ -97,7 +97,7 @@
       }
     }
     .num {
-      padding: 28px 30px;
+      padding: 22px 30px;
       li {
         display: flex;
         justify-content: space-between;

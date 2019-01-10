@@ -14,9 +14,14 @@
   };
 </script>
 <style lang="scss">
-  .public-list li:last-child{
-    .single-list {
-      margin-bottom: 0;
+  .public-list {
+    >li {
+      box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
+      &:last-child {
+        .single-list {
+          margin-bottom: 50px;
+        }
+      }
     }
   }
 </style>

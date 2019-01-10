@@ -54,20 +54,20 @@
         this.$emit('move', data);
       },
       // 取消置顶
-      cancelStick() {
+      cancelStick(thinksId, currTop) {
         let that = this;
         that.$confirm('确定取消置顶这个想法吗？', '取消置顶', {
           type: 'warning'
         }).then(() => {
-          IdeaApi().cancelStick().then(res => {
+          IdeaApi().stickIdea({thinksId, currTop}).then(res => {
             if(res.status) {
-              this.$emit('cancelSuccess');
               that.$message({message: '取消置顶成功', type: 'success'});
+              this.$emit('cancelSuccess');
             } else {
               that.$message({message: res.message, type: 'error'});
             }
           });
-        }).catch(() => {});
+        });
       }
     }
   };

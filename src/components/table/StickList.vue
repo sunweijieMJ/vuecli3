@@ -16,7 +16,7 @@
         this.$emit('move', data);
       },
       cancelSuccess(thinksId) {
-        this.$emit('cancelSuccesss', thinksId);
+        this.$emit('cancelSuccess', thinksId);
       }
     }
   };

@@ -78,7 +78,7 @@
               that.$message({message: res.message, type: 'error'});
             }
           });
-        }).catch(() => {});
+        });
       }
     }
   };

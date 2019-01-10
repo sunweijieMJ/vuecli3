@@ -119,7 +119,7 @@
             that.$confirm('确定注销用户?', '注销', {type: 'warning'}).then(() => {
               storage('cookie').remove('pgs_authinfo');
               that.$router.push({name: 'Login'});
-            }).catch(() => {});
+            });
             break;
           default:
             break;

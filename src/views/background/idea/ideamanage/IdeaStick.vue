@@ -16,13 +16,13 @@
       };
     },
     created() {
-      this.getIdeaList(1);
+      this.getIdeaList();
     },
     methods: {
       // 想法列表
-      getIdeaList(qTop) {
+      getIdeaList() {
         let that = this;
-        IdeaApi().getIdeaList({qTop}).then(res => {
+        IdeaApi().getIdeaList({qTop: 1}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
           const stick_list = res.data.list;
@@ -78,7 +78,7 @@
       },
       // 取消置顶回调
       cancelSuccess() {
-
+        this.getIdeaList();
       }
     }
   };

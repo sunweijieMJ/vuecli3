@@ -22,7 +22,7 @@
             ></textarea>
         <!-- </publish> -->
         <div class="publish-btn" v-if="textEnabled.status">
-          <span @click="textEnabled.status = false">取消</span>
+          <span @click="textEnabled = {status: false, text: ''}">取消</span>
           <button @click="sendComment(idea_id, textEnabled.text)">发送</button>
         </div>
       </div>

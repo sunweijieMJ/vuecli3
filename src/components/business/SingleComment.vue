@@ -258,7 +258,7 @@
     p {
       font-size: 16px;
       line-height: 25px;
-      color: $h2Color;
+      color: $h1Color;
       a {
         font-size: 16px;
         color: $linkBlue;
