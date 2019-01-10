@@ -128,7 +128,7 @@
               align-items: center;
               width: 64px;
               height: 64px;
-              font-size: 16px;
+              font-size: $h3Font;
               color: $h1Color;
               background-color: rgba(255,255,255,0.8);
             }
@@ -140,7 +140,7 @@
         li {
           display: flex;
           margin-bottom: 10px;
-          font-size: 16px;
+          font-size: $h3Font;
           line-height: 22px;
           color: $h2Color;
           &:last-child {
@@ -159,7 +159,7 @@
           font-size: 28px;
         }
         span {
-          font-size: 16px;
+          font-size: $h3Font;
           line-height: 22px;
           color: $h1Color;
         }
@@ -174,11 +174,11 @@
     p {
       @include erow(3);
       max-height: 66px;
-      font-size: 16px;
+      font-size: $h3Font;
       line-height: 22px;
       color: $h2Color;
       a {
-        font-size: 16px;
+        font-size: $h3Font;
         color: $linkBlue;
       }
     }

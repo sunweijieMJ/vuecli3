@@ -265,7 +265,7 @@
       padding: 35px 66px 25px;
       .thump-title {
         margin-bottom: 20px;
-        font-size: 18px;
+        font-size: $h2Font;
         font-weight: 500;
         line-height: 25px;
         color: $h1Color;
@@ -288,7 +288,7 @@
           background-color:$backColor;
           border: 1px solid $lineColor;
           border-radius: 50%;
-          font-size: 14px;
+          font-size: $h4Font;
           color: $h3Color;
         }
       }
@@ -310,33 +310,33 @@
           height: 48px;
           padding: 10px 20px;
           border-radius: 2px;
-          font-size: 16px;
+          font-size: $h3Font;
           line-height: 25px;
           resize: none;
           border: none;
           background: $backColor;
           &::placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &::-webkit-input-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &:-moz-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &::-moz-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &:-ms-input-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
@@ -347,7 +347,7 @@
           justify-content: flex-end;
           align-items: center;
           span {
-            font-size: 16px;
+            font-size: $h3Font;
             font-weight: 500;
             line-height: 22px;
             color: $h1Color;
@@ -359,7 +359,7 @@
             height: 36px;
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
             border-radius: 20px;
-            font-size: 16px;
+            font-size: $h3Font;
             font-weight: 500;
             color: #fff;
             cursor: pointer;
@@ -375,7 +375,7 @@
         padding: 15px 0 10px;
         border-bottom: 1px solid #F6F6F6;
         h4 {
-          font-size: 18px;
+          font-size: $h2Font;
           font-weight: 500;
           line-height: 25px;
           color: $h1Color;

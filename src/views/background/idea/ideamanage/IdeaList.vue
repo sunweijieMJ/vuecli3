@@ -104,7 +104,7 @@
           margin-left: 22px;
           background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           border-radius: 20px;
-          font-size: 18px;
+          font-size: $h2Font;
           line-height: 40px;
           color: #fff;
         }

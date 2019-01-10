@@ -114,7 +114,7 @@
           font-weight: normal;
           .name {
             margin-right: 15px;
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: $h1Color;
             cursor: pointer;
@@ -128,7 +128,7 @@
             height: 20px;
             border-radius: 2px;
             border: 1px solid $themeColor;
-            font-size: 14px;
+            font-size: $h4Font;
             line-height: 20px;
             color: $themeColor;
           }
@@ -138,7 +138,7 @@
           align-items: center;
           span {
             margin-right: 14px;
-            font-size: 14px;
+            font-size: $h4Font;
             line-height: 20px;
             color: $h3Color;
           }
@@ -191,12 +191,12 @@
           }
           span {
             margin-left: 7px;
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: $h2Color;
           }
           i {
-            font-size: 18px;
+            font-size: $h2Font;
             color: $h2Color;
           }
         }
@@ -209,12 +209,12 @@
           align-items: center;
           span {
             margin-left: 5px;
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: $h2Color;
           }
           i {
-            font-size: 22px;
+            font-size: $h1Font;
             color: $h2Color;
           }
         }
@@ -226,7 +226,7 @@
       background-color: $backColor;
       h4 {
         margin-bottom: 4px;
-        font-size: 16px;
+        font-size: $h3Font;
         font-weight: 500;
         color: $h1Color;
         line-height: 22px;
@@ -237,7 +237,7 @@
           align-items: center;
           line-height: 25px;
           h5 {
-            font-size: 16px;
+            font-size: $h3Font;
             font-weight: normal;
             color: $linkBlue;
             cursor: pointer;
@@ -247,7 +247,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             -ms-text-overflow: ellipsis;
-            font-size:16px;
+            font-size: $h3Color;
             color: $h2Color;
           }
         }
@@ -262,11 +262,11 @@
     p {
       @include erow(4);
       max-height: 100px;
-      font-size: 16px;
+      font-size: $h3Font;
       line-height: 25px;
       color: $h1Color;
       a {
-        font-size: 16px;
+        font-size: $h3Font;
         color: $linkBlue;
       }
     }

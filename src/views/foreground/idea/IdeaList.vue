@@ -84,6 +84,8 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import '../../../assets/scss/_base.scss';
+
   .idea-list {
     width: 1040px;
     margin: auto;
@@ -103,7 +105,7 @@
         margin-right: 58px;
         cursor: pointer;
         span {
-          font-size:18px;
+          font-size: $h2Font;
           color:rgba(255,118,118,1);
         }
         img {

@@ -101,7 +101,7 @@
           font-weight: normal;
           .name {
             margin-right: 15px;
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: $h1Color;
             cursor: pointer;
@@ -115,7 +115,7 @@
             height: 20px;
             border-radius: 2px;
             border:1px solid $themeColor;
-            font-size: 14px;
+            font-size: $h4Font;
             line-height: 20px;
             color: $themeColor;
           }
@@ -125,7 +125,7 @@
           align-items: center;
           span {
             margin-right: 14px;
-            font-size:14px;
+            font-size: $h4Font;
             line-height: 20px;
             color: $h3Color;
           }
@@ -171,7 +171,7 @@
             }
             span {
               margin-left: 10px;
-              font-size: 18px;
+              font-size: $h2Font;
               line-height: 25px;
               color: $themeColor;
             }
@@ -189,7 +189,7 @@
             align-items: center;
             span {
               margin-left: 7px;
-              font-size: 18px;
+              font-size: $h2Font;
               line-height: 25px;
               color: $themeColor;
             }
@@ -208,11 +208,11 @@
 
   .public-detail .main-paragraph {
     p {
-      font-size: 16px;
+      font-size: $h3Font;
       line-height: 25px;
       color: $h2Color;
       a {
-        font-size: 16px;
+        font-size: $h3Font;
         color: $linkBlue;
       }
     }

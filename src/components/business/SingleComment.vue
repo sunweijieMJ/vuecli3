@@ -134,7 +134,7 @@
           display: flex;
           align-items: center;
           span {
-            font-size:16px;
+            font-size: $h3Color;
             line-height:22px;
             color: $h3Color;
             cursor: pointer;
@@ -170,7 +170,7 @@
             }
             span {
               margin-left: 4px;
-              font-size:14px;
+              font-size: $h4Font;
               line-height:20px;
               color: $h3Color;
             }
@@ -193,32 +193,32 @@
           padding: 10px 20px;
           background: $backColor;
           border-radius: 2px;
-          font-size: 16px;
+          font-size: $h3Font;
           line-height: 28px;
           resize: none;
           border: none;
           &::placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &::-webkit-input-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &:-moz-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &::-moz-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
           &:-ms-input-placeholder {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 28px;
             color: $h3Color;
           }
@@ -229,7 +229,7 @@
           justify-content: flex-end;
           align-items: center;
           span {
-            font-size: 16px;
+            font-size: $h3Font;
             font-weight: 500;
             line-height: 22px;
             color: $h1Color;
@@ -241,7 +241,7 @@
             height: 36px;
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
             border-radius: 20px;
-            font-size: 16px;
+            font-size: $h3Font;
             font-weight: 500;
             color: #fff;
             cursor: pointer;
@@ -256,11 +256,11 @@
 
   .single-comment .info-paragraph {
     p {
-      font-size: 16px;
+      font-size: $h3Font;
       line-height: 25px;
       color: $h1Color;
       a {
-        font-size: 16px;
+        font-size: $h3Font;
         color: $linkBlue;
       }
     }

@@ -69,13 +69,13 @@
           margin-bottom: 5px;
           font-weight: normal;
           span {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: #fff;
           }
           i {
             margin-left: 5px;
-            font-size: 14px;
+            font-size: $h4Font;
             &.icon-icon_male1 {
               color: $linkBlue;
             }
@@ -86,7 +86,7 @@
         }
         p {
           span {
-            font-size: 14px;
+            font-size: $h4Font;
             line-height: 20px;
             color: #fff;
             &:last-child {
@@ -107,17 +107,17 @@
         }
         p {
           i {
-            font-size: 16px;
+            font-size: $h3Font;
           }
           >span {
             margin-left: 7px;
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: $h2Color;
           }
         }
         >span {
-          font-size: 22px;
+          font-size: $h1Font;
           line-height: 30px;
           color: $themeColor;
         }

@@ -234,7 +234,7 @@
             }
             i {
               margin-left: 6px;
-              font-size: 18px;
+              font-size: $h2Font;
               &.icon-icon_male1 {
                 color: $linkBlue;
               }
@@ -244,7 +244,7 @@
             }
             a {
               margin-left: 10px;
-              font-size: 16px;
+              font-size: $h3Font;
               color: $linkBlue;
             }
           }
@@ -262,29 +262,29 @@
               border-radius:20px;
               color: #fff;
               &::placeholder{
-                font-size: 18px;
+                font-size: $h2Font;
                 color: $h2Color;
               }
               &::-webkit-input-placeholder {
-                font-size: 18px;
+                font-size: $h2Font;
                 color: $h2Color;
               }
               &:-moz-placeholder{
-                font-size: 18px;
+                font-size: $h2Font;
                 color: $h2Color;
               }
               &::-moz-placeholder{
-                font-size: 18px;
+                font-size: $h2Font;
                 color: $h2Color;
               }
               &:-ms-input-placeholder{
-                font-size: 18px;
+                font-size: $h2Font;
                 color: $h2Color;
               }
             }
             span {
               margin: 0 27px;
-              font-size: 18px;
+              font-size: $h2Font;
               font-weight: 500;
               line-height: 25px;
               color: #fff;
@@ -295,7 +295,7 @@
               height: 40px;
               background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
               border-radius: 20px;
-              font-size: 18px;
+              font-size: $h2Font;
               font-weight: 500;
               line-height: 25px;
               color: #fff;
@@ -313,12 +313,12 @@
                 margin-right: 0;
               }
               i {
-                font-size: 18px;
+                font-size: $h2Font;
                 color: $h4Color;
               }
               span {
                 margin-left: 4px;
-                font-size: 16px;
+                font-size: $h3Font;
                 color: #f6f6f6;
               }
             }
@@ -344,7 +344,7 @@
           align-items: center;
           height: 56px;
           border-bottom:1px solid $lineColor;
-          font-size: 18px;
+          font-size: $h2Font;
           font-weight: normal;
           color: $h3Color;
         }
@@ -360,19 +360,19 @@
               align-items: center;
               i {
                 margin-right: 7px;
-                font-size: 18px;
+                font-size: $h2Font;
                 &.icon-icon_saw {
                   margin-right: 5px;
                   font-size: 20px;
                 }
               }
               span {
-                font-size: 16px;
+                font-size: $h3Font;
                 color: $h2Color;
               }
             }
             >span {
-              font-size: 22px;
+              font-size: $h1Font;
               color: $themeColor;
             }
           }
@@ -406,7 +406,7 @@
           }
           .el-tabs__item {
             height: 56px;
-            font-size: 18px;
+            font-size: $h2Font;
             font-weight: 500;
             line-height: 56px;
             color: $h3Color;
@@ -454,7 +454,7 @@
             font-size: 27px;
           }
           span {
-            font-size:16px;
+            font-size: $h3Color;
           }
         }
       }

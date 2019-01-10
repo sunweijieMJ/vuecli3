@@ -73,33 +73,33 @@
       height: 48px;
       padding: 10px 20px;
       border-radius: 2px;
-      font-size: 16px;
+      font-size: $h3Font;
       line-height: 25px;
       resize: none;
       border: none;
       background: $backColor;
       &::placeholder {
-        font-size: 16px;
+        font-size: $h3Font;
         line-height: 28px;
         color: $h3Color;
       }
       &::-webkit-input-placeholder {
-        font-size: 16px;
+        font-size: $h3Font;
         line-height: 28px;
         color: $h3Color;
       }
       &:-moz-placeholder {
-        font-size: 16px;
+        font-size: $h3Font;
         line-height: 28px;
         color: $h3Color;
       }
       &::-moz-placeholder {
-        font-size: 16px;
+        font-size: $h3Font;
         line-height: 28px;
         color: $h3Color;
       }
       &:-ms-input-placeholder {
-        font-size: 16px;
+        font-size: $h3Font;
         line-height: 28px;
         color: $h3Color;
       }
@@ -117,7 +117,7 @@
         align-items: center;
         height: 47px;
         padding: 0 16px;
-        font-size: 16px;
+        font-size: $h3Font;
         color: $h1Color;
         &:hover {
           background-color: $backColor;

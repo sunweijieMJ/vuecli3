@@ -76,7 +76,7 @@
           }
           span {
             margin-left: 10px;
-            font-size: 18px;
+            font-size: $h2Font;
             line-height: 25px;
             color: #fff;
           }

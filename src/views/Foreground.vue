@@ -165,7 +165,7 @@
               color:rgba(48,49,51,1);
             }
             a {
-              font-size:18px;
+              font-size: $h2Font;
               font-weight: 500;
               color:rgba(144,147,153,1);
             }
@@ -214,7 +214,7 @@
             }
             span {
               margin-left: 8px;
-              font-size: 18px;
+              font-size: $h2Font;
               font-weight: 500;
               line-height: 25px;
               color: $h1Color;
@@ -248,7 +248,7 @@
         li {
           padding: 14px 22px;
           border-bottom: 1px solid $lineColor;
-          font-size: 16px;
+          font-size: $h3Font;
           line-height: 25px;
           p {
             color: $h1Color;
@@ -264,7 +264,7 @@
         justify-content: center;
         align-items: center;
         height: 55px;
-        font-size: 16px;
+        font-size: $h3Font;
         color: $linkBlue;
       }
     }
@@ -273,7 +273,7 @@
     padding: 20px 0;
     .el-dropdown-menu__item {
       padding: 0 40px;
-      font-size: 16px;
+      font-size: $h3Font;
       line-height: 30px;
       color: $h1Color;
       &:first-child {

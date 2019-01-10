@@ -174,7 +174,7 @@ export default {
       align-items: center;
       border-bottom:1px solid rgba(246,246,246,1);
       span{
-        font-size:16px;
+        font-size:15px;
         color:rgba(96,98,102,1);
       }
       .crease{

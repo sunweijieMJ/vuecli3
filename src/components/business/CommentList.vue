@@ -64,7 +64,7 @@
         .more-comment {
           padding: 12px 0 12px 60px;
           p {
-            font-size: 16px;
+            font-size: $h3Font;
             line-height: 22px;
             color: $linkBlue;
             cursor: pointer;

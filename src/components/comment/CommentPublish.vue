@@ -377,6 +377,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  @import '../../assets/scss/_base.scss';
+
 .comment-publish{
   z-index: 2000;
   position: fixed;
@@ -420,7 +422,7 @@ export default {
         box-sizing: border-box;
         font-family: PingFangSC-Regular;
         // border: 1px solid orange;
-        font-size: 15px;
+        font-size: $h3Font;
         border: none;
         resize: none;
       }
@@ -446,7 +448,7 @@ export default {
       align-items: center;
       .u-i-i{
         cursor: pointer;
-        font-size: 16px;
+        font-size: $h3Font;
         color:rgba(48,49,51,1);
         display: flex;
         align-items: center;
@@ -463,7 +465,7 @@ export default {
         background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
         border-radius:20px;
         font-weight: 500;;
-        font-size: 18px;
+        font-size: $h2Font;
         color:rgba(255,255,255,1);
       }
     }
@@ -498,7 +500,7 @@ export default {
           background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           border-radius:20px;
           font-weight: 500;
-          font-size: 18px;
+          font-size: $h2Font;
           color:rgba(255,255,255,1);
         }
       }
