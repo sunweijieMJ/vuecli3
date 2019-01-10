@@ -113,14 +113,14 @@ export default {
       this.checkout_state = true;
       let Reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       if(!this.firm_dis && this.ruleForm2.email && Reg.test(this.ruleForm2.email)){
-        let time = 50;
+        let time = 60;
         let timeStop = setInterval(() => {
           time--;
           if (time > 0) {
             this.show = true;
             this.time = time + ' ' + 's ' + '后可再次发送';
           }else{
-            time = 50; // ETC当减到0时赋值为60
+            time = 60; // ETC当减到0时赋值为60
             this.show = false;
             clearInterval(timeStop);// ETC 清除定时器
             this.firm_dis = true;

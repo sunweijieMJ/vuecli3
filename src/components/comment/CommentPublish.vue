@@ -138,7 +138,7 @@ export default {
         return textarea.replace(/<|>|`|"|&/g, '?').replace(/\r\n|\r|\n/g, '<br>');
       };
       // 创建镜像内容，复制样式
-      let mirror = '<p style="font-size:16px;font-family:PingFangSC-Regular; line-height: normal;" id="' + 'text' + '">' +
+      let mirror = '<p style="font-size: 15px;font-family:PingFangSC-Regular; line-height: normal;" id="' + 'text' + '">' +
       escape(beforeText) +
       '<span id="cursor">|</span>' +
       escape(afterText) +
@@ -420,7 +420,7 @@ export default {
         box-sizing: border-box;
         font-family: PingFangSC-Regular;
         // border: 1px solid orange;
-        font-size: 16px;
+        font-size: 15px;
         border: none;
         resize: none;
       }
