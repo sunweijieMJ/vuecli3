@@ -150,7 +150,6 @@ export default {
       let cursor = document.getElementById('cursor');
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      console.log('相对距离：', finaly)
       this.at_style.top = (finaly.bottom - this.textarea_mirror - ScrollHeight) + 'px';
       this.at_style.left = (finaly.x - 6) + 'px';
     },
