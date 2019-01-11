@@ -7,7 +7,7 @@
           :class="{'isSelf': !user_info.self}"
           :accept="'.jpg,.jpeg,.png,.JPEG'"
           class="user-photo"
-          action="http://manageapi.mall.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11"
+          :action="upload_url"
           :show-file-list="false"
           :on-success="handleSuccess">
           <img :src="user_info.header_photo" alt="">
@@ -95,6 +95,7 @@
     components: {PublicList, Loading},
     data() {
       return {
+        upload_url: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
         user_id: 0, // ETC 用户ID
         user_info: {}, // ETC 用户信息
         idea_list: [], // ETC 用户想法列表
