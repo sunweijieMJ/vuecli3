@@ -3,7 +3,7 @@
     <div class="hello">
       <div class="new-idea">瓴里圈 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
       <div class="comment-idea" :style="textarea_box_style">
-        <textarea name="" id="text" cols="30" rows="10"
+        <textarea name="" id="text" class="text2" cols="30" rows="10"
           :style="textarea_style"
           @blur="dealContent"
           @keyup="keyCode($event)"
@@ -125,6 +125,7 @@ export default {
     },
     // 计算镜像光标位置
     mirrorCompute(){
+      let ScrollHeight = document.querySelector('.text2').scrollTop;
       // let clientHeight = document.documentElement.clientHeight;
       let textarea = document.getElementById('text');
       // 光标位置
@@ -149,7 +150,8 @@ export default {
       let cursor = document.getElementById('cursor');
       // 获取页面元素位置
       let finaly = cursor.getBoundingClientRect(); // ETC { width, height, top, right, bottom, right }
-      this.at_style.top = (finaly.bottom - this.textarea_mirror) + 'px';
+      console.log('相对距离：', finaly)
+      this.at_style.top = (finaly.bottom - this.textarea_mirror - ScrollHeight) + 'px';
       this.at_style.left = (finaly.x - 6) + 'px';
     },
     // textarea 内容改变触发
