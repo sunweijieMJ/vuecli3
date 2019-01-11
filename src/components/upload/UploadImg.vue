@@ -53,7 +53,7 @@
 </template>
 <script>
   import linsign from '../../utils/signFun';
-  const root = process.env.VUE_APP_BaseURL;
+  const root = process.env.VUE_APP_UploadURL;
 
   export default {
     props: ['multiple', 'accepts', 'list', 'limint', 'disabled', 'name', 'showicon', 'indexnum', 'Ossprivate', 'hashNum'],
@@ -61,7 +61,7 @@
       return {
         show: false,
         // uploadurl: root + '/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
-        uploadurl: 'http://manageapi.linzhongren.dev.weiheinc.com/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
+        uploadurl: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
         fileList: [],
         multi: this.multiple ? this.multiple : false, // ETC 是否多图上传
         index: this.name + '' ? this.name : '', // ETC 当前上传文件的唯一标识
