@@ -98,7 +98,7 @@ export default {
   margin-top: 5px;
   width: 100%;
   background-color: white;
-  text-align: left;
+  // text-align: left;
   .new-box{
     width: 1040px;
     margin: auto;
