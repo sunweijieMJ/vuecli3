@@ -13,13 +13,13 @@
       <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
       <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
       <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{push_email}} ，请在邮件中查看</div>
-      <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+      <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
         <el-form-item
         prop="email">
-          <el-input type="text" v-model="ruleForm2.email" autocomplete="off" @input="change" placeholder="工作邮箱地址"></el-input>
+          <el-input type="text" v-model="ruleForm2.email" auto-complete="off" @input="change" placeholder="工作邮箱地址"></el-input>
         </el-form-item>
         <el-form-item prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" @input="change" placeholder="密码"></el-input>
+          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off" @input="change" placeholder="密码"></el-input>
           <p v-show="login_judge" class="pass_error">邮箱或密码不正确</p>
         </el-form-item>
         <el-form-item>
@@ -138,6 +138,7 @@ export default {
       }else{
         this.status = 2;
         this.$message({message: '请输入正确的邮箱', type: 'warning', duration: 1000});
+        this.checkout_state = false;
       }
     },
     // 计时器
@@ -230,6 +231,7 @@ export default {
   border-radius: 20px;
   line-height: 40px;
   position: relative;
+  z-index: 99 !important;
 }
 .init > .box > .el-form > .el-form-item > .el-form-item__content{
   margin-left: 0 !important;
@@ -245,6 +247,7 @@ export default {
   height: 20px;
   line-height: 20px;
   padding: 20px;
+  z-index: 100 !important;
 }
 .init > .box > .el-form > .el-form-item > .el-form-item__content > .el-button {
   width: 312px;
