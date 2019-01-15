@@ -22,7 +22,8 @@
           <i class="iconfont icon-icon_pic" style="font-size: 22px;"></i>
           <span>上传图片</span>
         </span>
-        <span class="submit" @click="ideaSubmit">发布</span>
+        <span class="submit" @click="dynamicSubmit" v-if="publish_state">发布</span>
+        <span class="submit" @click="dynamicSubmit" v-if="!publish_state">发布</span>
       </div>
       <div class="add-img" v-show="upLoad_state">
         <div class="quantity">
@@ -38,7 +39,7 @@
             :hashNum="hash_num.length"
             ></upLoadImg>
         </div>
-        <div class="raise" @click="ideaSubmit">
+        <div class="raise" @click="dynamicSubmit">
           <span class="submit">发布</span>
         </div>
       </div>
@@ -49,6 +50,8 @@
 import IdeaApi from '../../api/Idea.js';
 import UserApi from '../../api/User.js';
 import upLoadImg from '../upload/UploadImg';
+
+import {blocked} from '../../utils/business/tools.js';
 export default {
   name: 'commentpublish',
   components: {upLoadImg},
@@ -358,6 +361,7 @@ export default {
     },
     // 发布新想法
     ideaSubmit(){
+      this.submit_state = true;
       let text = document.getElementById('text').value;
       this.publish_state = false;
       if((text || this.thinksPhotos) && !this.publish_state){
@@ -365,6 +369,8 @@ export default {
           if(res.status){
             this.$message({message: '发布成功', type: 'success', duration: 1000});
             this.$emit('publishSuccess');
+          }else{
+
           }
         });
       }else{
@@ -373,6 +379,10 @@ export default {
       setTimeout(() => {
         this.publish_state = true;
       }, 1000);
+    },
+    // 发布防抖
+    dynamicSubmit(){
+      blocked(this.ideaSubmit, 1)();
     }
   }
 };
