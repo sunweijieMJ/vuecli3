@@ -61,6 +61,7 @@
       },
       // 触底刷新
       infinite() {
+        this.clientHeight = document.documentElement.clientHeight;
         let that = this;
         that.disabled = true;
         that.getIdeaList(++that.pageInfo.current_page).then(() => {
@@ -77,9 +78,6 @@
         Object.assign(that.$data, that.$options.data());
         that.infinite();
       }
-    },
-    mounted(){
-      this.clientHeight = document.documentElement.clientHeight;
     }
   };
 </script>
