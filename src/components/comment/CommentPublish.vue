@@ -416,6 +416,8 @@ export default {
     font-size: 12px;
     letter-spacing: normal;
     background-color: white;
+    border-radius: 2px;
+    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.08);
     .new-idea{
       padding: 2.8% 37px;
       font-size:22px;
@@ -541,12 +543,12 @@ export default {
     margin: auto;
     padding: 0 0;
     width: 250px;
-    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.05);
+    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.08);
   }
   li{
     cursor: pointer;
     list-style: none;
-    padding: 11px 15px;
+    padding: 9px 15px;
     border-top: 1px solid #F6F6F6;
     font-size:13px;
     font-family:PingFangSC-Regular;
