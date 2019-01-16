@@ -65,10 +65,10 @@
             text: '瓴里圈',
             name: 'IdeaList'
           },
-          // {
-          //   text: 'OKR',
-          //   name: 'OKRList'
-          // }
+          {
+            text: 'OKR',
+            name: 'OKRList'
+          }
         ],
         readMore,
         message: { // ETC 未读消息列表
