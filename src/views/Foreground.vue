@@ -119,6 +119,20 @@
           default:
             break;
         }
+      },
+      listenScroll() {
+        let that = this;
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
+        switch (that.$route.name) {
+          case 'IdeaList':
+            storage('localstorage').set('IdeaList', scrollTop);
+            break;
+          case 'TopicList':
+            storage('localstorage').set('TopicList', scrollTop);
+            break;
+          default:
+            break;
+        }
       }
     },
     computed: mapState({

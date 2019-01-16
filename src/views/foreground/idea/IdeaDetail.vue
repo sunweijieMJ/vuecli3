@@ -43,7 +43,7 @@
       <infinite-loading @infinite="infinite" :distance="10">
         <div class="message" slot="spinner">加载中...</div>
         <div class="message" slot="no-more">到底啦</div>
-        <div class="message" slot="no-results">评论为空</div>
+        <div class="null" slot="no-results">评论为空</div>
       </infinite-loading>
     </div>
   </div>
