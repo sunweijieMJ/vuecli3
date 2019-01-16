@@ -73,8 +73,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .single-stick {
     display: flex;
     justify-content: space-between;
@@ -168,8 +166,6 @@
   }
 </style>
 <style lang="scss">
-  @import '../../assets/scss/_base.scss';
-
   .single-stick .main-paragraph {
     p {
       @include erow(3);

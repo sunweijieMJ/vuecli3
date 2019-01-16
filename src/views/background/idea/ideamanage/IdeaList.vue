@@ -75,8 +75,6 @@
   };
 </script>
 <style lang="scss">
-  @import '../../../../assets/scss/_base.scss';
-
   .idea-list-manage {
     .header {
       display: flex;

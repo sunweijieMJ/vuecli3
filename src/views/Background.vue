@@ -40,8 +40,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../assets/scss/_base.scss';
-
   .el-container {
     min-width: 1440px;
     height: 100%;

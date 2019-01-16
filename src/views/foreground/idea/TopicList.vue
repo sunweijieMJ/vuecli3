@@ -92,8 +92,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../../assets/scss/_base.scss';
-
   .topic-list {
     width: 1040px;
     margin: auto;

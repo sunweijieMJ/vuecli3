@@ -87,8 +87,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .single-list {
     box-sizing: border-box;
     width: 750px;
@@ -273,8 +271,6 @@
   }
 </style>
 <style lang="scss">
-  @import '../../assets/scss/_base.scss';
-
   .single-list .main-paragraph {
     p {
       @include erow(4);

@@ -39,8 +39,6 @@
   };
 </script>
 <style lang="scss">
-  @import '../../assets/scss/_base.scss';
-
   .comment-list {
     >li {
       border-bottom: 1px solid $lineColor;

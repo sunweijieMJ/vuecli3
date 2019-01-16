@@ -84,8 +84,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../../../assets/scss/_base.scss';
-
   .idea-stick {
     box-sizing: border-box;
     height: 100%;

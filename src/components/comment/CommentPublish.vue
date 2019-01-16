@@ -400,8 +400,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
 .comment-publish{
   z-index: 2000;
   position: fixed;

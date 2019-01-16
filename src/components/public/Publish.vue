@@ -63,8 +63,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .publish {
     position: relative;
     textarea {

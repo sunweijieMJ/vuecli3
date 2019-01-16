@@ -98,8 +98,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../../assets/scss/_base.scss';
-
   .idea-list {
     width: 1040px;
     margin: auto;
