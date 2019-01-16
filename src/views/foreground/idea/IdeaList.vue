@@ -8,7 +8,7 @@
     <comment-publish v-if="comment_popup" @shutDown="comment_popup = false" @publishSuccess="publishSuccess" :clientHeight="clientHeight"></comment-publish>
     <div class="idea-content">
       <public-list :list="idea_list"></public-list>
-      <infinite-loading @infinite="infinite" :distance="10">
+      <infinite-loading @infinite="infinite">
         <div class="message" slot="spinner">加载中...</div>
         <div class="message" slot="no-more">到底啦</div>
         <div class="message" slot="no-results">列表为空</div>

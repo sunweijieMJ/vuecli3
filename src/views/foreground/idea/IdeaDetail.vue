@@ -40,7 +40,7 @@
         <h4>评论 ({{common_list.total}})</h4>
       </div>
       <comment-list v-if="common_list.total" :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <infinite-loading @infinite="infinite" :distance="10">
+      <infinite-loading @infinite="infinite">
         <div class="message" slot="spinner">加载中...</div>
         <div class="message" slot="no-more">到底啦</div>
         <div class="null" slot="no-results">评论为空</div>

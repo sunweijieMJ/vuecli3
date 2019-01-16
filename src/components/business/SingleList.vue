@@ -198,7 +198,7 @@
             color: $h2Color;
           }
           i {
-            font-size: $h2Font;
+            font-size: 16px;
             color: $h2Color;
           }
         }
@@ -212,11 +212,11 @@
           span {
             margin-left: 5px;
             font-size: $h3Font;
-            line-height: 22px;
+            line-height: 20px;
             color: $h2Color;
           }
           i {
-            font-size: $h1Font;
+            font-size: 20px;
             color: $h2Color;
           }
         }

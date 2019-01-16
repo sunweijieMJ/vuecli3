@@ -55,10 +55,10 @@
           <el-tab-pane label="瓴里圈" name="first">
             <div class="idea-content">
               <public-list :list="idea_list"></public-list>
-              <infinite-loading @infinite="infinite" :distance="10">
+              <infinite-loading @infinite="infinite">
                 <div class="message" slot="spinner">加载中...</div>
                 <div class="message" slot="no-more">到底啦</div>
-                <div class="message" slot="no-results">列表为空</div>
+                <div class="null" slot="no-results">列表为空</div>
               </infinite-loading>
             </div>
           </el-tab-pane>
@@ -122,9 +122,12 @@
     methods: {
       // 触底刷新
       infinite($state) {
+        console.log($state)
         let that = this;
         that.user_id = +that.$route.params.id;
+        console.log(that.pageInfo.current_page)
         that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
+
           // 触底判断
           if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.idea_list.length){
             $state.complete();
@@ -156,6 +159,7 @@
           }
 
           that.idea_list = that.idea_list.concat(idea_list);
+          console.log(that.idea_list)
         });
       },
       // 更新用户信息
@@ -266,6 +270,7 @@
               height:40px;
               background:rgba(0,0,0,1);
               border-radius:20px;
+              font-size: $h2Font;
               color: #fff;
               &::placeholder{
                 font-size: $h2Font;
@@ -424,13 +429,11 @@
       }
     }
     .profile-user .user-photo {
-      box-sizing: border-box;
       position: absolute;
       left: 58px; top: -28px;
       width: 112px;
       height: 112px;
       border-radius: 50%;
-      border: 1px solid $lineColor;
       &.isSelf .el-upload{
         cursor: auto;
       }
