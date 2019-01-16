@@ -37,6 +37,7 @@
     <infinite-loading @infinite="infinite" :distance="10">
       <div class="message" slot="spinner">加载中...</div>
       <div class="message" slot="no-more">到底啦</div>
+      <div class="message" slot="no-results">列表为空</div>
     </infinite-loading>
   </div>
 </template>
@@ -70,9 +71,10 @@ export default {
       let that = this;
       that.getIdeaListData(++that.pageInfo.current_page).then(() => {
         // 触底判断
-        $state.loaded();
         if(this.for_list.length === that.pageInfo.page_total){
           $state.complete();
+        }else{
+          $state.loaded();
         }
       });
     },

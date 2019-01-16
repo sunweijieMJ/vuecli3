@@ -43,6 +43,7 @@
     <infinite-loading @infinite="infinite" :distance="10">
       <div class="message" slot="spinner">加载中...</div>
       <div class="message" slot="no-more">到底啦</div>
+      <div class="message" slot="no-results">列表为空</div>
     </infinite-loading>
   </div>
 </template>
@@ -135,9 +136,10 @@ export default {
       let that = this;
       that.getStaffData(this.depart_id, ++that.pageInfo.current_page).then(() => {
         // 触底判断
-        $state.loaded();
         if(this.department_staff.length === that.pageInfo.page_total){
           $state.complete();
+        }else{
+          $state.loaded();
         }
       });
     }
