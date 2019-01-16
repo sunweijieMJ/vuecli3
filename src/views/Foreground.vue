@@ -1,6 +1,6 @@
 <template>
-  <el-container>
-    <el-header>
+  <div class="foreground">
+    <div class="header">
       <nav>
         <ul class="nav-left">
           <h1 @click="querySkip('IdeaList')">
@@ -40,11 +40,11 @@
           </div>
         </div>
       </nav>
-    </el-header>
-    <el-main>
+    </div>
+    <div class="main">
       <router-view></router-view>
-    </el-main>
-  </el-container>
+    </div>
+  </div>
 </template>
 <script>
   import {mapState} from 'vuex';
@@ -128,30 +128,30 @@
 <style lang="scss" scoped>
   @import '../assets/scss/_base.scss';
 
-  .el-container {
-    height: 100%;
-    .el-header {
+  .foreground {
+    .header {
       position: fixed;
       z-index: 2000;
       display: flex;
       width: 100%;
       height: 60px;
       background-color: #fff;
+      box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
       nav {
         display: flex;
         justify-content: space-between;
         width: 1040px;
         min-width: 1040px;
         margin: auto;
-        h1 {
-          cursor: pointer;
-          img {
-            width: 62px;
-          }
-        }
         .nav-left {
           display: flex;
           align-items: center;
+          h1 {
+            cursor: pointer;
+            img {
+              width: 62px;
+            }
+          }
           li {
             margin-left: 36px;
             &.active a{
@@ -206,10 +206,10 @@
         }
       }
     }
-    .el-main {
-      padding: 60px 0 0;
+    .main {
+      padding-top: 60px;
       min-height: calc(100% - 60px);
-      background-color: #F6F6F6;
+      background-color: #f6f6f6;
     }
   }
 </style>
@@ -218,9 +218,6 @@
 
   html, body, #app {
     height: 100%;
-  }
-  .el-header {
-    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
   }
   .el-popover {
     padding: 1px 0 0;

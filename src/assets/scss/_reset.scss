@@ -115,3 +115,12 @@
       vertical-align: middle;
   }
 
+  .infinite-loading-container {
+    .message {
+      font-size: 20px;
+      line-height: 200%;
+      text-align: center;
+      color: $h1Color;
+    }
+  }
+

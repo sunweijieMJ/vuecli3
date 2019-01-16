@@ -14,6 +14,9 @@ Vue.use(ElementUI);
 import infiniteScroll from 'vue-infinite-scroll';
 Vue.use(infiniteScroll);
 
+import InfiniteLoading from 'vue-infinite-loading';
+Vue.use(InfiniteLoading);
+
 // 全局注册自定义的过滤器
 import filters from './utils/filters/index';
 for (let key in filters) {
