@@ -133,9 +133,11 @@
       padding: 14px 0 20px;
       width: 48px;
       img {
+        box-sizing: border-box;
         width: 48px;
         height: 48px;
         border-radius: 50%;
+        border: 1px solid $lineColor;
         cursor: pointer;
       }
     }

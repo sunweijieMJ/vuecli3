@@ -162,16 +162,6 @@
               font-weight: 500;
               color:rgba(144,147,153,1);
             }
-            img {
-              width: 38px;
-              height: 38px;
-              border-radius: 50%;
-              cursor: pointer;
-            }
-            i {
-              font-size: 36px;
-              cursor: pointer;
-            }
           }
         }
         .nav-right {

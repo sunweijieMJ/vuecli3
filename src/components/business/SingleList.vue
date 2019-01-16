@@ -98,9 +98,11 @@
       display: flex;
       margin-bottom: 12px;
       img {
+        box-sizing: border-box;
         width: 48px;
         height: 48px;
         border-radius: 50%;
+        border: 1px solid $lineColor;
         cursor: pointer;
       }
       .author-name {

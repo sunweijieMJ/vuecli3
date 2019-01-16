@@ -54,10 +54,12 @@
       border-top: 3px solid $themeColor;
       background-color: rgba(0,0,0,0.64);
       img {
+        box-sizing: border-box;
         width: 56px;
         height: 56px;
         margin: 0 23px;
         border-radius: 50%;
+        border: 1px solid $lineColor;
       }
       .user-info {
         display: flex;

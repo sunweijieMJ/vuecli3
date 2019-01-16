@@ -421,11 +421,13 @@
       }
     }
     .profile-user .user-photo {
+      box-sizing: border-box;
       position: absolute;
       left: 58px; top: -28px;
       width: 112px;
       height: 112px;
       border-radius: 50%;
+      border: 1px solid $lineColor;
       &.isSelf .el-upload{
         cursor: auto;
       }

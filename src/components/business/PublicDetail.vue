@@ -85,9 +85,11 @@
       padding: 20px 66px;
       border-bottom: 1px solid $lineColor;
       img {
+        box-sizing: border-box;
         width: 48px;
         height: 48px;
         border-radius: 50%;
+        border: 1px solid $lineColor;
         cursor: pointer;
       }
       .author-name {
@@ -210,7 +212,7 @@
     p {
       font-size: $h3Font;
       line-height: 25px;
-      color: $h2Color;
+      color: $h1Color;
       a {
         font-size: $h3Font;
         color: $linkBlue;

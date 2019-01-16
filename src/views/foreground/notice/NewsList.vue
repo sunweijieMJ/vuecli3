@@ -125,9 +125,11 @@ export default {
       .head-img{
         cursor: pointer;
         img{
+          box-sizing: border-box;
           width: 48px;
           height: 48px;
           border-radius: 50%;
+          border: 1px solid $lineColor;
         }
       }
       .comment{

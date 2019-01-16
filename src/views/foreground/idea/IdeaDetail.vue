@@ -275,10 +275,12 @@
         display: flex;
         flex-wrap: wrap;
         img {
+          box-sizing: border-box;
           width: 30px;
           height: 30px;
           margin: 0 10px 10px 0;
           border-radius: 50%;
+          border: 1px solid $lineColor;
         }
         span {
           display: flex;
@@ -298,10 +300,12 @@
       display: flex;
       padding: 25px 66px;
       img {
+        box-sizing: border-box;
         width: 48px;
         height: 48px;
         border-radius: 50%;
         margin-right: 30px;
+        border: 1px solid $lineColor;
       }
       .comment-publish {
         flex: 1;
