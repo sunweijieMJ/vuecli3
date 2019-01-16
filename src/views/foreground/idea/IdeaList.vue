@@ -11,20 +11,20 @@
       <infinite-loading @infinite="infinite" :distance="10">
         <div class="message" slot="spinner">加载中...</div>
         <div class="message" slot="no-more">到底啦</div>
+        <div class="message" slot="no-results">列表为空</div>
       </infinite-loading>
     </div>
   </div>
 </template>
 <script>
   import IdeaApi from '../../../api/Idea.js';
-  import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
   import CommentPublish from '../../../components/comment/CommentPublish';
 
   export default {
     name: 'IdeaList',
     components: {
-      Loading, PublicList, CommentPublish
+      PublicList, CommentPublish
     },
     data(){
       return {
@@ -37,9 +37,6 @@
         },
         clientHeight: ''
       };
-    },
-    mounted() {
-      this.clientHeight = document.documentElement.clientHeight;
     },
     methods: {
       // 想法列表
@@ -69,11 +66,13 @@
       // 触底刷新
       infinite($state) {
         let that = this;
+        that.clientHeight = document.documentElement.clientHeight;
         that.getIdeaList(++that.pageInfo.current_page).then(() => {
           // 触底判断
-          $state.loaded();
           if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.idea_list.length){
             $state.complete();
+          } else {
+            $state.loaded();
           }
         });
       },

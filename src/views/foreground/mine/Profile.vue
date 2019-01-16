@@ -53,9 +53,13 @@
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="瓴里圈" name="first">
-            <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+            <div class="idea-content">
               <public-list :list="idea_list"></public-list>
-              <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
+              <infinite-loading @infinite="infinite" :distance="10">
+                <div class="message" slot="spinner">加载中...</div>
+                <div class="message" slot="no-more">到底啦</div>
+                <div class="message" slot="no-results">列表为空</div>
+              </infinite-loading>
             </div>
           </el-tab-pane>
           <!-- <el-tab-pane label="OKR" name="second">
@@ -88,11 +92,10 @@
 <script>
   import UserApi from '../../../api/User.js';
   import IdeaApi from '../../../api/Idea.js';
-  import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
 
   export default {
-    components: {PublicList, Loading},
+    components: {PublicList},
     data() {
       return {
         upload_url: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
@@ -100,13 +103,13 @@
         user_info: {}, // ETC 用户信息
         idea_list: [], // ETC 用户想法列表
         activeName: 'first', // ETC 当前选中tab
-        disabled: false, // ETC 加载开关
         nameEnabled: { // ETC 昵称修改状态
           status: true,
           name: ''
         },
         pageInfo: { // ETC 页码信息
           current_page: 0,
+          page_size: 15,
           page_total: 0
         }
       };
@@ -118,15 +121,15 @@
     },
     methods: {
       // 触底刷新
-      infinite() {
+      infinite($state) {
         let that = this;
         that.user_id = +that.$route.params.id;
-        that.disabled = true;
         that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
-          that.disabled = false;
-          if(that.idea_list.length === that.pageInfo.page_total || !that.idea_list.length){
-            that.disabled = true;
+          if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.idea_list.length){
+            $state.complete();
+          } else {
+            $state.loaded();
           }
         });
       },
@@ -139,10 +142,10 @@
       // 用户想法列表
       async getIdeaList(userId, curPage) {
         let that = this;
-        return await IdeaApi().getIdeaList({userId, curPage}).then(res => {
+        await IdeaApi().getIdeaList({userId, curPage}).then(res => {
           const idea_list = res.data.list;
           const user_infos = res.data.user_infos;
-          that.pageInfo.page_total = res.data.total;
+          that.pageInfo.page_total = Math.ceil(res.data.total / that.pageInfo.page_size);
           // 数据整理
           for(let i = 0, ILEN = idea_list.length; i < ILEN; i++) {
             idea_list[i].user_info = user_infos[idea_list[i].user_id];

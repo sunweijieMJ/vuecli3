@@ -10,10 +10,7 @@ Vue.config.productionTip = false;
 import ElementUI from 'element-ui';
 Vue.use(ElementUI);
 
-// 引入infiniteScroll
-import infiniteScroll from 'vue-infinite-scroll';
-Vue.use(infiniteScroll);
-
+// InfiniteLoading
 import InfiniteLoading from 'vue-infinite-loading';
 Vue.use(InfiniteLoading);
 

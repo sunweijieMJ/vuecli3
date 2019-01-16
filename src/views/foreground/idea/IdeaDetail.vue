@@ -1,6 +1,6 @@
 
 <template>
-  <div class="idea-detail" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+  <div class="idea-detail">
     <public-detail :detail="ieda_detail" :commentNums="common_list.total" @activeComment="activeComment"></public-detail>
     <!-- 点赞用户列表 -->
     <div class="detail-thump" v-if="thump_list.length">
@@ -35,12 +35,16 @@
       <comment-list :list="splendid_list.list" @commentSuccess="commentSuccess"></comment-list>
     </div>
     <!-- 普通评论 -->
-    <div class="detail-common" v-if="common_list.list.length">
-      <div class="common-title">
+    <div class="detail-common">
+      <div class="common-title" v-if="common_list.total">
         <h4>评论 ({{common_list.total}})</h4>
       </div>
-      <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <loading :loading="disabled && common_list.list.length && common_list.list.length < pageInfo.page_total"></loading>
+      <comment-list v-if="common_list.total" :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
+      <infinite-loading @infinite="infinite" :distance="10">
+        <div class="message" slot="spinner">加载中...</div>
+        <div class="message" slot="no-more">到底啦</div>
+        <div class="message" slot="no-results">评论为空</div>
+      </infinite-loading>
     </div>
   </div>
 </template>
@@ -48,18 +52,17 @@
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
-  import {Loading, Publish} from '../../../components/public';
+  import {Publish} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
-    components: {PublicDetail, CommentList, Loading, Publish},
+    components: {PublicDetail, CommentList, Publish},
     data() {
       return {
         autoTextarea,
         idea_id: 0, // ETC 详情id
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
-        disabled: false, // ETC 加载开关
         textEnabled: { // ETC textarea 状态
           status: false,
           text: ''
@@ -74,6 +77,7 @@
         },
         pageInfo: { // ETC 页码信息
           current_page: 0,
+          page_size: 15,
           page_total: 0
         }
       };
@@ -94,15 +98,15 @@
     },
     methods: {
       // 触底刷新
-      infinite() {
+      infinite($state) {
         let that = this;
         that.idea_id = +that.$route.params.id;
-        that.disabled = true;
-        that.getCommentList(that.idea_id).then(() => {
+        that.getCommentList(that.idea_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
-          that.disabled = false;
-          if(that.common_list.list.length === that.pageInfo.page_total || that.common_list.list.length){
-            that.disabled = true;
+          if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.common_list.list.length){
+            $state.complete();
+          } else {
+            $state.loaded();
           }
         });
       },
@@ -123,15 +127,15 @@
         });
       },
       // 评论列表
-      async getCommentList(thinksId) {
+      async getCommentList(thinksId, curPage) {
         let that = this;
-        await IdeaApi().getCommentList({thinksId, curPage: ++that.pageInfo.current_page}).then(res => {
+        await IdeaApi().getCommentList({thinksId, curPage}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
           const common = res.data.list || [];
           const splendid = res.data.hot_comments || [];
           that.common_list.total = res.data.total_comments || 0;
-          that.pageInfo.page_total = res.data.total || 0;
+          that.pageInfo.page_total = Math.ceil(res.data.total / that.pageInfo.page_size) || 0;
 
           // 精彩评论
           for(let i = 0, ILEN = splendid.length; i < ILEN; i++) {
@@ -260,7 +264,6 @@
   .idea-detail {
     width: 800px;
     margin: 12px auto 0;
-    padding-bottom: 50px;
     background-color: #fff;
     .detail-thump {
       padding: 35px 66px 25px;

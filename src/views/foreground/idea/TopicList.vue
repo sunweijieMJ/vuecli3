@@ -3,30 +3,31 @@
     <div class="list-header">
       <h3>#{{topic_info.sTopicTitle}}#</h3>
     </div>
-    <div class="list-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+    <div class="list-content">
       <public-list :list="idea_list"></public-list>
-      <loading :loading="disabled && idea_list.length && idea_list.length < pageInfo.page_total"></loading>
+      <infinite-loading @infinite="infinite" :distance="10">
+        <div class="message" slot="spinner">加载中...</div>
+        <div class="message" slot="no-more">到底啦</div>
+        <div class="message" slot="no-results">列表为空</div>
+      </infinite-loading>
     </div>
   </div>
 </template>
 <script>
   import IdeaApi from '../../../api/Idea.js';
-  import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
 
   export default {
     name: 'TopicList',
-    components: {
-      Loading, PublicList
-    },
+    components: {PublicList},
     data(){
       return {
         topic_id: 0, // ETC 话题id
         topic_info: {}, // ETC 话题信息
         idea_list: [], // ETC 想法列表
-        disabled: false, // ETC 加载开关
         pageInfo: { // ETC 页码信息
           current_page: 0,
+          page_size: 15,
           page_total: 0
         }
       };
@@ -35,12 +36,12 @@
       // 想法列表
       async getTopicList(topicId, curPage) {
         let that = this;
-        return await IdeaApi().getIdeaList({topicId, curPage}).then(res => {
+        await IdeaApi().getIdeaList({topicId, curPage}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
           const idea_list = Object.values(res.data.list);
           that.topic_info = res.data.topic_info;
-          that.pageInfo.page_total = res.data.total;
+          that.pageInfo.page_total = Math.ceil(res.data.total / that.pageInfo.page_size);
           // 数据整理
           for(let i = 0, ILEN = idea_list.length; i < ILEN; i++) {
             // 点赞整理
@@ -57,15 +58,15 @@
         });
       },
       // 触底刷新
-      infinite() {
+      infinite($state) {
         let that = this;
         that.topic_id = +that.$route.params.id;
-        that.disabled = true;
         that.getTopicList(that.topic_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
-          that.disabled = false;
-          if(that.idea_list.length === that.pageInfo.page_total || !that.idea_list.length){
-            that.disabled = true;
+          if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.idea_list.length){
+            $state.complete();
+          } else {
+            $state.loaded();
           }
         });
       }
