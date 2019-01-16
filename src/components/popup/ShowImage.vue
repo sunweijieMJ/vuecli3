@@ -7,7 +7,7 @@
           :arrow="(image_popup.source.entity_photo_hashes ? image_popup.source.entity_photo_hashes : image_popup.source).length === 1 ? 'never' : 'hover'"
           @change="imgChange">
           <el-carousel-item v-for="(item, index) in (image_popup.source.entity_photos ? (image_popup.source.entity_photos.length ? image_popup.source.entity_photos : (image_popup.source.entity_extra.from.entity_photos ? image_popup.source.entity_extra.from.entity_photos : [])) : image_popup.source)" :key="index">
-            <img :src="item" alt="">
+            <img :src="item | imageSize('origin')" alt="">
           </el-carousel-item>
         </el-carousel>
     </el-dialog>

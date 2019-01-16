@@ -57,7 +57,9 @@ module.exports = {
     // 向 CSS 相关的 loader 传递选项(支持 css-loader postcss-loader sass-loader less-loader stylus-loader)
     loaderOptions: {
       css: {},
-      less: {}
+      sass: {
+        data: '@import "@/assets/scss/_base.scss";'
+      }
     }
   },
 

@@ -220,6 +220,7 @@
         }
 
         that.common_list.list = common;
+        that.common_list.total++;
         that.splendid_list.list = splendid;
       },
       // 激活评论区

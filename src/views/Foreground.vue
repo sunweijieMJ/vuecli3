@@ -49,7 +49,6 @@
 <script>
   import {mapState} from 'vuex';
   import storage from '../utils/storage';
-  import UserApi from '../api/User.js';
   import NoticeApi from '../api/Notice.js';
   import frequent from '../mixins/frequent.js';
   import readMore from '../utils/filters/readMore.js';
@@ -78,16 +77,10 @@
     },
     created() {
       let that = this;
-      that.getUserDetail();
+      that.$store.dispatch('getSelfInfo');
       that.$store.dispatch('getMessageUnread');
     },
     methods: {
-      // 用户个人信息
-      getUserDetail() {
-        UserApi().getUserDetail({}).then(res => {
-          if(res.status) this.$store.dispatch('getSelfInfo', res.data);
-        });
-      },
       // 切换tab
       select(item, index) {
         this.current = index;

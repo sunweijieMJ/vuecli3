@@ -9,6 +9,7 @@ Vue.config.productionTip = false;
 // 引入element
 import ElementUI from 'element-ui';
 Vue.use(ElementUI);
+
 // 引入infiniteScroll
 import infiniteScroll from 'vue-infinite-scroll';
 Vue.use(infiniteScroll);

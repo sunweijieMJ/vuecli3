@@ -157,7 +157,9 @@
       },
       // 更新用户信息
       async updateUserMsg({userId, headerPhoto, userName}) {
-        return await UserApi().updateUserMsg({userId, headerPhoto, userName});
+        return await UserApi().updateUserMsg({userId, headerPhoto, userName}).then(res => {
+          if(res.status) this.$store.dispatch('getSelfInfo');
+        });
       },
       // 用户icon上传
       handleSuccess(response) {

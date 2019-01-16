@@ -15,6 +15,7 @@
   import {PublicList} from '../../../components/business';
 
   export default {
+    name: 'TopicList',
     components: {
       Loading, PublicList
     },

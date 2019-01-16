@@ -7,10 +7,10 @@
       <div class="info-name">
         <p>
           <span @click="paramsSkip('Profile', {id: item.user_info.user_id})">{{item.user_info.user_name}}</span>
-          <span v-if="root.user_info">&nbsp;(回复)&nbsp;</span>
+          <span v-if="parent_user">&nbsp;(回复)&nbsp;</span>
         </p>
-        <p v-if="root.user_info">
-          <span @click="paramsSkip('Profile', {id: root.user_info.user_id})">{{root.user_info.user_name}}</span>
+        <p v-if="parent_user">
+          <span @click="paramsSkip('Profile', {id: parent_user.user_id})">{{parent_user.user_name}}</span>
         </p>
       </div>
       <div class="info-paragraph">
@@ -86,6 +86,23 @@
             that.item.self_zan ? that.item.zan++ : that.item.zan--;
           }
         });
+      }
+    },
+    computed: {
+      parent_user() {
+        let that = this;
+        if(!(that.root.list && that.root.list.length)) return;
+        for(let i = 0, ILEN = that.root.list.length; i < ILEN; i++) {
+          if(that.root.list.replys && that.root.list.replys.length) break;
+          if(that.item.parent_id === that.root.list[i].comment_id) {
+            return that.root.list[i].user_info;
+          }
+          for(let j = 0, JLEN = that.root.list[i].replys.length; j < JLEN; j++) {
+            if(that.item.parent_id === that.root.list[i].replys[j].comment_id) {
+              return that.root.list[i].replys[j].user_info;
+            }
+          }
+        }
       }
     },
     watch: {
