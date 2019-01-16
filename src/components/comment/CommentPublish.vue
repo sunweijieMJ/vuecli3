@@ -23,7 +23,7 @@
           <span>上传图片</span>
         </span>
         <span class="submit" @click="dynamicSubmit" v-if="publish_state">发布</span>
-        <span class="submit" @click="dynamicSubmit" v-if="!publish_state">发布</span>
+        <span class="submit" v-if="!publish_state">发布</span>
       </div>
       <div class="add-img" v-show="upLoad_state">
         <div class="quantity">
