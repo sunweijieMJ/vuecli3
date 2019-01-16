@@ -45,11 +45,10 @@ export default {
   data(){
     return{
       checkout_state: false, // ETC 获取验证码切换状态
-      login_checkout: false, // ETC 登陆切换状态
+      login_checkout: false, // ETC 登陆切换状态防抖
 
       status: 0, // ETC 提示信息展示
       firm_dis: true, // ETC 获取密码防抖
-      login_status: true, // ETC 登陆防抖
       show: false,
       time: '', // ETC 倒计时
       ruleForm2: {
@@ -81,13 +80,12 @@ export default {
         if (valid) {
           alert('submit!');
         } else {
-          console.log('error submit!!');
+          // console.log('error submit!!');
           return false;
         }
       });
-      this.login_status = false;
       this.login_checkout = true;
-      if(this.ruleForm2.pass && this.ruleForm2.email && !this.login_status && this.login_checkout){
+      if(this.ruleForm2.pass && this.ruleForm2.email && this.login_checkout){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
           if(res.status){
             storageApi.set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
@@ -95,7 +93,6 @@ export default {
             setTimeout(() => {
               this.$router.push({name: 'IdeaList'});
               // this.status = 0;
-              this.login_status = true;
               this.login_judge = false;
               this.login_checkout = false;
             }, 1000);
@@ -104,6 +101,8 @@ export default {
             this.login_checkout = false;
           }
         });
+      }else{
+        this.login_checkout = false;
       }
     },
     // 获取验证码

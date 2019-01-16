@@ -1,6 +1,6 @@
 <template>
   <div class="comment-publish">
-    <div class="hello">
+    <div class="hello" :style="hello_box">
       <div class="new-idea">瓴里圈 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
       <div class="comment-idea" :style="textarea_box_style">
         <textarea name="" id="text" class="text2" cols="30" rows="10"
@@ -62,6 +62,9 @@ export default {
       publish_state: true, // ETC 发布防抖
       friend: '好友列表',
       topic: '话题列表',
+      hello_box: {
+        marginTop: this.distance() + 'px'
+      }, // ETC 盒子距离顶部距离
       textarea_box_style: {
         height: this.limitBoxHeight() + 'px'
       },
@@ -88,18 +91,25 @@ export default {
     };
   },
   methods: {
+    distance(){
+      if((this.clientHeight * 80 / 100) - 342 > 500){
+        return (this.clientHeight - ((this.clientHeight * 80 / 100) - 342)) / 2;
+      }else{
+        return (this.clientHeight * 20 / 100) / 2;
+      }
+    },
     limitHeight(){
-      if((this.clientHeight * 90 / 100) - 342 > 500){
+      if((this.clientHeight * 80 / 100) - 342 > 500){
         return 500;
       }else{
-        return (this.clientHeight * 90 / 100) - 342;
+        return (this.clientHeight * 80 / 100) - 342;
       }
     },
     limitBoxHeight(){
-      if((this.clientHeight * 90 / 100) - 320 > 522){
+      if((this.clientHeight * 80 / 100) - 320 > 522){
         return 522;
       }else{
-        return (this.clientHeight * 90 / 100) - 320;
+        return (this.clientHeight * 80 / 100) - 320;
       }
     },
     viewUploadImg(){
@@ -401,7 +411,7 @@ export default {
   .hello{
     width: 687px;
     margin: auto;
-    margin-top: 5%;
+    // margin-top: 10%;
     text-align: left;
     font-size: 12px;
     letter-spacing: normal;
@@ -530,25 +540,24 @@ export default {
     // border: 1px solid #eee;
     margin: auto;
     padding: 0 0;
-    width: 300px;
+    width: 250px;
+    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.05);
   }
   li{
     cursor: pointer;
     list-style: none;
-    padding: 13px 15px;
-    border-top: 1px solid #eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-    font-size:16px;
+    padding: 11px 15px;
+    border-top: 1px solid #F6F6F6;
+    font-size:13px;
     font-family:PingFangSC-Regular;
-    color:rgba(48,49,51,1);
+    color: #303133;
     background-color: white;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
   }
-  li:last-of-type{
-    border-bottom:1px solid #eee;
+  li:first-of-type{
+    border-top:none;
   }
 }
 </style>
