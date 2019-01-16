@@ -1,6 +1,6 @@
 
 <template>
-  <div class="idea-detail">
+  <div class="idea-detail" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
     <public-detail :detail="ieda_detail" :commentNums="common_list.total" @activeComment="activeComment"></public-detail>
     <!-- 点赞用户列表 -->
     <div class="detail-thump" v-if="thump_list.length">
@@ -35,16 +35,12 @@
       <comment-list :list="splendid_list.list" @commentSuccess="commentSuccess"></comment-list>
     </div>
     <!-- 普通评论 -->
-    <div class="detail-common">
-      <div class="common-title" v-if="common_list.total">
+    <div class="detail-common" v-if="common_list.total">
+      <div class="common-title">
         <h4>评论 ({{common_list.total}})</h4>
       </div>
-      <comment-list v-if="common_list.total" :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <infinite-loading @infinite="infinite">
-        <div class="message" slot="spinner">加载中...</div>
-        <div class="message" slot="no-more">到底啦</div>
-        <div class="null" slot="no-results">评论为空</div>
-      </infinite-loading>
+      <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
   </div>
 </template>
@@ -52,11 +48,11 @@
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
-  import {Publish} from '../../../components/public';
+  import {Publish, Loading} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
-    components: {PublicDetail, CommentList, Publish},
+    components: {PublicDetail, CommentList, Publish, Loading},
     data() {
       return {
         autoTextarea,
@@ -79,6 +75,11 @@
           current_page: 0,
           page_size: 15,
           page_total: 0
+        },
+        disabled: false, // ETC 加载开关
+        loading: {
+          nomore: false, // ETC 触底
+          noresult: false // ETC 空列表
         }
       };
     },
@@ -98,15 +99,23 @@
     },
     methods: {
       // 触底刷新
-      infinite($state) {
+      infinite() {
         let that = this;
         that.idea_id = +that.$route.params.id;
+
+        that.disabled = true;
         that.getCommentList(that.idea_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
-          if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.common_list.list.length){
-            $state.complete();
-          } else {
-            $state.loaded();
+          that.disabled = false;
+          if(!that.common_list.list.length) {
+            that.disabled = true;
+            that.loading = {
+              nomore: true,
+              noresult: true
+            };
+          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+            that.disabled = true;
+            that.loading.nomore = true;
           }
         });
       },

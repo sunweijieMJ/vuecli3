@@ -53,13 +53,9 @@
       <div class="list">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="瓴里圈" name="first">
-            <div class="idea-content">
+            <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
               <public-list :list="idea_list"></public-list>
-              <infinite-loading @infinite="infinite">
-                <div class="message" slot="spinner">加载中...</div>
-                <div class="message" slot="no-more">到底啦</div>
-                <div class="null" slot="no-results">列表为空</div>
-              </infinite-loading>
+              <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
             </div>
           </el-tab-pane>
           <!-- <el-tab-pane label="OKR" name="second">
@@ -92,10 +88,11 @@
 <script>
   import UserApi from '../../../api/User.js';
   import IdeaApi from '../../../api/Idea.js';
+  import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
 
   export default {
-    components: {PublicList},
+    components: {PublicList, Loading},
     data() {
       return {
         upload_url: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
@@ -111,6 +108,11 @@
           current_page: 0,
           page_size: 15,
           page_total: 0
+        },
+        disabled: false, // ETC 加载开关
+        loading: {
+          nomore: false, // ETC 触底
+          noresult: false // ETC 空列表
         }
       };
     },
@@ -121,18 +123,23 @@
     },
     methods: {
       // 触底刷新
-      infinite($state) {
-        console.log($state)
+      infinite() {
         let that = this;
         that.user_id = +that.$route.params.id;
-        console.log(that.pageInfo.current_page)
-        that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
 
+        that.disabled = true;
+        that.getIdeaList(that.user_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
-          if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.idea_list.length){
-            $state.complete();
-          } else {
-            $state.loaded();
+          that.disabled = false;
+          if(!that.idea_list.length) {
+            that.disabled = true;
+            that.loading = {
+              nomore: true,
+              noresult: true
+            };
+          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+            that.disabled = true;
+            that.loading.nomore = true;
           }
         });
       },
@@ -159,7 +166,6 @@
           }
 
           that.idea_list = that.idea_list.concat(idea_list);
-          console.log(that.idea_list)
         });
       },
       // 更新用户信息

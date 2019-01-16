@@ -1,25 +1,24 @@
 <template>
   <div class="topic-list">
     <div class="list-header">
-      <h3>#{{topic_info.sTopicTitle}}#</h3>
+      <h3 v-if="topic_info">#{{topic_info.sTopicTitle}}#</h3>
     </div>
-    <div class="list-content">
+    <div class="list-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
       <public-list :list="idea_list"></public-list>
-      <infinite-loading @infinite="infinite">
-        <div class="message" slot="spinner">加载中...</div>
-        <div class="message" slot="no-more">到底啦</div>
-        <div class="message" slot="no-results">列表为空</div>
-      </infinite-loading>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
   </div>
 </template>
 <script>
   import IdeaApi from '../../../api/Idea.js';
+  import activate from '../../../mixins/activate.js';
+  import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
 
   export default {
     name: 'TopicList',
-    components: {PublicList},
+    components: {PublicList, Loading},
+    mixins: [activate],
     data(){
       return {
         topic_id: 0, // ETC 话题id
@@ -29,6 +28,11 @@
           current_page: 0,
           page_size: 15,
           page_total: 0
+        },
+        disabled: false, // ETC 加载开关
+        loading: {
+          nomore: false, // ETC 触底
+          noresult: false // ETC 空列表
         }
       };
     },
@@ -58,15 +62,23 @@
         });
       },
       // 触底刷新
-      infinite($state) {
+      infinite() {
         let that = this;
         that.topic_id = +that.$route.params.id;
+
+        that.disabled = true;
         that.getTopicList(that.topic_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
-          if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.idea_list.length){
-            $state.complete();
-          } else {
-            $state.loaded();
+          that.disabled = false;
+          if(!that.idea_list.length) {
+            that.disabled = true;
+            that.loading = {
+              nomore: true,
+              noresult: true
+            };
+          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+            that.disabled = true;
+            that.loading.nomore = true;
           }
         });
       }

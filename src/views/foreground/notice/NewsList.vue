@@ -1,6 +1,6 @@
 <template>
   <div class="new-list">
-    <div class="new-box">
+    <div class="new-box" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
       <div class="warn">
         提醒
       </div>
@@ -33,68 +33,78 @@
           </div>
         </li>
       </ul>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
-    <infinite-loading @infinite="infinite" :distance="10">
-      <div class="message" slot="spinner">加载中...</div>
-      <div class="message" slot="no-more">到底啦</div>
-      <div class="message" slot="no-results">列表为空</div>
-    </infinite-loading>
   </div>
 </template>
 <script>
-import UserPopover from '../../../components/popup/UserPopover';
-import NoticeApi from '../../../api/Notice.js';
-export default {
-  name: 'NewsList',
-  components: {
-    UserPopover
-  },
-  data(){
-    return {
-      for_list: [], // ETC 信息列表
-      disabled: false, // ETC 加载开关
-      pageInfo: { // ETC 页码信息
-        current_page: 0,
-        page_total: 0
-      }
-    };
-  },
-  methods: {
-    goIdeaDetail(user_id){
-      this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
+  import UserPopover from '../../../components/popup/UserPopover';
+  import NoticeApi from '../../../api/Notice.js';
+  import {Loading} from '../../../components/public';
+
+  export default {
+    name: 'NewsList',
+    components: {
+      UserPopover, Loading
     },
-    goProFile(user_id){
-      this.$router.push({name: 'Profile', params: {id: user_id}});
-    },
-    // 触底刷新
-    infinite($state) {
-      let that = this;
-      that.getIdeaListData(++that.pageInfo.current_page).then(() => {
-        // 触底判断
-        if(this.for_list.length === that.pageInfo.page_total){
-          $state.complete();
-        }else{
-          $state.loaded();
+    data(){
+      return {
+        for_list: [], // ETC 信息列表
+        pageInfo: { // ETC 页码信息
+          current_page: 0,
+          page_size: 15,
+          page_total: 0
+        },
+        disabled: false, // ETC 加载开关
+        loading: {
+          nomore: false, // ETC 触底
+          noresult: false // ETC 空列表
         }
-      });
+      };
     },
-    async getIdeaListData(curpage){
-      return await NoticeApi().getMessageList({waitRead: 6, pages: 7, curPage: curpage}).then(res => {
-        let for_list = res.data.list;
-        if(for_list.length){
-          for (let i = 0; i < for_list.length; i++) {
-            for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
-            let content = res.data.origin_msg[res.data.list[i].business_type];
-            for_list[i].content = content[res.data.list[i].business_id];
+    methods: {
+      goIdeaDetail(user_id){
+        this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
+      },
+      goProFile(user_id){
+        this.$router.push({name: 'Profile', params: {id: user_id}});
+      },
+      // 触底刷新
+      infinite() {
+        let that = this;
+        that.disabled = true;
+        that.getIdeaListData(++that.pageInfo.current_page).then(() => {
+          // 触底判断
+          that.disabled = false;
+          if(!that.for_list.length) {
+            that.disabled = true;
+            that.loading = {
+              nomore: true,
+              noresult: true
+            };
+          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+            that.disabled = true;
+            that.loading.nomore = true;
           }
-          this.pageInfo.page_total = res.data.total;
-          this.for_list = this.for_list.concat(for_list);
-        }
-        if(curpage === 1) this.$store.dispatch('getMessageUnread');
-      });
+        });
+      },
+      async getIdeaListData(curpage){
+        return await NoticeApi().getMessageList({waitRead: 6, pages: 7, curPage: curpage}).then(res => {
+          let for_list = res.data.list;
+          if(for_list.length){
+            for (let i = 0; i < for_list.length; i++) {
+              for_list[i].name = res.data.users_info[res.data.list[i].push_user_id];
+              let content = res.data.origin_msg[res.data.list[i].business_type];
+              for_list[i].content = content[res.data.list[i].business_id];
+            }
+            this.pageInfo.page_total = Math.ceil(res.data.total / this.pageInfo.page_size);
+            this.for_list = this.for_list.concat(for_list);
+          }
+          if(curpage === 1) this.$store.dispatch('getMessageUnread');
+        });
+      }
     }
-  }
-};
+  };
 </script>
 <style lang="scss" scoped>
 .new-list{

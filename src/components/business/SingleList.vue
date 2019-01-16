@@ -27,7 +27,8 @@
         <paragraph :text="vitem.content"></paragraph>
       </div>
       <div class="main-images" v-if="vitem.photos && vitem.photos.length">
-        <img v-for="(witem, windex) in vitem.photos.slice(0, 5)" :key="windex" :src="witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+        <img v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex" :src="witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+        <span v-if="vitem.photos.length > 4">共{{vitem.photos.length}}张</span>
       </div>
     </div>
     <!-- 时间 | 点赞 | 评论 -->
@@ -154,20 +155,34 @@
         cursor: pointer;
       }
       .main-images {
-        min-width: 760px;
+        position: relative;
         height: 149px;
         overflow: hidden;
         img {
           float: left;
           box-sizing: border-box;
-          width: 149px;
-          height: 149px;
+          width: 156px;
+          height: 156px;
           border: 1px solid $lineColor;
           margin-right: 3px;
           cursor: pointer;
-          &:last-child {
+          &:last-of-type {
             margin-right: 0;
           }
+        }
+        span {
+          position: absolute;
+          right: 8px; bottom: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 50px;
+          height: 20px;
+          border-radius: 12px;
+          background-color: rgba(48,49,51,0.3);;
+          font-size: 14px;
+          font-weight: 400;
+          color: #fff;
         }
       }
     }

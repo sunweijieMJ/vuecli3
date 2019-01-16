@@ -77,6 +77,9 @@
       color: #666;
       text-decoration: none;
   }
+  input, textarea::placeholder {
+    font-family:"PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB","Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
 
   ul, li {
       list-style-type: none;
@@ -114,15 +117,3 @@
       text-align: center;
       vertical-align: middle;
   }
-
-  .infinite-loading-container {
-    .message {
-      font-size: 20px;
-      line-height: 200%;
-      color: $h1Color;
-    }
-    .null {
-      display: none;
-    }
-  }
-
