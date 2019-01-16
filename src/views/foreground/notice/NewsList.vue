@@ -1,6 +1,6 @@
 <template>
   <div class="new-list">
-    <div class="new-box" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+    <div class="new-box">
       <div class="warn">
         提醒
       </div>
@@ -34,17 +34,19 @@
         </li>
       </ul>
     </div>
-    <loading :loading="disabled && for_list.length < pageInfo.page_total"></loading>
+    <infinite-loading @infinite="infinite" :distance="10">
+      <div class="message" slot="spinner">加载中...</div>
+      <div class="message" slot="no-more">到底啦</div>
+    </infinite-loading>
   </div>
 </template>
 <script>
 import UserPopover from '../../../components/popup/UserPopover';
 import NoticeApi from '../../../api/Notice.js';
-import {Loading} from '../../../components/public';
 export default {
   name: 'NewsList',
   components: {
-    Loading, UserPopover
+    UserPopover
   },
   data(){
     return {
@@ -64,14 +66,13 @@ export default {
       this.$router.push({name: 'Profile', params: {id: user_id}});
     },
     // 触底刷新
-    infinite() {
+    infinite($state) {
       let that = this;
-      that.disabled = true;
       that.getIdeaListData(++that.pageInfo.current_page).then(() => {
         // 触底判断
-        that.disabled = false;
+        $state.loaded();
         if(this.for_list.length === that.pageInfo.page_total){
-          that.disabled = true;
+          $state.complete();
         }
       });
     },

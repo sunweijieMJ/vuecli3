@@ -17,7 +17,7 @@
             </div>
           </li>
         </ul>
-        <ul class="right" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled" infinite-scroll-distance="30">
+        <ul class="right">
           <div class="r-head">{{depart_name}}（{{pageInfo.page_total}}人）</div>
           <li v-for="(b, tindex) in department_staff" :key="tindex" :class="{gray: quit(b.state)}">
             <div class="staff-header-img">
@@ -40,17 +40,17 @@
         </ul>
       </div>
     </div>
-    <loading :loading="disabled && department_staff.length < pageInfo.page_total"></loading>
+    <infinite-loading @infinite="infinite" :distance="10">
+      <div class="message" slot="spinner">加载中...</div>
+      <div class="message" slot="no-more">到底啦</div>
+    </infinite-loading>
   </div>
 </template>
 <script>
 import ManageApi from '../../../api/Manage.js';
-import {Loading} from '../../../components/public';
 export default {
   name: 'FrameManage',
-  components: {
-    Loading
-  },
+  components: {},
   data(){
     return {
       department: [], // ETC 部门列表
@@ -60,7 +60,6 @@ export default {
       depart_num: '', // ETC 部门数量
       all_num: '',
 
-      disabled: false, // ETC 加载开关
       pageInfo: { // ETC 页码信息
         current_page: 0,
         page_total: 0
@@ -132,14 +131,13 @@ export default {
       });
     },
     // 触底刷新
-    infinite() {
+    infinite($state) {
       let that = this;
-      that.disabled = true;
       that.getStaffData(this.depart_id, ++that.pageInfo.current_page).then(() => {
         // 触底判断
-        that.disabled = false;
+        $state.loaded();
         if(this.department_staff.length === that.pageInfo.page_total){
-          that.disabled = true;
+          $state.complete();
         }
       });
     }
