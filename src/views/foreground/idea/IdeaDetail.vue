@@ -40,8 +40,8 @@
         <h4>评论 ({{common_list.total}})</h4>
       </div>
       <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
+    <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
   </div>
 </template>
 <script>
