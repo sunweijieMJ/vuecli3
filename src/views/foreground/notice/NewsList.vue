@@ -33,7 +33,7 @@
           </div>
         </li>
       </ul>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult" :hide="true"></loading>
     </div>
   </div>
 </template>

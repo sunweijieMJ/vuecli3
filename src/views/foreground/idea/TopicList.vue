@@ -5,7 +5,7 @@
     </div>
     <div class="list-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
       <public-list :list="idea_list"></public-list>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult" :hide="true"></loading>
     </div>
   </div>
 </template>

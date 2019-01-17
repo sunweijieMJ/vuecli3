@@ -22,9 +22,9 @@
             <i class="iconfont icon-icon_like" @click="thumpComment(item.comment_id)"></i>
             <span>{{item.zan}}</span>
           </p>
-          <p class="reply">
+          <p class="reply" @click="textEnabled.status = true">
             <i class="iconfont icon-icon_comment"></i>
-            <span @click="textEnabled.status = true">回复</span>
+            <span>回复</span>
           </p>
         </div>
         <div class="num-right">

@@ -55,7 +55,7 @@
           <el-tab-pane label="瓴里圈" name="first">
             <div class="idea-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
               <public-list :list="idea_list"></public-list>
-              <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+              <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult" :hide="true"></loading>
             </div>
           </el-tab-pane>
           <!-- <el-tab-pane label="OKR" name="second">

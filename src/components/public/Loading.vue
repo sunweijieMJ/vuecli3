@@ -14,10 +14,10 @@
 
   .loading {
     p {
-      font-size: $h2Font;
+      font-size: $h3Font;
       line-height: 80px;
       text-align: center;
-      color: $h2Color;
+      color: $h3Color;
     }
   }
 </style>
