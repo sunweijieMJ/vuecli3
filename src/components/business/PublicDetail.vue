@@ -29,12 +29,12 @@
       </div>
       <div class="main-num">
         <div class="num-left">
-          <p @click.stop="thumpIdea(detail.thinks_id)" :class="{self_zan: detail.self_zan}">
-            <i class="iconfont " :class="detail.self_zan ? 'icon-icon_liked_m' : 'icon-icon_like_m'"></i>
+          <p :class="{self_zan: detail.self_zan}">
+            <i class="iconfont " @click.stop="thumpIdea(detail.thinks_id)" :class="detail.self_zan ? 'icon-icon_liked_m' : 'icon-icon_like_m'"></i>
             <span>{{detail.zan}}</span>
           </p>
-          <p @click.stop="activeComment">
-            <i class="iconfont icon-icon_comment_m"></i>
+          <p>
+            <i class="iconfont icon-icon_comment_m" @click.stop="activeComment"></i>
             <span>{{commentNums}}</span>
           </p>
         </div>
@@ -167,7 +167,6 @@
           p {
             display: flex;
             align-items: center;
-            cursor: pointer;
             &:first-child {
               width: 100px;
             }
@@ -180,6 +179,7 @@
             i {
               font-size: 21px;
               color: $themeColor;
+              cursor: pointer;
             }
           }
         }

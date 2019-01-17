@@ -1,12 +1,12 @@
 <template>
   <div class="loading" v-if="(loading && !nomore) || nomore && !noresult">
     <p v-if="loading && !nomore">加载中...</p>
-    <p v-if="nomore">到底啦</p>
+    <p v-if="nomore && !hide">到底啦</p>
   </div>
 </template>
 <script>
   export default {
-    props: ['loading', 'nomore', 'noresult']
+    props: ['loading', 'nomore', 'noresult', 'hide']
   };
 </script>
 <style lang="scss" scoped>
@@ -14,10 +14,10 @@
 
   .loading {
     p {
-      font-size: 20px;
-      line-height: 50px;
+      font-size: $h2Font;
+      line-height: 80px;
       text-align: center;
-      color: $h1Color;
+      color: $h2Color;
     }
   }
 </style>

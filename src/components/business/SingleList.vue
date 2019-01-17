@@ -34,12 +34,12 @@
     <!-- 时间 | 点赞 | 评论 -->
     <div class="list-num">
       <div class="num-left">
-        <p @click.stop="thumpIdea(vitem.thinks_id)">
-          <i class="iconfont icon-icon_like" :class="{self_zan: vitem.self_zan}"></i>
+        <p>
+          <i class="iconfont icon-icon_like" @click.stop="thumpIdea(vitem.thinks_id)" :class="{self_zan: vitem.self_zan}"></i>
           <span>{{vitem.zan}}</span>
         </p>
-        <p @click.stop="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
-          <i class="iconfont icon-icon_comment"></i>
+        <p>
+          <i class="iconfont icon-icon_comment" @click.stop="paramsSkip('IdeaDetail', {id: vitem.thinks_id})"></i>
           <span>{{vitem.total_comments}}</span>
         </p>
       </div>
@@ -197,7 +197,6 @@
         p {
           display: flex;
           align-items: center;
-          cursor: pointer;
           &:first-child {
             width: 100px;
             i {
@@ -215,6 +214,7 @@
           i {
             font-size: 16px;
             color: $h2Color;
+            cursor: pointer;
           }
         }
       }

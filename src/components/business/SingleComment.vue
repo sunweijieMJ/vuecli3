@@ -18,8 +18,8 @@
       </div>
       <div class="info-num">
         <div class="num-left">
-          <p class="praise" @click="thumpComment(item.comment_id)" :class="{self_zan: item.self_zan}">
-            <i class="iconfont icon-icon_like"></i>
+          <p class="praise" :class="{self_zan: item.self_zan}">
+            <i class="iconfont icon-icon_like" @click="thumpComment(item.comment_id)"></i>
             <span>{{item.zan}}</span>
           </p>
           <p class="reply">
@@ -66,16 +66,20 @@
       sendComment(commentId, commentContent) {
         let that = this;
         const thinksId = +that.$route.params.id;
-        IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
-          if(res.status) {
-            that.textEnabled.status = false;
-            if(that.root.hasOwnProperty('index')) {
-              that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id, index: that.root.index});
-            } else {
-              that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id});
+        if(commentContent) {
+          IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
+            if(res.status) {
+              that.textEnabled.status = false;
+              if(that.root.hasOwnProperty('index')) {
+                that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id, index: that.root.index});
+              } else {
+                that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id});
+              }
             }
-          }
-        });
+          });
+        } else {
+          that.$message({message: '评论不能为空', type: 'warning'});
+        }
       },
       // 评论点赞
       thumpComment(commentId) {
@@ -176,9 +180,11 @@
           p {
             display: flex;
             align-items: center;
-            cursor: pointer;
             &:first-child {
               width: 70px;
+            }
+            &:last-child {
+              cursor: pointer;
             }
             &.self_zan {
               color: $themeColor;
@@ -186,6 +192,7 @@
             i {
               font-size: 14px;
               color: $h3Color;
+              cursor: pointer;
             }
             span {
               margin-left: 4px;

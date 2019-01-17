@@ -187,12 +187,10 @@
         if(!userName) {
           this.$message({message: '昵称不能为空', type: 'warning'});
         } else {
-          that.updateUserMsg({userId, userName}).then((res) => {
-            if(res.status) {
-              that.getUserDetail([that.user_id]).then(() => {
-                that.nameEnabled.status = true;
-              });
-            }
+          that.updateUserMsg({userId, userName}).then(() => {
+            that.getUserDetail([that.user_id]).then(() => {
+              that.nameEnabled.status = true;
+            });
           });
         }
       },

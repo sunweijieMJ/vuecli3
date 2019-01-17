@@ -40,7 +40,7 @@
         <h4>评论 ({{common_list.total}})</h4>
       </div>
       <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult" :hide="true"></loading>
     </div>
   </div>
 </template>
@@ -186,18 +186,22 @@
       // 发送评论
       sendComment(thinksId, commentContent) {
         let that = this;
-        IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
-          if(res.status) {
-            const textarea = that.$el.querySelector('.detail-comment textarea');
-            textarea.value = '';
-            autoTextarea(textarea);
-            that.textEnabled = {
-              status: false,
-              text: ''
-            };
-            that.commentSuccess({data: res.data});
-          }
-        });
+        if(commentContent) {
+          IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
+            if(res.status) {
+              const textarea = that.$el.querySelector('.detail-comment textarea');
+              textarea.value = '';
+              autoTextarea(textarea);
+              that.textEnabled = {
+                status: false,
+                text: ''
+              };
+              that.commentSuccess({data: res.data});
+            }
+          });
+        } else {
+          that.$message({message: '评论不能为空', type: 'warning'});
+        }
       },
       // 评论成功
       commentSuccess(res) {
@@ -386,6 +390,9 @@
     }
     .detail-common, .detail-splendid {
       padding: 15px 66px;
+      &.detail-common {
+        margin-bottom: 50px;
+      }
       .common-title, .splendid-title {
         display: flex;
         align-items: center;
