@@ -265,7 +265,7 @@
             text-overflow: ellipsis;
             -ms-text-overflow: ellipsis;
             font-size: $h3Color;
-            color: $h2Color;
+            color: $h1Color;
           }
         }
       }
