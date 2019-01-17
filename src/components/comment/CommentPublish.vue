@@ -228,8 +228,10 @@ export default {
         }
         // 判断话题搜索字符中是否包含 # 字符
         if(noneArr.length && noneArr.indexOf('#') === -1){
-          this.jshow = true;
-          this.searchTopic(final_content);
+          if(noneArr[0] !== ' '){
+            this.jshow = true;
+            this.searchTopic(final_content);
+          }
         }else if(!noneArr.length && this.jshow){
           this.searchTopic();
         }else{
