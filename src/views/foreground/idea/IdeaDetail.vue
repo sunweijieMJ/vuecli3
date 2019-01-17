@@ -40,7 +40,7 @@
         <h4>评论 ({{common_list.total}})</h4>
       </div>
       <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult" :hide="true"></loading>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
   </div>
 </template>
@@ -390,9 +390,6 @@
     }
     .detail-common, .detail-splendid {
       padding: 15px 66px;
-      &.detail-common {
-        margin-bottom: 50px;
-      }
       .common-title, .splendid-title {
         display: flex;
         align-items: center;

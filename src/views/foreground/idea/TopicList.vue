@@ -5,7 +5,7 @@
     </div>
     <div class="list-content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
       <public-list :list="idea_list"></public-list>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult" :hide="true"></loading>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
   </div>
 </template>
@@ -103,13 +103,13 @@
       display: flex;
       align-items: center;
       width: 750px;
-      height: 74px;
+      height: 56px;
       padding-left: 58px;
       margin-bottom: 4px;
       background-color: #fff;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
       h3 {
-        font-size: 20px;
+        font-size: 18px;
         line-height: 28px;
         color: $h1Color;
       }
