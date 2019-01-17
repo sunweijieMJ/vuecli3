@@ -35,6 +35,7 @@
         </div>
         <div class="right">
           <img v-for="(a, index) in 6" :key="index" src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
+          <div class="all-per">23</div>
         </div>
       </div>
       <div class="key-result">
@@ -42,7 +43,7 @@
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
-        <span class="iconfont icon-icon_comment_m"></span>
+        <span class="iconfont icon-tianjia1"></span>
         <span class="task-add">添加</span>
       </div>
       <div class="key-task">
@@ -144,6 +145,16 @@ export default {
         img{
           margin-left: 12px;
         }
+        .all-per{
+          cursor: pointer;
+          margin-left: 12px;
+          width: 38px;
+          height: 38px;
+          text-align: center;
+          line-height: 38px;
+          border-radius: 50px;
+          background-color: #eee;
+        }
       }
     }
     .key-result{
@@ -151,11 +162,15 @@ export default {
     }
     .add-key-task{
       padding: 20px 47px;
+      display: flex;
+      align-items: center;
       span{
         line-height: 1;
       }
       .iconfont{
+        cursor: pointer;
         color: #948BEA;
+        font-size: 20px;
         margin-left: 20px;
         margin-right: 6px;
       }

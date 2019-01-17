@@ -2,7 +2,7 @@
   <div class="kr">
     <div class="kr-title">
       <div>
-        <i class="iconfont icon-icon_manage"></i>
+        <i class="iconfont icon-sanfang"></i>
       </div>
       <div>LANEHUB品牌1到10的探索</div>
     </div>
@@ -49,6 +49,7 @@ export default {
     .iconfont{
       color: #22D7A0;
       margin-right: 9px;
+      font-size: 28px;
     }
   }
   ul{
