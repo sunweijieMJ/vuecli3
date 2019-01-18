@@ -12,6 +12,34 @@ class Okr extends Abstract {
     super();
   }
 
+  /**
+   * okr基础信息
+   * @param {required} obj_id okr id
+   */
+  getOkrBasicinfo(data) {
+    return this.getReq('Okr.Basicinfo', data);
+  }
+
+  /**
+   * okr keyresult 列表
+   * @param {required} obj_id okr id
+   */
+  getOkrKeyResultList(data) {
+    return this.getReq('Okr.OkrKeyResult', data);
+  }
+
+  /**
+   * okr keytask 列表
+   * @param {required} obj_id okr id
+   * @param {required} key_task : 1 * 或者该值不传
+   * @param {required} task_id: 1  * 搜索关联task 列表信息
+   * @param {required} currpage: 1 * 当前第几页
+   * @param {required} pages: 15 * 每页总数
+   * @param {required} last_id: 1 * 最后一条id
+   */
+  getOkrKeyTaskList(data) {
+    return this.getReq('Okr.OkrKeyTask', data);
+  }
 }
 
 // 单列模式返回对象

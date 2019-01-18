@@ -35,7 +35,18 @@
         </div>
         <div class="right">
           <img v-for="(a, index) in 6" :key="index" src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
-          <div class="all-per">23</div>
+          <!-- <div class="all-per">23</div> -->
+          <el-dropdown @command="showAllJoinner" v-if="joiner_list.length > 6">
+            <span class="el-dropdown-link">
+              <div class="all-per">{{joiner_list.length}}</div>
+            </span>
+            <el-dropdown-menu slot="dropdown" class="joinner-drop">
+              <el-dropdown-item v-for="(j, jindex) in joiner_list" :key="jindex" :command="j" :divided="true">
+                <img src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
+                <span>{{j}}(元元)</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
       <div class="key-result">
@@ -55,18 +66,51 @@
 <script>
 import KeyResult from './okrdetail/KeyResult.vue';
 import KeyTask from './okrdetail/KeyTask';
+
+import okrApi from '../../../api/Okr.js';
 export default {
   name: 'okrdetail',
   components: {KeyResult, KeyTask},
   data(){
     return {
-
+      joiner_list:[
+        'liuyuanyuan', 'liaowuhen', 'lengqi', '年度潇洒哥', 'liuyuanyuan', 'liaowuhen', 'lengqi', '年度潇洒哥'
+      ]
     };
   },
   methods: {
     handleCommand(command){
       console.log(command)
+    },
+    // 显示全部参与者
+    showAllJoinner(val){
+      console.log('参与者', val)
+    },
+    getOkrBasicinfo(){
+      okrApi().getOkrBasicinfo({obj_id: 12}).then(res => {
+        console.log(res)
+      })
+    },
+    getOkrKeyResultList(){
+      okrApi().getOkrKeyResultList({obj_id: 12}).then(res => {
+        console.log(res)
+      });
+    },
+    getOkrKeyTaskList(){
+      okrApi().getOkrKeyTaskList({
+        obj_id: 12, // ETC okr id
+        key_task: 1, // ETC 或者该值不传
+        task_id: 1, // ETC 搜索关联task 列表信息
+        currpage: 1, // ETC 当前第几页
+        pages: 15, // ETC 每页总数
+        last_id: 1 // ETC 最后一条id
+      }).then(res => {
+        console.log(res)
+      });
     }
+  },
+  mounted(){
+    // this.getOkrBasicinfo();
   }
 };
 </script>
@@ -188,3 +232,47 @@ export default {
   }
 }
 </style>
+<style lang="scss">
+.joinner-drop{
+  width: 300px;
+  padding: 0 0 16px 0;
+  height: 300px;
+  overflow-y: scroll;
+  margin-right: -145px;
+  // &::-webkit-scrollbar {
+  //   display:none
+  // }
+  .el-dropdown-menu__item{
+    margin-top: 0;
+    padding: 8px 26px;
+    line-height: 1;
+    color: #303133;
+    font-size:15px;
+    font-weight:400;
+    display: flex;
+    align-items: center;
+    img{
+      width: 38px;
+      height: 38px;
+      border-radius: 50px;
+      margin-right: 10px;
+      margin-left: 38px;
+    }
+    span{
+      // line-height: 38px;
+      // display: inline-block;
+    }
+  }
+  .el-dropdown-menu__item--divided{
+    border-top: none;
+    border-bottom: 1px solid #f6f6f6;
+  }
+  .el-dropdown-menu__item--divided:before{
+    height: 0;
+  }
+  .el-dropdown-menu__item:first-child{
+    margin-bottom: 0;
+  }
+}
+</style>
+

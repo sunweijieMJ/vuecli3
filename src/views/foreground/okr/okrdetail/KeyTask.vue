@@ -10,7 +10,7 @@
                   <i class="iconfont icon-sanjiaoyou"></i>
                 </div>
                 <div>
-                  <span>KT</span><span>UGS完成A系统，B系统，C系统和D系统</span>
+                  <span class="task-box-kt">KT</span><span>UGS完成A系统，B系统，C系统和D系统</span>
                 </div>
               </div>
               <div class="objactive">
@@ -196,6 +196,19 @@ export default {
       font-weight:500;
       color: #303133;
       line-height: 1;
+      .task-box-kt{
+        display: inline-block;
+        width: 36px;
+        height: 16px;
+        text-align: center;
+        line-height: 16px;
+        background: #948BEA;
+        border-radius:8px;
+        font-size:14px;
+        font-weight:400;
+        color: #FFFFFF;
+        margin-right: 10px;
+      }
       .icon{
         width: 20px;
         height: 20px;

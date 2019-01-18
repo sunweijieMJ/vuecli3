@@ -377,7 +377,7 @@ export default {
       this.submit_state = true;
       let text = document.getElementById('text').value;
       this.publish_state = false;
-      if((text || this.thinksPhotos) && !this.publish_state){
+      if(text && !this.publish_state){
         IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
           if(res.status){
             this.$message({message: '发布成功', type: 'success', duration: 1000});
