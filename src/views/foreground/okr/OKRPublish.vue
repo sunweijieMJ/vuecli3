@@ -3,61 +3,55 @@
     <el-dialog width="80%" @close="closeDialog" :visible.sync="okr_publish.status">
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
         <el-form-item class="header" prop="okr_name">
-          <input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧">
+          <el-input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧"></el-input>
         </el-form-item>
         <div class="main">
           <!-- okr信息 -->
           <div class="title">
-            <el-form-item prop="bo_user" class="bo">
-              <img src="" alt="">
+            <div class="bo">
+              <img :src="self_info.header_photo" alt="">
               <div class="item">
                 <h4>Bo</h4>
-                <p>Omi</p>
+                <p>{{self_info.user_name}}</p>
               </div>
-            </el-form-item>
-            <el-form-item prop="okr_type" class="type">
-              <div class="item">
-                <h4>类型</h4>
-                <el-dropdown @command="handleCommand" trigger="click">
-                  <p>{{form.okr_type ? form.okr_type : '选择'}}<i class="iconfont icon-shopping_cart__ic_do"></i></p>
-                  <el-dropdown-menu slot="dropdown" class="okr">
-                    <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item}}</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </div>
-            </el-form-item>
-            <el-form-item prop="daterange" class="time">
-              <div class="item">
-                <h4>时间</h4>
-                <date-range @formatDate="formatDate">
-                  <p>
-                    <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
-                    <i class="iconfont icon-shopping_cart__ic_do"></i>
-                  </p>
-                </date-range>
-              </div>
-            </el-form-item>
+            </div>
+            <div class="type">
+              <h4>类型</h4>
+              <el-dropdown @command="handleCommand" trigger="click">
+                <p>{{form.okr_type}}<i class="iconfont icon-shopping_cart__ic_do"></i></p>
+                <el-dropdown-menu slot="dropdown" class="okr">
+                  <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item}}</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+            <div class="time">
+              <h4>时间</h4>
+              <date-range @formatDate="formatDate">
+                <p>
+                  <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
+                  <i class="iconfont icon-shopping_cart__ic_do"></i>
+                </p>
+              </date-range>
+            </div>
           </div>
           <!-- 参与者 -->
-          <el-form-item prop="task_user" class="task-user">
+          <div class="task-user">
             <member :user_list="form.task_user" @confirmUser="confirmUser"></member>
-          </el-form-item>
+          </div>
           <!-- Objective -->
           <div class="objective">
             <h4>Objective</h4>
             <el-form-item prop="objective">
-              <textarea placeholder="你的Objective是什么？" v-model="form.objective"></textarea>
+              <el-input type="textarea" v-model="form.objective" placeholder="你的Objective是什么？"></el-input>
             </el-form-item>
           </div>
           <!-- Key Result -->
           <div class="key-result">
-            <el-form-item prop="key_result">
-              <h4>Key Result</h4>
-            </el-form-item>
+            <h4>Key Result</h4>
             <div class="result">
               <ul class="list">
                 <li v-for="(item, index) in form.key_result" :key="index">
-                  <input type="text" placeholder="KR1">
+                  <el-input type="text" v-model="item.name" :placeholder="`KR${index + 1}`"></el-input>
                   <div class="number">
                     <h5>信心指数</h5>
                     <p>50%</p>
@@ -79,6 +73,7 @@
 </template>
 <script>
   import {mapState} from 'vuex';
+  import OkrApi from '../../../api/Okr.js';
   import {Member, DateRange} from '../../../components/popup';
 
   export default {
@@ -88,65 +83,110 @@
         form: {
           okr_name: '',
           bo_user: '',
-          objective: '',
-          okr_type: '',
+          okr_type: '项目',
           daterange: {
             start_time: '',
             end_time: ''
           },
           task_user: [],
-          key_result: []
+          objective: '',
+          key_result: [
+            {
+              name: '',
+              index: 0
+            }
+          ]
         },
         project_type: ['公司', '项目', '个人'],
         rules: {
-          okr_name: [{required: true, message: '请填写OKR名称', trigger: 'change'}],
-          bo_user: [{required: true, message: '请选择BO', trigger: 'change'}],
-          okr_type: [{required: true, message: '请选择OKR类型', trigger: 'change'}],
-          daterange: [{required: true, message: '请选择时间', trigger: 'change'}],
-          task_user: [{required: true, message: '请选择参与者', trigger: 'change'}],
-          objective: [{required: true, message: '请填写objective', trigger: 'change'}],
-          key_result: [{required: true, message: '请填写key result', trigger: 'change'}]
+          okr_name: [{required: true, message: ' ', trigger: 'change'}],
+          objective: [{required: true, message: ' ', trigger: 'change'}]
         }
       };
     },
     methods: {
+      // 选择okr类型
+      handleCommand(command) {
+        let that = this;
+        that.form.okr_type = command;
+      },
+      // 日期选择回调
       formatDate(data) {
         this.form.daterange = JSON.parse(JSON.stringify(data));
       },
+      // 参与者添加回调
       confirmUser(data) {
         this.form.task_user = data;
       },
-      confirmSetup(formName) {
+      // 添加key-result
+      addKeyResult() {
         let that = this;
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            that.closeDialog();
-            alert('submit!');
-          } else {
-            return false;
-          }
+        that.form.key_result.push({
+          name: '',
+          index: that.form.key_result.length
         });
       },
-      cancelSetup() {},
-      // 关闭dialog
-      closeDialog() {
-        this.$store.dispatch('setOKRPublish', {status: false, source: null});
-      },
-      addKeyResult() {
-        this.form.key_result.push(1);
-      },
+      // 移除key-result
       removeKeyResult(index) {
         let that = this;
         that.$confirm(`确定删除KR${index}?`, '删除', {type: 'warning'}).then(() => {
           that.form.key_result.pop();
         });
       },
-      handleCommand(command) {
+      // 确认创建
+      confirmSetup(formName) {
         let that = this;
-        that.form.okr_type = command;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            that.closeDialog();
+            OkrApi().createOkr(that.okr_info).then().then(res => {
+              console.log(res)
+            });
+          } else {
+            return false;
+          }
+        });
+      },
+      // 取消创建
+      cancelSetup() {
+        let that = this;
+        that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
+          that.closeDialog();
+        });
+      },
+      // 关闭dialog
+      closeDialog() {
+        this.$store.dispatch('setOKRPublish', {status: false, source: null});
       }
     },
-    computed: mapState(['okr_publish'])
+    computed: {
+      okr_info() {
+        let that = this;
+        const takeUser = [];
+        for(let i = 0, LEN = that.form.task_user.length; i < LEN; i++) {
+          takeUser.push(that.form.task_user[i].user_id);
+        }
+        return {
+          okrName: that.form.okr_name,
+          boUser: that.form.bo_user,
+          okrType: that.form.okr_type,
+          startTime: that.form.daterange.start_time,
+          endTime: that.form.daterange.end_time,
+          takeUser,
+          objectiveName: that.form.objective,
+          keyResult: that.form.key_result
+        };
+      },
+      ...mapState({
+        self_info: store => store.self_info,
+        okr_publish: store => store.okr_publish
+      })
+    },
+    watch: {
+      self_info(cur) {
+        this.form.task_user.push(cur);
+      }
+    }
   };
 </script>
 <style lang="scss">
@@ -162,6 +202,7 @@
         padding-left: 20px;
         background-color: $backColor;
         border-radius: 2px;
+        border-color: #fff;
         background-image: none !important;
       }
     }
@@ -200,50 +241,35 @@
           }
         }
         .type {
-          display: flex;
           width: 230px;
-          .item {
-            display: flex;
-            flex-direction: column;
-            h4 {
-              font-size: $h4Font;
-              font-weight: normal;
-              color: $h3Color;
-            }
-            p {
-              font-size: $h3Font;
-              color: $h1Color;
-              cursor: pointer;
-              i {
-                font-size: 12px;
-              }
+          h4 {
+            font-size: $h4Font;
+            font-weight: normal;
+            color: $h3Color;
+          }
+          p {
+            font-size: $h3Font;
+            color: $h1Color;
+            cursor: pointer;
+            i {
+              font-size: 12px;
             }
           }
         }
         .time {
-          display: flex;
-          .item {
-            display: flex;
-            flex-direction: column;
-            h4 {
-              font-size: $h4Font;
-              font-weight: normal;
-              color: $h3Color;
-            }
+          h4 {
+            font-size: $h4Font;
+            font-weight: normal;
+            color: $h3Color;
+          }
+          p {
+            cursor: pointer;
           }
         }
       }
       .task-user {
-        position: relative;
-        padding: 30px $distance 0;
-        margin-bottom: 18px !important;
-        &::after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          left: 0;bottom: -30px;
-          border-bottom: 1px solid $lineColor;
-        }
+        padding: 30px $distance;
+        border-bottom: 1px solid $lineColor;
       }
       .objective {
         position: relative;
@@ -255,6 +281,11 @@
           line-height: 30px;
           color: $themeColor;
         }
+        .is-error {
+          textarea {
+            border-color: #f56c6c;
+          }
+        }
         textarea {
           box-sizing: border-box;
           width: 100%;
@@ -265,7 +296,7 @@
           font-size: $h3Font;
           line-height: 25px;
           resize: none;
-          border: none;
+          border-color: #fff;
           background: $backColor;
           &::placeholder {
             font-size: $h3Font;
@@ -300,6 +331,7 @@
                 height: 48px;
                 padding-left: 20px;
                 border-radius: 2px;
+                border-color: #fff;
                 background-color: $backColor;
                 &::placeholder {
                   font-size: $h3Font;

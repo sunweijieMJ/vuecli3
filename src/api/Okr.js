@@ -40,6 +40,21 @@ class Okr extends Abstract {
   getOkrKeyTaskList(data) {
     return this.getReq('Okr.OkrKeyTask', data);
   }
+
+  /**
+   * 创建OKR
+   * @param {string | required} okrName okr名称
+   * @param {number | required} boUser 发起人id
+   * @param {string | required} okrType 类型
+   * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
+   * @param {string | required} endTime 结束时间
+   * @param {array | required} takeUser 参与者id数组
+   * @param {string | required} objectiveName objective
+   * @param {array | required} keyResult [{name: 'xx', index: 1}, {name: 'xxx',  'index': 2}]
+   */
+  createOkr(data) {
+    return this.postReq('Okr.CreateOkr', data);
+  }
 }
 
 // 单列模式返回对象
