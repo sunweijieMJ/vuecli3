@@ -19,6 +19,9 @@ const actions = {
   },
   setOKRPublish: ({commit}, data) => {
     commit(types.OKR_PUBLISH, data);
+  },
+  setTaskPublish: ({commit}, data) => {
+    commit(types.TASK_PUBLISH, data);
   }
 };
 

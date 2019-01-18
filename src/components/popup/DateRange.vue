@@ -1,0 +1,118 @@
+<template>
+  <el-popover
+    v-model="date_popover"
+    placement="bottom"
+    width="400"
+    trigger="click">
+    <slot slot="reference"></slot>
+    <div class="popover-daterange">
+      <h3>选择时间</h3>
+      <div class="date">
+        <el-date-picker
+          v-model="daterange.start_time"
+          type="date"
+          :clearable="false"
+          placeholder="选择日期">
+        </el-date-picker>
+        <i class="el-icon-minus"></i>
+        <el-date-picker
+          v-model="daterange.end_time"
+          type="date"
+          :clearable="false"
+          placeholder="选择日期">
+        </el-date-picker>
+      </div>
+      <div class="btn">
+        <el-button class="cancel" @click="date_popover = false">取消</el-button>
+        <el-button class="confirm" @click="confirmEmit">确定</el-button>
+      </div>
+    </div>
+  </el-popover>
+</template>
+<script>
+  import {setTimer} from '../../utils/business/tools.js';
+  import Moment from '../../utils/business/moment.js';
+
+  export default {
+    data() {
+      return {
+        date_popover: false,
+        daterange: {
+          start_time: new Date(),
+          end_time: new Date().setMonth(new Date().getMonth() + 3)
+        }
+      };
+    },
+    created() {
+      this.formatDate();
+    },
+    methods: {
+      // 格式化时间
+      formatDate() {
+        let that = this;
+        that.daterange.start_time = Moment().format(that.daterange.start_time);
+        that.daterange.end_time = Moment().format(that.daterange.end_time);
+        that.$emit('formatDate', that.daterange);
+      },
+      // 确认
+      confirmEmit() {
+        let that = this;
+        that.formatDate();
+        that.date_popover = false;
+      }
+    },
+    watch: {
+      date_popover(cur) {
+        if(cur) {
+          setTimer(() => {
+            const daterange = document.querySelector('.popover-daterange .el-date-editor input');
+            daterange.focus();
+          });
+        }
+      }
+    }
+  };
+</script>
+<style lang="scss">
+  .el-popover {
+    .popover-daterange {
+      padding: 28px 37px;
+      h3 {
+        font-size: $h1Font;
+        font-weight: $h1Weight;
+        line-height: 30px;
+        color: $themeColor;
+      }
+      .date {
+        display: flex;
+        align-items: center;
+        margin-top: 12px;
+        .el-date-editor {
+          width: 143px;
+          height: 40px;
+          border-radius: 2px;
+          background-color: $backColor;
+          .el-input__inner {
+            padding: 0 18px;
+            border-radius: 2px;
+            &:focus {
+              border-color: $linkBlue;
+            }
+          }
+          >span {
+            display: none;
+          }
+        }
+        >i {
+          margin: 0 20px;
+        }
+      }
+      .btn {
+        margin-top: 20px;
+        text-align: right;
+      }
+    }
+  }
+</style>
+
+

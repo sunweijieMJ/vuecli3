@@ -13,6 +13,10 @@ const state = {
   okr_publish: { // ETC OKR发布框
     status: true,
     source: ''
+  },
+  task_publish: { // ETC Task发布框
+    status: false,
+    source: ''
   }
 };
 

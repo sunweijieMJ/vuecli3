@@ -77,6 +77,7 @@
           }
           if(flag) {
             that.join_list.push(that.user_list[0]);
+            that.$emit('confirmUser', that.join_list);
           } else {
             that.$message({message: '该用户已存在', type: 'warning'});
           }
@@ -96,8 +97,6 @@
   .okr-member {
     display: flex;
     align-items: center;
-    padding: 30px 37px 18px;
-    border-bottom: 1px solid $lineColor;
     h4 {
       width: 46px;
       font-size: $h3Color;
@@ -207,6 +206,7 @@
       width: 82px;
       height: 36px;
       padding: 0;
+      margin-bottom: 12px;
       border: none;
       border-radius: 20px;
       font-size: $h2Font;

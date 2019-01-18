@@ -13,6 +13,9 @@ const mutations = {
   },
   [types.OKR_PUBLISH]: (state, data) => {
     state.okr_publish = data;
+  },
+  [types.TASK_PUBLISH]: (state, data) => {
+    state.task_publish = data;
   }
 };
 
