@@ -13,10 +13,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="黄金糕">
-              黄金糕
-              <div>
-                好的
-              </div>
+              编辑
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -34,15 +31,15 @@
           </div>
         </div>
         <div class="right">
-          <img v-for="(a, index) in 6" :key="index" src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
-          <el-dropdown @command="showAllJoinner" v-if="joiner_list.length > 6">
+          <img v-for="(a, index) in okr_detail.participants" :key="index" :src="a.header_photo" alt="">
+          <el-dropdown @command="showAllJoinner" v-if="okr_detail.participants && okr_detail.participants.length > 6">
             <span class="el-dropdown-link">
-              <div class="all-per">{{joiner_list.length}}</div>
+              <div class="all-per" v-if="okr_detail.participants">{{okr_detail.participants.length}}</div>
             </span>
             <el-dropdown-menu slot="dropdown" class="joinner-drop">
-              <el-dropdown-item v-for="(j, jindex) in joiner_list" :key="jindex" :command="j" :divided="true">
-                <img src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
-                <span>{{j}}(元元)</span>
+              <el-dropdown-item v-for="(j, jindex) in okr_detail.participants" :key="jindex" :command="j.user_id" :divided="true">
+                <img :src="j.header_photo" alt="">
+                <span>{{j.user_name}}({{j.real_name}})</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -73,9 +70,6 @@ export default {
   data(){
     return {
       okr_detail: '', // ETC okr基础信息
-      joiner_list:[
-        'liuyuanyuan', 'liaowuhen', 'lengqi', '年度潇洒哥', 'liuyuanyuan', 'liaowuhen', 'lengqi', '年度潇洒哥'
-      ],
       kr_list: [], // ETC kr列表
       kt_list: [] // ETC kt列表
     };
@@ -92,7 +86,7 @@ export default {
       okrApi().getOkrBasicinfo({objId: 8}).then(res => {
         this.okr_detail = res.data;
         // console.log(res)
-      })
+      });
     },
     getOkrKeyResultList(){
       okrApi().getOkrKeyResultList({objId: 8}).then(res => {
