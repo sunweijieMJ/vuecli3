@@ -1,30 +1,30 @@
 <template>
   <div class="kt">
-    <div class="kt-task" v-for="(kt, ktindex) in 3" :key="ktindex">
+    <div class="kt-task" v-for="(kt, ktindex) in kt_list" :key="ktindex">
       <el-collapse accordion @change="handleChange" v-model="activeNames">
         <el-collapse-item :name="ktindex">
           <template slot="title">
             <div class="task-box">
               <div class="title">
                 <div :class="{icon: true, isActive: activeJudge(ktindex)}">
-                  <i class="iconfont icon-sanjiaoyou"></i>
+                  <i v-if="kt.sub_tasks && kt.sub_tasks.length" class="iconfont icon-sanjiaoyou"></i>
                 </div>
                 <div>
-                  <span class="task-box-kt">KT</span><span>UGS完成A系统，B系统，C系统和D系统</span>
+                  <span class="task-box-kt">KT</span><span>{{kt.task_name}}</span>
                 </div>
               </div>
               <div class="objactive">
                 <div class="left">
                   <div>
-                    <span>2019/01/30-2019/01/28</span>
+                    <span>{{kt.start_time}}--{{kt.end_time}}</span>
                   </div>
                   <div class="img">
-                    <img src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
-                    <span>TO: Paddy</span>
+                    <img :src="kt.users_info.header_photo" alt="">
+                    <span>TO: {{kt.users_info.user_name}}</span>
                   </div>
                 </div>
                 <div @mouseover="overlayShow(ktindex)">
-                  <el-progress :percentage="80" ></el-progress>
+                  <el-progress :percentage="kt.progress" ></el-progress>
                 </div>
               </div>
               <div :class="{overlay: true, overlayJudge: overlayJudge(ktindex)}" @click.stop="">
@@ -50,23 +50,23 @@
             </div>
           </template>
           <ul>
-            <li v-for="(t, tindex) in 3" :key="tindex">
+            <li v-for="(t, tindex) in kt.sub_tasks" :key="tindex">
               <div class="title">
                 <span class="t-title">T</span>
-                <span>UGS完成A系统，B系统，C系统和D系统</span>
+                <span>{{t.task_name}}</span>
               </div>
               <div class="date">
                 <div class="left">
                   <div>
-                    <span>2019/01/30-2019/01/28</span>
+                    <span>{{t.start_time}}--{{t.end_time}}</span>
                   </div>
                   <div class="img">
-                    <img src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
-                    <span>TO: Paddy</span>
+                    <img :src="t.users_info.header_photo" alt="">
+                    <span>TO: {{t.users_info.user_name}}</span>
                   </div>
                 </div>
                 <div @mouseover="overlayShowChild(tindex)">
-                  <el-progress :percentage="80" ></el-progress>
+                  <el-progress :percentage="t.progress" ></el-progress>
                 </div>
               </div>
 
@@ -96,6 +96,7 @@
 <script>
 export default {
   name: 'keyTask',
+  props: ['kt_list'],
   data(){
     return {
       activeNames: '',
@@ -364,8 +365,11 @@ export default {
         }
         .objactive{
           .el-progress{
+            width: 180px;
             font-size: 13px;
             color: #303133;
+            display: flex;
+            justify-content: space-between;
             .el-progress-bar{
               width: 200px;
               .el-progress-bar__outer{
@@ -386,8 +390,11 @@ export default {
     li{
       .date{
         .el-progress{
+          width: 180px;
           font-size: 13px;
           color: #303133;
+          display: flex;
+          justify-content: space-between;
           .el-progress-bar{
             width: 195px;
             .el-progress-bar__outer{

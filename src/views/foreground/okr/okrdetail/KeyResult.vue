@@ -4,18 +4,18 @@
       <div>
         <i class="iconfont icon-sanfang"></i>
       </div>
-      <div>LANEHUB品牌1到10的探索</div>
+      <div>{{okr_detail.objective_desc}}</div>
     </div>
     <ul>
-      <li v-for="(kr, krindex) in 5" :key="krindex">
+      <li v-for="(kr, krindex) in kr_list" :key="krindex">
         <div class="kr-left">
           <span class="left-tag">KR</span>
-          <span>UGS达到什么什么</span>
+          <span>{{kr.kr_name}}</span>
         </div>
         <div class="kr-right">
           <span>信心指数</span>
           <span class="span2">
-            <span class="number">70</span>
+            <span class="number">{{kr.confidenc_index}}</span>
             <span>%</span>
           </span>
         </div>
@@ -26,6 +26,7 @@
 <script>
 export default {
   name: 'keyresult',
+  props: ['kr_list', 'okr_detail'],
   data(){
     return {
 

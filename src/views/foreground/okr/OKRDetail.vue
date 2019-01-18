@@ -4,8 +4,8 @@
     <div class="content">
       <div class="title">
         <div class="subtitle">
-          <span class="kt-tag">KT</span>
-          <span>LANEHUB商品2.0</span>
+          <span class="kt-tag">{{okr_detail.okr_type_name}}</span>
+          <span>{{okr_detail.okr_name}}</span>
         </div>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
@@ -22,20 +22,19 @@
         </el-dropdown>
       </div>
       <div class="joinner">
-        <div class="left">
-          <img src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
+        <div class="left" v-if="okr_detail.bo_info">
+          <img :src="okr_detail.bo_info.header_photo" alt="">
           <div class="name">
             <p>BO</p>
-            <p>Omi</p>
+            <p>{{okr_detail.bo_info.user_name}}</p>
           </div>
           <div>
             <p>时间</p>
-            <p>2018/12/28/-2019/03/23</p>
+            <p>{{okr_detail.start_time}}--{{okr_detail.end_time}}</p>
           </div>
         </div>
         <div class="right">
           <img v-for="(a, index) in 6" :key="index" src="https://p.ssl.qhimg.com/t01138e5aba54ac6524.jpg" alt="">
-          <!-- <div class="all-per">23</div> -->
           <el-dropdown @command="showAllJoinner" v-if="joiner_list.length > 6">
             <span class="el-dropdown-link">
               <div class="all-per">{{joiner_list.length}}</div>
@@ -50,7 +49,7 @@
         </div>
       </div>
       <div class="key-result">
-        <KeyResult></KeyResult>
+        <KeyResult :kr_list="kr_list" :okr_detail="okr_detail"></KeyResult>
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
@@ -58,7 +57,7 @@
         <span class="task-add">添加</span>
       </div>
       <div class="key-task">
-        <KeyTask></KeyTask>
+        <KeyTask :kt_list="kt_list"></KeyTask>
       </div>
     </div>
   </div>
@@ -73,9 +72,12 @@ export default {
   components: {KeyResult, KeyTask},
   data(){
     return {
+      okr_detail: '', // ETC okr基础信息
       joiner_list:[
         'liuyuanyuan', 'liaowuhen', 'lengqi', '年度潇洒哥', 'liuyuanyuan', 'liaowuhen', 'lengqi', '年度潇洒哥'
-      ]
+      ],
+      kr_list: [], // ETC kr列表
+      kt_list: [] // ETC kt列表
     };
   },
   methods: {
@@ -87,30 +89,41 @@ export default {
       console.log('参与者', val)
     },
     getOkrBasicinfo(){
-      okrApi().getOkrBasicinfo({obj_id: 12}).then(res => {
-        console.log(res)
+      okrApi().getOkrBasicinfo({objId: 8}).then(res => {
+        this.okr_detail = res.data;
+        // console.log(res)
       })
     },
     getOkrKeyResultList(){
-      okrApi().getOkrKeyResultList({obj_id: 12}).then(res => {
-        console.log(res)
+      okrApi().getOkrKeyResultList({objId: 8}).then(res => {
+        this.kr_list = Object.values(res.data);
       });
     },
     getOkrKeyTaskList(){
       okrApi().getOkrKeyTaskList({
-        obj_id: 12, // ETC okr id
-        key_task: 1, // ETC 或者该值不传
-        task_id: 1, // ETC 搜索关联task 列表信息
-        currpage: 1, // ETC 当前第几页
-        pages: 15, // ETC 每页总数
-        last_id: 1 // ETC 最后一条id
+        objId: 8, // ETC okr id
+        currPage: 1, // ETC 当前第几页
+        pages: 15 // ETC 每页总数
       }).then(res => {
-        console.log(res)
+        let new_key_task = res.data.list;
+        if(new_key_task.length){
+          for (let i = 0; i < new_key_task.length; i++){
+            new_key_task[i].users_info = res.data.users_info[new_key_task[i].task_owner_id];
+            if(new_key_task[i].sub_tasks && new_key_task[i].sub_tasks.length){
+              for (let j = 0; j < new_key_task[i].sub_tasks.length; j++) {
+                new_key_task[i].sub_tasks[j].users_info = res.data.users_info[new_key_task[i].sub_tasks[j].task_owner_id];
+              }
+            }
+          }
+          this.kt_list = new_key_task;
+        }
       });
     }
   },
   mounted(){
-    // this.getOkrBasicinfo();
+    this.getOkrBasicinfo();
+    this.getOkrKeyResultList();
+    this.getOkrKeyTaskList();
   }
 };
 </script>
@@ -257,10 +270,6 @@ export default {
       border-radius: 50px;
       margin-right: 10px;
       margin-left: 38px;
-    }
-    span{
-      // line-height: 38px;
-      // display: inline-block;
     }
   }
   .el-dropdown-menu__item--divided{
