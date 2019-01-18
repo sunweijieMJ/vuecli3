@@ -219,7 +219,7 @@ export default {
       if(this.topic_anchor){
         // 搜索话题关键字截取
         let final_content = text.substring(this.topic_anchor, this.content_end);
-        this.topic_con = final_content.trim();
+        this.topic_con = final_content;
         this.string_length = final_content.length; // ETC 搜索的字符长度
         let noneArr = [];
         // 拆分话题字符
@@ -232,6 +232,7 @@ export default {
             this.jshow = true;
             this.searchTopic(final_content);
           }
+          // this.searchTopic(final_content);
         }else if(!noneArr.length && this.jshow){
           this.searchTopic();
         }else{
