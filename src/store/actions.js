@@ -16,6 +16,9 @@ const actions = {
     NoticeApi().getMessageUnread({}).then(res => {
       if (res.status) commit(types.UNREAD_MSG, res.data);
     });
+  },
+  setOKRPublish: ({commit}, data) => {
+    commit(types.OKR_PUBLISH, data);
   }
 };
 

@@ -9,6 +9,10 @@ const state = {
   unread_msg: { // ETC 未读消息数
     num: 0,
     show: false
+  },
+  okr_publish: { // ETC OKR发布框
+    status: true,
+    source: ''
   }
 };
 

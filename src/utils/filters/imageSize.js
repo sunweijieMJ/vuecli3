@@ -1,5 +1,6 @@
 // 图片尺寸对应标识
 let imgMap = new Map();
+// imgMap.set('0x600', 'web-00001');
 imgMap.set('750x750', '00001');
 imgMap.set('165x165', '00002');
 imgMap.set('690x490', '00003');

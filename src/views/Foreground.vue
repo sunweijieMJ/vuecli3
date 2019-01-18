@@ -30,7 +30,7 @@
             </el-badge>
             <el-dropdown @command="handleCommand" trigger="hover">
               <img :src="self_info.header_photo" alt="" @click="paramsSkip('Profile', {id: self_info.user_id})">
-              <el-dropdown-menu slot="dropdown">
+              <el-dropdown-menu slot="dropdown" class="nav-user">
                 <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
                 <el-dropdown-item command="exit">退出登录</el-dropdown-item>
               </el-dropdown-menu>
@@ -263,7 +263,7 @@
       }
     }
   }
-  .el-dropdown-menu {
+  .nav-user {
     padding: 20px 0;
     .el-dropdown-menu__item {
       padding: 0 40px;

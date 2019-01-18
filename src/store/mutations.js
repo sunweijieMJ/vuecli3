@@ -10,6 +10,9 @@ const mutations = {
   },
   [types.UNREAD_MSG]: (state, data) => {
     state.unread_msg.num = data.cnt;
+  },
+  [types.OKR_PUBLISH]: (state, data) => {
+    state.okr_publish = data;
   }
 };
 
