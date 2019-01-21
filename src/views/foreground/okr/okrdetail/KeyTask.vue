@@ -7,18 +7,18 @@
             <div class="task-box">
               <div class="title">
                 <div :class="{icon: true, isActive: activeJudge(ktindex)}">
-                  <i v-if="kt.sub_tasks && kt.sub_tasks.length" class="iconfont icon-sanjiaoyou"></i>
+                  <i v-if="kt.sub_tasks && kt.sub_tasks.length" style="cursor: pointer;" class="iconfont icon-sanjiaoyou"></i>
                 </div>
                 <div>
-                  <span class="task-box-kt">KT</span><span>{{kt.task_name}}</span>
+                  <span class="task-box-kt">KT</span><span style="cursor: pointer;" @click.stop="gotTaskDetail(kt.task_id)">{{kt.task_name}}</span>
                 </div>
               </div>
               <div class="objactive">
                 <div class="left">
                   <div>
-                    <span>{{kt.start_time}}--{{kt.end_time}}</span>
+                    <span>{{dateFormat(kt.start_time, 'yyyy/MM/dd')}}--{{dateFormat(kt.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
-                  <div class="img">
+                  <div class="img" v-if="kt.users_info">
                     <img :src="kt.users_info.header_photo" alt="">
                     <span>TO: {{kt.users_info.user_name}}</span>
                   </div>
@@ -53,12 +53,12 @@
             <li v-for="(t, tindex) in kt.sub_tasks" :key="tindex">
               <div class="title">
                 <span class="t-title">T</span>
-                <span>{{t.task_name}}</span>
+                <span @click.stop="gotTaskDetail(t.task_id)" style="cursor: pointer;">{{t.task_name}}</span>
               </div>
               <div class="date">
                 <div class="left">
                   <div>
-                    <span>{{t.start_time}}--{{t.end_time}}</span>
+                    <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}--{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
                   <div class="img">
                     <img :src="t.users_info.header_photo" alt="">
@@ -94,11 +94,13 @@
   </div>
 </template>
 <script>
+import dateFormat from '../../../../utils/filters/dateFormat.js';
 export default {
   name: 'keyTask',
   props: ['kt_list'],
   data(){
     return {
+      dateFormat,
       activeNames: '',
       overlay_state: '',
       overlay_child_state: ''
@@ -142,6 +144,9 @@ export default {
     },
     overlayHideChild(){
       this.overlay_child_state = '';
+    },
+    gotTaskDetail(task_id){
+      this.$router.push({name: 'TaskDetail', params: {id: task_id}});
     }
   }
 };
@@ -185,6 +190,7 @@ export default {
           }
         }
         .iconfont{
+          cursor: pointer;
           font-size: 33px;
           display: block;
         }
@@ -356,6 +362,7 @@ export default {
         }
       }
       .el-collapse-item__header{
+        cursor: default;
         display: flex disabled;
         line-height: normal;
         border-bottom: none;

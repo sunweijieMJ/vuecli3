@@ -20,25 +20,27 @@
       </div>
       <div class="joinner">
         <div class="left" v-if="okr_detail.bo_info">
-          <img :src="okr_detail.bo_info.header_photo" alt="">
+          <img v-if="okr_detail.bo_info.header_photo" :src="okr_detail.bo_info.header_photo" alt="">
           <div class="name">
             <p>BO</p>
             <p>{{okr_detail.bo_info.user_name}}</p>
           </div>
           <div>
             <p>时间</p>
-            <p>{{okr_detail.start_time}}--{{okr_detail.end_time}}</p>
+            <p>{{dateFormat(okr_detail.start_time, 'yyyy/MM/dd')}}
+              -{{dateFormat(okr_detail.end_time, 'yyyy/MM/dd')}}
+            </p>
           </div>
         </div>
         <div class="right">
-          <img v-for="(a, index) in okr_detail.participants" :key="index" :src="a.header_photo" alt="">
+          <img v-for="(a, index) in okr_detail.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
           <el-dropdown @command="showAllJoinner" v-if="okr_detail.participants && okr_detail.participants.length > 6">
             <span class="el-dropdown-link">
               <div class="all-per" v-if="okr_detail.participants">{{okr_detail.participants.length}}</div>
             </span>
             <el-dropdown-menu slot="dropdown" class="joinner-drop">
               <el-dropdown-item v-for="(j, jindex) in okr_detail.participants" :key="jindex" :command="j.user_id" :divided="true">
-                <img :src="j.header_photo" alt="">
+                <img v-if="j.header_photo" :src="j.header_photo" alt="">
                 <span>{{j.user_name}}({{j.real_name}})</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -53,25 +55,40 @@
         <span class="iconfont icon-tianjia1"></span>
         <span class="task-add">添加</span>
       </div>
-      <div class="key-task">
+      <div class="key-task" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
         <KeyTask :kt_list="kt_list"></KeyTask>
       </div>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
   </div>
 </template>
 <script>
 import KeyResult from './okrdetail/KeyResult.vue';
 import KeyTask from './okrdetail/KeyTask';
+import {Loading} from '../../../components/public';
+import dateFormat from '../../../utils/filters/dateFormat.js';
 
 import okrApi from '../../../api/Okr.js';
 export default {
   name: 'okrdetail',
-  components: {KeyResult, KeyTask},
+  components: {KeyResult, KeyTask, Loading},
   data(){
     return {
+      dateFormat,
       okr_detail: '', // ETC okr基础信息
       kr_list: [], // ETC kr列表
-      kt_list: [] // ETC kt列表
+      kt_list: [], // ETC kt列表
+      pageInfo: { // ETC 页码信息
+        current_page: 0,
+        page_size: 6,
+        page_total: 0
+      },
+      disabled: false, // ETC 加载开关
+      loading: {
+        nomore: false, // ETC 触底
+        noresult: false // ETC 空列表
+      },
+      task_id: ''
     };
   },
   methods: {
@@ -93,14 +110,35 @@ export default {
         this.kr_list = Object.values(res.data);
       });
     },
-    getOkrKeyTaskList(){
-      okrApi().getOkrKeyTaskList({
-        objId: 8, // ETC okr id
-        currPage: 1, // ETC 当前第几页
-        pages: 15 // ETC 每页总数
+    // 触底刷新
+    infinite() {
+      let that = this;
+      that.disabled = true;
+      that.getOkrKeyTaskList(++this.pageInfo.current_page).then(() => {
+        // 触底判断
+        that.disabled = false;
+        if(!that.kt_list.length) {
+          that.disabled = true;
+          that.loading = {
+            nomore: true,
+            noresult: true
+          };
+        } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+          that.disabled = true;
+          that.loading.nomore = true;
+        }
+      });
+    },
+    async getOkrKeyTaskList(){
+      return await okrApi().getOkrKeyTaskList({
+        objId: this.$route.params.id, // ETC okr id
+        currPage: this.pageInfo.current_page, // ETC 当前第几页
+        pages: this.pageInfo.page_size, // ETC 每页总数
+        lastId: this.task_id ? this.task_id : ''
       }).then(res => {
+        this.pageInfo.page_total = Math.ceil(res.data.cnt / this.pageInfo.page_size);
         let new_key_task = res.data.list;
-        if(new_key_task.length){
+        if(res.status && new_key_task.length){
           for (let i = 0; i < new_key_task.length; i++){
             new_key_task[i].users_info = res.data.users_info[new_key_task[i].task_owner_id];
             if(new_key_task[i].sub_tasks && new_key_task[i].sub_tasks.length){
@@ -109,7 +147,8 @@ export default {
               }
             }
           }
-          this.kt_list = new_key_task;
+          this.kt_list = this.kt_list.concat(new_key_task);
+          this.task_id = this.kt_list[this.kt_list.length - 1].task_id;
         }
       });
     }
@@ -117,7 +156,6 @@ export default {
   mounted(){
     this.getOkrBasicinfo();
     this.getOkrKeyResultList();
-    this.getOkrKeyTaskList();
   }
 };
 </script>
