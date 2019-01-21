@@ -16,6 +16,12 @@ const mutations = {
   },
   [types.TASK_PUBLISH]: (state, data) => {
     state.task_publish = data;
+  },
+  [types.TASK_CLOSE]: (state, data) => {
+    state.task_close = data;
+  },
+  [types.TASK_FOLLOW]: (state, data) => {
+    state.task_follow = data;
   }
 };
 

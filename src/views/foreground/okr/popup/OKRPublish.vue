@@ -79,9 +79,9 @@
 </template>
 <script>
   import {mapState} from 'vuex';
-  import OkrApi from '../../../api/Okr.js';
-  import Moment from '../../../utils/business/moment.js';
-  import {Member, DateRange} from '../../../components/popup';
+  import OkrApi from '../../../../api/Okr.js';
+  import Moment from '../../../../utils/business/moment.js';
+  import {Member, DateRange} from '../../../../components/popup';
 
   export default {
     components: {Member, DateRange},

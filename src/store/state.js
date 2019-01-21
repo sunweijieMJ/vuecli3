@@ -17,6 +17,14 @@ const state = {
   task_publish: { // ETC Task发布框
     status: false,
     source: ''
+  },
+  task_close: { // ETC Task关闭框
+    status: false,
+    source: ''
+  },
+  task_follow: { // ETC Task跟进框
+    status: false,
+    source: ''
   }
 };
 

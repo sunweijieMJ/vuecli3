@@ -43,6 +43,12 @@ const actions = {
     } else {
       commit(types.TASK_PUBLISH, data);
     }
+  },
+  setTaskClose: ({commit}, data) => {
+    commit(types.TASK_CLOSE, data);
+  },
+  setTaskFollow: ({commit}, data) => {
+    commit(types.TASK_FOLLOW, data);
   }
 };
 
