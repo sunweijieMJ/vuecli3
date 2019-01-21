@@ -3,8 +3,11 @@
     <div class="header">
       动态(0)
     </div>
-    <ul>
-      <li v-for="(dy, dyindex) in 3" :key="dyindex">
+    <ul v-for="(dy, dyindex) in 3" :key="dyindex">
+      <li class="item-state">
+        <span class="iconfont icon-icon_manage"></span><span>关闭</span>
+      </li>
+      <li>
         <div class="person-photo">
           <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
           <div>
@@ -60,13 +63,24 @@ export default {
     line-height:25px;
   }
   ul{
+    margin-bottom: 12px;
+    background: #FFFFFF;
+    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
+    border-radius:2px;
+    .item-state{
+      padding: 14px 28px;
+      border-bottom: 1px solid #f6f6f6;
+      font-size:15px;
+      font-weight:500;
+      color: #303133;
+      line-height:21px;
+      span{
+        margin-right: 8px;
+      }
+    }
     li{
       width: 535px;
-      padding: 31px 28px;
-      background: #FFFFFF;
-      box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
-      border-radius:2px;
-      margin-bottom: 12px;
+      padding: 17px 28px 24px 28px;
       .person-photo{
         display: flex;
         align-items: center;

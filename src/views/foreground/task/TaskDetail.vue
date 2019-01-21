@@ -38,7 +38,7 @@
             <img v-for="(a, index) in 4" :key="index" src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
             <el-dropdown @command="">
               <span class="el-dropdown-link">
-                <div class="all-per">大大</div>
+                <div class="all-per">23</div>
               </span>
               <el-dropdown-menu slot="dropdown" class="joinner-drops">
                 <el-dropdown-item v-for="(j, jindex) in 2" :key="jindex" command="大大" :divided="true">

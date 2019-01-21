@@ -6,6 +6,13 @@
         <span class="iconfont icon-tianjia1"></span><span>添加</span>
       </div>
     </div>
+    <ul>
+      <li v-for="(rt, rtindex) in 6" :key="rtindex">
+        <span class="related-t">T</span>
+        <span class="con">UGS达到什么什么什么什么什么什…</span>
+        <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -43,6 +50,40 @@ export default {
       }
     }
   }
-
+  ul{
+    background: #FFFFFF;
+    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
+    border-radius:2px;
+    li{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 15px 22px;
+      border-bottom: 1px solid #f6f6f6;
+      .related-t{
+        display: inline-block;
+        width:32px;
+        height:16px;
+        background:#948BEA;
+        border-radius:8px;
+        text-align: center;
+        line-height: 16px;
+        color: #FFFFFF;
+      }
+      .con{
+        margin-left: 8px;
+        margin-right: 27px;
+        width: 258px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      img{
+        width: 31px;
+        height: 31px;
+        border-radius: 50px;
+      }
+    }
+  }
 }
 </style>
