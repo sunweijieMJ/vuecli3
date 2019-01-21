@@ -48,9 +48,9 @@ class Okr extends Abstract {
    * @param {string | required} okrType 类型
    * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
    * @param {string | required} endTime 结束时间
-   * @param {array | required} takeUser 参与者id数组
+   * @param {array} takeUser 参与者id数组
    * @param {string | required} objectiveName objective
-   * @param {array | required} keyResult [{name: 'xx', index: 1}, {name: 'xxx',  'index': 2}]
+   * @param {array | required} keyResult [{name: 'xx', index: 0}, {name: 'xxx',  'index': 100}]
    */
   createOkr(data) {
     return this.postReq('Okr.CreateOkr', data);

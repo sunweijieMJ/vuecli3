@@ -12,6 +12,20 @@ class Task extends Abstract {
     super();
   }
 
+  /**
+   * 创建OKR
+   * @param {string | required} taskContent task名称
+   * @param {number | required} toUser 发起人id
+   * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
+   * @param {string | required} endTime 结束时间
+   * @param {array} takeUser 参与者id数组
+   * @param {number | required} parentId 父id,无为0
+   * @param {array | required} objectIds 管理OKR ID
+   */
+  createTask(data) {
+    return this.postReq('Task.CreateTask', data);
+  }
+
 }
 
 // 单列模式返回对象

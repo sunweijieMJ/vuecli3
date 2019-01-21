@@ -47,6 +47,9 @@ const urlDict = {
     'OkrKeyResult': 'okr/kr/list', // ETC okr keyresult 列表
     'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表
     'CreateOkr': 'okr/okr/create' // ETC 创建OKR
+  },
+  'Task': {
+    'CreateTask': 'okr/task/create' // ETC 创建Task
   }
 };
 

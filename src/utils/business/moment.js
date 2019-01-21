@@ -4,11 +4,21 @@ class Moment {
   constructor() {
   }
 
-  format(data) {
+  format(data, type) {
     const year = new Date(data).getFullYear();
     const month = new Date(data).getMonth() + 1;
     const date = new Date(data).getDate();
-    return `${year}/${month}/${date}`;
+    switch (type) {
+      case 'YYYY/MM/DD':
+        return `${year}/${month}/${date}`;
+        break;
+      case 'YYYY-MM-DD':
+        return `${year}-${month}-${date}`;
+        break;
+      default:
+        return `${year}/${month}/${date}`;
+        break;
+    }
   }
 
 }

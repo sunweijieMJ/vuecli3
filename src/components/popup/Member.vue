@@ -200,22 +200,5 @@
       }
     }
   }
-  .el-button {
-    &.add {
-      box-sizing: border-box;
-      width: 82px;
-      height: 36px;
-      padding: 0;
-      margin-bottom: 12px;
-      border: none;
-      border-radius: 20px;
-      font-size: $h2Font;
-      font-weight: $h1Weight;
-      line-height: 36px;
-      color: $linkBlue;
-      border:1px solid $linkBlue;
-      background-color: #fff;
-    }
-  }
 </style>
 

@@ -18,9 +18,9 @@
             <div class="type">
               <h4>类型</h4>
               <el-dropdown @command="handleCommand" trigger="click">
-                <p>{{form.okr_type}}<i class="iconfont icon-shopping_cart__ic_do"></i></p>
+                <p>{{form.okr_type.name}}<i class="iconfont icon-shopping_cart__ic_do"></i></p>
                 <el-dropdown-menu slot="dropdown" class="okr">
-                  <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item}}</el-dropdown-item>
+                  <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item.name}}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -50,11 +50,17 @@
             <h4>Key Result</h4>
             <div class="result">
               <ul class="list">
-                <li v-for="(item, index) in form.key_result" :key="index">
-                  <el-input type="text" v-model="item.name" :placeholder="`KR${index + 1}`"></el-input>
+                <li v-for="(key_result, index) in form.key_result" :key="index">
+                  <el-form-item :prop="`key_result.${index}.name`" :rules="{required: true, message: ' ', trigger: 'change'}">
+                    <el-input type="text" v-model="key_result.name" :placeholder="`KR${index + 1}`"></el-input>
+                  </el-form-item>
                   <div class="number">
-                    <h5>信心指数</h5>
-                    <p>50%</p>
+                    <i class="el-icon-minus" @click="reducePercent(index)"></i>
+                    <div class="percent">
+                      <h5>信心指数</h5>
+                      <p>{{key_result.index}}%</p>
+                    </div>
+                    <i class="el-icon-plus" @click="addPercent(index)"></i>
                   </div>
                   <i class="el-icon-delete" @click="removeKeyResult(index)"></i>
                 </li>
@@ -74,6 +80,7 @@
 <script>
   import {mapState} from 'vuex';
   import OkrApi from '../../../api/Okr.js';
+  import Moment from '../../../utils/business/moment.js';
   import {Member, DateRange} from '../../../components/popup';
 
   export default {
@@ -83,7 +90,10 @@
         form: {
           okr_name: '',
           bo_user: '',
-          okr_type: '项目',
+          okr_type: {
+            name: '个人',
+            type: 4
+          },
           daterange: {
             start_time: '',
             end_time: ''
@@ -97,7 +107,24 @@
             }
           ]
         },
-        project_type: ['公司', '项目', '个人'],
+        project_type: [
+          {
+            name: '公司',
+            type: 1
+          },
+          {
+            name: '项目',
+            type: 2
+          },
+          {
+            name: '部门',
+            type: 3
+          },
+          {
+            name: '个人',
+            type: 4
+          }
+        ],
         rules: {
           okr_name: [{required: true, message: ' ', trigger: 'change'}],
           objective: [{required: true, message: ' ', trigger: 'change'}]
@@ -123,7 +150,7 @@
         let that = this;
         that.form.key_result.push({
           name: '',
-          index: that.form.key_result.length
+          index: 0
         });
       },
       // 移除key-result
@@ -133,13 +160,31 @@
           that.form.key_result.pop();
         });
       },
+      // 增加指数
+      addPercent(index) {
+        let that = this;
+        if(that.form.key_result[index].index >= 100) {
+          that.$message({message: '已经到顶了', type: 'warning'});
+          return;
+        }
+        that.form.key_result[index].index += 10;
+      },
+      // 减少指数
+      reducePercent(index) {
+        let that = this;
+        if(that.form.key_result[index].index <= 0) {
+          that.$message({message: '不能再减了', type: 'warning'});
+          return;
+        }
+        that.form.key_result[index].index -= 10;
+      },
       // 确认创建
       confirmSetup(formName) {
         let that = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             that.closeDialog();
-            OkrApi().createOkr(that.okr_info).then().then(res => {
+            OkrApi().createOkr(that.okr_info).then(res => {
               console.log(res)
             });
           } else {
@@ -168,10 +213,10 @@
         }
         return {
           okrName: that.form.okr_name,
-          boUser: that.form.bo_user,
-          okrType: that.form.okr_type,
-          startTime: that.form.daterange.start_time,
-          endTime: that.form.daterange.end_time,
+          boUser: that.form.bo_user || that.self_info.user_id,
+          okrType: that.form.okr_type.type,
+          startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
+          endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
           takeUser,
           objectiveName: that.form.objective,
           keyResult: that.form.key_result
@@ -181,20 +226,16 @@
         self_info: store => store.self_info,
         okr_publish: store => store.okr_publish
       })
-    },
-    watch: {
-      self_info(cur) {
-        this.form.task_user.push(cur);
-      }
     }
   };
 </script>
 <style lang="scss">
-  $distance: 37px;
+  $left-right: 37px;
+  $up-down: 20px;
 
   .okr-publish {
     .header {
-      padding: 30px $distance;
+      padding: 30px $left-right;
       input {
         box-sizing: border-box;
         width: 100%;
@@ -213,7 +254,7 @@
         position: relative;
         display: flex;
         height: 40px;
-        padding: 0 $distance 30px;
+        padding: 0 $left-right 30px;
         border-bottom: 1px solid $lineColor;
         .bo {
           display: flex;
@@ -268,12 +309,12 @@
         }
       }
       .task-user {
-        padding: 30px $distance;
+        padding: 30px $left-right;
         border-bottom: 1px solid $lineColor;
       }
       .objective {
         position: relative;
-        padding: $distance;
+        padding: $left-right;
         border-bottom: 1px solid $lineColor;
         h4 {
           font-size: $h1Font;
@@ -307,7 +348,7 @@
       }
       .key-result {
         box-sizing: border-box;
-        padding: 25px $distance;
+        padding: 25px $left-right;
         h4 {
           font-size: $h1Font;
           font-weight: $h1Weight;
@@ -325,9 +366,17 @@
               align-items: center;
               width: 100%;
               margin-bottom: 20px;
+              .el-form-item {
+                flex: 1;
+              }
+              .is-error {
+                input {
+                  border-color: #f56c6c;
+                }
+              }
               input {
                 box-sizing: border-box;
-                width: 677px;
+                width: 100%;
                 height: 48px;
                 padding-left: 20px;
                 border-radius: 2px;
@@ -341,20 +390,37 @@
               }
               .number {
                 display: flex;
-                flex-direction: column;
-                h5 {
-                  font-size: $h4Font;
-                  font-weight: normal;
-                  line-height: 18px;
-                  color: $h3Color;
+                justify-content: center;
+                align-items: center;
+                width: 170px;
+                .percent {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  margin: 0 18px;
+                  h5 {
+                    font-size: $h4Font;
+                    font-weight: normal;
+                    line-height: 18px;
+                    color: $h3Color;
+                  }
+                  p {
+                    font-size: $h2Font;
+                    line-height: 25px;
+                    color: $h1Color;
+                  }
                 }
-                p {
-                  font-size: $h2Font;
-                  line-height: 25px;
-                  color: $h1Color;
+                &:hover i{
+                  display: inline-flex;
+                }
+                >i {
+                  display: none;
+                  font-size: 16px;
+                  color: #000;
+                  cursor: pointer;
                 }
               }
-              i {
+              >i {
                 font-size: 20px;
                 color: $linkBlue;
                 cursor: pointer;
@@ -367,7 +433,7 @@
   }
 </style>
 <style lang="scss">
-  $distance: 37px;
+  $left-right: 37px;
 
   .okr-publish {
     .el-dialog__wrapper {
@@ -400,7 +466,7 @@
           }
         }
         .el-dialog__footer {
-          padding: 24px $distance;
+          padding: 24px $left-right;
         }
       }
     }
@@ -419,53 +485,6 @@
     }
   }
 
-  .el-button {
-    &.cancel {
-      width: 90px;
-      height: 40px;
-      padding: 0;
-      border: none;
-      border-radius: 20px;
-      font-size: $h2Font;
-      font-weight: $h1Weight;
-      line-height: 40px;
-      color: #fff;
-      border:1px solid $themeColor;
-      color: $themeColor;
-      background-color: #fff;
-    }
-    &.confirm {
-      width: 90px;
-      height: 40px;
-      padding: 0;
-      border: none;
-      border-radius: 20px;
-      font-size: $h2Font;
-      font-weight: $h1Weight;
-      line-height: 40px;
-      color: #fff;
-      color: #fff;
-      background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
-    }
-    &.add {
-      box-sizing: border-box;
-      width: 82px;
-      height: 36px;
-      padding: 0;
-      border: none;
-      border-radius: 20px;
-      font-size: $h2Font;
-      font-weight: $h1Weight;
-      line-height: 36px;
-      color: $linkBlue;
-      border:1px solid $linkBlue;
-      background-color: #fff;
-    }
-  }
-
-  #__lpform_input_idx_0 {
-    display: none;
-  }
 </style>
 
 

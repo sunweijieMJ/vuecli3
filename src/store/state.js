@@ -11,11 +11,11 @@ const state = {
     show: false
   },
   okr_publish: { // ETC OKR发布框
-    status: true,
+    status: false,
     source: ''
   },
   task_publish: { // ETC Task发布框
-    status: false,
+    status: true,
     source: ''
   }
 };
