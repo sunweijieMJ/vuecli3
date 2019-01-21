@@ -14,7 +14,7 @@
           <el-button class="add" slot="reference">添加</el-button>
           <div class="popover-member">
             <h4>参与者</h4>
-            <input type="text" v-model="keyword" @input="getUserList(keyword)">
+            <input type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称">
             <template v-if="join_list.length || keyword">
               <ul class="list" v-if="user_list.length || join_list.length">
                 <li v-for="(item, index) in keyword ? user_list : join_list" :key="index" @click="chooseUser(item)">
@@ -41,13 +41,14 @@
 </template>
 <script>
   import UserApi from '../../api/User.js';
+  import OkrApi from '../../api/Okr.js';
 
   export default {
+    props: ['member_list'],
     data() {
       return {
         member_popover: false,
         keyword: '',
-        join_list: [],
         user_list: []
       };
     },
@@ -88,7 +89,26 @@
       },
       // 关闭标签
       closeTag(index) {
-        this.join_list.splice(index, 1);
+        let that = this;
+        const objId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.obj_id;
+        const userId = that.join_list[index].user_id;
+        if(objId) {
+          OkrApi().deleteUserFromOkr({objId, userId}).then(res => {
+            if(res.status) {
+              that.join_list.splice(index, 1);
+            } else {
+              that.$message({message: '该用户不能删除', type: 'warning'});
+            }
+          });
+        } else {
+          that.join_list.splice(index, 1);
+        }
+      }
+    },
+    computed: {
+      join_list() {
+        if(this.member_list.length) return this.member_list;
+        return [];
       }
     }
   };
@@ -99,6 +119,7 @@
     align-items: center;
     h4 {
       width: 46px;
+      margin-bottom: 12px;
       font-size: $h3Color;
       font-weight: 400;
       color: $h2Color;
@@ -129,6 +150,9 @@
             }
           }
         }
+      }
+      .add {
+        margin-bottom: 12px;
       }
     }
   }

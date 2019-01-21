@@ -42,6 +42,14 @@ class Okr extends Abstract {
   }
 
   /**
+   * 获取okr简洁版列表
+   * @param {string | required} keyword
+   */
+  getOkrSimpleList(data) {
+    return this.getReq('Okr.SimpleList', data);
+  }
+
+  /**
    * 创建OKR
    * @param {string | required} okrName okr名称
    * @param {number | required} boUser 发起人id
@@ -54,6 +62,24 @@ class Okr extends Abstract {
    */
   createOkr(data) {
     return this.postReq('Okr.CreateOkr', data);
+  }
+
+  /**
+   * 删除 OKR 关联 KR
+   * @param {number | required} objId
+   * @param {number | required} krId key result id
+   */
+  deleteKrFromOkr(data) {
+    return this.postReq('Okr.DeleteKrFromOkr', data);
+  }
+
+  /**
+   * 删除 OKR 关联 User
+   * @param {number | required} objId
+   * @param {number | required} userId
+   */
+  deleteUserFromOkr(data) {
+    return this.postReq('Okr.DeleteUserFromOkr', data);
   }
 }
 

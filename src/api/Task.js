@@ -26,6 +26,23 @@ class Task extends Abstract {
     return this.postReq('Task.CreateTask', data);
   }
 
+  /**
+   * 删除 task 关联 user
+   * @param {number | required} taskId
+   */
+  getBasicInfo(data) {
+    return this.getReq('Task.BasicInfo', data);
+  }
+
+  /**
+   * 删除 task 关联 user
+   * @param {number | required} taskId
+   * @param {number | required} userId
+   */
+  deleteUserFromTask(data) {
+    return this.postReq('Task.DeleteUserFromTask', data);
+  }
+
 }
 
 // 单列模式返回对象

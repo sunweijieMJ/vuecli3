@@ -1,8 +1,7 @@
 <template>
   <div class="okr-list">
-    okr-list
-    <button @click="$store.dispatch('setOKRPublish', {status: true})">setOKRPublish</button>
-    <button @click="$store.dispatch('setTaskPublish', {status: true})">setTaskPublish</button>
+    <button @click="$store.dispatch('setOKRPublish', {status: true, okrId: 20})">setOKRPublish</button>
+    <button @click="$store.dispatch('setTaskPublish', {status: true, taskId: 1})">setTaskPublish</button>
     <okr-publish></okr-publish>
     <task-publish></task-publish>
   </div>

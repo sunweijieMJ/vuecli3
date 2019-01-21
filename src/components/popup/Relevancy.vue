@@ -3,10 +3,10 @@
     <h4>关联</h4>
     <div class="content">
       <div class="list">
-        <el-tag v-for="(item, index) in ktask_list" :key="index" closable @close="closeTag(index)">
+        <el-tag v-for="(item, index) in object_ids" :key="index" closable @close="closeTag(index)">
           <p>
-            <span>{{item.type}}</span>
-            {{item.name}}
+            <span>OKR</span>
+            {{item.okr_name}}
           </p>
         </el-tag>
       </div>
@@ -15,7 +15,7 @@
 </template>
 <script>
   export default {
-    props: ['ktask_list'],
+    props: ['object_ids'],
     methods: {
       // 关闭标签
       closeTag(index) {
@@ -29,6 +29,7 @@
     display: flex;
     align-items: center;
     h4 {
+      margin-bottom: 12px;
       width: 30px;
       font-size: $h3Color;
       font-weight: 400;

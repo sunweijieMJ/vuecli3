@@ -12,6 +12,7 @@
           v-model="daterange.start_time"
           type="date"
           :clearable="false"
+          :picker-options="pickerOptionsStart"
           placeholder="选择日期">
         </el-date-picker>
         <i class="el-icon-minus"></i>
@@ -19,6 +20,7 @@
           v-model="daterange.end_time"
           type="date"
           :clearable="false"
+          :picker-options="pickerOptionsEnd"
           placeholder="选择日期">
         </el-date-picker>
       </div>
@@ -40,6 +42,27 @@
         daterange: {
           start_time: new Date(),
           end_time: new Date().setMonth(new Date().getMonth() + 3)
+        },
+        // 开始禁用时间
+        pickerOptionsStart: {
+          disabledDate: (time) => {
+            let that = this;
+            const start_time = that.daterange.start_time;
+            if (start_time) {
+              return time.getTime() < Date.now() - 8.64e7 || time.getTime() > start_time;
+            } else {
+              return time.getTime() < Date.now() - 8.64e7;
+            }
+          }
+        },
+        // 截止禁用时间
+        pickerOptionsEnd: {
+          disabledDate: (time) => {
+            let that = this;
+            let start_time = Date.now();
+            if (that.daterange.start_time) start_time = that.daterange.start_time;
+            return time.getTime() < start_time;
+          }
         }
       };
     },

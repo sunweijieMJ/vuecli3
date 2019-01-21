@@ -36,7 +36,7 @@
           </div>
           <!-- 参与者 -->
           <div class="task-user">
-            <member :user_list="form.task_user" @confirmUser="confirmUser"></member>
+            <member :member_list="form.task_user" @confirmUser="confirmUser"></member>
           </div>
           <!-- Objective -->
           <div class="objective">
@@ -51,14 +51,14 @@
             <div class="result">
               <ul class="list">
                 <li v-for="(key_result, index) in form.key_result" :key="index">
-                  <el-form-item :prop="`key_result.${index}.name`" :rules="{required: true, message: ' ', trigger: 'change'}">
-                    <el-input type="text" v-model="key_result.name" :placeholder="`KR${index + 1}`"></el-input>
+                  <el-form-item :prop="`key_result.${index}.kr_name`" :rules="{required: true, message: ' ', trigger: 'change'}">
+                    <el-input type="text" v-model="key_result.kr_name" :placeholder="`KR${index + 1}`"></el-input>
                   </el-form-item>
                   <div class="number">
                     <i class="el-icon-minus" @click="reducePercent(index)"></i>
                     <div class="percent">
                       <h5>信心指数</h5>
-                      <p>{{key_result.index}}%</p>
+                      <p>{{key_result.confidenc_index}}%</p>
                     </div>
                     <i class="el-icon-plus" @click="addPercent(index)"></i>
                   </div>
@@ -102,8 +102,9 @@
           objective: '',
           key_result: [
             {
-              name: '',
-              index: 0
+              kr_id: null,
+              kr_name: '',
+              confidenc_index: 0
             }
           ]
         },
@@ -149,34 +150,40 @@
       addKeyResult() {
         let that = this;
         that.form.key_result.push({
-          name: '',
-          index: 0
+          kr_id: null,
+          kr_name: '',
+          confidenc_index: 0
         });
       },
       // 移除key-result
       removeKeyResult(index) {
         let that = this;
-        that.$confirm(`确定删除KR${index}?`, '删除', {type: 'warning'}).then(() => {
-          that.form.key_result.pop();
+        that.$confirm(`确定删除KR${index + 1}?`, '删除', {type: 'warning'}).then(() => {
+          if(that.form.key_result[index].kr_id) {
+            OkrApi().deleteKrFromOkr({objId: that.form.key_result[index].obj_id, krId: that.form.key_result[index].kr_id}).then(res => {
+              console.log(res);
+            });
+          }
+          that.form.key_result.splice(index, 1);
         });
       },
       // 增加指数
       addPercent(index) {
         let that = this;
-        if(that.form.key_result[index].index >= 100) {
+        if(that.form.key_result[index].confidenc_index >= 100) {
           that.$message({message: '已经到顶了', type: 'warning'});
           return;
         }
-        that.form.key_result[index].index += 10;
+        that.form.key_result[index].confidenc_index += 10;
       },
       // 减少指数
       reducePercent(index) {
         let that = this;
-        if(that.form.key_result[index].index <= 0) {
+        if(that.form.key_result[index].confidenc_index <= 0) {
           that.$message({message: '不能再减了', type: 'warning'});
           return;
         }
-        that.form.key_result[index].index -= 10;
+        that.form.key_result[index].confidenc_index -= 10;
       },
       // 确认创建
       confirmSetup(formName) {
@@ -208,8 +215,15 @@
       okr_info() {
         let that = this;
         const takeUser = [];
+        const keyResult = [];
         for(let i = 0, LEN = that.form.task_user.length; i < LEN; i++) {
           takeUser.push(that.form.task_user[i].user_id);
+        }
+        for(let i = 0, LEN = that.form.key_result.length; i < LEN; i++) {
+          keyResult.push({
+            name: that.form.key_result[i].kr_name,
+            index: that.form.key_result[i].confidenc_index
+          });
         }
         return {
           okrName: that.form.okr_name,
@@ -219,13 +233,34 @@
           endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
           takeUser,
           objectiveName: that.form.objective,
-          keyResult: that.form.key_result
+          keyResult
         };
       },
       ...mapState({
         self_info: store => store.self_info,
         okr_publish: store => store.okr_publish
       })
+    },
+    watch: {
+      'okr_publish.source'(cur) {
+        if(!cur) return;
+        let that = this;
+        that.form =  {
+          okr_name: cur.okr_name,
+          bo_user: cur.bo_info.user_name,
+          okr_type: {
+            name: cur.okr_type_name,
+            type: cur.okr_type
+          },
+          daterange: {
+            start_time: Moment().format(cur.start_time, 'YYYY/MM/DD'),
+            end_time: Moment().format(cur.end_time, 'YYYY/MM/DD')
+          },
+          task_user: Object.values(cur.participants),
+          objective: cur.objective_desc,
+          key_result: cur.key_result
+        };
+      }
     }
   };
 </script>
@@ -309,7 +344,7 @@
         }
       }
       .task-user {
-        padding: 30px $left-right;
+        padding: 30px $left-right 18px;
         border-bottom: 1px solid $lineColor;
       }
       .objective {
@@ -441,6 +476,7 @@
       justify-content: center;
       align-items: center;
       .el-dialog {
+        min-width: 700px;
         margin: 0 auto !important;
         .el-dialog__header {
           padding: 0;

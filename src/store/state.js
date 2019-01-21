@@ -15,7 +15,7 @@ const state = {
     source: ''
   },
   task_publish: { // ETC Task发布框
-    status: true,
+    status: false,
     source: ''
   }
 };

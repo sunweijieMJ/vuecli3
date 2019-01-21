@@ -33,11 +33,11 @@
           </div>
           <!-- 参与者 -->
           <div class="task-user">
-            <member :user_list="form.task_user" @confirmUser="confirmUser"></member>
+            <member :member_list="form.task_user" @confirmUser="confirmUser"></member>
           </div>
           <!-- 关联 -->
           <div class="relevancy">
-            <relevancy :ktask_list="form.object_ids"></relevancy>
+            <relevancy :object_ids="form.object_ids"></relevancy>
           </div>
         </div>
       </el-form>
@@ -66,13 +66,8 @@
           },
           task_content: '',
           task_user: [],
-          parent_id: '',
-          object_ids: [
-            {
-              type: 'KT',
-              name: 'LANEHUB商品2.0'
-            }
-          ]
+          parent_id: 0,
+          object_ids: []
         },
         rules: {
           task_content: [{required: true, message: ' ', trigger: 'change'}]
@@ -121,6 +116,10 @@
         for(let i = 0, LEN = that.form.task_user.length; i < LEN; i++) {
           takeUser.push(that.form.task_user[i].user_id);
         }
+        const objectIds = [];
+        for(let i = 0, LEN = that.form.object_ids.length; i < LEN; i++) {
+          objectIds.push(that.form.object_ids[i].obj_id);
+        }
         return {
           toUser: that.form.to_user || that.self_info.user_id,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
@@ -128,13 +127,30 @@
           taskContent: that.form.task_content,
           takeUser,
           parentId: that.form.parent_id,
-          objectIds: that.form.object_ids
+          objectIds
         };
       },
       ...mapState({
         self_info: store => store.self_info,
         task_publish: store => store.task_publish
       })
+    },
+    watch: {
+      'task_publish.source'(cur) {
+        if(!cur) return;
+        let that = this;
+        that.form =  {
+          to_user: cur.to_info.user_name,
+          daterange: {
+            start_time: Moment().format(cur.start_time, 'YYYY/MM/DD'),
+            end_time: Moment().format(cur.end_time, 'YYYY/MM/DD')
+          },
+          task_content: cur.task_name,
+          task_user: Object.values(cur.participants),
+          parent_id: cur.parents_id,
+          object_ids: (cur.obj_infos.length && cur.obj_infos) || (cur.parent_info.length && cur.parent_info)
+        };
+      }
     }
   };
 </script>
@@ -212,11 +228,11 @@
         }
       }
       .task-user {
-        padding: $up-down $left-right;
+        padding: $up-down $left-right 18px;
         border-bottom: 1px solid $lineColor;
       }
       .relevancy {
-        padding: $up-down $left-right;
+        padding: $up-down $left-right 18px;
       }
     }
 
