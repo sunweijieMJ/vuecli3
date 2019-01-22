@@ -90,7 +90,7 @@
           if (valid) {
             that.closeDialog();
             TaskApi().createTask(that.task_info).then(res => {
-              console.log(res)
+              alert(res.data.id);
             });
           } else {
             return false;
