@@ -21,7 +21,8 @@
           </el-dropdown>
         </div>
         <div class="chao-link">
-          <span class="iconfont icon-icon_manage" v-if="okr_name"></span><span>{{okr_name}}</span>
+          <span class="iconfont icon-icon_manage" v-if="okr_name"></span>
+          <span @click="goOkrDetail(task_basic.obj_id)">{{okr_name}}</span>
         </div>
         <div class="joinners">
           <div class="left" v-if="task_basic.to_info">
@@ -36,15 +37,15 @@
             </div>
           </div>
           <div class="right">
-            <img v-for="(a, index) in 4" :key="index" src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
-            <el-dropdown @command="">
+            <img v-for="(a, index) in task_basic.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
+            <el-dropdown v-if="task_basic.participants && task_basic.participants.length > 6" @command="showAllJoinner">
               <span class="el-dropdown-link">
-                <div class="all-per">23</div>
+                <div class="all-per" v-if="task_basic.participants">{{task_basic.participants.length}}</div>
               </span>
               <el-dropdown-menu slot="dropdown" class="joinner-drops">
-                <el-dropdown-item v-for="(j, jindex) in 2" :key="jindex" command="大大" :divided="true">
-                  <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
-                  <span>大大(哈哈)</span>
+                <el-dropdown-item v-for="(j, jindex) in task_basic.participants" :key="jindex" :command="j.user_id" :divided="true">
+                  <img v-if="j.header_photo" :src="j.header_photo" alt="">
+                  <span>{{j.user_name}}({{j.real_name}})</span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -52,7 +53,7 @@
         </div>
       </div>
       <div class="task-modal">
-        <div class="task-dynamic">
+        <div class="task-dynamic" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
         <div class="telated-task">
@@ -60,18 +61,18 @@
         </div>
       </div>
     </div>
-    
+    <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
   </div>
 </template>
 <script>
 import TaskDynamic from './taskdetail/TaskDynamic';
 import RelatedTask from './taskdetail/RelatedTask';
-
+import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, RelatedTask
+    TaskDynamic, RelatedTask, Loading
   },
   data(){
     return {
@@ -80,10 +81,27 @@ export default {
       dynamic_list: [],
       dynamic_num: '',
       last_id: '',
-      task_list: []
+      task_list: [],
+      pageInfo: { // ETC 页码信息
+        current_page: 0,
+        page_size: 8,
+        page_total: 0
+      },
+      disabled: false, // ETC 加载开关
+      loading: {
+        nomore: false, // ETC 触底
+        noresult: false // ETC 空列表
+      }
     };
   },
   methods:{
+    goOkrDetail(obj_id){
+      this.$router.push({name: 'OKRDetail', params: {id: obj_id}});
+    },
+    // 所有参与者
+    showAllJoinner(val){
+
+    },
     handleCommand(){
 
     },
@@ -97,12 +115,31 @@ export default {
         }
       });
     },
-    getTaskDynamicList(){
-      taskApi().getTaskDynamicList({
+    // 触底刷新
+    infinite() {
+      let that = this;
+      that.disabled = true;
+      that.getTaskDynamicList(++that.pageInfo.current_page).then(() => {
+        // 触底判断
+        that.disabled = false;
+        if(!that.dynamic_list.length) {
+          that.disabled = true;
+          that.loading = {
+            nomore: true,
+            noresult: true
+          };
+        } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+          that.disabled = true;
+          that.loading.nomore = true;
+        }
+      });
+    },
+    async getTaskDynamicList(){
+      return await taskApi().getTaskDynamicList({
         taskId: 2, // ETC okr id
-        currpage: 1, // ETC 当前第几页
-        pages: 15, // ETC 每页总数
-        lastId: '' // ETC 最后一条id
+        currpage: this.pageInfo.current_page, // ETC 当前第几页
+        pages: this.pageInfo.page_size, // ETC 每页总数
+        lastId: this.last_id // ETC 最后一条id
       }).then(res => {
         if(res.status){
           let newArr = res.data.list;
@@ -111,6 +148,8 @@ export default {
           }
           this.dynamic_list = this.dynamic_list.concat(newArr);
           this.dynamic_num = res.data.cnt;
+          this.pageInfo.page_total = Math.ceil(res.data.cnt / this.pageInfo.page_size);
+          this.last_id = res.data.last_id;
         }
       });
     },
@@ -128,7 +167,7 @@ export default {
   },
   mounted(){
     this.getTaskBasicInfo();
-    this.getTaskDynamicList();
+    // this.getTaskDynamicList();
     this.getTaskList();
     
   }
@@ -152,6 +191,7 @@ export default {
       padding: 40px 25px 26px 25px;
     }
     .chao-link{
+      cursor: pointer;
       margin-top: 11px;
       margin-left: 46px;
       font-size:15px;

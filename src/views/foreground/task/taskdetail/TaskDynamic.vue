@@ -9,17 +9,17 @@
       </li>
       <li>
         <div class="person-photo">
-          <img :src="dy.user_info.header_photo" alt="">
+          <img :src="dy.user_info.header_photo" alt="" @click="goPersonal(dy.user_info.user_id)">
           <div>
             <p>
-              <span class="name">{{dy.user_info.user_name}}</span><span>关闭了这个Task</span>
+              <span class="name">{{dy.user_info.user_name}}</span><span>{{dy.type_name}}了这个Task</span>
             </p>
             <p class="time">{{dy.create_time | timeFilter}}</p>
           </div>
         </div>
         <div class="hot">
           <div class="rate">
-            <el-rate disabled text-color="#F5A623" :max="10" v-model="dy.self_score"></el-rate> <span class="number">{{dy.self_score}}</span>
+            <el-rate disabled text-color="#F5A623" v-model="dy.self_score"></el-rate> <span class="number">{{dy.self_score}}</span>
           </div>
           <div class="final">
             <span class="left">
@@ -47,6 +47,11 @@ export default {
     return {
       value1: 3
     };
+  },
+  methods:{
+    goPersonal(user_id){
+      this.$router.push({name: 'Profile', params: {id: user_id}});
+    }
   }
 };
 </script>
@@ -83,6 +88,7 @@ export default {
         display: flex;
         align-items: center;
         img{
+          cursor: pointer;
           width: 38px;
           height: 38px;
           border-radius: 50px;
