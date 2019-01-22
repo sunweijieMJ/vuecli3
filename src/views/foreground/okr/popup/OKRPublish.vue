@@ -9,10 +9,10 @@
           <!-- okr信息 -->
           <div class="title">
             <div class="bo">
-              <img :src="self_info.header_photo" alt="">
+              <img :src="form.bo_user.header_photo" alt="">
               <div class="item">
                 <h4>Bo</h4>
-                <p>{{self_info.user_name}}</p>
+                <p>{{form.bo_user.user_name}}</p>
               </div>
             </div>
             <div class="type">
@@ -192,7 +192,7 @@
           if (valid) {
             that.closeDialog();
             OkrApi().createOkr(that.okr_info).then(res => {
-              console.log(res)
+              alert(res.data.id);
             });
           } else {
             return false;
@@ -227,7 +227,7 @@
         }
         return {
           okrName: that.form.okr_name,
-          boUser: that.form.bo_user || that.self_info.user_id,
+          boUser: that.form.bo_user.user_id,
           okrType: that.form.okr_type.type,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
           endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
@@ -242,12 +242,16 @@
       })
     },
     watch: {
+      self_info(cur) {
+        this.form.bo_user = cur;
+        console.log(cur)
+      },
       'okr_publish.source'(cur) {
         if(!cur) return;
         let that = this;
         that.form =  {
           okr_name: cur.okr_name,
-          bo_user: cur.bo_info.user_name,
+          bo_user: cur.bo_info,
           okr_type: {
             name: cur.okr_type_name,
             type: cur.okr_type
