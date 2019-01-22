@@ -17,7 +17,7 @@
     components: {SingleTask, Loading},
     data() {
       return {
-        task_list: [1, 2],
+        task_list: [],
         pageInfo: { // ETC 页码信息
           current_page: 0,
           page_size: 15,
@@ -52,8 +52,20 @@
         });
       },
       async getSelfList(curPage) {
+        let that = this;
         await TaskApi().getSelfList({curPage}).then(res => {
-          console.log(res);
+          const user_infos = res.data.users_info;
+          const obj_infos = res.data.obj_infos;
+          const task_list = res.data.list;
+          that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
+          // 数据整理
+          for(let i = 0, ILEN = task_list.length; i < ILEN; i++) {
+            if(!task_list[i].check_info) continue;
+            task_list[i].check_info.obj_info = obj_infos[task_list[i].obj_id];
+            task_list[i].check_info.creator_info = user_infos[task_list[i].creator_id];
+          }
+
+          that.task_list = that.task_list.concat(task_list);
         });
       }
     }

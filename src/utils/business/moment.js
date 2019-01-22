@@ -4,10 +4,13 @@ class Moment {
   constructor() {
   }
 
-  format(data, type) {
-    const year = new Date(data).getFullYear();
-    const month = new Date(data).getMonth() + 1;
-    const date = new Date(data).getDate();
+  format(time, type) {
+    if (!isNaN(+time)) time = +time;
+    if (typeof time === 'string') time = time.split('-').join('/');
+
+    const year = new Date(time).getFullYear();
+    const month = new Date(time).getMonth() + 1;
+    const date = new Date(time).getDate();
     switch (type) {
       case 'YYYY/MM/DD':
         return `${year}/${month}/${date}`;
