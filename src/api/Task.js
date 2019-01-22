@@ -42,7 +42,32 @@ class Task extends Abstract {
   deleteUserFromTask(data) {
     return this.postReq('Task.DeleteUserFromTask', data);
   }
+  /*
+   * task的基础信息
+   * @param {num} taskId: 12  * task id
+   */
+  getTaskBasicInfo(data){
+    return this.getReq('Task.BasicInfo', data);
+  }
 
+  /**
+   * task动态列表
+   * @param {num} taskId: 12  * okr id
+   * @param {num} currpage: 1 * 当前第几页
+   * @param {num} pages: 15 * 每页总数
+   * @param {num} lastId: 1 * 最后一条id
+   */
+  getTaskDynamicList(data){
+    return this.getReq('Task.Taskdynamic', data);
+  }
+
+  /**
+   * 关联task列表
+   * @param {num} objId: 12  * okr id
+   */
+  getTaskList(data){
+    return this.getReq('Okr.OkrKeyTask', data);
+  }
 }
 
 // 单列模式返回对象

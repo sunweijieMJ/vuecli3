@@ -7,10 +7,10 @@
       </div>
     </div>
     <ul>
-      <li v-for="(rt, rtindex) in 6" :key="rtindex">
+      <li v-for="(rt, rtindex) in task_list" :key="rtindex">
         <span class="related-t">T</span>
-        <span class="con">UGS达到什么什么什么什么什么什…</span>
-        <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
+        <span class="con">{{rt.task_name}}</span>
+        <img :src="rt.user_info.header_photo" alt="">
       </li>
     </ul>
   </div>
@@ -18,6 +18,7 @@
 <script>
 export default {
   name: 'RelatedTask',
+  props: ['task_list'],
   data(){
     return {
 

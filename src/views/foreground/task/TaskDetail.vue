@@ -5,8 +5,9 @@
       <div class="head-padding">
         <div class="titles">
           <div class="subtitle">
-            <span class="kt-tag">KT</span>
-            <span>PGS系统1.0-信息流</span>
+            <span v-if="task_basic.is_key_task === 1" class="kt-tag">KT</span>
+            <span v-else class="kt-tag">T</span>
+            <span>{{task_basic.task_name}}</span>
           </div>
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
@@ -20,18 +21,18 @@
           </el-dropdown>
         </div>
         <div class="chao-link">
-          <span class="iconfont icon-icon_manage"></span><span>LANEHUB商品2.0</span>
+          <span class="iconfont icon-icon_manage" v-if="okr_name"></span><span>{{okr_name}}</span>
         </div>
         <div class="joinners">
-          <div class="left">
-            <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
+          <div class="left" v-if="task_basic.to_info">
+            <img :src="task_basic.to_info.header_photo" alt="">
             <div class="name">
               <p>BO</p>
-              <p>名字</p>
+              <p>{{task_basic.to_info.user_name}}</p>
             </div>
             <div>
               <p>时间</p>
-              <p>2018/12/28/-2019/03/23</p>
+              <p>{{task_basic.start_time | dateFormat('yyyy/MM/dd')}}-{{task_basic.end_time | dateFormat('yyyy/MM/dd')}}</p>
             </div>
           </div>
           <div class="right">
@@ -43,7 +44,7 @@
               <el-dropdown-menu slot="dropdown" class="joinner-drops">
                 <el-dropdown-item v-for="(j, jindex) in 2" :key="jindex" command="大大" :divided="true">
                   <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
-                  <span>大大</span>
+                  <span>大大(哈哈)</span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -52,10 +53,10 @@
       </div>
       <div class="task-modal">
         <div class="task-dynamic">
-          <TaskDynamic></TaskDynamic>
+          <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
         <div class="telated-task">
-          <RelatedTask></RelatedTask>
+          <RelatedTask :task_list="task_list"></RelatedTask>
         </div>
       </div>
     </div>
@@ -65,6 +66,8 @@
 <script>
 import TaskDynamic from './taskdetail/TaskDynamic';
 import RelatedTask from './taskdetail/RelatedTask';
+
+import taskApi from '../../../api/Task.js';
 export default {
   name: 'taskpage',
   components: {
@@ -72,13 +75,62 @@ export default {
   },
   data(){
     return {
-
+      task_basic: '', // ETC task基础信息
+      okr_name: '',
+      dynamic_list: [],
+      dynamic_num: '',
+      last_id: '',
+      task_list: []
     };
   },
   methods:{
     handleCommand(){
 
+    },
+    getTaskBasicInfo(){
+      taskApi().getTaskBasicInfo({taskId: 12}).then(res => {
+        if(res.status){
+          this.task_basic = res.data;
+          if(res.data.obj_infos){
+            this.okr_name = Object.values(res.data.obj_infos)[0].okr_name;
+          }
+        }
+      });
+    },
+    getTaskDynamicList(){
+      taskApi().getTaskDynamicList({
+        taskId: 2, // ETC okr id
+        currpage: 1, // ETC 当前第几页
+        pages: 15, // ETC 每页总数
+        lastId: '' // ETC 最后一条id
+      }).then(res => {
+        if(res.status){
+          let newArr = res.data.list;
+          for (let i = 0; i < newArr.length; i++) {
+            newArr[i].user_info = res.data.users_info[res.data.list[i].creator_id];
+          }
+          this.dynamic_list = this.dynamic_list.concat(newArr);
+          this.dynamic_num = res.data.cnt;
+        }
+      });
+    },
+    getTaskList(){
+      taskApi().getTaskList({taskId: 1}).then(res => {
+        if(res.status){
+          let newArr = res.data.list;
+          for (let i = 0; i < newArr.length; i++) {
+            newArr[i].user_info = res.data.user_info[res.data.list[i].creator_id];
+          }
+          this.task_list = this.task_list.concat(newArr);
+        }
+      });
     }
+  },
+  mounted(){
+    this.getTaskBasicInfo();
+    this.getTaskDynamicList();
+    this.getTaskList();
+    
   }
 };
 </script>
@@ -129,7 +181,7 @@ export default {
           font-size: 14px;
           line-height: 16px;
           text-align: center;
-          background: #22D7A0;
+          background: #948BEA;
           border-radius:8px;
           margin-right: 10px;
         }

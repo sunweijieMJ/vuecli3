@@ -2,6 +2,7 @@ import fillZero from './fillZero';
 
 // 时间过滤
 let timeFilter = (time) => {
+  console.log(time)
   // Safari只支持yyyy/mm/dd
   if (!time) return '';
   if(typeof time === 'string') time = time.split('-').join('/');

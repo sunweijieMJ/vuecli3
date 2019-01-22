@@ -54,7 +54,10 @@ const urlDict = {
   'Task': {
     'CreateTask': 'okr/task/create', // ETC 创建Task
     'BasicInfo': 'okr/task/basicinfo', // ETC 获取task 基础信息
-    'DeleteUserFromTask': 'okr/task/deluser' // ETC 删除 task 关联 user
+    'DeleteUserFromTask': 'okr/task/deluser', // ETC 删除 task 关联 user
+    'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表 关联task列表
+    'CreateOkr': 'okr/okr/create', // ETC 创建OKR
+    'Taskdynamic': 'okr/task/progresslist' // ETC task动态
   }
 };
 

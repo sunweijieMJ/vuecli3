@@ -1,42 +1,39 @@
 <template>
   <div class="dynamic-left">
     <div class="header">
-      动态(0)
+      动态({{dynamic_num}})
     </div>
-    <ul v-for="(dy, dyindex) in 3" :key="dyindex">
+    <ul v-for="(dy, dyindex) in dynamic_list" :key="dyindex">
       <li class="item-state">
-        <span class="iconfont icon-icon_manage"></span><span>关闭</span>
+        <span class="iconfont icon-icon_manage"></span><span>{{dy.type_name}}</span>
       </li>
       <li>
         <div class="person-photo">
-          <img src="https://p0.ssl.qhimg.com/t01c7526f609f50ca85.jpg" alt="">
+          <img :src="dy.user_info.header_photo" alt="">
           <div>
             <p>
-              <span class="name">Paddy</span><span>关闭了这个Task</span>
+              <span class="name">{{dy.user_info.user_name}}</span><span>关闭了这个Task</span>
             </p>
-            <p class="time">17分钟之前</p>
+            <p class="time">{{dy.create_time | timeFilter}}</p>
           </div>
         </div>
         <div class="hot">
           <div class="rate">
-            <el-rate disabled text-color="#F5A623" v-model="value1"></el-rate> <span class="number">3.0</span>
+            <el-rate disabled text-color="#F5A623" :max="10" v-model="dy.self_score"></el-rate> <span class="number">{{dy.self_score}}</span>
           </div>
           <div class="final">
             <span class="left">
               完成度
-              <span class="bignum">87</span>
+              <span class="bignum">{{dy.progress}}</span>
               <span class="bignum min">%</span>
             </span>
             <span class="right">
-              总投入时长<span class="bignum">3.6</span>
+              总投入时长<span class="bignum">{{dy.spend_time}}</span>
             </span>
           </div>
         </div>
         <p class="des">
-          这周有点问题，什么问题。这周有点问题，什么问题。这周有点问题什么问题。
-          这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题
-          。这周有点问题，什么问题。这周有点问题什么问题。这周有点问题什么问题。
-          这周有点问题，什么问题。
+          {{dy.remarks}}
         </p>
       </li>
     </ul>
@@ -45,6 +42,7 @@
 <script>
 export default {
   name: 'TaskDynamic',
+  props: ['dynamic_list', 'dynamic_num'],
   data(){
     return {
       value1: 3
