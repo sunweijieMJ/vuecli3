@@ -2,9 +2,9 @@
   <div class="okr-list">
     <button @click="$store.dispatch('setOKRPublish', {status: true})">创建OKR</button>
     <hr>
-    <!-- <input type="number" v-model="okrId" :style="{background:'#ccc'}">
+    <input type="number" v-model="okrId" :style="{background:'#ccc'}">
     <button @click="$store.dispatch('setOKRPublish', {status: true, okrId})">编辑OKR</button>
-    <hr> -->
+    <hr>
     <button @click="$store.dispatch('setTaskPublish', {status: true})">创建Task</button>
     <!-- <hr> -->
     <!-- <button @click="$store.dispatch('setTaskPublish', {status: true})">编辑Task</button> -->
@@ -28,7 +28,7 @@
     components: {OkrPublish, TaskPublish, TaskClose, TaskFollow},
     data() {
       return {
-        okrId: ''
+        okrId: 5
       };
     }
   };

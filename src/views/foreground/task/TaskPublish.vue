@@ -1,5 +1,5 @@
 <template>
-  <div class="task-publish">
+  <div class="task-publish custom-dialog">
     <el-dialog width="80%" @close="closeDialog" :visible.sync="task_publish.status">
       <h2 class="header" slot="title">Task</h2>
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
@@ -237,41 +237,13 @@
     }
 
     .el-dialog__wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .el-dialog {
-        margin: 0 auto !important;
-        .el-dialog__header {
-          padding: 28px $left-right 0;
-          .header {
-            font-size: $h1Font;
-            font-weight: $h1Weight;
-            line-height: 30px;
-            color: $themeColor;
-          }
-          .el-dialog__headerbtn {
-            top: 25px; right: -50px;
-            .el-dialog__close {
-              font-size: 24px;
-              color: #fff;
-            }
-          }
-        }
-        .el-dialog__body {
-          padding: 0;
-          .el-form-item {
-            display: flex;
-            margin-bottom: 0;
-            .el-form-item__content {
-              display: flex;
-              width: 100%;
-              line-height: normal;
-            }
-          }
-        }
-        .el-dialog__footer {
-          padding: 24px $left-right;
+      .el-dialog__header {
+        padding: 28px $left-right 0;
+        .header {
+          font-size: $h1Font;
+          font-weight: $h1Weight;
+          line-height: 30px;
+          color: $themeColor;
         }
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="task-follow">
+  <div class="task-follow custom-dialog">
     <el-dialog width="80%" @close="closeDialog" :visible.sync="task_follow.status">
       <div class="header" slot="title">
         <h2>跟进</h2>
@@ -188,77 +188,38 @@
     }
 
     .el-dialog__wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .el-dialog {
-        margin: 0 auto !important;
-        .el-dialog__header {
-          padding: 28px $left-right;
-          border-bottom: 1px solid $lineColor;
-          .header {
-            h2 {
-              margin-bottom: 12px;
-              font-size: $h1Font;
-              font-weight: $h1Weight;
-              line-height: 30px;
-              color: $themeColor;
-            }
-            .title {
-              display: flex;
-              align-items: center;
-              span {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 32px;
-                height: 16px;
-                border-radius: 8px;
-                background-color: $purple;
-                font-size: $h4Font;
-                color: #fff;
-              }
-              p {
-                @include tofl(100%);
-                margin-left: 8px;
-                font-size: $h3Font;
-                color: $h1Color;
-              }
-            }
+      .el-dialog__header {
+        padding: 28px $left-right;
+        border-bottom: 1px solid $lineColor;
+        .header {
+          h2 {
+            margin-bottom: 12px;
+            font-size: $h1Font;
+            font-weight: $h1Weight;
+            line-height: 30px;
+            color: $themeColor;
           }
-          .el-dialog__headerbtn {
-            top: 25px; right: -50px;
-            .el-dialog__close {
-              font-size: 24px;
-              color: #fff;
-            }
-          }
-        }
-        .el-dialog__body {
-          padding: 0;
-          .el-form-item {
+          .title {
             display: flex;
             align-items: center;
-            margin-bottom: 0;
-            &.is-error .el-form-item__content{
-              input {
-                border-color: #f56c6c;
-              }
-            }
-            &.is-success .el-form-item__content{
-              input {
-                border-color: #67c23a;
-              }
-            }
-            .el-form-item__content {
+            span {
               display: flex;
-              width: 100%;
-              line-height: normal;
+              justify-content: center;
+              align-items: center;
+              width: 32px;
+              height: 16px;
+              border-radius: 8px;
+              background-color: $purple;
+              font-size: $h4Font;
+              color: #fff;
+            }
+            p {
+              @include tofl(100%);
+              margin-left: 8px;
+              font-size: $h3Font;
+              color: $h1Color;
             }
           }
-        }
-        .el-dialog__footer {
-          padding: 24px $left-right;
         }
       }
     }

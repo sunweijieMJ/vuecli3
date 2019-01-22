@@ -1,7 +1,60 @@
+$left-right: 37px;
+$up-down: 30px;
+
+// 模态框
 .v-modal {
   opacity: 0.6;
 }
 
+// 自定义dialog
+.custom-dialog {
+  .el-dialog__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .el-dialog {
+      min-width: 700px;
+      margin: 0 auto !important;
+      .el-dialog__header {
+        .el-dialog__headerbtn {
+          top: 25px; right: -50px;
+          .el-dialog__close {
+            font-size: 24px;
+            color: #fff;
+          }
+        }
+      }
+      .el-dialog__body {
+        padding: 0;
+        .el-form-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0;
+          &.is-error .el-form-item__content{
+            input, textarea {
+              border-color: #f56c6c;
+            }
+          }
+          &.is-success .el-form-item__content{
+            input, textarea {
+              border-color: #67c23a;
+            }
+          }
+          .el-form-item__content {
+            display: flex;
+            width: 100%;
+            line-height: normal;
+          }
+        }
+      }
+      .el-dialog__footer {
+        padding: 20px $left-right;
+      }
+    }
+  }
+}
+
+// 按钮控件
 .el-button {
   &.cancel {
     width: 90px;
@@ -46,6 +99,6 @@
   }
 }
 
-#__lpform_input_idx_0 {
+#__lpform_input_idx_0, #__lpform_input_idx_1 {
   display: none;
 }

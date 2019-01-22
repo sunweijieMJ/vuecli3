@@ -1,7 +1,7 @@
 <template>
-  <div class="okr-publish">
+  <div class="okr-publish custom-dialog">
     <el-dialog width="80%" @close="closeDialog" :visible.sync="okr_publish.status">
-      <el-form :model="form" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
+      <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
         <el-form-item class="header" prop="okr_name">
           <el-input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧"></el-input>
         </el-form-item>
@@ -19,7 +19,7 @@
               <h4>类型</h4>
               <el-dropdown @command="handleCommand" trigger="click">
                 <p>{{form.okr_type.name}}<i class="iconfont icon-shopping_cart__ic_do"></i></p>
-                <el-dropdown-menu slot="dropdown" class="okr">
+                <el-dropdown-menu slot="dropdown" class="okr-type">
                   <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item.name}}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -244,7 +244,6 @@
     watch: {
       self_info(cur) {
         this.form.bo_user = cur;
-        console.log(cur)
       },
       'okr_publish.source'(cur) {
         if(!cur) return;
@@ -262,7 +261,7 @@
           },
           task_user: Object.values(cur.participants),
           objective: cur.objective_desc,
-          key_result: cur.key_result
+          key_result: Object.values(cur.key_result)
         };
       }
     }
@@ -274,7 +273,7 @@
 
   .okr-publish {
     .header {
-      padding: 30px $left-right;
+      padding: $up-down $left-right;
       input {
         box-sizing: border-box;
         width: 100%;
@@ -287,13 +286,13 @@
       }
     }
     .main {
-      max-height: 450px;
+      max-height: 470px;
       overflow-y: auto;
       .title {
         position: relative;
         display: flex;
         height: 40px;
-        padding: 0 $left-right 30px;
+        padding: 0 $left-right $up-down;
         border-bottom: 1px solid $lineColor;
         .bo {
           display: flex;
@@ -348,12 +347,12 @@
         }
       }
       .task-user {
-        padding: 30px $left-right 18px;
+        padding: $up-down $left-right 8px;
         border-bottom: 1px solid $lineColor;
       }
       .objective {
         position: relative;
-        padding: $left-right;
+        padding: $up-down $left-right;
         border-bottom: 1px solid $lineColor;
         h4 {
           font-size: $h1Font;
@@ -387,7 +386,7 @@
       }
       .key-result {
         box-sizing: border-box;
-        padding: 25px $left-right;
+        padding: $up-down $left-right 0;
         h4 {
           font-size: $h1Font;
           font-weight: $h1Weight;
@@ -470,50 +469,16 @@
       }
     }
   }
-</style>
-<style lang="scss">
-  $left-right: 37px;
 
-  .okr-publish {
-    .el-dialog__wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .el-dialog {
-        min-width: 700px;
-        margin: 0 auto !important;
-        .el-dialog__header {
-          padding: 0;
-          .el-dialog__headerbtn {
-            top: 25px; right: -50px;
-            .el-dialog__close {
-              font-size: 24px;
-              color: #fff;
-            }
-          }
-        }
-        // main
-        .el-dialog__body {
-          padding: 0;
-          .el-form-item {
-            display: flex;
-            margin-bottom: 0;
-            .el-form-item__content {
-              display: flex;
-              width: 100%;
-              line-height: normal;
-            }
-          }
-        }
-        .el-dialog__footer {
-          padding: 24px $left-right;
-        }
-      }
+  .el-dialog__wrapper {
+    .el-dialog__header {
+      padding: 0;
     }
   }
 
+  // okr类型
   .el-dropdown-menu {
-    &.okr {
+    &.okr-type {
       padding: 0;
       .el-dropdown-menu__item {
         margin-bottom: 0;
@@ -524,7 +489,6 @@
       }
     }
   }
-
 </style>
 
 
