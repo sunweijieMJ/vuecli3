@@ -49,7 +49,9 @@ const urlDict = {
     'SimpleList': 'okr/okr/simplelist', // ETC 获取okr简洁版列表
     'CreateOkr': 'okr/okr/create', // ETC 创建OKR
     'DeleteKrFromOkr': 'okr/okr/delkr', // ETC 删除 OKR 关联 KR
-    'DeleteUserFromOkr': 'okr/okr/deluser' // ETC 删除 OKR 关联 User
+    'DeleteUserFromOkr': 'okr/okr/deluser', // ETC 删除 OKR 关联 User
+    'OkrTab': '/okr/okr/typelist', // ETC okr tab
+    'OkrList': '/okr/okr/list' // ETC okr list
   },
   'Task': {
     'CreateTask': 'okr/task/create', // ETC 创建Task

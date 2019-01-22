@@ -81,6 +81,25 @@ class Okr extends Abstract {
   deleteUserFromOkr(data) {
     return this.postReq('Okr.DeleteUserFromOkr', data);
   }
+
+  /**
+   * okr类型
+   * 
+   */
+  getOkrType(data){
+    return this.getReq('Okr.OkrTab', data);
+  }
+
+  /**
+   * okr 列表
+   * @param {num} okr_type: 1 ~ 4
+   * @param {num} last_id: 1 * 最后一条id
+   * @param {num} currPage: 1 * 当前第几页
+   * @param {num} pages: 15 * 每页总数
+   */
+  getOkrList(data){
+    return this.getReq('Okr.OkrList', data);
+  }
 }
 
 // 单列模式返回对象
