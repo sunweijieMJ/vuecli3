@@ -36,8 +36,7 @@
   </div>
 </template>
 <script>
-const storageApi = require('../../utils/storage')('cookie');
-
+import storage from '../../utils/storage';
 import {blocked} from '../../utils/business/tools.js';
 import userApi from '../../api/User.js';
 export default {
@@ -88,7 +87,7 @@ export default {
       if(this.ruleForm2.pass && this.ruleForm2.email && this.login_checkout){
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
           if(res.status){
-            storageApi.set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
+            storage('cookie').set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
             this.$message({message: '登录成功', type: 'success', duration: 1000});
             setTimeout(() => {
               this.$router.push({name: 'IdeaList'});

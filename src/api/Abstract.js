@@ -6,7 +6,7 @@
 import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
-import storeApi from '../utils/storage';
+import storage from '../utils/storage';
 import router from '../router';
 const baseURL = process.env.VUE_APP_BaseURL;
 
@@ -34,10 +34,10 @@ class Abstract {
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
     // 签名加密
     if (method === 'POST') {
-      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storeApi('cookie').get('pgs_authinfo'))}`;
+      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storage('cookie').get('pgs_authinfo'))}`;
       url = url + `&sign=${that.linsign.resignHash(url, params)}`;
     } else {
-      params.pgs_authinfo = encodeURIComponent(storeApi('cookie').get('pgs_authinfo'));
+      params.pgs_authinfo = encodeURIComponent(storage('cookie').get('pgs_authinfo'));
       params.sign = that.linsign.signHash(url, params);
     }
 

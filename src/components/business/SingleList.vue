@@ -51,7 +51,7 @@
       </div>
     </div>
     <!-- 评论区 -->
-    <div class="list-comment" v-if="vitem.replys && vitem.replys.length">
+    <div class="list-comment" v-if="vitem.replys && vitem.replys.length" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
       <h4>精彩评论</h4>
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
@@ -241,6 +241,7 @@
       margin-top: 20px;
       padding: 15px 25px;
       background-color: $backColor;
+      cursor: pointer;
       h4 {
         margin-bottom: 4px;
         font-size: $h3Font;
@@ -254,16 +255,14 @@
           align-items: center;
           line-height: 25px;
           h5 {
+            white-space: nowrap;
             font-size: $h3Font;
             font-weight: normal;
             color: $linkBlue;
             cursor: pointer;
           }
           p {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            -ms-text-overflow: ellipsis;
+            @include tofl(100%);
             font-size: $h3Color;
             color: $h1Color;
           }

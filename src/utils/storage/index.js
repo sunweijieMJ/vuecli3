@@ -3,8 +3,8 @@
  * 统一封装对外的接口
  */
 
-let UseStore;
-module.exports = (store) => {
+export default (store) => {
+  let UseStore;
   switch (store) {
     case 'session':
       UseStore = require('./SessionStorage').SessionStorageAPI;

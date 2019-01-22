@@ -1,5 +1,6 @@
 // 图片尺寸对应标识
 let imgMap = new Map();
+imgMap.set('origin', '00001');
 imgMap.set('750x750', '00001');
 imgMap.set('165x165', '00002');
 imgMap.set('690x490', '00003');
@@ -26,9 +27,9 @@ imgMap.set('minSide400', '10006');
 
 let imageSize = (url, size) => {
   if (!url) return;
-  const pattern = /(app|m|pc)-(\d{5})/g;
+  const pattern = /(app|m|pc|web)-(\d{5})/g;
   if(size === 'origin') {
-    return url.slice(0, url.indexOf('?'));
+    return url.replace(pattern, `web-${imgMap.get(size)}`);
   } else {
     return url.replace(pattern, `m-${imgMap.get(size)}`);
   }

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/index';
 import store from './store/index';
-import storeApi from './utils/storage';
+import storage from './utils/storage';
 
 Vue.config.productionTip = false;
 
@@ -24,7 +24,7 @@ for (let key in filters) {
 
 // 全局守卫
 router.beforeEach((to, from, next) => {
-  const token = storeApi('cookie').get('pgs_authinfo');
+  const token = storage('cookie').get('pgs_authinfo');
   if (token) {
     if(to.name === 'Login') {
       next({name: 'IdeaList'});

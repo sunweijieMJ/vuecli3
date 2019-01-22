@@ -186,7 +186,7 @@
             &:last-child {
               cursor: pointer;
             }
-            &.self_zan {
+            &.self_zan i{
               color: $themeColor;
             }
             i {
