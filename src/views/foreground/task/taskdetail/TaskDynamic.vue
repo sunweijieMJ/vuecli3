@@ -37,6 +37,11 @@
         </p>
       </li>
     </ul>
+    <ul class="null" v-if="dynamic_list.length === 0">
+      <li>
+        <span class="iconfont icon-wenbenicon"></span><span>当前没有动态</span>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -147,6 +152,28 @@ export default {
         font-weight:400;
         color: #303133;
         line-height:21px;
+      }
+    }
+  }
+  .null{
+    width:501px;
+    height:42px;
+    padding: 54px 45px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
+    border-radius:2px;
+    li{
+      width: 100%;
+      padding: 0;
+      color: #606266;
+      font-size: 15px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      .iconfont{
+        color: #FF7678;
+        font-size: 34px;
+        margin-right: 16px;
       }
     }
   }

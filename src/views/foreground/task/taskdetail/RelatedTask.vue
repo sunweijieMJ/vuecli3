@@ -13,6 +13,9 @@
         <img :src="rt.user_info.header_photo" alt="">
       </li>
     </ul>
+    <ul class="null" v-if="task_list.length === 0">
+      <li>当前没有关联的Task</li>
+    </ul>
   </div>
 </template>
 <script>
