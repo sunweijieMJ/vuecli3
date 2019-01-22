@@ -68,6 +68,17 @@ class Task extends Abstract {
   getTaskList(data){
     return this.getReq('Okr.OkrKeyTask', data);
   }
+
+  /**
+   * 我的task list
+   * @param {number} lastId 最后一条id
+   * @param {number} curPage 当前页
+   * @param {number} pages 每页总数
+   */
+  getSelfList(data) {
+    return this.getReq('Task.SelfList', data);
+  }
+
 }
 
 // 单列模式返回对象

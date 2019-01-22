@@ -1,5 +1,5 @@
 <template>
-  <div class="okr-publish custom-dialog">
+  <div class="okr-publish custom-dialog" v-if="okr_publish.status">
     <el-dialog width="80%" @close="closeDialog" :visible.sync="okr_publish.status">
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
         <el-form-item class="header" prop="okr_name">
@@ -242,15 +242,26 @@
       })
     },
     watch: {
-      self_info(cur) {
-        this.form.bo_user = cur;
+      'okr_publish.status'(cur) {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        if(cur) {
+          that.form.bo_user = that.self_info;
+          that.$nextTick(() => {
+            const main = that.$el.querySelector('.main');
+            if(main.offsetHeight >= 470) {
+              main.classList.add('overflow');
+            }
+          });
+        }
       },
       'okr_publish.source'(cur) {
         if(!cur) return;
         let that = this;
+
         that.form =  {
           okr_name: cur.okr_name,
-          bo_user: cur.bo_info,
+          bo_user: cur.bo_info || that.self_info,
           okr_type: {
             name: cur.okr_type_name,
             type: cur.okr_type
@@ -287,7 +298,9 @@
     }
     .main {
       max-height: 470px;
-      overflow-y: auto;
+      &.overflow {
+        overflow-y: auto;
+      }
       .title {
         position: relative;
         display: flex;

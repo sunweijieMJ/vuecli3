@@ -57,7 +57,8 @@ const urlDict = {
     'DeleteUserFromTask': 'okr/task/deluser', // ETC 删除 task 关联 user
     'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表 关联task列表
     'CreateOkr': 'okr/okr/create', // ETC 创建OKR
-    'Taskdynamic': 'okr/task/progresslist' // ETC task动态
+    'Taskdynamic': 'okr/task/progresslist', // ETC task动态
+    'SelfList': 'okr/task/myselflist' // ETC 我的task list
   }
 };
 
