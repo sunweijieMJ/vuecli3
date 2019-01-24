@@ -84,7 +84,7 @@ class Okr extends Abstract {
 
   /**
    * okr类型
-   * 
+   *
    */
   getOkrType(data){
     return this.getReq('Okr.OkrTab', data);
@@ -92,10 +92,10 @@ class Okr extends Abstract {
 
   /**
    * okr 列表
-   * @param {num} okr_type: 1 ~ 4
-   * @param {num} last_id: 1 * 最后一条id
-   * @param {num} currPage: 1 * 当前第几页
-   * @param {num} pages: 15 * 每页总数
+   * @param {number | required} okr_type 1 ~ 4
+   * @param {number} last_id 最后一条id
+   * @param {number} currPage: 当前页
+   * @param {number} pages: 每页总数
    */
   getOkrList(data){
     return this.getReq('Okr.OkrList', data);

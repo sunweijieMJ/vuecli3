@@ -1,12 +1,9 @@
 <template>
   <div class="okr-task-list">
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="Task" name="first">
-        <router-view></router-view>
-      </el-tab-pane>
-      <el-tab-pane label="OKR" name="second">
-        <router-view></router-view>
-      </el-tab-pane>
+      <el-tab-pane label="Task" name="TaskList"></el-tab-pane>
+      <el-tab-pane label="OKR" name="OKRList"></el-tab-pane>
+      <router-view></router-view>
     </el-tabs>
   </div>
 </template>
@@ -17,7 +14,7 @@
     mixins: [frequent],
     data() {
       return {
-        activeName: 'first'
+        activeName: this.$route.name
       };
     },
     methods: {

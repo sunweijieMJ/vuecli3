@@ -1,27 +1,105 @@
 <template>
   <div class="okr-list">
     <div class="header">
-      <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
-        <el-radio-button label="全部">全部</el-radio-button>
-        <el-radio-button label="项目">项目</el-radio-button>
-        <el-radio-button label="部门">部门</el-radio-button>
-        <el-radio-button label="公司">公司</el-radio-button>
+      <el-radio-group v-model="active_name" @change="handleClick">
+        <el-radio-button v-for="(item, index) in okr_type" :key="index" :label="item.type">{{item.label}}</el-radio-button>
       </el-radio-group>
-      <div class="new-okr">
+      <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true})">
         <span>
           <i class="el-icon-plus"></i>
         </span>
         <p>新增OKR</p>
       </div>
     </div>
+    <ul class="content" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
+      <li v-for="(item, index) in okr_list" :key="index">
+        <single-okr :item="item"></single-okr>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
+  import OkrApi from '../../../../api/Okr.js';
+  import {Loading} from '../../../../components/public';
+  import {SingleOkr} from '../../../../components/okr';
+
   export default {
+    components: {SingleOkr, Loading},
     data() {
       return {
-        tabPosition: '全部'
+        okr_list: [],
+        active_name: 1,
+        okr_type: [
+          {
+            label: '全部',
+            type: 1
+          },
+          {
+            label: '项目',
+            type: 2
+          },
+          {
+            label: '部门',
+            type: 3
+          },
+          {
+            label: '公司',
+            type: 4
+          }
+        ],
+        pageInfo: { // ETC 页码信息
+          current_page: 0,
+          page_size: 15,
+          page_total: 0
+        },
+        disabled: false, // ETC 加载开关
+        loading: {
+          nomore: false, // ETC 触底
+          noresult: false // ETC 空列表
+        }
       };
+    },
+    methods: {
+      handleClick(tab) {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        that.active_name = tab;
+        that.infinite();
+      },
+      // 触底刷新
+      infinite() {
+        let that = this;
+
+        that.disabled = true;
+        that.getOkrList(that.active_name, ++that.pageInfo.current_page).then(() => {
+          // 触底判断
+          that.disabled = false;
+          if(!that.okr_list.length) {
+            that.disabled = true;
+            that.loading = {
+              nomore: true,
+              noresult: true
+            };
+          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+            that.disabled = true;
+            that.loading.nomore = true;
+          }
+        });
+      },
+      async getOkrList(okr_type, curPage) {
+        let that = this;
+        await OkrApi().getOkrList({okr_type, curPage}).then(res => {
+          const user_info = res.data.user_info;
+          const okr_list = res.data.list;
+          that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
+          // 数据整理
+          for(let i = 0, ILEN = okr_list.length; i < ILEN; i++) {
+            okr_list[i].creator_info = user_info[okr_list[i].creator_id];
+          }
+
+          that.okr_list = that.okr_list.concat(okr_list);
+        });
+      }
     }
   };
 </script>
@@ -36,10 +114,11 @@
       .el-radio-group {
         width: 328px;
         height: 38px;
-        margin-top: 15px;
+        margin: 15px 0;
         border-radius: 20px;
         background:rgba(222,222,222,1);
         .el-radio-button {
+          box-shadow: none !important;
           &.is-active {
             .el-radio-button__inner {
               color: #fff;

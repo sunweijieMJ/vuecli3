@@ -46,6 +46,7 @@
     <div class="main">
       <router-view></router-view>
     </div>
+    <o-k-r-publish></o-k-r-publish>
     <task-publish></task-publish>
     <task-follow></task-follow>
     <task-close></task-close>
@@ -57,11 +58,11 @@
   import NoticeApi from '../api/Notice.js';
   import frequent from '../mixins/frequent.js';
   import readMore from '../utils/filters/readMore.js';
-  import {TaskPublish, TaskFollow, TaskClose} from '../components/okr';
+  import {OKRPublish, TaskPublish, TaskFollow, TaskClose} from '../components/okr';
 
 
   export default {
-    components: {TaskPublish, TaskFollow, TaskClose},
+    components: {OKRPublish, TaskPublish, TaskFollow, TaskClose},
     mixins: [frequent],
     data() {
       return {

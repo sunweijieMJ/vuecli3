@@ -11,7 +11,7 @@
 <script>
   import TaskApi from '../../../../api/Task.js';
   import {Loading} from '../../../../components/public';
-  import {SingleTask} from '../../../../components/business';
+  import {SingleTask} from '../../../../components/okr';
 
   export default {
     components: {SingleTask, Loading},

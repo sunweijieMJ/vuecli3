@@ -4,8 +4,7 @@ import PublicList from './PublicList.vue';
 import PublicDetail from './PublicDetail.vue';
 import SingleComment from './SingleComment.vue';
 import CommentList from './CommentList.vue';
-import SingleTask from './SingleTask.vue';
 
 export {
-  Paragraph, SingleList, PublicList, PublicDetail, SingleComment, CommentList, SingleTask
+  Paragraph, SingleList, PublicList, PublicDetail, SingleComment, CommentList
 };
