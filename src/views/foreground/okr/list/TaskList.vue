@@ -67,6 +67,7 @@
               }
             }
             if(!task_list[i].check_info) continue;
+            if(!users_info) continue;
             task_list[i].check_info.creator_info = users_info[task_list[i].creator_id];
           }
 
