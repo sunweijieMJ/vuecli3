@@ -150,7 +150,7 @@
           if(this.task_publish.parent.okr_type) {
             that.form.parent_id = 0;
             that.form.object_ids.push({
-              okr_id: this.task_publish.parent.obj_id,
+              obj_id: this.task_publish.parent.obj_id,
               okr_name: this.task_publish.parent.okr_name
             });
           } else {
@@ -207,7 +207,7 @@
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            border: 2px solid $lineColor;
+            border: 1px solid $lineColor;
           }
           .item {
             display: flex;

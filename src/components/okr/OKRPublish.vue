@@ -1,11 +1,12 @@
 <template>
   <div class="okr-publish custom-dialog" v-if="okr_publish.status">
-    <el-dialog width="951px" :before-close="beforeClose" @close="closeDialog" :visible.sync="okr_publish.status">
+    <el-dialog width="950px" :before-close="beforeClose" @close="closeDialog" :visible.sync="okr_publish.status">
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
-        <el-form-item class="header" prop="okr_name">
-          <el-input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧"></el-input>
-        </el-form-item>
         <div class="main">
+          <!-- name -->
+          <el-form-item class="name" prop="okr_name">
+            <el-input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧"></el-input>
+          </el-form-item>
           <!-- okr信息 -->
           <div class="title">
             <div class="bo">
@@ -42,7 +43,7 @@
           <div class="objective">
             <h4>Objective</h4>
             <el-form-item prop="objective">
-              <el-input type="textarea" v-model="form.objective" placeholder="你的Objective是什么？"></el-input>
+              <el-input type="textarea" v-model="form.objective" maxlength="50" placeholder="你的Objective是什么？"></el-input>
             </el-form-item>
           </div>
           <!-- Key Result -->
@@ -54,15 +55,15 @@
                   <el-form-item :prop="`key_result.${index}.kr_name`" :rules="{required: true, message: ' ', trigger: 'change'}">
                     <el-input type="text" v-model="key_result.kr_name" :placeholder="`KR${index + 1}`"></el-input>
                   </el-form-item>
-                  <div class="number">
-                    <i class="el-icon-minus" @click="reducePercent(index)"></i>
-                    <div class="percent">
-                      <h5>信心指数</h5>
-                      <p>{{key_result.confidenc_index}}%</p>
-                    </div>
-                    <i class="el-icon-plus" @click="addPercent(index)"></i>
+                  <div class="percent">
+                    <h5>信心指数</h5>
+                    <p>
+                      <i class="el-icon-minus" :class="{hidden: key_result.confidenc_index <= 0}" @click="reducePercent(index)"></i>
+                      <span>{{key_result.confidenc_index}}%</span>
+                      <i class="el-icon-plus" :class="{hidden: key_result.confidenc_index >= 100}" @click="addPercent(index)"></i>
+                    </p>
                   </div>
-                  <i class="el-icon-delete" @click="removeKeyResult(index)"></i>
+                  <i class="el-icon-delete" :class="{hidden: form.key_result.length === 1}" @click="removeKeyResult(index)"></i>
                 </li>
               </ul>
               <el-button class="add" @click="addKeyResult">添加</el-button>
@@ -104,7 +105,7 @@
             {
               kr_id: null,
               kr_name: '',
-              confidenc_index: 0
+              confidenc_index: 50
             }
           ]
         },
@@ -149,11 +150,15 @@
       // 添加key-result
       addKeyResult() {
         let that = this;
-        that.form.key_result.push({
-          kr_id: null,
-          kr_name: '',
-          confidenc_index: 0
-        });
+        if(that.form.key_result.length >= 6) {
+          that.$message({message: '已经添加的够多了', type: 'warning'});
+        } else {
+          that.form.key_result.push({
+            kr_id: null,
+            kr_name: '',
+            confidenc_index: 50
+          });
+        }
       },
       // 移除key-result
       removeKeyResult(index) {
@@ -195,6 +200,7 @@
               alert(res.data.id);
             });
           } else {
+            that.$message({message: '请填写完整信息', type: 'warning'});
             return false;
           }
         });
@@ -249,15 +255,9 @@
     watch: {
       'okr_publish.status'(cur) {
         let that = this;
-        Object.assign(that.$data, that.$options.data());
         if(cur) {
-          that.form.bo_user = that.self_info;
-          that.$nextTick(() => {
-            const main = that.$el.querySelector('.main');
-            if(main.offsetHeight >= 470) {
-              main.classList.add('overflow');
-            }
-          });
+          Object.assign(that.$data, that.$options.data());
+          if(!that.okr_publish.source) that.form.bo_user = that.self_info;
         }
       },
       'okr_publish.source'(cur) {
@@ -266,7 +266,7 @@
 
         that.form =  {
           okr_name: cur.okr_name,
-          bo_user: cur.bo_info || that.self_info,
+          bo_user: cur.bo_info,
           okr_type: {
             name: cur.okr_type_name,
             type: cur.okr_type
@@ -275,9 +275,9 @@
             start_time: Moment().format(cur.start_time, 'YYYY/MM/DD'),
             end_time: Moment().format(cur.end_time, 'YYYY/MM/DD')
           },
-          task_user: Object.values(cur.participants),
+          task_user: cur.participants.length ? Object.values(cur.participants) : [],
           objective: cur.objective_desc,
-          key_result: Object.values(cur.key_result)
+          key_result: cur.key_result.length ? Object.values(cur.key_result) : []
         };
       }
     }
@@ -288,23 +288,21 @@
   $up-down: 20px;
 
   .okr-publish {
-    .header {
-      padding: $up-down $left-right;
-      input {
-        box-sizing: border-box;
-        width: 100%;
-        height: 48px;
-        padding-left: 20px;
-        background-color: $backColor;
-        border-radius: 2px;
-        border-color: #fff;
-        background-image: none !important;
-      }
-    }
     .main {
-      max-height: 470px;
-      &.overflow {
-        overflow-y: auto;
+      max-height: 600px;
+      overflow-y: auto;
+      .name {
+        padding: $up-down $left-right;
+        input {
+          box-sizing: border-box;
+          width: 100%;
+          height: 48px;
+          padding-left: 20px;
+          background-color: $backColor;
+          border-radius: 2px;
+          border-color: #fff;
+          background-image: none !important;
+        }
       }
       .title {
         position: relative;
@@ -320,7 +318,7 @@
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            border: 2px solid $lineColor;
+            border: 1px solid $lineColor;
           }
           .item {
             display: flex;
@@ -444,42 +442,47 @@
                   color: $h3Color;
                 }
               }
-              .number {
+              .percent {
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
                 align-items: center;
                 width: 170px;
-                .percent {
+                h5 {
+                  font-size: $h4Font;
+                  font-weight: normal;
+                  line-height: 18px;
+                  color: $h3Color;
+                }
+                p {
                   display: flex;
-                  flex-direction: column;
                   align-items: center;
-                  margin: 0 18px;
-                  h5 {
-                    font-size: $h4Font;
-                    font-weight: normal;
-                    line-height: 18px;
-                    color: $h3Color;
-                  }
-                  p {
+                  span {
+                    margin: 0 16px;
                     font-size: $h2Font;
                     line-height: 25px;
                     color: $h1Color;
                   }
-                }
-                &:hover i{
-                  display: inline-flex;
-                }
-                >i {
-                  display: none;
-                  font-size: 16px;
-                  color: #000;
-                  cursor: pointer;
+                  &:hover i{
+                    visibility: visible;
+                  }
+                  >i {
+                    visibility: hidden;
+                    font-size: 16px;
+                    color: #000;
+                    cursor: pointer;
+                    &.hidden {
+                      visibility: hidden;
+                    }
+                  }
                 }
               }
               >i {
                 font-size: 20px;
                 color: $linkBlue;
                 cursor: pointer;
+                &.hidden {
+                  visibility: hidden;
+                }
               }
             }
           }

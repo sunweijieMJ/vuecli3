@@ -12,9 +12,7 @@
             <i class="iconfont icon-icon_manage" style="color: white;"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="黄金糕">
-              编辑
-            </el-dropdown-item>
+            <el-dropdown-item command="编辑">编辑</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -94,6 +92,14 @@ export default {
   methods: {
     handleCommand(command){
       console.log(command)
+      switch (command) {
+        case '编辑':
+          this.okr_detail.key_result = this.kr_list;
+          this.$store.dispatch('setOKRPublish', {status: true, source: this.okr_detail});
+          break;
+        default:
+          break;
+      }
     },
     // 显示全部参与者
     showAllJoinner(val){

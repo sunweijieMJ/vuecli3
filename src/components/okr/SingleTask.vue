@@ -150,7 +150,7 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        border: 2px solid $lineColor;
+        border: 1px solid $lineColor;
       }
       .info {
         margin-left: 22px;

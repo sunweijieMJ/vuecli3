@@ -20,7 +20,7 @@
                 <li v-for="(item, index) in user_list" :key="index" @click="addUserList(item)">
                   <div class="name">
                     <img :src="item.header_photo" alt="">
-                    <span>{{item.user_name}}</span>
+                    <span>{{item.user_name}} ({{item.real_name}})</span>
                   </div>
                   <i class="el-icon-circle-check" v-if="item.isExist"></i>
                 </li>
@@ -220,7 +220,7 @@
               width: 38px;
               height: 38px;
               border-radius: 50%;
-              border: 2px solid $lineColor;
+              border: 1px solid $lineColor;
             }
             span {
               margin-left: 10px;

@@ -94,7 +94,7 @@ $up-down: 30px;
     padding: 0;
     border: none;
     border-radius: 20px;
-    font-size: $h2Font;
+    font-size: $h3Font;
     font-weight: $h1Weight;
     line-height: 36px;
     color: $linkBlue;
@@ -113,8 +113,27 @@ $up-down: 30px;
     border-color: #fff;
     background-color: #f6f6f6;
     background-image: none !important;
+    font-size: $h3Font;
+    line-height: 48px;
+    color: $h1Color;
+    &::placeholder {
+      font-size: $h3Font;
+      line-height: 48px;
+      color: $h3Color;
+    }
   }
 }
+.el-textarea {
+  textarea {
+    font-size: $h3Font;
+    color: $h1Color;
+    &::placeholder {
+      font-size: $h3Font;
+      color: $h3Color;
+    }
+  }
+}
+
 // rate控件
 .el-rate {
   display: flex;
