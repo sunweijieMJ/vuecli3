@@ -1,5 +1,5 @@
 <template>
-  <div class="single-okr">
+  <div class="single-okr" @click="paramsSkip('OKRDetail', {id: item.obj_id})">
     <div class="okr-info">
       <div class="title">
         <h3>{{item.okr_name}}</h3>
@@ -23,8 +23,11 @@
   </div>
 </template>
 <script>
+  import frequent from '../../mixins/frequent.js';
   import Moment from '../../utils/business/moment.js';
+
   export default {
+    mixins: [frequent],
     props: ['item'],
     data() {
       return {
@@ -42,6 +45,7 @@
     margin-bottom: 12px;
     padding: 23px 50px 23px 60px;
     border-radius:4px;
+    cursor: pointer;
     background-color: #fff;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     .okr-info {

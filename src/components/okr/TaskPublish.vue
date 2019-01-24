@@ -126,6 +126,7 @@
           objectIds.push(that.form.object_ids[i].obj_id);
         }
         return {
+          taskId: that.form.task_id,
           toUser: that.form.to_user || that.self_info.user_id,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
           endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
@@ -144,12 +145,21 @@
       'task_publish.status'(cur) {
         let that = this;
         Object.assign(that.$data, that.$options.data());
+        // 区分关联的上级
         if(cur && this.task_publish.parent) {
-          that.form.parent_id = this.task_publish.parent.parent_id;
-          that.form.object_ids.push({
-            task_id: this.task_publish.parent.task_id,
-            task_name: this.task_publish.parent.task_name
-          });
+          if(this.task_publish.parent.okr_type) {
+            that.form.parent_id = 0;
+            that.form.object_ids.push({
+              okr_id: this.task_publish.parent.obj_id,
+              okr_name: this.task_publish.parent.okr_name
+            });
+          } else {
+            that.form.parent_id = this.task_publish.parent.task_id;
+            that.form.object_ids.push({
+              task_id: this.task_publish.parent.task_id,
+              task_name: this.task_publish.parent.task_name
+            });
+          }
         }
       },
       'task_publish.source'(cur) {
@@ -163,6 +173,7 @@
         }
 
         that.form =  {
+          task_id: cur.task_id,
           to_user: cur.to_info.user_name,
           daterange: {
             start_time: Moment().format(cur.start_time, 'YYYY/MM/DD'),
