@@ -1,6 +1,6 @@
 <template>
   <div class="okr-publish custom-dialog" v-if="okr_publish.status">
-    <el-dialog width="80%" @close="closeDialog" :visible.sync="okr_publish.status">
+    <el-dialog width="951px" :before-close="beforeClose" @close="closeDialog" :visible.sync="okr_publish.status">
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
         <el-form-item class="header" prop="okr_name">
           <el-input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧"></el-input>
@@ -11,7 +11,7 @@
             <div class="bo">
               <img :src="form.bo_user.header_photo" alt="">
               <div class="item">
-                <h4>Bo</h4>
+                <h4>Owner</h4>
                 <p>{{form.bo_user.user_name}}</p>
               </div>
             </div>
@@ -71,7 +71,7 @@
         </div>
       </el-form>
       <div class="footer" slot="footer">
-        <el-button class="cancel" @click="cancelSetup">取消</el-button>
+        <el-button class="cancel" @click="beforeClose">取消</el-button>
         <el-button class="confirm" @click="confirmSetup('ruleForm')">确定</el-button>
       </div>
     </el-dialog>
@@ -79,9 +79,9 @@
 </template>
 <script>
   import {mapState} from 'vuex';
-  import OkrApi from '../../../../api/Okr.js';
-  import Moment from '../../../../utils/business/moment.js';
-  import {Member, DateRange} from '../../../../components/popup';
+  import OkrApi from '../../api/Okr.js';
+  import Moment from '../../utils/business/moment.js';
+  import {Member, DateRange} from '../../components/popup';
 
   export default {
     components: {Member, DateRange},
@@ -199,12 +199,17 @@
           }
         });
       },
-      // 取消创建
-      cancelSetup() {
+      // 关闭前
+      beforeClose() {
         let that = this;
-        that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
+        if(JSON.stringify(that.$data.form.okr_name) === JSON.stringify(that.$options.data().form.okr_name) &&
+        JSON.stringify(that.$data.form.task_user) === JSON.stringify(that.$options.data().form.task_user)) {
           that.closeDialog();
-        });
+        } else {
+          that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
+            that.closeDialog();
+          });
+        }
       },
       // 关闭dialog
       closeDialog() {

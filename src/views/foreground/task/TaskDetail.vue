@@ -106,7 +106,7 @@ export default {
 
     },
     getTaskBasicInfo(){
-      taskApi().getTaskBasicInfo({taskId: 12}).then(res => {
+      taskApi().getBasicInfo({taskId: 12}).then(res => {
         if(res.status){
           this.task_basic = res.data;
           if(res.data.obj_infos){
@@ -169,7 +169,7 @@ export default {
     this.getTaskBasicInfo();
     // this.getTaskDynamicList();
     this.getTaskList();
-    
+
   }
 };
 </script>

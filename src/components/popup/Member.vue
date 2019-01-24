@@ -15,14 +15,14 @@
           <div class="popover-member">
             <h4>参与者</h4>
             <input type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称">
-            <template v-if="join_list.length || keyword">
-              <ul class="list" v-if="user_list.length || join_list.length">
-                <li v-for="(item, index) in keyword ? user_list : join_list" :key="index" @click="chooseUser(item)">
+            <template v-if="keyword">
+              <ul class="list" v-if="user_list.length">
+                <li v-for="(item, index) in user_list" :key="index" @click="addUserList(item)">
                   <div class="name">
                     <img :src="item.header_photo" alt="">
                     <span>{{item.user_name}}</span>
                   </div>
-                  <i class="el-icon-circle-check" v-if="!keyword"></i>
+                  <i class="el-icon-circle-check" v-if="item.isExist"></i>
                 </li>
               </ul>
               <div class="null" v-else>
@@ -30,7 +30,7 @@
               </div>
               <div class="btn">
                 <el-button class="cancel" @click="member_popover = false">取消</el-button>
-                <el-button class="confirm" @click="confirm">确定</el-button>
+                <el-button class="confirm" @click="addUserList(false)">确定</el-button>
               </div>
             </template>
           </div>
@@ -59,33 +59,34 @@
           this.user_list = res.data.list;
         });
       },
-      // 选择参与者
-      chooseUser(user) {
-        let that = this;
-        that.keyword = user.user_name;
-        that.getUserList(that.keyword);
-      },
-      // 确认添加
-      confirm() {
-        let that = this;
-        that.member_popover = false;
-        if(that.user_list.length === 1) {
-          let flag = true;
-          for(let i = 0, LEN = that.join_list.length; i < LEN; i++) {
-            if(that.join_list[i].user_id === that.user_list[0].user_id) {
-              flag = false;
-            }
+      judgeUser(user) {
+        let [that, flag] = [this, true];
+        for(let i = 0, LEN = that.join_list.length; i < LEN; i++) {
+          if(that.join_list[i].user_id === user.user_id) {
+            flag = false;
+            break;
           }
-          if(flag) {
-            that.join_list.push(that.user_list[0]);
-            that.$emit('confirmUser', that.join_list);
-          } else {
-            that.$message({message: '该用户已存在', type: 'warning'});
-          }
-          that.keyword = '';
-        } else {
-          that.$message({message: '请选择参与者', type: 'warning'});
         }
+        if(flag) {
+          that.join_list.push(user);
+          that.$emit('confirmUser', that.join_list);
+        } else {
+          that.$message({message: '该用户已存在', type: 'warning'});
+        }
+      },
+      // 添加参与者
+      addUserList(user) {
+        let that = this;
+        if(user) {
+          that.judgeUser(user);
+        } else {
+          if(that.user_list.length === 1) {
+            that.judgeUser(that.user_list[0]);
+          } else {
+            that.$message({message: '请选择参与者', type: 'warning'});
+          }
+        }
+        that.member_popover = false;
       },
       // 关闭标签
       closeTag(index) {
@@ -107,8 +108,30 @@
     },
     computed: {
       join_list() {
-        if(this.member_list.length) return this.member_list;
-        return [];
+        return this.member_list || [];
+      }
+    },
+    watch: {
+      user_list(cur) {
+        if(!cur.length) return;
+        let that = this;
+        for(let i = 0, ILEN = that.user_list.length; i < ILEN; i++) {
+          for(let j = 0, JLEN = that.join_list.length; j < JLEN; j++) {
+            if(that.user_list[i].user_id === that.join_list[j].user_id) {
+              that.user_list[i].isExist = true;
+            }
+          }
+        }
+      },
+      member_popover(cur) {
+        let that = this;
+        if(cur) {
+          that.$nextTick(() => {
+            document.querySelector('.popover-member input').focus();
+          });
+        } else {
+          that.keyword = '';
+        }
       }
     }
   };

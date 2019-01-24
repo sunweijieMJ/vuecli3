@@ -27,7 +27,7 @@ class Task extends Abstract {
   }
 
   /**
-   * 删除 task 关联 user
+   * 获取task 基础信息
    * @param {number | required} taskId
    */
   getBasicInfo(data) {
@@ -41,13 +41,6 @@ class Task extends Abstract {
    */
   deleteUserFromTask(data) {
     return this.postReq('Task.DeleteUserFromTask', data);
-  }
-  /*
-   * task的基础信息
-   * @param {num} taskId: 12  * task id
-   */
-  getTaskBasicInfo(data){
-    return this.getReq('Task.BasicInfo', data);
   }
 
   /**
@@ -77,6 +70,41 @@ class Task extends Abstract {
    */
   getSelfList(data) {
     return this.getReq('Task.SelfList', data);
+  }
+
+  /**
+   * check task 任务
+   * @param {number | required} taskId
+   * @param {array | required} objId
+   * @param {string | required} remark 备注信息
+   * @param {number | required} speedTime 花费时间
+   * @param {number | required} progress 进度
+   * @param {number | required} feel 满意程度从1 ~4 升序
+   */
+  checkTask(data) {
+    return this.postReq('Task.TaskCheck', data);
+  }
+
+  /**
+   * finish task 任务
+   * @param {number | required} taskId
+   * @param {array | required} objId
+   * @param {string | required} remark 备注信息
+   * @param {number | required} speedTime 花费时间
+   * @param {number | required} progress 进度
+   * @param {number | required} selfComments 几颗星
+   */
+  finishTask(data) {
+    return this.postReq('Task.TaskFinish', data);
+  }
+
+  /**
+   * 关闭 task 任务(暂无使用)
+   * @param {number | required} taskId
+   * @param {string | required} remark 备注信息
+   */
+  closeTask(data) {
+    return this.postReq('Task.TaskClose', data);
   }
 
 }

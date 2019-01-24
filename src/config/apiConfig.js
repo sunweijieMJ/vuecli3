@@ -60,7 +60,10 @@ const urlDict = {
     'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表 关联task列表
     'CreateOkr': 'okr/okr/create', // ETC 创建OKR
     'Taskdynamic': 'okr/task/progresslist', // ETC task动态
-    'SelfList': 'okr/task/myselflist' // ETC 我的task list
+    'SelfList': 'okr/task/myselflist', // ETC 我的task list
+    'TaskCheck': 'okr/task/check', // ETC check task 任务
+    'TaskFinish': 'okr/task/finish', // ETC finish task 任务
+    'TaskClose': 'okr/task/close' // ETC 关闭 task 任务
   }
 };
 

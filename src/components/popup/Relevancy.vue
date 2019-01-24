@@ -1,12 +1,12 @@
 <template>
-  <div class="task-relevancy">
+  <div class="task-relevancy" v-if="object_ids.length">
     <h4>关联</h4>
     <div class="content">
       <div class="list">
         <el-tag v-for="(item, index) in object_ids" :key="index" closable @close="closeTag(index)">
           <p>
-            <span>OKR</span>
-            {{item.okr_name}}
+            <span>{{item.obj_id ? 'OKR' : 'KT'}}</span>
+            {{item.task_name || item.okr_name}}
           </p>
         </el-tag>
       </div>

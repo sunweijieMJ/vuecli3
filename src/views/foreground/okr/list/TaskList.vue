@@ -54,15 +54,20 @@
       async getSelfList(curPage) {
         let that = this;
         await TaskApi().getSelfList({curPage}).then(res => {
-          const user_infos = res.data.users_info;
+          const users_info = res.data.users_info;
           const obj_infos = res.data.obj_infos;
           const task_list = res.data.list;
           that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
           // 数据整理
           for(let i = 0, ILEN = task_list.length; i < ILEN; i++) {
+            if(task_list[i].obj_id) {
+              task_list[i].obj_info = [];
+              for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
+                task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
+              }
+            }
             if(!task_list[i].check_info) continue;
-            task_list[i].check_info.obj_info = obj_infos[task_list[i].obj_id];
-            task_list[i].check_info.creator_info = user_infos[task_list[i].creator_id];
+            task_list[i].check_info.creator_info = users_info[task_list[i].creator_id];
           }
 
           that.task_list = that.task_list.concat(task_list);

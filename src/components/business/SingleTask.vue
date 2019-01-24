@@ -6,36 +6,39 @@
           <span>KT</span>
           <p>{{item.task_name}}</p>
         </h4>
-        <p>
+        <p v-if="item.obj_info.length" v-for="(witem, windex) in item.obj_info" :key="windex">
           <i class="el-icon-info"></i>
-          <span>LANEHUB商品2.0</span>
+          <span>{{witem.okr_name}}</span>
         </p>
       </div>
       <div class="info-num">
-        <p class="time">{{`${Moment().format(item.update_time)}-${Moment().format(item.end_time)}`}}</p>
-        <el-progress :percentage="item.progress" :stroke-width="9" v-if="!item.status"></el-progress>
+        <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
+        <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status !== 3"></el-progress>
         <p class="progress" v-else>
           <span>完成度</span>
           <i>{{item.progress}}%</i>
         </p>
       </div>
     </div>
-    <div class="check-info">
+    <div class="check-info" v-if="item.check_info">
       <img :src="item.check_info.creator_info.header_photo" alt="">
       <div class="info">
         <h4>
-          <el-rate v-model="item.check_info.self_score" show-score disabled :allow-half="true" show-text></el-rate>
-          <p>17分钟之前</p>
+          <el-rate v-model="item.check_info.feel_status" show-score disabled :allow-half="true" show-text></el-rate>
+          <p>{{item.check_info.publish_time | timeFilter}}</p>
         </h4>
-        <p>这是一段check描述，这是一段check描述。这是这是一段check描述…</p>
+        <p>{{item.check_info.remarks}}</p>
       </div>
     </div>
+    <task-check :item="item"></task-check>
   </div>
 </template>
 <script>
   import Moment from '../../utils/business/moment.js';
+  import TaskCheck from '../../components/popup/TaskCheck.vue';
 
   export default {
+    components: {TaskCheck},
     props: ['item'],
     data() {
       return {
@@ -49,6 +52,7 @@
   $up-down: 24px;
 
   .single-task {
+    position: relative;
     width: 100%;
     padding: $up-down $left-right;
     border-radius: 4px;
@@ -62,6 +66,7 @@
         h4 {
           display: flex;
           align-items: center;
+          margin-bottom: 13px;
           >span {
             display: flex;
             justify-content: center;
@@ -83,7 +88,6 @@
         >p {
           display: flex;
           align-items: center;
-          margin-top: 13px;
           >i {
             font-size: $h4Font;
             color: #000;

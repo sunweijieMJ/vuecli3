@@ -1,6 +1,6 @@
 <template>
-  <div class="task-publish custom-dialog">
-    <el-dialog width="80%" @close="closeDialog" :visible.sync="task_publish.status">
+  <div class="task-publish custom-dialog" v-if="task_publish.status">
+    <el-dialog width="752px" :before-close="beforeClose" @close="closeDialog" :visible.sync="task_publish.status">
       <h2 class="header" slot="title">Task</h2>
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
         <div class="main">
@@ -9,7 +9,7 @@
             <div class="bo">
               <img :src="self_info.header_photo" alt="">
               <div class="item">
-                <h4>To</h4>
+                <h4>Owner</h4>
                 <p>{{self_info.user_name}}</p>
               </div>
             </div>
@@ -28,7 +28,7 @@
           <!-- ktask -->
           <div class="ktask">
             <el-form-item prop="task_content">
-              <el-input type="textarea" v-model="form.task_content" placeholder="你的KT是什么？"></el-input>
+              <el-input type="textarea" v-model="form.task_content" maxlength="50" placeholder="你的KT是什么？"></el-input>
             </el-form-item>
           </div>
           <!-- 参与者 -->
@@ -42,7 +42,7 @@
         </div>
       </el-form>
       <div class="footer" slot="footer">
-        <el-button class="cancel" @click="cancelSetup">取消</el-button>
+        <el-button class="cancel" @click="beforeClose">取消</el-button>
         <el-button class="confirm" @click="confirmSetup('ruleForm')">确定</el-button>
       </div>
     </el-dialog>
@@ -50,9 +50,9 @@
 </template>
 <script>
   import {mapState} from 'vuex';
-  import TaskApi from '../../../api/Task.js';
-  import Moment from '../../../utils/business/moment.js';
-  import {DateRange, Member, Relevancy} from '../../../components/popup';
+  import TaskApi from '../../api/Task.js';
+  import Moment from '../../utils/business/moment.js';
+  import {DateRange, Member, Relevancy} from '../../components/popup';
 
   export default {
     components: {DateRange, Member, Relevancy},
@@ -97,12 +97,17 @@
           }
         });
       },
-      // 取消创建task
-      cancelSetup() {
+      // 关闭前
+      beforeClose() {
         let that = this;
-        that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
+        if(JSON.stringify(that.$data.form.task_content) === JSON.stringify(that.$options.data().form.task_content) &&
+        JSON.stringify(that.$data.form.task_user) === JSON.stringify(that.$options.data().form.task_user)) {
           that.closeDialog();
-        });
+        } else {
+          that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
+            that.closeDialog();
+          });
+        }
       },
       // 关闭dialog
       closeDialog() {
@@ -136,9 +141,27 @@
       })
     },
     watch: {
+      'task_publish.status'(cur) {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        if(cur && this.task_publish.parent) {
+          that.form.parent_id = this.task_publish.parent.parent_id;
+          that.form.object_ids.push({
+            task_id: this.task_publish.parent.task_id,
+            task_name: this.task_publish.parent.task_name
+          });
+        }
+      },
       'task_publish.source'(cur) {
         if(!cur) return;
         let that = this;
+        let object_ids = [];
+        if(cur.parent_id) {
+          object_ids.push(cur.parent_info);
+        } else if (cur.obj_id) {
+          object_ids = Object.values(cur.obj_infos);
+        }
+
         that.form =  {
           to_user: cur.to_info.user_name,
           daterange: {
@@ -148,7 +171,7 @@
           task_content: cur.task_name,
           task_user: Object.values(cur.participants),
           parent_id: cur.parents_id,
-          object_ids: (cur.obj_infos.length && cur.obj_infos) || (cur.parent_info.length && cur.parent_info)
+          object_ids
         };
       }
     }

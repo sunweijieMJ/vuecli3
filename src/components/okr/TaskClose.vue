@@ -1,22 +1,23 @@
 <template>
-  <div class="task-close custom-dialog">
-    <el-dialog width="80%" @close="closeDialog" :visible.sync="task_close.status">
+  <div class="task-close custom-dialog" v-if="task_close.status">
+    <el-dialog width="752px" :before-close="beforeClose" @close="closeDialog" :visible.sync="task_close.status">
       <div class="header" slot="title">
         <h2>关闭</h2>
         <div class="title">
           <span>KT</span>
-          <p>PGS信息流，OKR上线</p>
+          <p>{{task_info.task_name}}</p>
         </div>
       </div>
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
         <div class="main">
           <div class="rate">
             <h4>感觉怎么样?</h4>
-            <el-rate v-model="form.rate" :allow-half="true" show-text></el-rate>
+            <el-rate v-model="form.rate" :allow-half="true" show-score
+              :void-icon-class="'icon-tianjia1 iconfont'" :icon-classes="['icon-tianjia1 iconfont', 'icon-tianjia1 iconfont','icon-tianjia1 iconfont']"></el-rate>
           </div>
           <div class="summary">
             <el-form-item prop="summary">
-              <el-input type="textarea" v-model="form.summary" placeholder="总结一下吧"></el-input>
+              <el-input type="textarea" v-model="form.summary" maxlength="50" placeholder="总结一下吧"></el-input>
             </el-form-item>
           </div>
           <div class="num">
@@ -30,7 +31,7 @@
         </div>
       </el-form>
       <div class="footer" slot="footer">
-        <el-button class="cancel" @click="closeDialog">取消</el-button>
+        <el-button class="cancel" @click="beforeClose">取消</el-button>
         <el-button class="confirm" @click="confirmClose('ruleForm')">确定</el-button>
       </div>
     </el-dialog>
@@ -38,10 +39,13 @@
 </template>
 <script>
   import {mapState} from 'vuex';
+  import TaskApi from '../../api/Task.js';
+  import {validatePercent, validateDuration} from './validate.js';
 
   export default {
     data() {
       return {
+        task_info: '',
         form: {
           rate: 0,
           summary: '',
@@ -50,18 +54,25 @@
         },
         rules: {
           summary: [{required: true, message: ' ', trigger: 'change'}],
-          percent: [{required: true, message: ' ', trigger: 'change'}],
-          duration: [{required: true, message: ' ', trigger: 'change'}]
+          percent: [{required: true, validator: validatePercent, trigger: 'change'}],
+          duration: [{required: true, validator: validateDuration, trigger: 'change'}]
         }
       };
     },
     methods: {
-      // 确认创建
+      // 确认关闭
       confirmClose(formName) {
         let that = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            that.closeDialog();
+            TaskApi().finishTask(that.close_info).then(res => {
+              console.log(res);
+              if(res.status) {
+                that.closeDialog();
+              } else {
+                that.$message({message: res.message, type: 'error'});
+              }
+            });
           } else {
             return false;
           }
@@ -70,12 +81,43 @@
       // 关闭dialog
       closeDialog() {
         this.$store.dispatch('setTaskClose', {status: false, source: null});
+      },
+      // 关闭前
+      beforeClose() {
+        let that = this;
+        if(JSON.stringify(that.$data.form) === JSON.stringify(that.$options.data().form)) {
+          that.closeDialog();
+        } else {
+          that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
+            that.closeDialog();
+          });
+        }
       }
     },
     computed: {
+      close_info() {
+        let that = this;
+        return {
+          taskId: that.task_info.task_id,
+          objId: that.task_info.obj_id,
+          remark: that.form.summary,
+          speedTime: that.form.duration,
+          progress: that.form.percent,
+          selfComments: that.form.rate
+        };
+      },
       ...mapState({
         task_close: store => store.task_close
       })
+    },
+    watch: {
+      'task_close.status'(cur) {
+        let that = this;
+        if(cur && that.task_close.parent) {
+          Object.assign(that.$data, that.$options.data());
+          that.task_info = that.task_close.parent;
+        }
+      }
     }
   };
 </script>
@@ -156,16 +198,6 @@
               content: '%';
               top: 14px;right: 30px;
             }
-            input {
-              box-sizing: border-box;
-              width: 100%;
-              height: 48px;
-              padding-left: 20px;
-              background-color: $backColor;
-              border-radius: 2px;
-              border-color: #fff;
-              background-image: none !important;
-            }
           }
         }
       }
@@ -190,7 +222,7 @@
               display: flex;
               justify-content: center;
               align-items: center;
-              width: 32px;
+              width: 36px;
               height: 16px;
               border-radius: 8px;
               background-color: $purple;

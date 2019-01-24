@@ -37,13 +37,17 @@ $up-down: 30px;
           }
           &.is-success .el-form-item__content{
             input, textarea {
-              border-color: #67c23a;
+              border-color: #fff;
             }
           }
           .el-form-item__content {
             display: flex;
             width: 100%;
             line-height: normal;
+            .el-form-item__error {
+              padding-top: 8px;
+              font-size: $h3Font;
+            }
           }
         }
       }
@@ -96,6 +100,29 @@ $up-down: 30px;
     color: $linkBlue;
     border:1px solid $linkBlue;
     background-color: #fff;
+  }
+}
+// input控件
+.el-input {
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;
+    padding: 10px 0 10px 20px;
+    border-radius: 2px;
+    border-color: #fff;
+    background-color: #f6f6f6;
+    background-image: none !important;
+  }
+}
+// rate控件
+.el-rate {
+  display: flex;
+  align-items: center;
+  .el-rate__text {
+    font-size: $h2Font;
+    font-weight: $h1Weight;
+    color: $h1Color;
   }
 }
 
