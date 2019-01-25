@@ -45,38 +45,38 @@ class Okr extends Abstract {
 
   /**
    * okr基础信息
-   * @param {required} obj_id okr id
+   * @param {number | required} obj_id
    */
-  getOkrBasicinfo(data) {
-    return this.getReq('Okr.Basicinfo', data);
+  getBasicInfo(data) {
+    return this.getReq('Okr.BasicInfo', data);
   }
 
   /**
    * okr keyresult 列表
-   * @param {required} obj_id okr id
+   * @param {number | required} obj_id
    */
-  getOkrKeyResultList(data) {
-    return this.getReq('Okr.OkrKeyResult', data);
+  getKeyResultList(data) {
+    return this.getReq('Okr.KeyResultList', data);
   }
 
   /**
    * okr keytask 列表
-   * @param {required} obj_id okr id
-   * @param {required} key_task : 1 * 或者该值不传
-   * @param {required} task_id: 1  * 搜索关联task 列表信息
-   * @param {required} currpage: 1 * 当前第几页
-   * @param {required} pages: 15 * 每页总数
-   * @param {required} last_id: 1 * 最后一条id
+   * @param {number | required} obj_id
+   * @param {number | required} key_task 或者该值不传
+   * @param {number | required} task_id 搜索关联task 列表信息
+   * @param {number | required} currpage 当前第几页
+   * @param {number} pages 每页总数
+   * @param {number} last_id 最后一条id
    */
-  getOkrKeyTaskList(data) {
-    return this.getReq('Okr.OkrKeyTask', data);
+  getKeyTaskList(data) {
+    return this.getReq('Okr.KeyTaskList', data);
   }
 
   /**
    * 获取okr简洁版列表
    * @param {string | required} keyword
    */
-  getOkrSimpleList(data) {
+  getSimpleList(data) {
     return this.getReq('Okr.SimpleList', data);
   }
 
@@ -100,10 +100,9 @@ class Okr extends Abstract {
 
   /**
    * okr类型
-   *
    */
-  getOkrType(data){
-    return this.getReq('Okr.OkrTab', data);
+  getTypeList(data){
+    return this.getReq('Okr.TypeList', data);
   }
 
   /**

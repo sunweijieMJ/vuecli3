@@ -45,13 +45,13 @@ const urlDict = {
   'Okr': {
     'CreateOkr': 'okr/okr/create', // ETC 创建OKR
     'UpdateOkr': 'okr/okr/update', // ETC 编辑OKR
-    'Basicinfo': 'okr/okr/basicinfo', // ETC okr 基础信息
-    'OkrKeyResult': 'okr/kr/list', // ETC okr keyresult 列表
-    'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表
+    'BasicInfo': 'okr/okr/basicinfo', // ETC okr 基础信息
+    'KeyResultList': 'okr/kr/list', // ETC okr keyresult 列表
+    'KeyTaskList': 'okr/task/list', // ETC okr keytask列表
     'SimpleList': 'okr/okr/simplelist', // ETC 获取okr简洁版列表
     'DeleteKrFromOkr': 'okr/okr/delkr', // ETC 删除 OKR 关联 KR
     'DeleteUserFromOkr': 'okr/okr/deluser', // ETC 删除 OKR 关联 User
-    'OkrTab': '/okr/okr/typelist', // ETC okr tab
+    'TypeList': '/okr/okr/typelist', // ETC okr type
     'OkrList': '/okr/okr/list' // ETC okr list
   },
   'Task': {

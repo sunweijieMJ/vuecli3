@@ -22,10 +22,10 @@ const actions = {
   async setOKRPublish({commit}, data) {
     if (data.type === 'edit') {
       let source = {};
-      await OkrApi().getOkrBasicinfo({objId: data.okrId}).then(res => {
+      await OkrApi().getBasicInfo({objId: data.okrId}).then(res => {
         source = res.data;
       });
-      await OkrApi().getOkrKeyResultList({objId: data.okrId}).then(res => {
+      await OkrApi().getKeyResultList({objId: data.okrId}).then(res => {
         source.key_result = res.data;
       });
       commit(types.OKR_PUBLISH, {status: true, type: 'edit', source});

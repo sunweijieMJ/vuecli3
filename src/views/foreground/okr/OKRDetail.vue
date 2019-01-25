@@ -95,7 +95,7 @@ export default {
   methods: {
     // 编辑okr回调
     handleOkrEdit() {
-      this.getOkrBasicinfo();
+      this.getBasicInfo();
     },
     handleTaskCreate() {
       this.infinite();
@@ -114,14 +114,14 @@ export default {
     showAllJoinner(val){
       console.log('参与者', val)
     },
-    getOkrBasicinfo(){
-      okrApi().getOkrBasicinfo({objId: this.$route.params.id}).then(res => {
+    getBasicInfo(){
+      okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
         this.okr_detail = res.data;
         // console.log(res)
       });
     },
-    getOkrKeyResultList(){
-      okrApi().getOkrKeyResultList({objId: this.$route.params.id}).then(res => {
+    getKeyResultList(){
+      okrApi().getKeyResultList({objId: this.$route.params.id}).then(res => {
         this.kr_list = Object.values(res.data);
       });
     },
@@ -129,7 +129,7 @@ export default {
     infinite() {
       let that = this;
       that.disabled = true;
-      that.getOkrKeyTaskList(++this.pageInfo.current_page).then(() => {
+      that.getKeyTaskList(++this.pageInfo.current_page).then(() => {
         // 触底判断
         that.disabled = false;
         if(!that.kt_list.length) {
@@ -144,8 +144,8 @@ export default {
         }
       });
     },
-    async getOkrKeyTaskList(){
-      return await okrApi().getOkrKeyTaskList({
+    async getKeyTaskList(){
+      return await okrApi().getKeyTaskList({
         objId: this.$route.params.id, // ETC okr id
         currPage: this.pageInfo.current_page, // ETC 当前第几页
         pages: this.pageInfo.page_size, // ETC 每页总数
@@ -169,8 +169,8 @@ export default {
     }
   },
   mounted(){
-    this.getOkrBasicinfo();
-    this.getOkrKeyResultList();
+    this.getBasicInfo();
+    this.getKeyResultList();
   }
 };
 </script>

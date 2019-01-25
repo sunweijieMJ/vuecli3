@@ -93,8 +93,8 @@
           okr_name: '',
           bo_user: '',
           okr_type: {
-            name: '个人',
-            type: 4
+            id: 4,
+            name: '个人'
           },
           daterange: {
             start_time: '',
@@ -110,24 +110,7 @@
             }
           ]
         },
-        project_type: [
-          {
-            name: '公司',
-            type: 1
-          },
-          {
-            name: '项目',
-            type: 2
-          },
-          {
-            name: '部门',
-            type: 3
-          },
-          {
-            name: '个人',
-            type: 4
-          }
-        ],
+        project_type: [],
         rules: {
           okr_name: [{required: true, message: ' ', trigger: 'change'}],
           objective: [{required: true, message: ' ', trigger: 'change'}]
@@ -135,6 +118,11 @@
       };
     },
     methods: {
+      getTypeList() {
+        OkrApi().getTypeList({}).then(res => {
+          this.project_type = res.data;
+        });
+      },
       // 选择okr类型
       handleCommand(command) {
         let that = this;
@@ -261,7 +249,7 @@
         return {
           okrName: that.form.okr_name,
           boUser: that.form.bo_user.user_id,
-          okrType: that.form.okr_type.type,
+          okrType: that.form.okr_type.id,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
           endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
           takeUser,
@@ -285,7 +273,7 @@
             bo_user: that.okr_publish.source.bo_info,
             okr_type: {
               name: that.okr_publish.source.okr_type_name,
-              type: that.okr_publish.source.okr_type
+              id: that.okr_publish.source.okr_type
             },
             daterange: {
               start_time: Moment().format(that.okr_publish.source.start_time, 'YYYY/MM/DD'),
@@ -298,6 +286,7 @@
         } else if(cur === 'create') {
           that.form.bo_user = that.self_info;
         }
+        this.getTypeList();
       },
       'form.daterange'() {
         origin = JSON.parse(JSON.stringify(this.$data.form));
