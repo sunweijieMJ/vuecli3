@@ -27,7 +27,7 @@
             </div>
             <div class="time">
               <h4>时间</h4>
-              <date-range @formatDate="formatDate">
+              <date-range :range="form.daterange" @formatDate="formatDate">
                 <p>
                   <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
                   <i class="iconfont icon-shopping_cart__ic_do"></i>
@@ -83,6 +83,7 @@
   import OkrApi from '../../api/Okr.js';
   import Moment from '../../utils/business/moment.js';
   import {Member, DateRange} from '../../components/popup';
+  let origin = {};
 
   export default {
     components: {Member, DateRange},
@@ -166,7 +167,7 @@
         that.$confirm(`确定删除KR${index + 1}?`, '删除', {type: 'warning'}).then(() => {
           if(that.form.key_result[index].kr_id) {
             OkrApi().deleteKrFromOkr({objId: that.form.key_result[index].obj_id, krId: that.form.key_result[index].kr_id}).then(res => {
-              console.log(res);
+              if(!res.status) that.$message({message: res.message, type: 'error'});
             });
           }
           that.form.key_result.splice(index, 1);
@@ -193,12 +194,28 @@
       // 确认创建
       confirmSetup(formName) {
         let that = this;
-        this.$refs[formName].validate((valid) => {
+        that.$refs[formName].validate((valid) => {
           if (valid) {
-            that.closeDialog();
-            OkrApi().createOkr(that.okr_info).then(res => {
-              alert(res.data.id);
-            });
+            if(that.okr_publish.type === 'edit') {
+              that.okr_info.objId = that.okr_publish.source.obj_id;
+              OkrApi().updateOkr(that.okr_info).then(res => {
+                if(res.status) {
+                  that.$emit('handleOkrEdit');
+                  that.closeDialog();
+                } else {
+                  that.$message({message: res.message, type: 'error'});
+                }
+              });
+            } else {
+              OkrApi().createOkr(that.okr_info).then(res => {
+                if(res.status) {
+                  that.$emit('handleOkrPublish');
+                  that.closeDialog();
+                } else {
+                  that.$message({message: res.message, type: 'error'});
+                }
+              });
+            }
           } else {
             that.$message({message: '请填写完整信息', type: 'warning'});
             return false;
@@ -207,9 +224,14 @@
       },
       // 关闭前
       beforeClose() {
-        let that = this;
-        if(JSON.stringify(that.$data.form.okr_name) === JSON.stringify(that.$options.data().form.okr_name) &&
-        JSON.stringify(that.$data.form.task_user) === JSON.stringify(that.$options.data().form.task_user)) {
+        let [that, flag] = [this, true];
+        for(let key in origin) {
+          if(JSON.stringify(origin[key]) !== JSON.stringify(this.$data.form[key])) {
+            flag = false;
+            break;
+          }
+        }
+        if(flag) {
           that.closeDialog();
         } else {
           that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
@@ -253,32 +275,32 @@
       })
     },
     watch: {
-      'okr_publish.status'(cur) {
-        let that = this;
-        if(cur) {
-          Object.assign(that.$data, that.$options.data());
-          if(!that.okr_publish.source) that.form.bo_user = that.self_info;
-        }
-      },
-      'okr_publish.source'(cur) {
+      'okr_publish.type'(cur) {
         if(!cur) return;
         let that = this;
-
-        that.form =  {
-          okr_name: cur.okr_name,
-          bo_user: cur.bo_info,
-          okr_type: {
-            name: cur.okr_type_name,
-            type: cur.okr_type
-          },
-          daterange: {
-            start_time: Moment().format(cur.start_time, 'YYYY/MM/DD'),
-            end_time: Moment().format(cur.end_time, 'YYYY/MM/DD')
-          },
-          task_user: cur.participants.length ? Object.values(cur.participants) : [],
-          objective: cur.objective_desc,
-          key_result: cur.key_result.length ? Object.values(cur.key_result) : []
-        };
+        Object.assign(that.$data, that.$options.data());
+        if(cur === 'edit') {
+          that.form =  {
+            okr_name: that.okr_publish.source.okr_name,
+            bo_user: that.okr_publish.source.bo_info,
+            okr_type: {
+              name: that.okr_publish.source.okr_type_name,
+              type: that.okr_publish.source.okr_type
+            },
+            daterange: {
+              start_time: Moment().format(that.okr_publish.source.start_time, 'YYYY/MM/DD'),
+              end_time: Moment().format(that.okr_publish.source.end_time, 'YYYY/MM/DD')
+            },
+            task_user: that.okr_publish.source.participants,
+            objective: that.okr_publish.source.objective_desc,
+            key_result: that.okr_publish.source.key_result
+          };
+        } else if(cur === 'create') {
+          that.form.bo_user = that.self_info;
+        }
+      },
+      'form.daterange'() {
+        origin = JSON.parse(JSON.stringify(this.$data.form));
       }
     }
   };

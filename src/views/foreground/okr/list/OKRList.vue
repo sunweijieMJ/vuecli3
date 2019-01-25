@@ -4,7 +4,7 @@
       <el-radio-group v-model="active_name" @change="handleClick">
         <el-radio-button v-for="(item, index) in okr_type" :key="index" :label="item.type">{{item.label}}</el-radio-button>
       </el-radio-group>
-      <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true})">
+      <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true, type: 'create'})">
         <span>
           <i class="el-icon-plus"></i>
         </span>
@@ -16,15 +16,16 @@
         <single-okr :item="item"></single-okr>
       </li>
     </ul>
+    <o-k-r-publish @handleOkrPublish="handleOkrPublish"></o-k-r-publish>
   </div>
 </template>
 <script>
   import OkrApi from '../../../../api/Okr.js';
   import {Loading} from '../../../../components/public';
-  import {SingleOkr} from '../../../../components/okr';
+  import {SingleOkr, OKRPublish} from '../../../../components/okr';
 
   export default {
-    components: {SingleOkr, Loading},
+    components: {SingleOkr, Loading, OKRPublish},
     data() {
       return {
         okr_list: [],
@@ -60,6 +61,13 @@
       };
     },
     methods: {
+      handleOkrPublish() {
+        let that = this;
+        const tab = that.active_name;
+        Object.assign(that.$data, that.$options.data());
+        that.active_name = tab;
+        that.infinite();
+      },
       handleClick(tab) {
         let that = this;
         Object.assign(that.$data, that.$options.data());

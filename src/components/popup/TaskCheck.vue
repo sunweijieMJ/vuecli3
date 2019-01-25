@@ -14,23 +14,19 @@
         check_list: [
           {
             name: '跟进',
-            icon: 'el-icon-edit-outline',
-            action: 'setTaskFollow'
+            icon: 'el-icon-edit-outline'
           },
           {
             name: '编辑',
-            icon: 'el-icon-edit-outline',
-            action: 'taskEdit'
+            icon: 'el-icon-edit-outline'
           },
           {
             name: '完成',
-            icon: 'el-icon-edit-outline',
-            action: 'setTaskClose'
+            icon: 'el-icon-edit-outline'
           },
           {
             name: '添加Task',
-            icon: 'el-icon-edit-outline',
-            action: 'setTaskPublish'
+            icon: 'el-icon-edit-outline'
           }
         ]
       };
@@ -38,10 +34,21 @@
     methods: {
       handleTask(item) {
         let that = this;
-        if(item.action === 'taskEdit') {
-          that.$store.dispatch('setTaskPublish', {status: true, taskId: that.item.task_id});
-        } else {
-          that.$store.dispatch(item.action, {status: true, parent: that.item});
+        switch (item.name) {
+          case '跟进':
+            that.$store.dispatch('setTaskFollow', {status: true, parent: that.item});
+            break;
+          case '编辑':
+            that.$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: that.item.task_id});
+            break;
+          case '完成':
+            that.$store.dispatch('setTaskClose', {status: true, parent: that.item});
+            break;
+          case '添加Task':
+            that.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: that.item});
+            break;
+          default:
+            break;
         }
       }
     }

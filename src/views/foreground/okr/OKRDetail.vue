@@ -51,25 +51,27 @@
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
         <span class="iconfont icon-tianjia1"></span>
-        <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, parent: okr_detail})">添加</span>
+        <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">添加</span>
       </div>
       <div class="key-task" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
         <KeyTask :kt_list="kt_list"></KeyTask>
       </div>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
+    <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
   </div>
 </template>
 <script>
 import KeyResult from './okrdetail/KeyResult.vue';
 import KeyTask from './okrdetail/KeyTask';
 import {Loading} from '../../../components/public';
+import {OKRPublish} from '../../../components/okr';
 import dateFormat from '../../../utils/filters/dateFormat.js';
 
 import okrApi from '../../../api/Okr.js';
 export default {
   name: 'okrdetail',
-  components: {KeyResult, KeyTask, Loading},
+  components: {KeyResult, KeyTask, Loading, OKRPublish},
   data(){
     return {
       dateFormat,
@@ -90,12 +92,15 @@ export default {
     };
   },
   methods: {
+    // 编辑okr回调
+    handleOkrEdit() {
+      this.getOkrBasicinfo();
+    },
     handleCommand(command){
-      console.log(command)
       switch (command) {
         case '编辑':
           this.okr_detail.key_result = this.kr_list;
-          this.$store.dispatch('setOKRPublish', {status: true, source: this.okr_detail});
+          this.$store.dispatch('setOKRPublish', {status: true, type: 'edit', okrId: this.okr_detail.obj_id});
           break;
         default:
           break;

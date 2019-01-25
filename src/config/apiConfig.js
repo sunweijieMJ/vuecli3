@@ -43,11 +43,12 @@ const urlDict = {
     'StaffData': 'crules/org/getstaffsbydep' // ETC 员工数据
   },
   'Okr': {
+    'CreateOkr': 'okr/okr/create', // ETC 创建OKR
+    'UpdateOkr': 'okr/okr/update', // ETC 编辑OKR
     'Basicinfo': 'okr/okr/basicinfo', // ETC okr 基础信息
     'OkrKeyResult': 'okr/kr/list', // ETC okr keyresult 列表
     'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表
     'SimpleList': 'okr/okr/simplelist', // ETC 获取okr简洁版列表
-    'CreateOkr': 'okr/okr/create', // ETC 创建OKR
     'DeleteKrFromOkr': 'okr/okr/delkr', // ETC 删除 OKR 关联 KR
     'DeleteUserFromOkr': 'okr/okr/deluser', // ETC 删除 OKR 关联 User
     'OkrTab': '/okr/okr/typelist', // ETC okr tab
@@ -55,6 +56,7 @@ const urlDict = {
   },
   'Task': {
     'CreateTask': 'okr/task/create', // ETC 创建Task
+    'UpdateTask': 'okr/task/update', // ETC 编辑Task
     'BasicInfo': 'okr/task/basicinfo', // ETC 获取task 基础信息
     'DeleteUserFromTask': 'okr/task/deluser', // ETC 删除 task 关联 user
     'OkrKeyTask': 'okr/task/list', // ETC okr keytask列表 关联task列表

@@ -6,15 +6,18 @@
       </li>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
+    <task-publish @handleTaskEdit="handleTaskEdit"></task-publish>
+    <task-follow></task-follow>
+    <task-close></task-close>
   </div>
 </template>
 <script>
   import TaskApi from '../../../../api/Task.js';
   import {Loading} from '../../../../components/public';
-  import {SingleTask} from '../../../../components/okr';
+  import {SingleTask, TaskPublish, TaskFollow, TaskClose} from '../../../../components/okr';
 
   export default {
-    components: {SingleTask, Loading},
+    components: {SingleTask, Loading, TaskPublish, TaskFollow, TaskClose},
     data() {
       return {
         task_list: [],
@@ -31,6 +34,16 @@
       };
     },
     methods: {
+      handleTaskEdit() {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        that.infinite();
+      },
+      handleTaskPublish() {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        that.infinite();
+      },
       // 触底刷新
       infinite() {
         let that = this;

@@ -7,16 +7,16 @@
           <!-- task信息 -->
           <div class="title">
             <div class="bo">
-              <img :src="self_info.header_photo" alt="">
+              <img :src="form.to_user.header_photo" alt="">
               <div class="item">
                 <h4>Owner</h4>
-                <p>{{self_info.user_name}}</p>
+                <p>{{form.to_user.user_name}}</p>
               </div>
             </div>
             <div class="time">
               <div class="item">
                 <h4>时间</h4>
-                <date-range @formatDate="formatDate">
+                <date-range :range="form.daterange" @formatDate="formatDate">
                   <p>
                     <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
                     <i class="iconfont icon-shopping_cart__ic_do"></i>
@@ -53,6 +53,7 @@
   import TaskApi from '../../api/Task.js';
   import Moment from '../../utils/business/moment.js';
   import {DateRange, Member, Relevancy} from '../../components/popup';
+  let origin = {};
 
   export default {
     components: {DateRange, Member, Relevancy},
@@ -88,10 +89,26 @@
         let that = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            that.closeDialog();
-            TaskApi().createTask(that.task_info).then(res => {
-              alert(res.data.id);
-            });
+            if(that.task_publish.type === 'edit') {
+              that.task_info.taskId = that.task_publish.source.task_id;
+              TaskApi().updateTask(that.task_info).then(res => {
+                if(res.status) {
+                  that.$emit('handleTaskEdit');
+                  that.closeDialog();
+                } else {
+                  that.$message({message: res.message, type: 'error'});
+                }
+              });
+            } else {
+              TaskApi().createTask(that.task_info).then(res => {
+                if(res.status) {
+                  that.$emit('handleTaskPublish');
+                  that.closeDialog();
+                } else {
+                  that.$message({message: res.message, type: 'error'});
+                }
+              });
+            }
           } else {
             return false;
           }
@@ -99,9 +116,14 @@
       },
       // 关闭前
       beforeClose() {
-        let that = this;
-        if(JSON.stringify(that.$data.form.task_content) === JSON.stringify(that.$options.data().form.task_content) &&
-        JSON.stringify(that.$data.form.task_user) === JSON.stringify(that.$options.data().form.task_user)) {
+        let [that, flag] = [this, true];
+        for(let key in origin) {
+          if(JSON.stringify(origin[key]) !== JSON.stringify(this.$data.form[key])) {
+            flag = false;
+            break;
+          }
+        }
+        if(flag) {
           that.closeDialog();
         } else {
           that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
@@ -126,8 +148,7 @@
           objectIds.push(that.form.object_ids[i].obj_id);
         }
         return {
-          taskId: that.form.task_id,
-          toUser: that.form.to_user || that.self_info.user_id,
+          toUser: that.form.to_user.user_id,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
           endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
           taskContent: that.form.task_content,
@@ -142,48 +163,51 @@
       })
     },
     watch: {
-      'task_publish.status'(cur) {
+      'task_publish.type'(cur) {
+        if(!cur) return;
         let that = this;
         Object.assign(that.$data, that.$options.data());
-        // 区分关联的上级
-        if(cur && this.task_publish.parent) {
-          if(this.task_publish.parent.okr_type) {
-            that.form.parent_id = 0;
-            that.form.object_ids.push({
-              obj_id: this.task_publish.parent.obj_id,
-              okr_name: this.task_publish.parent.okr_name
-            });
-          } else {
-            that.form.parent_id = this.task_publish.parent.task_id;
-            that.form.object_ids.push({
-              task_id: this.task_publish.parent.task_id,
-              task_name: this.task_publish.parent.task_name
-            });
+        if(cur === 'edit') {
+          let object_ids = [];
+          if(that.task_publish.source.parent_id) {
+            object_ids.push(that.task_publish.source.parent_info);
+          } else if (that.task_publish.source.obj_id) {
+            object_ids = Object.values(that.task_publish.source.obj_infos);
+          }
+
+          that.form =  {
+            to_user: that.task_publish.source.to_info,
+            daterange: {
+              start_time: Moment().format(that.task_publish.source.start_time, 'YYYY/MM/DD'),
+              end_time: Moment().format(that.task_publish.source.end_time, 'YYYY/MM/DD')
+            },
+            task_content: that.task_publish.source.task_name,
+            task_user: Object.values(that.task_publish.source.participants),
+            parent_id: that.task_publish.source.parents_id,
+            object_ids
+          };
+        } else {
+          that.form.to_user = that.self_info;
+          // 区分关联的上级
+          if(cur && this.task_publish.parent) {
+            if(this.task_publish.parent.okr_type) {
+              that.form.parent_id = 0;
+              that.form.object_ids.push({
+                obj_id: this.task_publish.parent.obj_id,
+                okr_name: this.task_publish.parent.okr_name
+              });
+            } else {
+              that.form.parent_id = this.task_publish.parent.task_id;
+              that.form.object_ids.push({
+                task_id: this.task_publish.parent.task_id,
+                task_name: this.task_publish.parent.task_name
+              });
+            }
           }
         }
       },
-      'task_publish.source'(cur) {
-        if(!cur) return;
-        let that = this;
-        let object_ids = [];
-        if(cur.parent_id) {
-          object_ids.push(cur.parent_info);
-        } else if (cur.obj_id) {
-          object_ids = Object.values(cur.obj_infos);
-        }
-
-        that.form =  {
-          task_id: cur.task_id,
-          to_user: cur.to_info.user_name,
-          daterange: {
-            start_time: Moment().format(cur.start_time, 'YYYY/MM/DD'),
-            end_time: Moment().format(cur.end_time, 'YYYY/MM/DD')
-          },
-          task_content: cur.task_name,
-          task_user: Object.values(cur.participants),
-          parent_id: cur.parents_id,
-          object_ids
-        };
+      'form.daterange'() {
+        origin = JSON.parse(JSON.stringify(this.$data.form));
       }
     }
   };

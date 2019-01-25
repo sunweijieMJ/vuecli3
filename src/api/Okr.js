@@ -13,6 +13,37 @@ class Okr extends Abstract {
   }
 
   /**
+   * 创建OKR
+   * @param {string | required} okrName okr名称
+   * @param {number | required} boUser 发起人id
+   * @param {string | required} okrType 类型
+   * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
+   * @param {string | required} endTime 结束时间
+   * @param {array} takeUser 参与者id数组
+   * @param {string | required} objectiveName objective
+   * @param {array | required} keyResult [{name: 'xx', index: 0}, {name: 'xxx',  'index': 100}]
+   */
+  createOkr(data) {
+    return this.postReq('Okr.CreateOkr', data);
+  }
+
+  /**
+   * 编辑OKR
+   * @param {number | required} objId objId
+   * @param {string | required} okrName okr名称
+   * @param {number | required} boUser 发起人id
+   * @param {string | required} okrType 类型
+   * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
+   * @param {string | required} endTime 结束时间
+   * @param {array} takeUser 参与者id数组
+   * @param {string | required} objectiveName objective
+   * @param {array | required} keyResult [{name: 'xx', index: 0}, {name: 'xxx',  'index': 100}]
+   */
+  updateOkr(data) {
+    return this.postReq('Okr.UpdateOkr', data);
+  }
+
+  /**
    * okr基础信息
    * @param {required} obj_id okr id
    */
@@ -47,21 +78,6 @@ class Okr extends Abstract {
    */
   getOkrSimpleList(data) {
     return this.getReq('Okr.SimpleList', data);
-  }
-
-  /**
-   * 创建OKR
-   * @param {string | required} okrName okr名称
-   * @param {number | required} boUser 发起人id
-   * @param {string | required} okrType 类型
-   * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
-   * @param {string | required} endTime 结束时间
-   * @param {array} takeUser 参与者id数组
-   * @param {string | required} objectiveName objective
-   * @param {array | required} keyResult [{name: 'xx', index: 0}, {name: 'xxx',  'index': 100}]
-   */
-  createOkr(data) {
-    return this.postReq('Okr.CreateOkr', data);
   }
 
   /**

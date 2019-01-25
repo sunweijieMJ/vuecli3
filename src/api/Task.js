@@ -13,7 +13,7 @@ class Task extends Abstract {
   }
 
   /**
-   * 创建OKR
+   * 创建Task
    * @param {string | required} taskContent task名称
    * @param {number | required} toUser 发起人id
    * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
@@ -24,6 +24,21 @@ class Task extends Abstract {
    */
   createTask(data) {
     return this.postReq('Task.CreateTask', data);
+  }
+
+  /**
+   * 编辑Task
+   * @param {number | required} taskId task id
+   * @param {string | required} taskContent task名称
+   * @param {number | required} toUser 发起人id
+   * @param {string | required} startTime 开始时间 格式 YYYY-MM-DD
+   * @param {string | required} endTime 结束时间
+   * @param {array} takeUser 参与者id数组
+   * @param {number | required} parentId 父id,无为0
+   * @param {array | required} objectIds 管理OKR ID
+   */
+  updateTask(data) {
+    return this.postReq('Task.UpdateTask', data);
   }
 
   /**

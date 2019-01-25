@@ -36,13 +36,10 @@
   import Moment from '../../utils/business/moment.js';
 
   export default {
+    props: ['range'],
     data() {
       return {
         date_popover: false,
-        daterange: {
-          start_time: new Date(),
-          end_time: new Date().setMonth(new Date().getMonth() + 3)
-        },
         // 开始禁用时间
         pickerOptionsStart: {
           disabledDate: (time) => {
@@ -66,22 +63,37 @@
         }
       };
     },
-    created() {
-      this.formatDate();
-    },
     methods: {
       // 格式化时间
-      formatDate() {
+      formatDate(daterange) {
         let that = this;
-        that.daterange.start_time = Moment().format(that.daterange.start_time);
-        that.daterange.end_time = Moment().format(that.daterange.end_time);
-        that.$emit('formatDate', that.daterange);
+        daterange.start_time = Moment().format(daterange.start_time);
+        daterange.end_time = Moment().format(daterange.end_time);
+        that.$emit('formatDate', daterange);
       },
       // 确认
       confirmEmit() {
         let that = this;
-        that.formatDate();
+        that.formatDate(that.daterange);
         that.date_popover = false;
+      }
+    },
+    computed: {
+      daterange() {
+        let that = this;
+        if(that.range.start_time !== '') {
+          const daterange = that.range;
+          daterange.start_time = Moment().format(daterange.start_time);
+          daterange.end_time = Moment().format(daterange.end_time);
+          return daterange;
+        } else {
+          const daterange = {
+            start_time: new Date(),
+            end_time: new Date().setMonth(new Date().getMonth() + 3)
+          };
+          that.formatDate(daterange);
+          return daterange;
+        }
       }
     },
     watch: {

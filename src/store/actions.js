@@ -20,7 +20,7 @@ const actions = {
     });
   },
   async setOKRPublish({commit}, data) {
-    if (data.okrId) {
+    if (data.type === 'edit') {
       let source = {};
       await OkrApi().getOkrBasicinfo({objId: data.okrId}).then(res => {
         source = res.data;
@@ -28,18 +28,18 @@ const actions = {
       await OkrApi().getOkrKeyResultList({objId: data.okrId}).then(res => {
         source.key_result = res.data;
       });
-      commit(types.OKR_PUBLISH, {status: true, source});
+      commit(types.OKR_PUBLISH, {status: true, type: 'edit', source});
     } else {
       commit(types.OKR_PUBLISH, data);
     }
   },
   async setTaskPublish({commit}, data) {
-    if (data.taskId) {
+    if (data.type === 'edit') {
       let source = {};
       await TaskApi().getBasicInfo({taskId: data.taskId}).then(res => {
         source = res.data;
       });
-      commit(types.TASK_PUBLISH, {status: true, source});
+      commit(types.TASK_PUBLISH, {status: true, type: 'edit', source});
     } else {
       commit(types.TASK_PUBLISH, data);
     }
