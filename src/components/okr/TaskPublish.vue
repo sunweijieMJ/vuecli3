@@ -28,7 +28,7 @@
           <!-- ktask -->
           <div class="ktask">
             <el-form-item prop="task_content">
-              <el-input type="textarea" v-model="form.task_content" maxlength="50" placeholder="你的KT是什么？"></el-input>
+              <el-input type="textarea" v-model="form.task_content" maxlength="50" placeholder="请填写达成OKR的关键任务(50字以内)"></el-input>
             </el-form-item>
           </div>
           <!-- 参与者 -->
@@ -110,6 +110,7 @@
               });
             }
           } else {
+            that.$message({message: '请填写完整信息', type: 'warning'});
             return false;
           }
         });
@@ -228,8 +229,8 @@
           width: 235px;
           img {
             box-sizing: border-box;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 1px solid $lineColor;
           }
@@ -256,6 +257,9 @@
           }
           p {
             cursor: pointer;
+            i {
+              font-size: 12px;
+            }
           }
         }
       }

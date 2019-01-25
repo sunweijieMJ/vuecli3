@@ -5,11 +5,10 @@
         <h3>{{item.okr_name}}</h3>
         <p>
           <i class="iconfont icon-icon_depart"></i>
-          <span>{{item.creator_info.department_name}}</span>
+          <span>{{item.okr_type !== 3 ? item.okr_type_name : item.creator_info.department_name}}</span>
         </p>
       </div>
       <div class="desc">
-        <i class="iconfont icon-icon_okr_l"></i>
         <p>{{item.objective_desc}}</p>
       </div>
     </div>
@@ -25,8 +24,10 @@
 <script>
   import frequent from '../../mixins/frequent.js';
   import Moment from '../../utils/business/moment.js';
+  import {UserPopover} from '../../components/popup';
 
   export default {
+    components: {UserPopover},
     mixins: [frequent],
     props: ['item'],
     data() {
@@ -38,17 +39,19 @@
 </script>
 <style lang="scss" scoped>
   .single-okr {
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     margin-bottom: 12px;
-    padding: 23px 50px 23px 60px;
+    padding: 23px 50px;
     border-radius:4px;
     cursor: pointer;
     background-color: #fff;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     .okr-info {
+      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -71,7 +74,7 @@
             margin-left: 3px;
             font-size: $h4Font;
             font-weight: $h1Weight;
-            color: $h2Color;
+            color: $h3Color;
           }
         }
       }
@@ -80,12 +83,8 @@
         align-items: center;
         margin-top: 8px;
         line-height: 21px;
-        i {
-          font-size: 15px;
-          color: $h1Color;
-        }
         p {
-          margin-left: 7px;
+          @include tofl(400px);
           font-size: $h3Font;
           font-weight: 400;
           color: $h1Color;
@@ -94,14 +93,18 @@
     }
     .okr-time {
       display: flex;
+      justify-content: space-between;
       align-items: center;
+      align-self: flex-end;
+      width: 350px;
       .name {
         display: flex;
         align-items: center;
+        margin-right: 100px;
         img {
           box-sizing: border-box;
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
           border: 1px solid $lineColor;
         }
@@ -112,7 +115,6 @@
         }
       }
       p {
-        margin-left: 100px;
         font-size: $h4Font;
         color: $h2Color;
       }

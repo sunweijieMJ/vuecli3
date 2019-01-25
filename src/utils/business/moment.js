@@ -1,4 +1,6 @@
 
+import fillZero from '../filters/fillZero';
+
 class Moment {
 
   constructor() {
@@ -13,13 +15,13 @@ class Moment {
     const date = new Date(time).getDate();
     switch (type) {
       case 'YYYY/MM/DD':
-        return `${year}/${month}/${date}`;
+        return `${year}/${fillZero(month)}/${fillZero(date)}`;
         break;
       case 'YYYY-MM-DD':
-        return `${year}-${month}-${date}`;
+        return `${year}-${fillZero(month)}-${fillZero(date)}`;
         break;
       default:
-        return `${year}/${month}/${date}`;
+        return `${year}/${fillZero(month)}/${fillZero(date)}`;
         break;
     }
   }

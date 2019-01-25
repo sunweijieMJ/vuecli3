@@ -3,9 +3,10 @@
     <h4>关联</h4>
     <div class="content">
       <div class="list">
-        <el-tag v-for="(item, index) in object_ids" :key="index" closable @close="closeTag(index)">
+        <el-tag v-for="(item, index) in object_ids" :key="index" @close="closeTag(index)">
           <p>
-            <span>{{item.obj_id ? 'OKR' : 'KT'}}</span>
+            <span class="okr" v-if="item.obj_id || 1">{{'公司'}}</span>
+            <span v-else>KT</span>
             {{item.task_name || item.okr_name}}
           </p>
         </el-tag>
@@ -67,6 +68,9 @@
               background-color: $purple;
               font-size: $h4Font;
               color: #fff;
+              &.okr {
+                background-color: $green;
+              }
             }
           }
           .el-tag__close {

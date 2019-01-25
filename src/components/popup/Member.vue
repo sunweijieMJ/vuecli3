@@ -14,7 +14,7 @@
           <el-button class="add" slot="reference">添加</el-button>
           <div class="popover-member">
             <h4>参与者</h4>
-            <input type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称">
+            <el-input type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
             <template v-if="keyword">
               <ul class="list" v-if="user_list.length">
                 <li v-for="(item, index) in user_list" :key="index" @click="addUserList(item)">
@@ -28,7 +28,7 @@
               <div class="null" v-else>
                 <p>Sorry, 好像没有这个同事哦</p>
               </div>
-              <div class="btn">
+              <div class="btn" v-if="0">
                 <el-button class="cancel" @click="member_popover = false">取消</el-button>
                 <el-button class="confirm" @click="addUserList(false)">确定</el-button>
               </div>
@@ -57,6 +57,7 @@
       getUserList(keyword) {
         UserApi().getUserList({keyword}).then(res => {
           this.user_list = res.data.list;
+          console.log(this.user_list)
         });
       },
       judgeUser(user) {
@@ -169,7 +170,8 @@
             top: 0;
             color: $linkBlue;
             &:hover {
-              background-color: $themeColor;
+              color: #fff;
+              background-color: $linkBlue;
             }
           }
         }

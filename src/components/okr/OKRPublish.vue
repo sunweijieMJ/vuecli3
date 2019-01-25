@@ -1,11 +1,11 @@
 <template>
   <div class="okr-publish custom-dialog" v-if="okr_publish.status">
     <el-dialog width="950px" :before-close="beforeClose" @close="closeDialog" :visible.sync="okr_publish.status">
-      <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
+      <el-form :model="form" :rules="rules" ref="ruleForm">
         <div class="main">
           <!-- name -->
           <el-form-item class="name" prop="okr_name">
-            <el-input type="text" v-model="form.okr_name" maxlength="15" placeholder="给OKR起个名称吧"></el-input>
+            <el-input type="text" v-model="form.okr_name" maxlength="15" placeholder="给OKR起个简称吧(15字以内)"></el-input>
           </el-form-item>
           <!-- okr信息 -->
           <div class="title">
@@ -43,7 +43,7 @@
           <div class="objective">
             <h4>Objective</h4>
             <el-form-item prop="objective">
-              <el-input type="textarea" v-model="form.objective" maxlength="50" placeholder="你的Objective是什么？"></el-input>
+              <el-input type="textarea" v-model="form.objective" maxlength="50" placeholder="你的目标是什么?(50字以内)"></el-input>
             </el-form-item>
           </div>
           <!-- Key Result -->
@@ -53,7 +53,7 @@
               <ul class="list">
                 <li v-for="(key_result, index) in form.key_result" :key="index">
                   <el-form-item :prop="`key_result.${index}.kr_name`" :rules="{required: true, message: ' ', trigger: 'change'}">
-                    <el-input type="text" v-model="key_result.kr_name" :placeholder="`KR${index + 1}`"></el-input>
+                    <el-input type="text" v-model="key_result.kr_name" maxlength="30" :placeholder="'请填写达成目标的关键衡量结果(30字以内)'"></el-input>
                   </el-form-item>
                   <div class="percent">
                     <h5>信心指数</h5>
@@ -66,7 +66,7 @@
                   <i class="icon-btn_delete iconfont" :class="{hidden: form.key_result.length === 1}" @click="removeKeyResult(index)"></i>
                 </li>
               </ul>
-              <el-button class="add" @click="addKeyResult">添加</el-button>
+              <el-button class="add" @click="addKeyResult" v-if="form.key_result.length < 6">添加</el-button>
             </div>
           </div>
         </div>
@@ -297,14 +297,14 @@
 </script>
 <style lang="scss">
   $left-right: 37px;
-  $up-down: 20px;
+  $up-down: 24px;
 
   .okr-publish {
     .main {
-      max-height: 600px;
+      max-height: 570px;
       overflow-y: auto;
       .name {
-        padding: $up-down $left-right;
+        padding: 8px $left-right $up-down;
         input {
           box-sizing: border-box;
           width: 100%;
@@ -327,8 +327,8 @@
           width: 240px;
           img {
             box-sizing: border-box;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 1px solid $lineColor;
           }
@@ -477,6 +477,9 @@
                   display: flex;
                   align-items: center;
                   span {
+                    display: flex;
+                    justify-content: center;
+                    width: 50px;
                     margin: 0 16px;
                     font-size: $h2Font;
                     line-height: 25px;
@@ -497,7 +500,7 @@
                 }
               }
               >i {
-                font-size: 20px;
+                font-size: 24px;
                 color: $linkBlue;
                 cursor: pointer;
                 &.hidden {
@@ -515,6 +518,9 @@
     .el-dialog__header {
       padding: 0;
     }
+    .el-dialog__body {
+      padding-top: $up-down!important;
+    }
   }
 
   // okr类型
@@ -523,10 +529,15 @@
       padding: 0;
       .el-dropdown-menu__item {
         margin-bottom: 0;
-        width: 160px;
+        width: 100px;
         height: 47px;
         line-height: 47px;
         border-bottom: 1px solid $lineColor;
+        font-size: $h3Font;
+        color: $h1Color;
+        &:hover {
+          background-color: $backColor;
+        }
       }
     }
   }

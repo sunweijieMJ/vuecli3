@@ -2,11 +2,11 @@
   <div class="okr-list">
     <div class="header">
       <el-radio-group v-model="active_name" @change="handleClick">
-        <el-radio-button v-for="(item, index) in okr_type" :key="index" :label="item.type">{{item.label}}</el-radio-button>
+        <el-radio-button v-for="(item, index) in okr_type" :key="index" :label="item.id">{{item.name}}</el-radio-button>
       </el-radio-group>
       <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true, type: 'create'})">
         <span>
-          <i class="iconfont icon-icon_add"></i>
+          <i class="iconfont icon-icon_add1"></i>
         </span>
         <p>新增OKR</p>
       </div>
@@ -30,24 +30,7 @@
       return {
         okr_list: [],
         active_name: 1,
-        okr_type: [
-          {
-            label: '全部',
-            type: 1
-          },
-          {
-            label: '项目',
-            type: 2
-          },
-          {
-            label: '部门',
-            type: 3
-          },
-          {
-            label: '公司',
-            type: 4
-          }
-        ],
+        okr_type: [],
         pageInfo: { // ETC 页码信息
           current_page: 0,
           page_size: 15,
@@ -60,18 +43,23 @@
         }
       };
     },
+    created() {
+      this.getTypeList();
+    },
     methods: {
       handleOkrPublish() {
         let that = this;
         const tab = that.active_name;
         Object.assign(that.$data, that.$options.data());
         that.active_name = tab;
+        this.getTypeList();
         that.infinite();
       },
       handleClick(tab) {
         let that = this;
         Object.assign(that.$data, that.$options.data());
         that.active_name = tab;
+        this.getTypeList();
         that.infinite();
       },
       // 触底刷新
@@ -94,6 +82,11 @@
           }
         });
       },
+      getTypeList() {
+        OkrApi().getTypeList({}).then(res => {
+          this.okr_type = res.data;
+        });
+      },
       async getOkrList(okr_type, curPage) {
         let that = this;
         await OkrApi().getOkrList({okr_type, curPage}).then(res => {
@@ -113,7 +106,7 @@
 </script>
 <style lang="scss">
   .okr-list {
-    width: 967px;
+    width: 960px;
     margin: auto;
     .header {
       display: flex;
@@ -136,6 +129,7 @@
           }
           .el-radio-button__inner {
             width: 82px;
+            height: 38px;
             border-radius: 20px;
             border: 0 none;
             background-color: transparent;
