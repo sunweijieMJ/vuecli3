@@ -2,7 +2,7 @@
   <div class="kr">
     <div class="kr-title">
       <div>
-        <i class="iconfont icon-sanfang"></i>
+        <i class="iconfont icon-icon_okr_l"></i>
       </div>
       <div>{{okr_detail.objective_desc}}</div>
     </div>

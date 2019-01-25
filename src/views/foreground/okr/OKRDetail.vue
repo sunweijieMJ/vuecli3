@@ -50,7 +50,7 @@
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
-        <span class="iconfont icon-tianjia1"></span>
+        <span class="iconfont icon-btn_add_kt1"></span>
         <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">添加</span>
       </div>
       <div class="key-task" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">

@@ -12,8 +12,8 @@
         <div class="main">
           <div class="rate">
             <h4>感觉怎么样?</h4>
-            <el-rate v-model="form.rate" :allow-half="true" show-score
-              :void-icon-class="'icon-tianjia1 iconfont'" :icon-classes="['icon-tianjia1 iconfont', 'icon-tianjia1 iconfont','icon-tianjia1 iconfont']"></el-rate>
+            <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+              :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           </div>
           <div class="summary">
             <el-form-item prop="summary">
@@ -65,8 +65,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             TaskApi().checkTask(that.check_info).then(res => {
-              console.log(res);
               if(res.status) {
+                this.$emit('handleTaskCheck');
                 that.closeDialog();
               } else {
                 that.$message({message: res.message, type: 'error'});

@@ -138,10 +138,24 @@ $up-down: 30px;
 .el-rate {
   display: flex;
   align-items: center;
-  .el-rate__text {
-    font-size: $h2Font;
-    font-weight: $h1Weight;
-    color: $h1Color;
+  &.middle-rate {
+    .el-rate__text {
+      font-size: $h2Font;
+      font-weight: $h1Weight;
+      color: $h1Color;
+    }
+  }
+  &.small-rate {
+    .el-rate__item {
+      i {
+        font-size: 12px;
+      }
+    }
+    .el-rate__text {
+      font-size: $h3Font;
+      font-weight: $h1Weight;
+      color: $h1Color;
+    }
   }
 }
 

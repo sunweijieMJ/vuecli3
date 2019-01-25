@@ -6,7 +6,7 @@
       </el-radio-group>
       <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true, type: 'create'})">
         <span>
-          <i class="el-icon-plus"></i>
+          <i class="iconfont icon-icon_add"></i>
         </span>
         <p>新增OKR</p>
       </div>

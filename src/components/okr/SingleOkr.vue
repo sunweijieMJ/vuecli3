@@ -4,12 +4,12 @@
       <div class="title">
         <h3>{{item.okr_name}}</h3>
         <p>
-          <i class="iconfont icon-zuzhijiagou-"></i>
+          <i class="iconfont icon-icon_depart"></i>
           <span>{{item.creator_info.department_name}}</span>
         </p>
       </div>
       <div class="desc">
-        <i class="iconfont icon-zuzhijiagou-"></i>
+        <i class="iconfont icon-icon_okr_l"></i>
         <p>{{item.objective_desc}}</p>
       </div>
     </div>
@@ -81,7 +81,7 @@
         margin-top: 8px;
         line-height: 21px;
         i {
-          font-size: 16px;
+          font-size: 15px;
           color: $h1Color;
         }
         p {

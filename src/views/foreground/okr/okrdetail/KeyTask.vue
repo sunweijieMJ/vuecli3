@@ -30,19 +30,19 @@
               <div :class="{overlay: true, overlayJudge: overlayJudge(ktindex)}" @click.stop="">
                 <div class="over-box" @mouseleave.stop="overlayHide">
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>添加Task</span>
                   </div>
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>跟进</span>
                   </div>
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>编辑</span>
                   </div>
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>完成</span>
                   </div>
                 </div>
@@ -73,15 +73,15 @@
               <div :class="{'overlay-child': true, 'overlayJudge-child': overlayJudgeChild(tindex)}">
                 <div class="over-box-child" @mouseleave.stop="overlayHideChild">
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>跟进</span>
                   </div>
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>编辑</span>
                   </div>
                   <div>
-                    <span class="iconfont icon-tianjia"></span>
+                    <span class="iconfont icon-btn_add_kt1"></span>
                     <span>完成</span>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="single-task">
+  <div class="single-task" @click="paramsSkip('TaskDetail', {id: item.task_id})">
     <div class="task-info">
       <div class="info-title">
         <h4>
@@ -7,7 +7,7 @@
           <p>{{item.task_name}}</p>
         </h4>
         <p v-if="item.obj_info.length" v-for="(witem, windex) in item.obj_info" :key="windex">
-          <i class="el-icon-info"></i>
+          <i class="iconfont icon-icon_link"></i>
           <span>{{witem.okr_name}}</span>
         </p>
       </div>
@@ -24,7 +24,8 @@
       <img :src="item.check_info.creator_info.header_photo" alt="">
       <div class="info">
         <h4>
-          <el-rate v-model="item.check_info.feel_status" show-score disabled :allow-half="true" show-text></el-rate>
+          <el-rate class="small-rate" v-model="item.check_info.feel_status" show-score disabled :allow-half="true" show-text
+              :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           <p>{{item.check_info.publish_time | timeFilter}}</p>
         </h4>
         <p>{{item.check_info.remarks}}</p>
@@ -34,11 +35,13 @@
   </div>
 </template>
 <script>
+  import frequent from '../../mixins/frequent.js';
   import Moment from '../../utils/business/moment.js';
   import TaskCheck from '../../components/popup/TaskCheck.vue';
 
   export default {
     components: {TaskCheck},
+    mixins: [frequent],
     props: ['item'],
     data() {
       return {
@@ -49,19 +52,19 @@
 </script>
 <style lang="scss">
   $left-right: 50px;
-  $up-down: 24px;
 
   .single-task {
     position: relative;
     width: 100%;
-    padding: $up-down $left-right;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
+    cursor: pointer;
     .task-info {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      padding: 24px $left-right;
       .info-title {
         h4 {
           display: flex;
@@ -144,7 +147,8 @@
     .check-info {
       display: flex;
       align-items: center;
-      margin-top: 20px;
+      padding: 20px $left-right;
+      border-top: 1px solid $lineColor;
       img {
         box-sizing: border-box;
         width: 32px;

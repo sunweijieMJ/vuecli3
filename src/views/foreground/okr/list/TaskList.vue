@@ -7,8 +7,8 @@
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
     <task-publish @handleTaskEdit="handleTaskEdit"></task-publish>
-    <task-follow></task-follow>
-    <task-close></task-close>
+    <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
+    <task-close @handleTaskClose="handleTaskClose"></task-close>
   </div>
 </template>
 <script>
@@ -39,7 +39,12 @@
         Object.assign(that.$data, that.$options.data());
         that.infinite();
       },
-      handleTaskPublish() {
+      handleTaskCheck() {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        that.infinite();
+      },
+      handleTaskClose() {
         let that = this;
         Object.assign(that.$data, that.$options.data());
         that.infinite();

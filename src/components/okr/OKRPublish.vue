@@ -5,7 +5,7 @@
         <div class="main">
           <!-- name -->
           <el-form-item class="name" prop="okr_name">
-            <el-input type="text" v-model="form.okr_name" placeholder="给OKR起个名称吧"></el-input>
+            <el-input type="text" v-model="form.okr_name" maxlength="15" placeholder="给OKR起个名称吧"></el-input>
           </el-form-item>
           <!-- okr信息 -->
           <div class="title">
@@ -19,7 +19,7 @@
             <div class="type">
               <h4>类型</h4>
               <el-dropdown @command="handleCommand" trigger="click">
-                <p>{{form.okr_type.name}}<i class="iconfont icon-shopping_cart__ic_do"></i></p>
+                <p>{{form.okr_type.name}}<i class="iconfont icon-btn_more_s"></i></p>
                 <el-dropdown-menu slot="dropdown" class="okr-type">
                   <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item.name}}</el-dropdown-item>
                 </el-dropdown-menu>
@@ -30,7 +30,7 @@
               <date-range :range="form.daterange" @formatDate="formatDate">
                 <p>
                   <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
-                  <i class="iconfont icon-shopping_cart__ic_do"></i>
+                  <i class="iconfont icon-btn_more_s"></i>
                 </p>
               </date-range>
             </div>
@@ -63,7 +63,7 @@
                       <i class="el-icon-plus" :class="{hidden: key_result.confidenc_index >= 100}" @click="addPercent(index)"></i>
                     </p>
                   </div>
-                  <i class="el-icon-delete" :class="{hidden: form.key_result.length === 1}" @click="removeKeyResult(index)"></i>
+                  <i class="icon-btn_delete iconfont" :class="{hidden: form.key_result.length === 1}" @click="removeKeyResult(index)"></i>
                 </li>
               </ul>
               <el-button class="add" @click="addKeyResult">添加</el-button>
@@ -344,6 +344,9 @@
             p {
               font-size: $h3Font;
               color: $h1Color;
+              i {
+                font-size: 12px;
+              }
             }
           }
         }
@@ -360,6 +363,7 @@
             cursor: pointer;
             i {
               font-size: 12px;
+              color: $h1Color;
             }
           }
         }
@@ -371,6 +375,10 @@
           }
           p {
             cursor: pointer;
+            i {
+              font-size: 12px;
+              color: $h1Color;
+            }
           }
         }
       }

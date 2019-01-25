@@ -22,7 +22,7 @@
                     <img :src="item.header_photo" alt="">
                     <span>{{item.user_name}} ({{item.real_name}})</span>
                   </div>
-                  <i class="el-icon-circle-check" v-if="item.isExist"></i>
+                  <i class="icon-btn_checked1 iconfont" v-if="item.isExist"></i>
                 </li>
               </ul>
               <div class="null" v-else>

@@ -1,7 +1,7 @@
 <template>
   <div class="task-check">
-    <li v-for="(item, index) in check_list" :key="index" @click="handleTask(item)">
-      <i :class="item.icon"></i>
+    <li v-for="(item, index) in check_list" :key="index" @click.stop="handleTask(item)">
+      <i :class="item.icon" class="iconfont"></i>
       <span>{{item.name}}</span>
     </li>
   </div>
@@ -14,19 +14,19 @@
         check_list: [
           {
             name: '跟进',
-            icon: 'el-icon-edit-outline'
+            icon: 'icon-icon_check_l'
           },
           {
             name: '编辑',
-            icon: 'el-icon-edit-outline'
+            icon: 'icon-icon_edit_l1'
           },
           {
             name: '完成',
-            icon: 'el-icon-edit-outline'
+            icon: 'icon-icon_close_l1'
           },
           {
             name: '添加Task',
-            icon: 'el-icon-edit-outline'
+            icon: 'icon-icon_add_l'
           }
         ]
       };
@@ -74,7 +74,6 @@
       align-items: center;
       width: 70px;
       margin-left: 20px;
-      cursor: pointer;
       i {
         font-size: 33px;
         color: #000;

@@ -19,7 +19,7 @@
                 <date-range :range="form.daterange" @formatDate="formatDate">
                   <p>
                     <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
-                    <i class="iconfont icon-shopping_cart__ic_do"></i>
+                    <i class="iconfont icon-btn_more_s"></i>
                   </p>
                 </date-range>
               </div>
