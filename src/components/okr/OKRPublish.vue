@@ -242,6 +242,7 @@
         }
         for(let i = 0, LEN = that.form.key_result.length; i < LEN; i++) {
           keyResult.push({
+            krId: that.form.key_result[i].kr_id || 0,
             name: that.form.key_result[i].kr_name,
             index: that.form.key_result[i].confidenc_index
           });
