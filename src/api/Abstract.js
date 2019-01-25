@@ -52,8 +52,8 @@ class Abstract {
         if (res.data.status === 1) {
           resolve({status: true, message: 'success', data: res.data.data});
         } else if (res.data.status === -1) {
-          resolve({status: false, message: res.data.message, data: null});
           router.push({name: 'Login'});
+          resolve({status: false, message: res.data.message, data: null});
         } else if (res.data.status === -2) {
           resolve({status: false, message: res.data.message, data: null});
         } else {

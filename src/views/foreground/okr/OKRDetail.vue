@@ -59,19 +59,20 @@
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
     <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
+    <task-publish></task-publish>
   </div>
 </template>
 <script>
 import KeyResult from './okrdetail/KeyResult.vue';
 import KeyTask from './okrdetail/KeyTask';
 import {Loading} from '../../../components/public';
-import {OKRPublish} from '../../../components/okr';
+import {OKRPublish, TaskPublish} from '../../../components/okr';
 import dateFormat from '../../../utils/filters/dateFormat.js';
 
 import okrApi from '../../../api/Okr.js';
 export default {
   name: 'okrdetail',
-  components: {KeyResult, KeyTask, Loading, OKRPublish},
+  components: {KeyResult, KeyTask, Loading, OKRPublish, TaskPublish},
   data(){
     return {
       dateFormat,
