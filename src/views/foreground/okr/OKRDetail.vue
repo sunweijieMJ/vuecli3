@@ -59,7 +59,7 @@
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
     <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
-    <task-publish></task-publish>
+    <task-publish @handleTaskCreate="handleTaskCreate"></task-publish>
   </div>
 </template>
 <script>
@@ -97,6 +97,9 @@ export default {
     handleOkrEdit() {
       this.getOkrBasicinfo();
     },
+    handleTaskCreate() {
+      this.infinite();
+    },
     handleCommand(command){
       switch (command) {
         case '编辑':
@@ -112,13 +115,13 @@ export default {
       console.log('参与者', val)
     },
     getOkrBasicinfo(){
-      okrApi().getOkrBasicinfo({objId: 8}).then(res => {
+      okrApi().getOkrBasicinfo({objId: this.$route.params.id}).then(res => {
         this.okr_detail = res.data;
         // console.log(res)
       });
     },
     getOkrKeyResultList(){
-      okrApi().getOkrKeyResultList({objId: 8}).then(res => {
+      okrApi().getOkrKeyResultList({objId: this.$route.params.id}).then(res => {
         this.kr_list = Object.values(res.data);
       });
     },
