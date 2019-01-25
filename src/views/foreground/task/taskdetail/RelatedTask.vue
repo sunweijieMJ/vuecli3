@@ -2,7 +2,7 @@
   <div class="task-right">
     <div class="header">
       <div class="title">关联task</div>
-      <div class="add">
+      <div class="add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: keyTask})">
         <span class="iconfont icon-btn_add_kt1"></span><span>添加</span>
       </div>
     </div>
@@ -21,7 +21,7 @@
 <script>
 export default {
   name: 'RelatedTask',
-  props: ['task_list'],
+  props: ['task_list', 'keyTask'],
   data(){
     return {
 

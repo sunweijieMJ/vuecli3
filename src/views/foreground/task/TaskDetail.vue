@@ -15,14 +15,14 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="黄金糕">
-                编辑
+                <div @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</div>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
         <div class="chao-link">
           <span class="iconfont icon-icon_manage" v-if="okr_name"></span>
-          <span @click="goOkrDetail(task_basic.obj_id)">{{okr_name}}</span>
+          <span @click="goOkrDetail(obj_id)">{{okr_name}}</span>
         </div>
         <div class="joinners">
           <div class="left" v-if="task_basic.to_info">
@@ -57,11 +57,13 @@
           <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
         <div class="telated-task">
-          <RelatedTask :task_list="task_list"></RelatedTask>
+          <RelatedTask :task_list="task_list" :keyTask="task_basic"></RelatedTask>
         </div>
       </div>
     </div>
     <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+    <task-publish @handleTaskCreate="handleTaskCreate"></task-publish>
+    <task-publish @handleTaskEdit="handleTaskEdit"></task-publish>
   </div>
 </template>
 <script>
@@ -69,15 +71,17 @@ import TaskDynamic from './taskdetail/TaskDynamic';
 import RelatedTask from './taskdetail/RelatedTask';
 import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
+import {TaskPublish} from '../../../components/okr';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, RelatedTask, Loading
+    TaskDynamic, RelatedTask, Loading, TaskPublish
   },
   data(){
     return {
       task_basic: '', // ETC task基础信息
       okr_name: '',
+      obj_id: 0,
       dynamic_list: [],
       dynamic_num: '',
       last_id: '',
@@ -94,23 +98,30 @@ export default {
       }
     };
   },
-  methods:{
+  methods: {
     goOkrDetail(obj_id){
       this.$router.push({name: 'OKRDetail', params: {id: obj_id}});
     },
     // 所有参与者
-    showAllJoinner(val){
-
+    showAllJoinner(val) {
+      return val;
     },
-    handleCommand(){
-
+    handleCommand() {
+      return;
+    },
+    handleTaskEdit() {
+      this.getTaskBasicInfo();
+    },
+    handleTaskCreate() {
+      this.getTaskList();
     },
     getTaskBasicInfo(){
-      taskApi().getBasicInfo({taskId: 12}).then(res => {
+      taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
         if(res.status){
           this.task_basic = res.data;
           if(res.data.obj_infos){
             this.okr_name = Object.values(res.data.obj_infos)[0].okr_name;
+            this.obj_id = Object.values(res.data.obj_infos)[0].obj_id;
           }
         }
       });
@@ -136,7 +147,7 @@ export default {
     },
     async getTaskDynamicList(){
       return await taskApi().getTaskDynamicList({
-        taskId: 2, // ETC okr id
+        taskId: this.$route.params.id, // ETC okr id
         currpage: this.pageInfo.current_page, // ETC 当前第几页
         pages: this.pageInfo.page_size, // ETC 每页总数
         lastId: this.last_id // ETC 最后一条id
@@ -154,8 +165,8 @@ export default {
       });
     },
     getTaskList(){
-      taskApi().getTaskList({taskId: 1}).then(res => {
-        if(res.status){
+      taskApi().getTaskList({taskId: this.$route.params.id}).then(res => {
+        if(res.status && res.data.length){
           let newArr = res.data.list;
           for (let i = 0; i < newArr.length; i++) {
             newArr[i].user_info = res.data.user_info[res.data.list[i].creator_id];

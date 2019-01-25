@@ -1,8 +1,8 @@
 <template>
   <div class="task-check">
-    <li v-for="(item, index) in check_list" :key="index" @click.stop="handleTask(item)">
-      <i :class="item.icon" class="iconfont"></i>
-      <span>{{item.name}}</span>
+    <li v-for="(menuitem, index) in check_list" :key="index" @click.stop="handleTask(menuitem)" v-if="(item.is_key_task == 0 && menuitem.name != '添加Task') || (item.is_key_task == 1)">
+      <i :class="menuitem.icon" class="iconfont"></i> 
+      <span>{{menuitem.name}}</span>
     </li>
   </div>
 </template>

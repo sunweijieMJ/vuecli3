@@ -5,7 +5,7 @@
       <div class="list">
         <el-tag v-for="(item, index) in object_ids" :key="index" @close="closeTag(index)">
           <p>
-            <span class="okr" v-if="item.obj_id || 1">{{'公司'}}</span>
+            <span class="okr" v-if="item.obj_id">{{'公司'}}</span>
             <span v-else>KT</span>
             {{item.task_name || item.okr_name}}
           </p>

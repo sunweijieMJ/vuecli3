@@ -27,26 +27,7 @@
                   <el-progress :percentage="kt.progress" ></el-progress>
                 </div>
               </div>
-              <div :class="{overlay: true, overlayJudge: overlayJudge(ktindex)}" @click.stop="">
-                <div class="over-box" @mouseleave.stop="overlayHide">
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>添加Task</span>
-                  </div>
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>跟进</span>
-                  </div>
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>编辑</span>
-                  </div>
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>完成</span>
-                  </div>
-                </div>
-              </div>
+              <task-check :item="kt"></task-check>
             </div>
           </template>
           <ul>
@@ -69,33 +50,23 @@
                   <el-progress :percentage="t.progress" ></el-progress>
                 </div>
               </div>
-
-              <div :class="{'overlay-child': true, 'overlayJudge-child': overlayJudgeChild(tindex)}">
-                <div class="over-box-child" @mouseleave.stop="overlayHideChild">
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>跟进</span>
-                  </div>
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>编辑</span>
-                  </div>
-                  <div>
-                    <span class="iconfont icon-btn_add_kt1"></span>
-                    <span>完成</span>
-                  </div>
-                </div>
-              </div>
+              <task-check :item="t"></task-check>
             </li>
           </ul>
         </el-collapse-item>
       </el-collapse>
     </div>
+    <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
+    <task-close @handleTaskClose="handleTaskClose"></task-close>
   </div>
 </template>
 <script>
 import dateFormat from '../../../../utils/filters/dateFormat.js';
+import TaskCheck from '../../../../components/popup/TaskCheck.vue';
+import {TaskFollow, TaskClose} from '../../../../components/okr';
+
 export default {
+  components: {TaskCheck, TaskFollow, TaskClose},
   name: 'keyTask',
   props: ['kt_list'],
   data(){
@@ -109,7 +80,14 @@ export default {
   methods: {
     handleChange(val){
       this.activeNames = val;
-      console.log(val)
+    },
+    handleTaskCheck() {
+      let that = this;
+      Object.assign(that.$data, that.$options.data());
+    },
+    handleTaskClose() {
+      let that = this;
+      Object.assign(that.$data, that.$options.data());
     },
     activeJudge(kindex){
       if(kindex === this.activeNames){

@@ -112,7 +112,7 @@ export default {
     },
     // 显示全部参与者
     showAllJoinner(val){
-      console.log('参与者', val)
+      console.log('参与者', val);
     },
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {

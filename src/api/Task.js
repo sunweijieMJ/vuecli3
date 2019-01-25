@@ -74,7 +74,7 @@ class Task extends Abstract {
    * @param {num} objId: 12  * okr id
    */
   getTaskList(data){
-    return this.getReq('Okr.OkrKeyTask', data);
+    return this.getReq('Task.OkrKeyTask', data);
   }
 
   /**

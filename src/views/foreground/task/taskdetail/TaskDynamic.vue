@@ -14,7 +14,7 @@
             <p>
               <span class="name">{{dy.user_info.user_name}}</span><span>{{dy.type_name}}了这个Task</span>
             </p>
-            <p class="time">{{dy.create_time | timeFilter}}</p>
+            <p class="time">{{dy.publish_time | timeFilter}}</p>
           </div>
         </div>
         <div class="hot">

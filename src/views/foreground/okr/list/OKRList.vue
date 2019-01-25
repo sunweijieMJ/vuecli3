@@ -40,7 +40,8 @@
         loading: {
           nomore: false, // ETC 触底
           noresult: false // ETC 空列表
-        }
+        },
+        last_id: 0
       };
     },
     created() {
@@ -87,11 +88,12 @@
           this.okr_type = res.data;
         });
       },
-      async getOkrList(okr_type, curPage) {
+      async getOkrList(okr_type, currPage) {
         let that = this;
-        await OkrApi().getOkrList({okr_type, curPage}).then(res => {
+        await OkrApi().getOkrList({okr_type, currPage, 'last_id': this.last_id}).then(res => {
           const user_info = res.data.user_info;
           const okr_list = res.data.list;
+          this.last_id = res.data.last_id;
           that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
           // 数据整理
           for(let i = 0, ILEN = okr_list.length; i < ILEN; i++) {

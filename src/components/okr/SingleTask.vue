@@ -3,7 +3,8 @@
     <div class="task-info">
       <div class="info-title">
         <h4>
-          <span>KT</span>
+          <span v-if='item.is_key_task'>KT</span>
+          <span v-else>T</span>
           <p>{{item.task_name}}</p>
         </h4>
         <p v-if="item.obj_info.length" v-for="(witem, windex) in item.obj_info" :key="windex">
