@@ -11,17 +11,32 @@
           </div>
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
-              <i class="iconfont icon-icon_manage" style="color: white;"></i>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-btn_more_g1"></use>
+              </svg>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="黄金糕">
-                <div @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</div>
+              <el-dropdown-item command="跟进">
+                <span class="iconfont icon-ding_wei"></span>
+                <span @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
+              </el-dropdown-item>
+              <el-dropdown-item command="编辑">
+                <span class="iconfont icon-icon_edit_l"></span>
+                <span @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
+              </el-dropdown-item>
+              <el-dropdown-item command="关闭">
+                <span class="iconfont icon-icon-"></span>
+                <span @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
+              </el-dropdown-item>
+              <el-dropdown-item command="添加Task">
+                <span class="iconfont icon-icon_add"></span>
+                <span @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
         <div class="chao-link">
-          <span class="iconfont icon-icon_manage" v-if="okr_name"></span>
+          <span class="iconfont icon-icon_link" v-if="okr_name"></span>
           <span @click="goOkrDetail(obj_id)">{{okr_name}}</span>
         </div>
         <div class="joinners">
@@ -62,8 +77,9 @@
       </div>
     </div>
     <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
-    <task-publish @handleTaskCreate="handleTaskCreate"></task-publish>
-    <task-publish @handleTaskEdit="handleTaskEdit"></task-publish>
+    <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskEdit="handleTaskEdit"></task-publish>
+    <TaskClose @handleTaskClose="handleTaskClose"></TaskClose>
+    <TaskFollow @handleTaskCheck="handleTaskCheck"></TaskFollow>
   </div>
 </template>
 <script>
@@ -71,11 +87,11 @@ import TaskDynamic from './taskdetail/TaskDynamic';
 import RelatedTask from './taskdetail/RelatedTask';
 import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
-import {TaskPublish} from '../../../components/okr';
+import {TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, RelatedTask, Loading, TaskPublish
+    TaskDynamic, RelatedTask, Loading, TaskPublish, TaskFollow, TaskClose
   },
   data(){
     return {
@@ -108,6 +124,18 @@ export default {
     },
     handleCommand() {
       return;
+    },
+    handleTaskClose(){
+      this.dynamic_list = [];
+      this.pageInfo.current_page = 0;
+      this.last_id = '';
+      this.infinite();
+    },
+    handleTaskCheck(){
+      this.dynamic_list = [];
+      this.pageInfo.current_page = 0;
+      this.last_id = '';
+      this.infinite();
     },
     handleTaskEdit() {
       this.getTaskBasicInfo();
@@ -203,7 +231,7 @@ export default {
     }
     .chao-link{
       cursor: pointer;
-      margin-top: 11px;
+      // margin-top: 11px;
       margin-left: 46px;
       font-size:15px;
       font-weight:400;
@@ -235,6 +263,12 @@ export default {
           background: #948BEA;
           border-radius:8px;
           margin-right: 10px;
+        }
+      }
+      .el-dropdown-link{
+        .icon{
+          width: 38px;
+          height: 38px;
         }
       }
     }
@@ -329,6 +363,16 @@ export default {
   }
   .el-dropdown-menu__item:first-child{
     margin-bottom: 0;
+  }
+}
+ul{
+  .el-dropdown-menu__item{
+    display: flex;
+    justify-content: space-between;
+    .iconfont{
+      margin-right: 10px;
+    }
+    font-size: 15px;
   }
 }
 </style>

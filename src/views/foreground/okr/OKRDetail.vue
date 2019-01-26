@@ -9,10 +9,13 @@
         </div>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            <i class="iconfont icon-icon_manage" style="color: white;"></i>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-btn_more_g1"></use>
+            </svg>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="编辑">编辑</el-dropdown-item>
+            <el-dropdown-item command="编辑">
+              <span class="iconfont icon-icon_edit_l"></span> 编辑</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -213,6 +216,12 @@ export default {
         }
       }
     }
+    .el-dropdown-link{
+      .icon{
+        width: 38px;
+        height: 38px;
+      }
+    }
     .joinner{
       display: flex;
       justify-content: space-between;
@@ -329,6 +338,14 @@ export default {
   }
   .el-dropdown-menu__item:first-child{
     margin-bottom: 0;
+  }
+}
+ul{
+  .el-dropdown-menu__item{
+    .iconfont{
+      margin-right: 10px;
+    }
+    font-size: 15px;
   }
 }
 </style>

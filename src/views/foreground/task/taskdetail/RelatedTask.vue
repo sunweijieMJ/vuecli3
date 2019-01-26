@@ -44,6 +44,7 @@ export default {
       line-height:25px;
     }
     .add{
+      cursor: pointer;
       color: #303133;
       display: flex;
       align-items: center;
