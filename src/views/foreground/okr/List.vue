@@ -25,7 +25,7 @@
             that.querySkip('TaskList');
             break;
           case 'OKR':
-            that.querySkip('OKRList');
+            that.querySkip('OKRList', {okr_type: 0});
             break;
           default:
             break;

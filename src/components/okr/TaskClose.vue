@@ -4,7 +4,7 @@
       <div class="header" slot="title">
         <h2>关闭</h2>
         <div class="title">
-          <span>KT</span>
+          <span>{{task_close.parent.is_key_task ? 'KT' : 'T'}}</span>
           <p>{{task_info.task_name}}</p>
         </div>
       </div>

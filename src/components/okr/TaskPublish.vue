@@ -13,17 +13,7 @@
                 <p>{{form.to_user.user_name}}</p>
               </div>
             </div>
-            <div class="time">
-              <div class="item">
-                <h4>时间</h4>
-                <date-range :range="form.daterange" @formatDate="formatDate">
-                  <p>
-                    <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
-                    <i class="iconfont icon-btn_more_s"></i>
-                  </p>
-                </date-range>
-              </div>
-            </div>
+            <date-range v-model="form.daterange"></date-range>
           </div>
           <!-- ktask -->
           <div class="ktask">
@@ -33,7 +23,7 @@
           </div>
           <!-- 参与者 -->
           <div class="task-user">
-            <member :member_list="form.task_user" @confirmUser="confirmUser"></member>
+            <member v-model="form.task_user"></member>
           </div>
           <!-- 关联 -->
           <div class="relevancy">
@@ -76,14 +66,6 @@
       };
     },
     methods: {
-      // 日期选择回调
-      formatDate(data) {
-        this.form.daterange = JSON.parse(JSON.stringify(data));
-      },
-      // 参与者添加回调
-      confirmUser(data) {
-        this.form.task_user = data;
-      },
       // 确认创建task
       confirmSetup(formName) {
         let that = this;

@@ -2,8 +2,7 @@
   <div class="single-task" @click="paramsSkip('TaskDetail', {id: item.task_id})">
     <div class="task-info">
       <div class="info-title">
-        <span v-if='item.is_key_task'>KT</span>
-        <span v-else>T</span>
+        <span>{{item.is_key_task ? 'KT' : 'T'}}</span>
         <h4>{{item.task_name}}</h4>
       </div>
       <div class="info-desc">
@@ -13,13 +12,14 @@
         </p>
         <div class="num">
           <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
-          <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status !== 3"></el-progress>
+          <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
           <p class="progress" v-else>
             <span>完成度</span>
             <i>{{item.progress}}%</i>
           </p>
         </div>
       </div>
+      <task-check :item="item"></task-check>
     </div>
     <div class="check-info" v-if="item.check_info">
       <img :src="item.check_info.creator_info.header_photo" alt="">
@@ -32,7 +32,6 @@
         <p>{{item.check_info.remarks}}</p>
       </div>
     </div>
-    <task-check :item="item"></task-check>
   </div>
 </template>
 <script>
@@ -55,13 +54,13 @@
   $left-right: 50px;
 
   .single-task {
-    position: relative;
     width: 100%;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
     cursor: pointer;
     .task-info {
+      position: relative;
       display: flex;
       flex-direction: column;
       padding: 24px $left-right;
@@ -91,6 +90,7 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        @include tofl(100%);
         .okr {
           flex: 1;
           display: flex;

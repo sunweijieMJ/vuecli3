@@ -25,19 +25,11 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-            <div class="time">
-              <h4>时间</h4>
-              <date-range :range="form.daterange" @formatDate="formatDate">
-                <p>
-                  <span>{{`${form.daterange.start_time}-${form.daterange.end_time}`}}</span>
-                  <i class="iconfont icon-btn_more_s"></i>
-                </p>
-              </date-range>
-            </div>
+            <date-range v-model="form.daterange"></date-range>
           </div>
           <!-- 参与者 -->
           <div class="task-user">
-            <member :member_list="form.task_user" @confirmUser="confirmUser"></member>
+            <member v-model="form.task_user"></member>
           </div>
           <!-- Objective -->
           <div class="objective">
@@ -128,14 +120,6 @@
         let that = this;
         that.form.okr_type = command;
       },
-      // 日期选择回调
-      formatDate(data) {
-        this.form.daterange = JSON.parse(JSON.stringify(data));
-      },
-      // 参与者添加回调
-      confirmUser(data) {
-        this.form.task_user = data;
-      },
       // 添加key-result
       addKeyResult() {
         let that = this;
@@ -148,6 +132,10 @@
             confidenc_index: 50
           });
         }
+        const ele = that.$el.querySelector('.main');
+        this.$nextTick(() => {
+          ele.scrollTop = ele.scrollHeight;
+        });
       },
       // 移除key-result
       removeKeyResult(index) {
@@ -280,7 +268,7 @@
               start_time: Moment().format(that.okr_publish.source.start_time, 'YYYY/MM/DD'),
               end_time: Moment().format(that.okr_publish.source.end_time, 'YYYY/MM/DD')
             },
-            task_user: that.okr_publish.source.participants,
+            task_user: Object.values(that.okr_publish.source.participants),
             objective: that.okr_publish.source.objective_desc,
             key_result: that.okr_publish.source.key_result
           };
@@ -360,20 +348,6 @@
           p {
             font-size: $h3Font;
             color: $h1Color;
-            cursor: pointer;
-            i {
-              font-size: 12px;
-              color: $h1Color;
-            }
-          }
-        }
-        .time {
-          h4 {
-            font-size: $h4Font;
-            font-weight: normal;
-            color: $h3Color;
-          }
-          p {
             cursor: pointer;
             i {
               font-size: 12px;

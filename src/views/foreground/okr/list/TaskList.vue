@@ -6,7 +6,7 @@
       </li>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
-    <task-publish @handleTaskEdit="handleTaskEdit"></task-publish>
+    <task-publish @handleTaskEdit="handleTaskEdit" @handleTaskCreate="handleTaskCreate"></task-publish>
     <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
     <task-close @handleTaskClose="handleTaskClose"></task-close>
   </div>
@@ -34,20 +34,17 @@
       };
     },
     methods: {
+      handleTaskCreate() {
+        this.refresh();
+      },
       handleTaskEdit() {
-        let that = this;
-        Object.assign(that.$data, that.$options.data());
-        that.infinite();
+        this.refresh();
       },
       handleTaskCheck() {
-        let that = this;
-        Object.assign(that.$data, that.$options.data());
-        that.infinite();
+        this.refresh();
       },
       handleTaskClose() {
-        let that = this;
-        Object.assign(that.$data, that.$options.data());
-        that.infinite();
+        this.refresh();
       },
       // 触底刷新
       infinite() {
@@ -69,6 +66,13 @@
           }
         });
       },
+      // 刷新页面
+      refresh() {
+        let that = this;
+        Object.assign(that.$data, that.$options.data());
+        that.infinite();
+      },
+      // Task列表
       async getSelfList(curPage) {
         let that = this;
         await TaskApi().getSelfList({curPage}).then(res => {

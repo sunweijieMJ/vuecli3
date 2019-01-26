@@ -1,7 +1,8 @@
 <template>
-  <div class="task-check">
-    <li v-for="(menuitem, index) in check_list" :key="index" @click.stop="handleTask(menuitem)" v-if="(item.is_key_task == 0 && menuitem.name != '添加Task') || (item.is_key_task == 1)">
-      <i :class="menuitem.icon" class="iconfont"></i> 
+  <div class="task-check" v-if="item.status === 1">
+    <li v-for="(menuitem, index) in check_list" :key="index" @click.stop="handleTask(menuitem)"
+      v-if="item.is_key_task === 1 || menuitem.name !== '添加Task'">
+      <i :class="menuitem.icon" class="iconfont"></i>
       <span>{{menuitem.name}}</span>
     </li>
   </div>
@@ -59,14 +60,17 @@
     transition: all 0.5s;
     position: absolute;
     right: 0;top: 0;
+    box-sizing: border-box;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    width: 100%;
     height: 100%;
-    padding: 0 35px 0 130px;
+    padding-right: 35px;
     opacity: 0;
     &:hover {
       opacity: 1;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%);
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
     }
     li {
       display: flex;

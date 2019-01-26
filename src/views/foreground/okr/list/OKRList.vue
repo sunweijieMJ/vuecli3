@@ -2,7 +2,7 @@
   <div class="okr-list">
     <div class="header">
       <el-radio-group v-model="active_name" @change="handleClick">
-        <el-radio-button v-for="(item, index) in okr_type" :key="index" :label="item.id">{{item.name}}</el-radio-button>
+        <el-radio-button v-for="(item, index) in type_list" :key="index" :label="item.id">{{item.name}}</el-radio-button>
       </el-radio-group>
       <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true, type: 'create'})">
         <span>
@@ -29,8 +29,8 @@
     data() {
       return {
         okr_list: [],
-        active_name: 1,
-        okr_type: [
+        active_name: 0,
+        type_list: [
           {
             id: 0,
             name: '全部'
@@ -61,18 +61,26 @@
         last_id: 0
       };
     },
+    created() {
+      let that = this;
+      if(!that.$route.query.okr_type) {
+        that.active_name = 0;
+      } else {
+        that.active_name = +that.$route.query.okr_type;
+      }
+    },
     methods: {
       handleOkrPublish() {
         let that = this;
-        const tab = that.active_name;
         Object.assign(that.$data, that.$options.data());
-        that.active_name = tab;
+        that.active_name = +that.$route.query.okr_type;
         that.infinite();
       },
       handleClick(tab) {
         let that = this;
         Object.assign(that.$data, that.$options.data());
         that.active_name = tab;
+        that.$router.push({name: 'OKRList', query: {okr_type: tab}});
         that.infinite();
       },
       // 触底刷新

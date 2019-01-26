@@ -42,24 +42,34 @@
 <script>
   import UserApi from '../../api/User.js';
   import OkrApi from '../../api/Okr.js';
+  import TaskApi from '../../api/Task.js';
 
   export default {
-    props: ['member_list'],
+    props: ['value'],
     data() {
       return {
         member_popover: false,
         keyword: '',
-        user_list: []
+        user_list: [], // ETC 搜索列表
+        join_list: [] // ETC 参与者列表
       };
+    },
+    created() {
+      let that = this;
+      that.join_list = that.value;
     },
     methods: {
       // 搜索member
       getUserList(keyword) {
-        UserApi().getUserList({keyword}).then(res => {
-          this.user_list = res.data.list;
-          console.log(this.user_list)
-        });
+        if(keyword) {
+          UserApi().getUserList({keyword}).then(res => {
+            this.user_list = res.data.list;
+          });
+        } else {
+          this.user_list = [];
+        }
       },
+      // 判断用户是否已存在
       judgeUser(user) {
         let [that, flag] = [this, true];
         for(let i = 0, LEN = that.join_list.length; i < LEN; i++) {
@@ -78,6 +88,7 @@
       // 添加参与者
       addUserList(user) {
         let that = this;
+        user.isNew = true;
         if(user) {
           that.judgeUser(user);
         } else {
@@ -93,37 +104,49 @@
       closeTag(index) {
         let that = this;
         const objId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.obj_id;
+        const taskId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.task_id;
         const userId = that.join_list[index].user_id;
-        if(objId) {
-          OkrApi().deleteUserFromOkr({objId, userId}).then(res => {
-            if(res.status) {
-              that.join_list.splice(index, 1);
-            } else {
-              that.$message({message: '该用户不能删除', type: 'warning'});
-            }
-          });
-        } else {
+        if(that.join_list[index].isNew) {
           that.join_list.splice(index, 1);
+        } else {
+          if(objId) {
+            OkrApi().deleteUserFromOkr({objId, userId}).then(res => {
+              if(res.status) {
+                that.join_list.splice(index, 1);
+              } else {
+                that.$message({message: '该用户不能删除', type: 'warning'});
+              }
+            });
+          } else {
+            TaskApi().deleteUserFromTask({taskId, userId}).then(res => {
+              if(res.status) {
+                that.join_list.splice(index, 1);
+              } else {
+                that.$message({message: '该用户不能删除', type: 'warning'});
+              }
+            });
+          }
         }
       }
     },
-    computed: {
-      join_list() {
-        return this.member_list || [];
-      }
-    },
     watch: {
+      // 同步父组件
+      join_list(cur) {
+        this.$emit('input', cur);
+      },
+      // 判断搜索列表已添加用户
       user_list(cur) {
         if(!cur.length) return;
         let that = this;
-        for(let i = 0, ILEN = that.user_list.length; i < ILEN; i++) {
+        for(let i = 0, ILEN = cur.length; i < ILEN; i++) {
           for(let j = 0, JLEN = that.join_list.length; j < JLEN; j++) {
-            if(that.user_list[i].user_id === that.join_list[j].user_id) {
+            if(cur[i].user_id === that.join_list[j].user_id) {
               that.user_list[i].isExist = true;
             }
           }
         }
       },
+      // 聚焦input
       member_popover(cur) {
         let that = this;
         if(cur) {
@@ -208,6 +231,7 @@
           justify-content: space-between;
           align-items: center;
           margin-bottom: 12px;
+          cursor: pointer;
           &:hover {
             background-color: $backColor;
           }

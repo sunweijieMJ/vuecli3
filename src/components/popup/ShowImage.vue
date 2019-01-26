@@ -1,6 +1,6 @@
 <template>
-  <div class="showImage">
-    <el-dialog title="" width="88%" @close="closeDialog" :visible.sync="image_popup.status">
+  <div class="showImage custom-dialog">
+    <el-dialog @close="closeDialog" :visible.sync="image_popup.status">
         <el-carousel :initial-index="image_popup.index" indicator-position="outside"
           v-if="image_popup.status"
           height="500px" :autoplay="false" trigger="click"
@@ -40,33 +40,31 @@
       .el-dialog {
         box-shadow: none;
         background-color: transparent;
-      }
-      z-index: 3000 !important;
-      .el-dialog__header{
-        text-align: left;
-        .el-dialog__headerbtn {
-          top: 3px;
-          .el-dialog__close {
-            font-size: 25px;
-            color: rgba(255,255,255,0.8);
+        .el-dialog__header {
+          .el-dialog__headerbtn {
+            top: 0; right: 0;
+            .el-dialog__close {
+              font-size: 24px;
+              line-height: 30px;
+              color: #fff;
+            }
           }
         }
-      }
-      .el-dialog__body {
-        padding: 0;
-      }
-      .el-carousel__container{
-        .el-carousel__item{
-          display: flex;
-          justify-content: center;
-          img{
-            height: 500px;
+        .el-dialog__body {
+          .el-carousel__container{
+            .el-carousel__item{
+              display: flex;
+              justify-content: center;
+              img{
+                height: 500px;
+              }
+            }
           }
-        }
-      }
-      .el-carousel__indicators {
-        .el-carousel__button{
-          background-color: rgba(255,255,255,0.8);
+          .el-carousel__indicators {
+            .el-carousel__button{
+              background-color: rgba(255,255,255,0.8);
+            }
+          }
         }
       }
     }
