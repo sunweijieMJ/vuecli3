@@ -5,9 +5,9 @@
       <div class="list">
         <el-tag v-for="(item, index) in object_ids" :key="index" @close="closeTag(index)">
           <p>
-            <span class="okr" v-if="item.obj_id">{{'公司'}}</span>
-            <span v-else>KT</span>
-            {{item.task_name || item.okr_name}}
+            <i class="okr" v-if="item.obj_id">{{item.okr_type_name}}</i>
+            <i v-else>KT</i>
+            <span>{{item.task_name || item.okr_name | readMore(15, '...')}}</span>
           </p>
         </el-tag>
       </div>
@@ -31,7 +31,7 @@
     align-items: center;
     h4 {
       margin-bottom: 12px;
-      width: 30px;
+      width: 46px;
       font-size: $h3Color;
       font-weight: 400;
       color: $h2Color;
@@ -57,7 +57,7 @@
           p {
             display: flex;
             align-items: center;
-            span {
+            i {
               display: flex;
               justify-content: center;
               align-items: center;
@@ -67,6 +67,7 @@
               border-radius: 8px;
               background-color: $purple;
               font-size: $h4Font;
+              font-style: normal;
               color: #fff;
               &.okr {
                 background-color: $green;

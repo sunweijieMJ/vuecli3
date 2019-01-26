@@ -195,6 +195,7 @@
               that.form.parent_id = 0;
               that.form.object_ids.push({
                 obj_id: this.task_publish.parent.obj_id,
+                okr_type_name: this.task_publish.parent.okr_type_name,
                 okr_name: this.task_publish.parent.okr_name
               });
             } else {

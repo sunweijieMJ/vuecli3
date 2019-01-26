@@ -30,7 +30,24 @@
       return {
         okr_list: [],
         active_name: 1,
-        okr_type: [],
+        okr_type: [
+          {
+            id: 0,
+            name: '全部'
+          },
+          {
+            id: 2,
+            name: '项目'
+          },
+          {
+            id: 3,
+            name: '部门'
+          },
+          {
+            id: 1,
+            name: '公司'
+          }
+        ],
         pageInfo: { // ETC 页码信息
           current_page: 0,
           page_size: 15,
@@ -44,23 +61,18 @@
         last_id: 0
       };
     },
-    created() {
-      this.getTypeList();
-    },
     methods: {
       handleOkrPublish() {
         let that = this;
         const tab = that.active_name;
         Object.assign(that.$data, that.$options.data());
         that.active_name = tab;
-        this.getTypeList();
         that.infinite();
       },
       handleClick(tab) {
         let that = this;
         Object.assign(that.$data, that.$options.data());
         that.active_name = tab;
-        this.getTypeList();
         that.infinite();
       },
       // 触底刷新
@@ -81,11 +93,6 @@
             that.disabled = true;
             that.loading.nomore = true;
           }
-        });
-      },
-      getTypeList() {
-        OkrApi().getTypeList({}).then(res => {
-          this.okr_type = res.data;
         });
       },
       async getOkrList(okr_type, currPage) {

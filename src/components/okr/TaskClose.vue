@@ -8,7 +8,7 @@
           <p>{{task_info.task_name}}</p>
         </div>
       </div>
-      <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
+      <el-form :model="form" :rules="rules" ref="ruleForm">
         <div class="main">
           <div class="rate">
             <h4>感觉怎么样?</h4>
@@ -17,7 +17,7 @@
           </div>
           <div class="summary">
             <el-form-item prop="summary">
-              <el-input type="textarea" v-model="form.summary" maxlength="50" placeholder="总结一下吧"></el-input>
+              <el-input type="textarea" v-model="form.summary" placeholder="总结一下吧"></el-input>
             </el-form-item>
           </div>
           <div class="num">

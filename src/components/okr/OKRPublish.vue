@@ -512,14 +512,13 @@
         }
       }
     }
-  }
-
-  .el-dialog__wrapper {
-    .el-dialog__header {
-      padding: 0;
-    }
-    .el-dialog__body {
-      padding-top: $up-down!important;
+    .el-dialog__wrapper {
+      .el-dialog__header {
+        padding: 0;
+      }
+      .el-dialog__body {
+        padding-top: $up-down!important;
+      }
     }
   }
 

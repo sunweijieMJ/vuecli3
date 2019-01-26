@@ -84,8 +84,8 @@
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
               }
             }
-            if(!task_list[i].check_info) continue;
             if(!users_info) continue;
+            if(!task_list[i].check_info) continue;
             task_list[i].check_info.creator_info = users_info[task_list[i].creator_id];
           }
 
@@ -97,7 +97,7 @@
 </script>
 <style lang="scss" scoped>
   .task-list {
-    width: 967px;
+    width: 960px;
     margin: auto;
     .list {
       li {
