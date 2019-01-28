@@ -30,13 +30,15 @@
       return {
         Moment,
         date_popup: false,
-        daterange: [new Date(), new Date().setMonth(new Date().getMonth() + 3)]
+        daterange: ''
       };
     },
     created() {
       let that = this;
       if(that.value.start_time || that.value.end_time) {
         that.daterange = [that.value.start_time, that.value.end_time];
+      } else {
+        that.daterange = [new Date(), new Date().setMonth(new Date().getMonth() + 3)];
       }
     },
     watch: {

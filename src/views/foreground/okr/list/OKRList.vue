@@ -2,7 +2,7 @@
   <div class="okr-list">
     <div class="header">
       <el-radio-group v-model="active_name" @change="handleClick">
-        <el-radio-button v-for="(item, index) in type_list" :key="index" :label="item.id">{{item.name}}</el-radio-button>
+        <el-radio-button v-for="(item, index) in $store.state.global.type_list" :key="index" :label="item.id">{{item.name}}</el-radio-button>
       </el-radio-group>
       <div class="new-okr" @click="$store.dispatch('setOKRPublish', {status: true, type: 'create'})">
         <span>
@@ -30,24 +30,6 @@
       return {
         okr_list: [],
         active_name: 0,
-        type_list: [
-          {
-            id: 0,
-            name: '全部'
-          },
-          {
-            id: 2,
-            name: '项目'
-          },
-          {
-            id: 3,
-            name: '部门'
-          },
-          {
-            id: 1,
-            name: '公司'
-          }
-        ],
         pageInfo: { // ETC 页码信息
           current_page: 0,
           page_size: 15,
@@ -63,6 +45,7 @@
     },
     created() {
       let that = this;
+      that.getTypeList();
       if(!that.$route.query.okr_type) {
         that.active_name = 0;
       } else {
@@ -105,7 +88,7 @@
       },
       async getOkrList(okr_type, currPage) {
         let that = this;
-        await OkrApi().getOkrList({okr_type, currPage, 'last_id': this.last_id}).then(res => {
+        await OkrApi().getOkrList({okr_type, currPage, last_id: that.last_id}).then(res => {
           const user_info = res.data.user_info;
           const okr_list = res.data.list;
           this.last_id = res.data.last_id;
@@ -116,6 +99,13 @@
           }
 
           that.okr_list = that.okr_list.concat(okr_list);
+        });
+      },
+      getTypeList() {
+        let that = this;
+        OkrApi().getTypeList({}).then(res => {
+          that.$store.state.global.type_list = res.data;
+          that.$store.state.global.type_list.unshift({id: 0, name: '全部'});
         });
       }
     }
@@ -130,7 +120,6 @@
       justify-content: space-between;
       align-items: center;
       .el-radio-group {
-        width: 328px;
         height: 38px;
         margin: 15px 0;
         border-radius: 20px;

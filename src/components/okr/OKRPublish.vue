@@ -106,14 +106,12 @@
         OkrApi().getTypeList({type: 'create'}).then(res => {
           that.project_type = res.data;
           that.form.okr_type = that.project_type[0];
+          origin = JSON.parse(JSON.stringify(this.$data.form));
         });
       },
       // 选择okr类型
       handleCommand(command) {
-        let that = this;
-        console.log(command)
-        that.form.okr_type = command;
-        console.log(that.form.okr_type)
+        this.form.okr_type = command;
       },
       // 添加key-result
       addKeyResult() {
@@ -269,9 +267,6 @@
           that.form.bo_user = that.self_info;
         }
         this.getTypeList();
-      },
-      'form.daterange'() {
-        origin = JSON.parse(JSON.stringify(this.$data.form));
       }
     }
   };

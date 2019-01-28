@@ -80,6 +80,10 @@
     },
     created() {
       let that = this;
+      // 暂时
+      if(that.$route.matched[1].path === '/foreground/fore_okr') {
+        that.current = 1;
+      }
       that.$store.dispatch('getSelfInfo');
       that.$store.dispatch('getMessageUnread');
     },
@@ -87,7 +91,11 @@
       // 切换tab
       select(item, index) {
         this.current = index;
-        this.$router.push({name: item.name});
+        if(index === 1) {
+          this.$router.push({name: 'OKRList', query: {okr_type: 0}});
+        } else {
+          this.$router.push({name: item.name});
+        }
       },
       // 消息列表
       getMessageList() {

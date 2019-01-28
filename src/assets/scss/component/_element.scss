@@ -167,6 +167,59 @@ $up-down: 30px;
   }
 }
 
+// message
+.el-message-box {
+  padding: 0;
+  overflow: visible;
+  .el-message-box__header {
+    padding: 28spx $left-right 0;
+    .el-message-box__title {
+      span {
+        font-size: $h1Font;
+        font-weight: $h1Weight;
+        line-height: 30px;
+        color: $themeColor;
+      }
+    }
+    .el-message-box__headerbtn {
+      top: 15px; right: -40px;
+      .el-message-box__close {
+        font-size: 24px;
+        color: #fff;
+      }
+    }
+  }
+  .el-message-box__content {
+    padding: 38px $left-right;
+    .el-message-box__message {
+      font-size: $h2Font;
+      color: $h2Color;
+    }
+  }
+  .el-message-box__btns {
+    padding: 0 $left-right 20px;
+    button {
+      width: 90px;
+      height: 40px;
+      padding: 0;
+      border: none;
+      border-radius: 20px;
+      font-size: $h2Font;
+      font-weight: $h1Weight;
+      line-height: 40px;
+      border: 1px solid $themeColor;
+      &:first-child {
+        color: $themeColor;
+        background-color: #fff;
+      }
+      &:last-child {
+        color: #fff;
+        background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
+      }
+    }
+  }
+}
+
 #__lpform_input_idx_0, #__lpform_input_idx_1 {
   display: none;
 }
