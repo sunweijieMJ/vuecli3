@@ -23,11 +23,11 @@
         <div class="left" v-if="okr_detail.bo_info">
           <img v-if="okr_detail.bo_info.header_photo" :src="okr_detail.bo_info.header_photo" alt="">
           <div class="name">
-            <p>BO</p>
+            <p>Owner</p>
             <p>{{okr_detail.bo_info.user_name}}</p>
           </div>
           <div>
-            <p>时间</p>
+            <p>起止时间</p>
             <p>{{dateFormat(okr_detail.start_time, 'yyyy/MM/dd')}}
               -{{dateFormat(okr_detail.end_time, 'yyyy/MM/dd')}}
             </p>

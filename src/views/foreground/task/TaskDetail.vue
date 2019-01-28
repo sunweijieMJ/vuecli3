@@ -43,11 +43,11 @@
           <div class="left" v-if="task_basic.to_info">
             <img :src="task_basic.to_info.header_photo" alt="">
             <div class="name">
-              <p>BO</p>
+              <p>Owner</p>
               <p>{{task_basic.to_info.user_name}}</p>
             </div>
             <div>
-              <p>时间</p>
+              <p>起止时间</p>
               <p>{{task_basic.start_time | dateFormat('yyyy/MM/dd')}}-{{task_basic.end_time | dateFormat('yyyy/MM/dd')}}</p>
             </div>
           </div>
