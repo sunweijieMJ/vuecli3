@@ -6,8 +6,7 @@
 import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
-import storeApi from '../utils/storage';
-import router from '../router';
+import storage from '../utils/storage';
 const baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
@@ -19,6 +18,7 @@ const Axios = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
   }
 });
+
 class Abstract {
   /**
    * 构造函数，单例模式，只会调用一次
@@ -34,10 +34,10 @@ class Abstract {
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
     // 签名加密
     if (method === 'POST') {
-      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storeApi('cookie').get('pgs_authinfo'))}`;
+      url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storage('cookie').get('pgs_authinfo'))}`;
       url = url + `&sign=${that.linsign.resignHash(url, params)}`;
     } else {
-      params.pgs_authinfo = encodeURIComponent(storeApi('cookie').get('pgs_authinfo'));
+      params.pgs_authinfo = encodeURIComponent(storage('cookie').get('pgs_authinfo'));
       params.sign = that.linsign.signHash(url, params);
     }
 
@@ -52,7 +52,8 @@ class Abstract {
         if (res.data.status === 1) {
           resolve({status: true, message: 'success', data: res.data.data});
         } else if (res.data.status === -1) {
-          router.push({name: 'Login'});
+          storage('cookie').remove('pgs_authinfo');
+          window.location.replace('/system/login');
           resolve({status: false, message: res.data.message, data: null});
         } else if (res.data.status === -2) {
           resolve({status: false, message: res.data.message, data: null});

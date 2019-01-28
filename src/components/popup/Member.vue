@@ -85,6 +85,9 @@
           that.$message({message: '该用户已存在', type: 'warning'});
         }
       },
+      chooseUser(item) {
+        console.log(item)
+      },
       // 添加参与者
       addUserList(user) {
         let that = this;
@@ -161,6 +164,9 @@
   };
 </script>
 <style lang="scss">
+  $left-right: 37px;
+  $up-down: 24px;
+
   .okr-member {
     display: flex;
     align-items: center;
@@ -173,7 +179,7 @@
     }
     .content {
       flex: 1;
-      margin-left: 37px;
+      margin-left: $left-right;
       .list {
         display: flex;
         flex-wrap: wrap;
@@ -206,26 +212,21 @@
   }
   .el-popover {
     .popover-member {
-      padding: 28px 37px;
+      padding: $up-down $left-right;
       h4 {
+        margin-bottom: $up-down;
         font-size: $h1Font;
         font-weight: $h1Weight;
-        line-height: 30px;
+        line-height: 100%;
         color: $themeColor;
       }
       input {
-        box-sizing: border-box;
-        width: 329px;
         height: 40px;
-        padding-left: 20px;
-        margin-top: 22px;
-        border-radius: 2px;
-        background-color: $backColor;
       }
       .list {
         max-height: 270px;
         overflow-y: auto;
-        padding: 28px 0;
+        padding: $up-down 0;
         li {
           display: flex;
           justify-content: space-between;
