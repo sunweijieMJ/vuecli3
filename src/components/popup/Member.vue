@@ -28,7 +28,7 @@
               <div class="null" v-else>
                 <p>Sorry, 好像没有这个同事哦</p>
               </div>
-              <div class="btn" v-if="0">
+              <div class="btn">
                 <el-button class="cancel" @click="member_popover = false">取消</el-button>
                 <el-button class="confirm" @click="addUserList(false)">确定</el-button>
               </div>

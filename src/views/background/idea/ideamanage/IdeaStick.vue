@@ -1,7 +1,7 @@
 <template>
   <div class="idea-stick">
     <stick-list :list="stick_list" @move="move" @cancelSuccess="cancelSuccess"></stick-list>
-    <a href="javascript:;" @click="orderStick">保存</a>
+    <el-button @click="orderStick">保存</el-button>
   </div>
 </template>
 <script>

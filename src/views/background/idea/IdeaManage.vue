@@ -4,10 +4,10 @@
       <el-tab-pane disabled>
         <h3 class="manage-name" slot="label">管理瓴里圈</h3>
       </el-tab-pane>
-      <el-tab-pane label="管理" name="first">
+      <el-tab-pane label="管理" name="1">
         <idea-list></idea-list>
       </el-tab-pane>
-      <el-tab-pane label="置顶" name="second">
+      <el-tab-pane label="置顶" name="2">
         <idea-stick></idea-stick>
       </el-tab-pane>
     </el-tabs>
@@ -20,12 +20,18 @@
     components: {IdeaList, IdeaStick},
     data() {
       return {
-        activeName: 'first' // ETC 当前选中tab
+        activeName: '1' // ETC 当前选中tab
       };
     },
+    created() {
+      let that = this;
+      if(that.$route.query.idea_type) {
+        that.activeName = that.$route.query.idea_type;
+      }
+    },
     methods: {
-      handleClick() {
-
+      handleClick(tab) {
+        this.$router.push({name: 'IdeaManage', query: {idea_type: tab.name}});
       }
     }
   };
@@ -33,6 +39,7 @@
 <style lang="scss">
   .idea-manage {
     height: 100%;
+    background-color: #fff;
     .el-tabs {
       height: inherit;
       .el-tabs__header {

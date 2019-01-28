@@ -64,14 +64,10 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
+    width: 50%;
     height: 100%;
     padding-right: 35px;
     opacity: 0;
-    &:hover {
-      opacity: 1;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
-    }
     li {
       display: flex;
       flex-direction: column;

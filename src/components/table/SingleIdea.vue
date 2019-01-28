@@ -145,8 +145,13 @@
         }
       }
     }
+    &:hover .idea-btn {
+      opacity: 1;
+    }
     .idea-btn {
       display: flex;
+      transition: opacity 0.5s;
+      opacity: 0;
       p {
         display: flex;
         flex-direction: column;
