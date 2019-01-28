@@ -216,7 +216,7 @@ export default {
       margin-top: 11px;
       margin-left: 20px;
       display: flex;
-      width: 847px;
+      width: 867px;
       justify-content: space-between;
       align-items: center;
       font-size:13px;
@@ -377,7 +377,7 @@ export default {
   }
   ul{
     li{
-      width: 847px;
+      width: 867px;
       position: relative;
       &:hover .task-check{
         opacity: 1;

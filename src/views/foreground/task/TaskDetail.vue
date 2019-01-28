@@ -12,12 +12,12 @@
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-btn_more_g1"></use>
+                <use xlink:href="#icon-btn_more_p1"></use>
               </svg>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="跟进">
-                <span class="iconfont icon-ding_wei"></span>
+                <span class="iconfont icon-icon_check_l"></span>
                 <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
               </el-dropdown-item>
               <el-dropdown-item command="编辑">
@@ -25,7 +25,7 @@
                 <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
               </el-dropdown-item>
               <el-dropdown-item command="关闭">
-                <span class="iconfont icon-icon-"></span>
+                <span class="iconfont icon-icon_close_l"></span>
                 <span class="edit" @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
               </el-dropdown-item>
               <el-dropdown-item command="添加Task">
@@ -36,8 +36,8 @@
           </el-dropdown>
         </div>
         <div class="chao-link">
-          <span class="iconfont icon-icon_link" v-if="okr_name"></span>
-          <span @click="goOkrDetail(obj_id)">{{okr_name}}</span>
+          <span class="iconfont icon-icon_link" v-show="okr_name ? okr_name : false"></span>
+          <span class="chao-limit" @click="goOkrDetail(obj_id)">{{okr_name}}</span>
         </div>
         <div class="joinners">
           <div class="left" v-if="task_basic.to_info">
@@ -71,13 +71,13 @@
         <div class="task-dynamic" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
-        <div class="telated-task">
+        <div class="telated-task" v-if="task_basic.is_key_task">
           <RelatedTask :task_list="task_list" :keyTask="task_basic"></RelatedTask>
         </div>
       </div>
     </div>
     <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
-    <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskEdit="handleTaskEdit"></task-publish>
+    <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskEdit="handleTaskEdit" @handleTaskPublish="handleTaskPublish"></task-publish>
     <TaskClose @handleTaskClose="handleTaskClose"></TaskClose>
     <TaskFollow @handleTaskCheck="handleTaskCheck"></TaskFollow>
   </div>
@@ -143,6 +143,9 @@ export default {
     handleTaskCreate() {
       this.getTaskList();
     },
+    handleTaskPublish(){
+      this.getTaskList();
+    },
     getTaskBasicInfo(){
       taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
         if(res.status){
@@ -194,12 +197,12 @@ export default {
     },
     getTaskList(){
       taskApi().getTaskList({taskId: this.$route.params.id}).then(res => {
-        if(res.status && res.data.length){
+        if(res.status && res.data){
           let newArr = res.data.list;
           for (let i = 0; i < newArr.length; i++) {
             newArr[i].user_info = res.data.user_info[res.data.list[i].creator_id];
           }
-          this.task_list = this.task_list.concat(newArr);
+          this.task_list = newArr;
         }
       });
     }
@@ -222,12 +225,16 @@ export default {
     // z-index: 0 !important;
   }
   .detail-box{
-    width: 1026px;
+    width: 960px;
     margin: auto;
     margin-top: -206px;
     .head-padding{
-      height: 140px;
-      padding: 40px 25px 26px 25px;
+      height: 135px;
+      padding: 39px 2px 32px 2px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
     }
     .chao-link{
       cursor: pointer;
@@ -237,8 +244,17 @@ export default {
       font-weight:400;
       color: #FFFFFF;
       line-height:21px;
+      display: flex;
+      align-items: center;
       .iconfont{
         margin-right: 8px;
+      }
+      .chao-limit{
+        display: inline-block;
+        width: 335px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
     .titles{
@@ -276,7 +292,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 43px;
+      margin-top: 36px;
       img{
         width: 38px;
         height: 38px;
@@ -381,6 +397,8 @@ ul{
     }
     display: flex;
     justify-content: space-between;
+    padding: 0 29px;
+    line-height: 54px;
     .iconfont{
       margin-right: 10px;
     }

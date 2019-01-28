@@ -2,7 +2,7 @@
   <div class="task-right">
     <div class="header">
       <div class="title">关联task</div>
-      <div class="add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: keyTask})">
+      <div class="add" @click="Judge()">
         <span class="iconfont icon-btn_add_kt1"></span><span>添加</span>
       </div>
     </div>
@@ -26,6 +26,11 @@ export default {
     return {
 
     };
+  },
+  methods: {
+    Judge(){
+      this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: this.keyTask});
+    }
   }
 };
 </script>
@@ -33,7 +38,7 @@ export default {
 .task-right{
   width: 400px;
   .header{
-    padding: 21px 22px;
+    padding: 21px 2px;
     display: flex;
     justify-content: space-between;
     align-items: center;

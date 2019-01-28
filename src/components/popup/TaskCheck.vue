@@ -1,7 +1,7 @@
 <template>
-  <div class="task-check" v-if="item.status === 1">
+  <div class="task-check" v-if="item.status === 1 && item.task_owner_id === self_info.user_id">
     <li v-for="(menuitem, index) in check_list" :key="index" @click.stop="handleTask(menuitem)"
-      v-if="(item.is_key_task === 1 || menuitem.name !== '添加Task') && item.task_owner_id === self_info.user_id">
+      v-if="(item.is_key_task === 1 || menuitem.name !== '添加Task')">
       <i :class="menuitem.icon" class="iconfont"></i>
       <span>{{menuitem.name}}</span>
     </li>

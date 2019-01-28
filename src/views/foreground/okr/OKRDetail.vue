@@ -5,7 +5,7 @@
       <div class="title">
         <div class="subtitle">
           <span class="kt-tag">{{okr_detail.okr_type_name}}</span>
-          <span>{{okr_detail.okr_name}}</span>
+          <span class="kt-title">{{okr_detail.okr_name}}</span>
         </div>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
@@ -18,7 +18,7 @@
               <span class="iconfont icon-icon_edit_l"></span> <span class="edits">编辑</span>
             </el-dropdown-item>
             <el-dropdown-item command="删除">
-              <span class="iconfont icon-icon-"></span> <span class="edits">删除</span>
+              <span class="iconfont icon-icon_close_l"></span> <span class="edits">删除</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -108,6 +108,9 @@ export default {
       this.getBasicInfo();
     },
     handleTaskCreate() {
+      this.kt_list = [];
+      this.task_id = '';
+      this.pageInfo.current_page = 0;
       this.infinite();
     },
     handleCommand(command){
@@ -218,6 +221,14 @@ export default {
         align-items: center;
         span{
           line-height: 1;
+        }
+        .kt-title{
+          display: inline-block;
+          width: 817px;
+
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
         .kt-tag{
           display: inline-block;
@@ -367,9 +378,9 @@ ul{
   }
   .el-dropdown-menu__item{
     .edits{
-      // display: inline-block;
-      // width: 65px;
-      // text-align: center;
+      display: inline-block;
+      width: 65px;
+      text-align: center;
     }
     .iconfont{
       margin-right: 10px;
@@ -379,6 +390,8 @@ ul{
       background-color: #f6f6f6 !important;
     }
     font-size: 15px;
+    padding: 0 29px;
+    line-height: 54px;
   }
 }
 </style>

@@ -5,21 +5,26 @@
     </div>
     <ul v-for="(dy, dyindex) in dynamic_list" :key="dyindex">
       <li class="item-state">
-        <span class="iconfont icon-icon_manage"></span><span>{{dy.type_name}}</span>
+        <span class="iconfont icon-icon_close_l" v-if="dy.type_name === '完成'"></span>
+        <span class="iconfont icon-icon_check" v-if="dy.type_name === '跟进'"></span>
+        <span>{{dy.type_name}}</span>
       </li>
       <li>
         <div class="person-photo">
           <img :src="dy.user_info.header_photo" alt="" @click="goPersonal(dy.user_info.user_id)">
           <div>
             <p>
-              <span class="name">{{dy.user_info.user_name}}</span><span>{{dy.type_name}}了这个Task</span>
+              <span class="name" @click="goPersonal(dy.user_info.user_id)">{{dy.user_info.user_name}}</span>
+              <!-- <span>{{dy.type_name}}了这个Task</span> -->
             </p>
             <p class="time">{{dy.publish_time | timeFilter}}</p>
           </div>
         </div>
         <div class="hot">
           <div class="rate">
-            <el-rate disabled text-color="#F5A623" v-model="dy.self_score"></el-rate> <span class="number">{{dy.self_score}}</span>
+            <el-rate disabled text-color="#F5A623" v-model="dy.score"
+              :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"
+            ></el-rate> <span class="number">{{dy.score.toFixed(1)}}</span>
           </div>
           <div class="final">
             <span class="left">
@@ -39,7 +44,10 @@
     </ul>
     <ul class="null" v-if="dynamic_list.length === 0">
       <li>
-        <span class="iconfont icon-wenbenicon"></span><span>当前没有动态</span>
+        <svg class="iconfont" aria-hidden="true">
+          <use xlink:href="#icon-icon_file1"></use>
+        </svg>
+        <span>当前没有动态</span>
       </li>
     </ul>
   </div>
@@ -62,9 +70,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dynamic-left{
-  width: 591px;
+  width: 546px;
   .header{
-    padding: 21px 25px;
+    padding: 21px 2px;
     font-size:18px;
     font-weight:500;
     color: #909399;
@@ -87,8 +95,8 @@ export default {
       }
     }
     li{
-      width: 535px;
-      padding: 17px 28px 24px 28px;
+      width: 490px;
+      padding: 24px 28px 24px 28px;
       .person-photo{
         display: flex;
         align-items: center;
@@ -106,7 +114,8 @@ export default {
           line-height:21px;
         }
         .name{
-          color: #5581C7;
+          cursor: pointer;
+          color: #303133;
           margin-right: 7px;
         }
         .time{
@@ -117,7 +126,7 @@ export default {
         }
       }
       .hot{
-        margin-top: 20px;
+        margin-top: 12px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -128,14 +137,16 @@ export default {
             margin-left: 7px;
             font-size: 18px;
             color: #303133;
+            font-weight: 400;
           }
         }
         .final{
           color: #606266;
-          font-size: 18px;
+          font-size: 13px;
           font-weight:400;
           .bignum{
             color: #FF7678;
+            font-size: 18px;
           }
           .min{
             font-size: 13px;
@@ -146,7 +157,7 @@ export default {
         }
       }
       .des{
-        margin-top: 17px;
+        margin-top: 14px;
         word-spacing: 1px;
         font-size:15px;
         font-weight:400;
@@ -171,9 +182,10 @@ export default {
       display: flex;
       align-items: center;
       .iconfont{
-        color: #FF7678;
+        width: 36px;
+        height: 36px;
         font-size: 34px;
-        margin-right: 16px;
+        margin-right: 8px;
       }
     }
   }
