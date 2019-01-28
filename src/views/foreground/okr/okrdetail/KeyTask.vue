@@ -132,13 +132,18 @@ export default {
 <style lang="scss" scoped>
 .kt{
   .kt-task{
-    position: relative;
     margin-bottom: 12px;
     background-color: #FFFFFF;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     border-radius:4px;
-    padding: 25px 53px 0 30px;
+    padding: 25px 0 0 30px;
     .task-box{
+      padding-right: 50px;
+      position: relative;
+      &:hover .task-check{
+        opacity: 1;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
+      }
       .overlayJudge{
         display: block !important;
       }
@@ -240,6 +245,7 @@ export default {
       li{
         border-top: 1px solid #F6F6F6;
         padding: 23px 0;
+        padding-right: 50px;
         position: relative;
         .overlayJudge-child{
           display: block !important;
@@ -371,6 +377,12 @@ export default {
   }
   ul{
     li{
+      width: 847px;
+      position: relative;
+      &:hover .task-check{
+        opacity: 1;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
+      }
       .date{
         .el-progress{
           width: 188px;

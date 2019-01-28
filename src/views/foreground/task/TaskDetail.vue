@@ -18,19 +18,19 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="跟进">
                 <span class="iconfont icon-ding_wei"></span>
-                <span @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
+                <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
               </el-dropdown-item>
               <el-dropdown-item command="编辑">
                 <span class="iconfont icon-icon_edit_l"></span>
-                <span @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
+                <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
               </el-dropdown-item>
               <el-dropdown-item command="关闭">
                 <span class="iconfont icon-icon-"></span>
-                <span @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
+                <span class="edit" @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
               </el-dropdown-item>
               <el-dropdown-item command="添加Task">
                 <span class="iconfont icon-icon_add"></span>
-                <span @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
+                <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -366,7 +366,19 @@ export default {
   }
 }
 ul{
+  &.el-dropdown-menu{
+    padding: 0;
+  }
   .el-dropdown-menu__item{
+    &:hover{
+      color: #303133 !important;
+      background-color: #f6f6f6 !important;
+    }
+    .edit{
+      display: inline-block;
+      width: 65px;
+      text-align: center;
+    }
     display: flex;
     justify-content: space-between;
     .iconfont{

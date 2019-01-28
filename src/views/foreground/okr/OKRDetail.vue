@@ -15,7 +15,11 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="编辑">
-              <span class="iconfont icon-icon_edit_l"></span> 编辑</el-dropdown-item>
+              <span class="iconfont icon-icon_edit_l"></span> <span class="edits">编辑</span>
+            </el-dropdown-item>
+            <el-dropdown-item command="删除">
+              <span class="iconfont icon-icon-"></span> <span class="edits">删除</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -111,6 +115,14 @@ export default {
         case '编辑':
           this.okr_detail.key_result = this.kr_list;
           this.$store.dispatch('setOKRPublish', {status: true, type: 'edit', okrId: this.okr_detail.obj_id});
+          break;
+        case '删除':
+          if(!this.kt_list.length){
+            this.okr_detail.key_result = this.kr_list;
+            this.$store.dispatch('setTaskClose', {status: true, parent: this.okr_detail});
+          }else{
+            this.$message({message: '请先完成你的Task', type: 'warning', duration: 1000});
+          }
           break;
         default:
           break;
@@ -350,9 +362,21 @@ export default {
   }
 }
 ul{
+  &.el-dropdown-menu{
+    padding: 0;
+  }
   .el-dropdown-menu__item{
+    .edits{
+      // display: inline-block;
+      // width: 65px;
+      // text-align: center;
+    }
     .iconfont{
       margin-right: 10px;
+    }
+    &:hover{
+      color: #303133 !important;
+      background-color: #f6f6f6 !important;
     }
     font-size: 15px;
   }
