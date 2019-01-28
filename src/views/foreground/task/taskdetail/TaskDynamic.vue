@@ -15,7 +15,6 @@
           <div>
             <p>
               <span class="name" @click="goPersonal(dy.user_info.user_id)">{{dy.user_info.user_name}}</span>
-              <!-- <span>{{dy.type_name}}了这个Task</span> -->
             </p>
             <p class="time">{{dy.publish_time | timeFilter}}</p>
           </div>
@@ -23,6 +22,7 @@
         <div class="hot">
           <div class="rate">
             <el-rate disabled text-color="#F5A623" v-model="dy.score"
+              class="middle-rate"
               :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"
             ></el-rate> <span class="number">{{dy.score.toFixed(1)}}</span>
           </div>
@@ -167,7 +167,7 @@ export default {
     }
   }
   .null{
-    width:501px;
+    width:456px;
     height:42px;
     padding: 54px 45px;
     background:rgba(255,255,255,1);
@@ -189,5 +189,25 @@ export default {
       }
     }
   }
+}
+</style>
+<style lang="scss">
+.dynamic-left{
+  ul>li{
+    .hot{
+      .rate{
+        .middle-rate{
+          .el-rate__item{
+            .el-rate__icon,
+            .icon-icon_star,
+            .iconfont{
+              font-size: 14px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  
 }
 </style>

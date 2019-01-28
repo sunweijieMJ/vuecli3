@@ -148,9 +148,9 @@ export default {
     },
     getTaskBasicInfo(){
       taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
-        if(res.status){
+        if(res.status && res.data.obj_infos){
           this.task_basic = res.data;
-          if(res.data.obj_infos){
+          if(res.data.obj_infos && Object.values(res.data.obj_infos)){
             this.okr_name = Object.values(res.data.obj_infos)[0].okr_name;
             this.obj_id = Object.values(res.data.obj_infos)[0].obj_id;
           }
@@ -183,7 +183,7 @@ export default {
         pages: this.pageInfo.page_size, // ETC 每页总数
         lastId: this.last_id // ETC 最后一条id
       }).then(res => {
-        if(res.status){
+        if(res.status && res.data && res.data.list){
           let newArr = res.data.list;
           for (let i = 0; i < newArr.length; i++) {
             newArr[i].user_info = res.data.users_info[res.data.list[i].creator_id];
@@ -197,7 +197,7 @@ export default {
     },
     getTaskList(){
       taskApi().getTaskList({taskId: this.$route.params.id}).then(res => {
-        if(res.status && res.data){
+        if(res.status && res.data !== [] && res.data.list){
           let newArr = res.data.list;
           for (let i = 0; i < newArr.length; i++) {
             newArr[i].user_info = res.data.user_info[res.data.list[i].creator_id];
@@ -225,7 +225,7 @@ export default {
     // z-index: 0 !important;
   }
   .detail-box{
-    width: 960px;
+    width: 972px;
     margin: auto;
     margin-top: -206px;
     .head-padding{

@@ -13,22 +13,26 @@
               <use xlink:href="#icon-btn_more_g1"></use>
             </svg>
           </span>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" v-if="okr_detail.is_owner">
             <el-dropdown-item command="编辑">
               <span class="iconfont icon-icon_edit_l"></span> <span class="edits">编辑</span>
             </el-dropdown-item>
             <el-dropdown-item command="删除">
-              <span class="iconfont icon-icon_close_l"></span> <span class="edits">删除</span>
+              <span class="iconfont icon-icon-"></span> <span class="edits">删除</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="joinner">
         <div class="left" v-if="okr_detail.bo_info">
+          <div v-if="okr_detail.okr_type === 3" style="margin-right: 50px;">
+            <p>{{okr_detail.okr_type_name}}</p>
+            <p>{{okr_detail.bo_info.department_name}}-Furnshing</p>
+          </div>
           <img v-if="okr_detail.bo_info.header_photo" :src="okr_detail.bo_info.header_photo" alt="">
           <div class="name">
             <p>Owner</p>
-            <p>{{okr_detail.bo_info.user_name}}</p>
+            <p>多久啊时间的煎熬说的降低</p>
           </div>
           <div>
             <p>起止时间</p>
@@ -38,13 +42,13 @@
           </div>
         </div>
         <div class="right">
-          <img v-for="(a, index) in AllJoinner.slice(0, 8)" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
-          <el-dropdown @command="showAllJoinner" v-if="AllJoinner && AllJoinner.length > 6">
+          <img v-for="(a, index) in AllJoinner" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
+          <el-dropdown @command="showAllJoinner" v-if="AllJoinnerNum.length && AllJoinnerNum.length > 6">
             <span class="el-dropdown-link">
-              <div class="all-per" v-if="AllJoinner">{{AllJoinner.length}}</div>
+              <div class="all-per" v-if="AllJoinnerNum">{{AllJoinnerNum.length}}</div>
             </span>
             <el-dropdown-menu slot="dropdown" class="joinner-drop">
-              <el-dropdown-item v-for="(j, jindex) in AllJoinner" :key="jindex" :command="j.user_id" :divided="true">
+              <el-dropdown-item v-for="(j, jindex) in AllJoinnerNum" :key="jindex" :command="j.user_id" :divided="true">
                 <img v-if="j.header_photo" :src="j.header_photo" alt="">
                 <span>{{j.user_name}}({{j.real_name}})</span>
               </el-dropdown-item>
@@ -57,7 +61,7 @@
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
-        <span class="span2">
+        <span class="span2" v-show="okr_detail.is_parter">
           <span class="iconfont icon-btn_add_kt1"></span>
           <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">添加</span>
         </span>
@@ -67,7 +71,7 @@
       </div>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
-    <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
+    <o-k-r-publish @handleOkrEdit="handleOkrEdit" @handleTaskPublish="handleTaskPublish"></o-k-r-publish>
     <task-publish @handleTaskCreate="handleTaskCreate"></task-publish>
   </div>
 </template>
@@ -86,6 +90,7 @@ export default {
     return {
       dateFormat,
       okr_detail: '', // ETC okr基础信息
+      AllJoinnerNum: '',
       AllJoinner: [],
       kr_list: [], // ETC kr列表
       kt_list: [], // ETC kt列表
@@ -106,6 +111,12 @@ export default {
     // 编辑okr回调
     handleOkrEdit() {
       this.getBasicInfo();
+    },
+    handleTaskPublish(){
+      this.kt_list = [];
+      this.task_id = '';
+      this.pageInfo.current_page = 0;
+      this.infinite();
     },
     handleTaskCreate() {
       this.kt_list = [];
@@ -138,8 +149,14 @@ export default {
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
         this.okr_detail = res.data;
-        this.AllJoinner = Object.values(res.data.participants);
-        // console.log(res)
+        let AllJoinners = Object.values(res.data.participants);
+        this.AllJoinnerNum = Object.values(res.data.participants);
+
+        if(this.AllJoinnerNum.length && this.AllJoinnerNum.length <= 6){
+          this.AllJoinner = AllJoinners;
+        }else{
+          this.AllJoinner = this.AllJoinnerNum.slice(0, 5);
+        }
       });
     },
     getKeyResultList(){
@@ -277,7 +294,7 @@ export default {
         }
         .name{
           margin-left: 10px;
-          margin-right: 71px;
+          margin-right: 50px;
         }
       }
       .right{

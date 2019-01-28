@@ -13,7 +13,7 @@
           <span>{{kr.kr_name}}</span>
         </div>
         <div class="kr-right">
-          <span>信心指数</span>
+          <span class="left">信心指数</span>
           <span class="span2">
             <span class="number">{{kr.confidenc_index}}</span>
             <span>%</span>
@@ -87,14 +87,17 @@ export default {
         font-weight:400;
         color: #909399;
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        .left{
+          line-height: 30px;
+        }
         span{
           line-height: 1;
+          text-align: bottom;
         }
         .span2{
-          display: flex;
-          align-items: center;
+          // display: flex;
+          // align-items: center;
           color: #303133;
         }
         .number{
