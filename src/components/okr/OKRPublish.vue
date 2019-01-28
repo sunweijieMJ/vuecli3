@@ -1,13 +1,9 @@
 <template>
   <div class="okr-publish custom-dialog" v-if="okr_publish.status">
     <el-dialog width="950px" :before-close="beforeClose" @close="closeDialog" :visible.sync="okr_publish.status">
+      <h2 class="header" slot="title">OKR</h2>
       <el-form :model="form" :rules="rules" ref="ruleForm">
         <div class="main">
-          <!-- name -->
-          <el-form-item class="name" prop="okr_name">
-            <el-input type="text" v-model="form.okr_name" maxlength="15" placeholder="给OKR起个简称吧(15字以内)"></el-input>
-          </el-form-item>
-          <!-- okr信息 -->
           <div class="title">
             <div class="bo">
               <img :src="form.bo_user.header_photo" alt="">
@@ -82,12 +78,8 @@
     data() {
       return {
         form: {
-          okr_name: '',
           bo_user: '',
-          okr_type: {
-            id: 4,
-            name: '个人'
-          },
+          okr_type: '',
           daterange: {
             start_time: '',
             end_time: ''
@@ -104,15 +96,16 @@
         },
         project_type: [],
         rules: {
-          okr_name: [{required: true, message: ' ', trigger: 'change'}],
           objective: [{required: true, message: ' ', trigger: 'change'}]
         }
       };
     },
     methods: {
       getTypeList() {
-        OkrApi().getTypeList({}).then(res => {
-          this.project_type = res.data;
+        let that = this;
+        OkrApi().getTypeList({type: 'create'}).then(res => {
+          that.project_type = res.data;
+          that.form.okr_type = that.project_type[0];
         });
       },
       // 选择okr类型
@@ -236,7 +229,6 @@
           });
         }
         return {
-          okrName: that.form.okr_name,
           boUser: that.form.bo_user.user_id,
           okrType: that.form.okr_type.id,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
@@ -258,7 +250,6 @@
         Object.assign(that.$data, that.$options.data());
         if(cur === 'edit') {
           that.form =  {
-            okr_name: that.okr_publish.source.okr_name,
             bo_user: that.okr_publish.source.bo_info,
             okr_type: {
               name: that.okr_publish.source.okr_type_name,
@@ -488,10 +479,13 @@
     }
     .el-dialog__wrapper {
       .el-dialog__header {
-        padding: 0;
-      }
-      .el-dialog__body {
-        padding-top: $up-down!important;
+        padding: $up-down $left-right;
+        .header {
+          font-size: $h1Font;
+          font-weight: $h1Weight;
+          line-height: 30px;
+          color: $themeColor;
+        }
       }
     }
   }

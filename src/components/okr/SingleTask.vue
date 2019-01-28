@@ -6,16 +6,16 @@
         <h4>{{item.task_name}}</h4>
       </div>
       <div class="info-desc">
-        <p class="okr" v-if="item.obj_info.length" v-for="(witem, windex) in item.obj_info" :key="windex">
-          <i class="iconfont icon-icon_link"></i>
-          <span>{{witem.okr_name}}</span>
+        <p class="okr">
+          <i v-if="item.obj_info && item.obj_info.length" class="iconfont icon-icon_link"></i>
+          <span v-if="item.obj_info && item.obj_info.length">{{item.obj_info[0].okr_name}}</span>
         </p>
         <div class="num">
           <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
           <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
           <p class="progress" v-else>
             <span>完成度</span>
-            <i>{{item.progress}}%</i>
+            <i>{{item.progress}}</i>
           </p>
         </div>
       </div>
@@ -60,10 +60,12 @@
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
     cursor: pointer;
     .task-info {
+      box-sizing: border-box;
       position: relative;
       display: flex;
       flex-direction: column;
-      padding: 24px $left-right;
+      height: 100px;
+      padding: 25px $left-right;
       .info-title {
         display: flex;
         align-items: center;
@@ -88,18 +90,18 @@
       }
       .info-desc {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
-        @include tofl(100%);
         .okr {
-          flex: 1;
           display: flex;
           align-items: center;
+          width: 285px;
           i {
             font-size: $h4Font;
             color: #000;
           }
           span {
+            @include tofl(264px);
             margin-left: 7px;
             font-size: $h4Font;
             color: $h2Color;
@@ -118,7 +120,6 @@
             display: flex;
             align-items: center;
             width: 190px;
-            margin-left: 35px;
             .el-progress-bar {
               padding: 0;
               margin: 0;
@@ -135,17 +136,26 @@
           }
           .progress {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             span {
               font-size: $h4Font;
               color: $h2Color;
             }
             i {
+              position: relative;
               margin-left: 10px;
               font-size: $h1Font;
               font-style: normal;
               font-weight: $h1Weight;
+              line-height: 100%;
               color: $themeColor;
+              &::after {
+                content: '%';
+                position: absolute;
+                font-size: 13px;
+                height: 12px;
+                bottom: 7px;
+              }
             }
           }
         }
@@ -190,7 +200,7 @@
     }
     &:hover .task-check{
       opacity: 1;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 20%);
     }
   }
 </style>

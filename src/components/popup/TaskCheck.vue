@@ -21,7 +21,7 @@
           },
           {
             name: '编辑',
-            icon: 'icon-icon_edit_l1'
+            icon: 'icon-okrziyuan-'
           },
           {
             name: '完成',
