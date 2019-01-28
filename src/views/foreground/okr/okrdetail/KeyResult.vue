@@ -39,7 +39,7 @@ export default {
   background-color: #FFFFFF;
   box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
   border-radius:4px;
-  padding: 25px 53px 0 53px;
+  padding: 25px 50px 0 50px;
   .kr-title{
     font-size:19px;
     font-weight:500;
@@ -82,7 +82,7 @@ export default {
         }
       }
       .kr-right{
-        width: 105px;
+        width: 116px;
         font-size:13px;
         font-weight:400;
         color: #909399;
@@ -95,12 +95,12 @@ export default {
         .span2{
           display: flex;
           align-items: center;
+          color: #303133;
         }
         .number{
           font-size:22px;
           font-family:PingFangSC-Regular;
           font-weight:400;
-          color: #303133;
         }
       }
     }

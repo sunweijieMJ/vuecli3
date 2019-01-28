@@ -15,12 +15,12 @@
               </div>
               <div class="objactive">
                 <div class="left">
-                  <div>
-                    <span>{{dateFormat(kt.start_time, 'yyyy/MM/dd')}}--{{dateFormat(kt.end_time, 'yyyy/MM/dd')}}</span>
-                  </div>
                   <div class="img" v-if="kt.users_info">
                     <img :src="kt.users_info.header_photo" alt="">
-                    <span>TO: {{kt.users_info.user_name}}</span>
+                    <span>{{kt.users_info.user_name}}</span>
+                  </div>
+                  <div>
+                    <span>{{dateFormat(kt.start_time, 'yyyy/MM/dd')}}--{{dateFormat(kt.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
                 </div>
                 <div @mouseover="overlayShow(ktindex)">
@@ -38,12 +38,12 @@
               </div>
               <div class="date">
                 <div class="left">
-                  <div>
-                    <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}--{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
-                  </div>
                   <div class="img">
                     <img :src="t.users_info.header_photo" alt="">
-                    <span>TO: {{t.users_info.user_name}}</span>
+                    <span>{{t.users_info.user_name}}</span>
+                  </div>
+                  <div>
+                    <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}--{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
                 </div>
                 <div @mouseover="overlayShowChild(tindex)">
@@ -132,13 +132,13 @@ export default {
 <style lang="scss" scoped>
 .kt{
   .kt-task{
+    position: relative;
     margin-bottom: 12px;
     background-color: #FFFFFF;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     border-radius:4px;
-    padding: 25px 53px 0 53px;
+    padding: 25px 53px 0 30px;
     .task-box{
-      position: relative;
       .overlayJudge{
         display: block !important;
       }
@@ -219,12 +219,10 @@ export default {
       color:#606266;
       line-height: 1;
       .left{
+        width: 340px;
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
-        div{
-          margin-right: 41px;
-        }
         img{
           width: 20px;
           height: 20px;
@@ -307,10 +305,9 @@ export default {
           align-items: center;
           .left{
             display: flex;
+            width: 340px;
+            justify-content: space-between;
             align-items: center;
-            div{
-              margin-right: 41px;
-            }
             .img{
               display: flex;
               align-items: center;
@@ -350,16 +347,17 @@ export default {
         }
         .objactive{
           .el-progress{
-            width: 180px;
+            width: 188px;
             font-size: 13px;
             color: #303133;
             display: flex;
+            align-items: center;
             justify-content: space-between;
             .el-progress-bar{
-              width: 200px;
+              width: 144px;
               .el-progress-bar__outer{
                 width: 145px;
-                height: 9px !important;
+                height: 10px !important;
                 .el-progress-bar__inner{
                   background:linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
                   border-radius:8px;
@@ -375,16 +373,17 @@ export default {
     li{
       .date{
         .el-progress{
-          width: 180px;
+          width: 188px;
           font-size: 13px;
           color: #303133;
           display: flex;
+          align-items: center;
           justify-content: space-between;
           .el-progress-bar{
-            width: 195px;
+            width: 144px;
             .el-progress-bar__outer{
               width: 145px;
-              height: 9px !important;
+              height: 10px !important;
               .el-progress-bar__inner{
                 background:linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
                 border-radius:8px;

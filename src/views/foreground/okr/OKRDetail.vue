@@ -34,13 +34,13 @@
           </div>
         </div>
         <div class="right">
-          <img v-for="(a, index) in okr_detail.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
-          <el-dropdown @command="showAllJoinner" v-if="okr_detail.participants && okr_detail.participants.length > 6">
+          <img v-for="(a, index) in AllJoinner.slice(0, 8)" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
+          <el-dropdown @command="showAllJoinner" v-if="AllJoinner && AllJoinner.length > 6">
             <span class="el-dropdown-link">
-              <div class="all-per" v-if="okr_detail.participants">{{okr_detail.participants.length}}</div>
+              <div class="all-per" v-if="AllJoinner">{{AllJoinner.length}}</div>
             </span>
             <el-dropdown-menu slot="dropdown" class="joinner-drop">
-              <el-dropdown-item v-for="(j, jindex) in okr_detail.participants" :key="jindex" :command="j.user_id" :divided="true">
+              <el-dropdown-item v-for="(j, jindex) in AllJoinner" :key="jindex" :command="j.user_id" :divided="true">
                 <img v-if="j.header_photo" :src="j.header_photo" alt="">
                 <span>{{j.user_name}}({{j.real_name}})</span>
               </el-dropdown-item>
@@ -53,8 +53,10 @@
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
-        <span class="iconfont icon-btn_add_kt1"></span>
-        <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">添加</span>
+        <span class="span2">
+          <span class="iconfont icon-btn_add_kt1"></span>
+          <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">添加</span>
+        </span>
       </div>
       <div class="key-task" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
         <KeyTask :kt_list="kt_list"></KeyTask>
@@ -80,6 +82,7 @@ export default {
     return {
       dateFormat,
       okr_detail: '', // ETC okr基础信息
+      AllJoinner: [],
       kr_list: [], // ETC kr列表
       kt_list: [], // ETC kt列表
       pageInfo: { // ETC 页码信息
@@ -120,6 +123,7 @@ export default {
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
         this.okr_detail = res.data;
+        this.AllJoinner = Object.values(res.data.participants);
         // console.log(res)
       });
     },
@@ -205,13 +209,13 @@ export default {
         }
         .kt-tag{
           display: inline-block;
-          width: 36px;
+          width: 44px;
           height: 16px;
-          font-size: 14px;
+          font-size: 15px;
           line-height: 16px;
           text-align: center;
           background: #22D7A0;
-          border-radius:8px;
+          border-radius:10px;
           margin-right: 10px;
         }
       }
@@ -274,11 +278,16 @@ export default {
       margin-top: 22px;
     }
     .add-key-task{
-      padding: 20px 47px;
+      padding: 20px 50px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       span{
         line-height: 1;
+      }
+      .span2{
+        display: flex;
+        align-items: center;
       }
       .iconfont{
         cursor: pointer;
@@ -293,7 +302,7 @@ export default {
         color: #909399;
       }
       .task-add{
-        font-size:15px;
+        font-size:18px;
         font-weight:500;
         color: #303133;
         cursor: pointer;
