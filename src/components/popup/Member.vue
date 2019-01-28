@@ -17,7 +17,7 @@
             <el-input type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
             <template v-if="keyword">
               <ul class="list" v-if="user_list.length">
-                <li v-for="(item, index) in user_list" :key="index" @click="addUserList(item)">
+                <li v-for="(item, index) in user_list" :key="index" @click="chooseUser(item, index)">
                   <div class="name">
                     <img :src="item.header_photo" alt="">
                     <span>{{item.user_name}} ({{item.real_name}})</span>
@@ -27,10 +27,6 @@
               </ul>
               <div class="null" v-else>
                 <p>Sorry, 好像没有这个同事哦</p>
-              </div>
-              <div class="btn">
-                <el-button class="cancel" @click="member_popover = false">取消</el-button>
-                <el-button class="confirm" @click="addUserList(false)">确定</el-button>
               </div>
             </template>
           </div>
@@ -70,38 +66,47 @@
         }
       },
       // 判断用户是否已存在
-      judgeUser(user) {
-        let [that, flag] = [this, true];
+      judgeUser(item) {
+        let [that, flag] = [this, false];
         for(let i = 0, LEN = that.join_list.length; i < LEN; i++) {
-          if(that.join_list[i].user_id === user.user_id) {
-            flag = false;
+          if(that.join_list[i].user_id === item.user_id) {
+            flag = i;
             break;
           }
         }
-        if(flag) {
-          that.join_list.push(user);
-          that.$emit('confirmUser', that.join_list);
-        } else {
-          that.$message({message: '该用户已存在', type: 'warning'});
-        }
+        return flag;
       },
-      chooseUser(item) {
-        console.log(item)
-      },
-      // 添加参与者
-      addUserList(user) {
+      chooseUser(item, index) {
         let that = this;
-        user.isNew = true;
-        if(user) {
-          that.judgeUser(user);
-        } else {
-          if(that.user_list.length === 1) {
-            that.judgeUser(that.user_list[0]);
+        if(that.judgeUser(item) !== false) {
+          if(that.join_list[that.judgeUser(item)].isNew) {
+            that.join_list.splice(that.judgeUser(item), 1);
+            that.user_list[index].isExist = !that.user_list[index].isExist;
           } else {
-            that.$message({message: '请选择参与者', type: 'warning'});
+            that.deleteUser(item).then(res => {
+              if(res.status) {
+                that.join_list.splice(that.judgeUser(item), 1);
+                that.user_list[index].isExist = !that.user_list[index].isExist;
+              } else {
+                that.$message({message: '该用户不能删除', type: 'warning'});
+              }
+            });
           }
+        } else {
+          item.isNew = true;
+          that.join_list.push(item);
+          that.user_list[index].isExist = !that.user_list[index].isExist;
         }
-        that.member_popover = false;
+      },
+      async deleteUser(item) {
+        let that = this;
+        const objId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.obj_id;
+        const taskId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.task_id;
+        if(objId) {
+          return await OkrApi().deleteUserFromOkr({objId, userId: item.user_id});
+        } else {
+          return await TaskApi().deleteUserFromTask({taskId, userId: item.user_id});
+        }
       },
       // 关闭标签
       closeTag(index) {
@@ -224,9 +229,9 @@
         height: 40px;
       }
       .list {
-        max-height: 270px;
+        max-height: 290px;
         overflow-y: auto;
-        padding: $up-down 0;
+        margin-top: $up-down;
         li {
           display: flex;
           justify-content: space-between;
@@ -256,7 +261,7 @@
             }
           }
           i {
-            font-size: 28px;
+            font-size: 26px;
           }
         }
       }

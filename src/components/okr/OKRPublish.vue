@@ -111,7 +111,9 @@
       // 选择okr类型
       handleCommand(command) {
         let that = this;
+        console.log(command)
         that.form.okr_type = command;
+        console.log(that.form.okr_type)
       },
       // 添加key-result
       addKeyResult() {
