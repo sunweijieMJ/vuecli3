@@ -1,9 +1,9 @@
 <template>
   <div class="kr">
     <div class="kr-title">
-      <div>
+      <!-- <div>
         <i class="iconfont icon-icon_okr_l"></i>
-      </div>
+      </div> -->
       <div>{{okr_detail.objective_desc}}</div>
     </div>
     <ul>
@@ -84,7 +84,6 @@ export default {
       .kr-right{
         width: 116px;
         font-size:13px;
-        font-weight:400;
         color: #909399;
         display: flex;
         justify-content: space-between;
@@ -102,8 +101,6 @@ export default {
         }
         .number{
           font-size:22px;
-          font-family:PingFangSC-Regular;
-          font-weight:400;
         }
       }
     }

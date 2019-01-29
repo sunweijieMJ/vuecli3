@@ -109,7 +109,6 @@ export default {
         }
         p{
           font-size:15px;
-          font-weight:400;
           color: #606266;
           line-height:21px;
         }
@@ -120,7 +119,6 @@ export default {
         }
         .time{
           font-size:13px;
-          font-weight:400;
           color: #909399;
           line-height:18px;
         }
@@ -143,7 +141,6 @@ export default {
         .final{
           color: #606266;
           font-size: 13px;
-          font-weight:400;
           .bignum{
             color: #FF7678;
             font-size: 18px;
@@ -160,7 +157,6 @@ export default {
         margin-top: 14px;
         word-spacing: 1px;
         font-size:15px;
-        font-weight:400;
         color: #303133;
         line-height:21px;
       }

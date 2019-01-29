@@ -29,12 +29,12 @@
         <div class="left" v-if="okr_detail.bo_info">
           <div v-if="okr_detail.okr_type === 3" style="margin-right: 50px;">
             <p>{{okr_detail.okr_type_name}}</p>
-            <p>{{okr_detail.bo_info.department_name}}-Furnshing</p>
+            <p>{{okr_detail.bo_info.department_name}}</p>
           </div>
           <img v-if="okr_detail.bo_info.header_photo" :src="okr_detail.bo_info.header_photo" alt="">
           <div class="name">
             <p>Owner</p>
-            <p>多久啊时间的煎熬说的降低</p>
+            <p>{{okr_detail.bo_info.user_name}}</p>
           </div>
           <div>
             <p>起止时间</p>
@@ -239,7 +239,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       .subtitle{
-        font-size: 22px;
+        font-size: 20px;
         color: #FFFFFF;
         display: flex;
         align-items: center;
@@ -258,9 +258,9 @@ export default {
         .kt-tag{
           display: inline-block;
           width: 44px;
-          height: 16px;
+          height: 18px;
           font-size: 15px;
-          line-height: 16px;
+          line-height: 18px;
           text-align: center;
           background: #22D7A0;
           border-radius:10px;
@@ -290,12 +290,10 @@ export default {
         align-items: center;
         div{
           font-size:15px;
-          font-weight:400;
           color: #FFFFFF;
           line-height:21px;
           p:nth-child(1){
             font-size:13px;
-            font-weight:400;
             color:#C0C4CC;
             line-height:18px;
           }
@@ -375,7 +373,6 @@ export default {
     line-height: 1;
     color: #303133;
     font-size:15px;
-    font-weight:400;
     display: flex;
     align-items: center;
     img{

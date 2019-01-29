@@ -9,7 +9,7 @@
             <span v-else class="kt-tag">T</span>
             <span>{{task_basic.task_name}}</span>
           </div>
-          <el-dropdown @command="handleCommand">
+          <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
             <span class="el-dropdown-link">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-btn_more_p1"></use>
@@ -17,7 +17,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="跟进">
-                <span class="iconfont icon-icon_check_l"></span>
+                <span class="iconfont icon-icon_check"></span>
                 <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
               </el-dropdown-item>
               <el-dropdown-item command="编辑">
@@ -241,7 +241,6 @@ export default {
       // margin-top: 11px;
       margin-left: 46px;
       font-size:15px;
-      font-weight:400;
       color: #FFFFFF;
       line-height:21px;
       display: flex;
@@ -304,12 +303,10 @@ export default {
         align-items: center;
         div{
           font-size:15px;
-          font-weight:400;
           color: #FFFFFF;
           line-height:21px;
           p:nth-child(1){
             font-size:13px;
-            font-weight:400;
             color:#C0C4CC;
             line-height:18px;
           }
@@ -359,7 +356,6 @@ export default {
     line-height: 1;
     color: #303133;
     font-size:15px;
-    font-weight:400;
     display: flex;
     align-items: center;
     img{
@@ -403,6 +399,7 @@ ul{
       margin-right: 10px;
     }
     font-size: 15px;
+    color: #303133 !important;
   }
 }
 </style>

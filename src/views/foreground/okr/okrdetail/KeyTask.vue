@@ -168,7 +168,6 @@ export default {
           color: #000000;
           span{
             font-size:14px;
-            font-weight:400;
             color: #303133;
           }
         }
@@ -195,7 +194,6 @@ export default {
         background: #948BEA;
         border-radius:8px;
         font-size:14px;
-        font-weight:400;
         color: #FFFFFF;
         margin-right: 10px;
       }
@@ -220,7 +218,6 @@ export default {
       justify-content: space-between;
       align-items: center;
       font-size:13px;
-      font-weight:400;
       color:#606266;
       line-height: 1;
       .left{
@@ -271,7 +268,6 @@ export default {
             color: #000000;
             span{
               font-size:14px;
-              font-weight:400;
               color: #303133;
             }
           }
@@ -299,7 +295,6 @@ export default {
             background: #948BEA;
             border-radius:8px;
             font-size:14px;
-            font-weight:400;
             color: #FFFFFF;
             margin-right: 10px;
           }
