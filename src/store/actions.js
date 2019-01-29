@@ -2,6 +2,8 @@
 import * as types from './types';
 import NoticeApi from '../api/Notice';
 import UserApi from '../api/User';
+import OkrApi from '../api/Okr';
+import TaskApi from '../api/Task';
 
 const actions = {
   changeImgPopup: ({commit}, data) => {
@@ -16,6 +18,37 @@ const actions = {
     NoticeApi().getMessageUnread({}).then(res => {
       if (res.status) commit(types.UNREAD_MSG, res.data);
     });
+  },
+  async setOKRPublish({commit}, data) {
+    if (data.type === 'edit') {
+      let source = {};
+      await OkrApi().getBasicInfo({objId: data.okrId}).then(res => {
+        source = res.data;
+      });
+      await OkrApi().getKeyResultList({objId: data.okrId}).then(res => {
+        source.key_result = res.data;
+      });
+      commit(types.OKR_PUBLISH, {status: true, type: 'edit', source});
+    } else {
+      commit(types.OKR_PUBLISH, data);
+    }
+  },
+  async setTaskPublish({commit}, data) {
+    if (data.type === 'edit') {
+      let source = {};
+      await TaskApi().getBasicInfo({taskId: data.taskId}).then(res => {
+        source = res.data;
+      });
+      commit(types.TASK_PUBLISH, {status: true, type: 'edit', source});
+    } else {
+      commit(types.TASK_PUBLISH, data);
+    }
+  },
+  setTaskClose: ({commit}, data) => {
+    commit(types.TASK_CLOSE, data);
+  },
+  setTaskFollow: ({commit}, data) => {
+    commit(types.TASK_FOLLOW, data);
   }
 };
 

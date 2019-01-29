@@ -7,7 +7,6 @@ import axios from 'axios';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
 import storage from '../utils/storage';
-import router from '../router';
 const baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
@@ -19,6 +18,7 @@ const Axios = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
   }
 });
+
 class Abstract {
   /**
    * 构造函数，单例模式，只会调用一次
@@ -52,8 +52,9 @@ class Abstract {
         if (res.data.status === 1) {
           resolve({status: true, message: 'success', data: res.data.data});
         } else if (res.data.status === -1) {
+          storage('cookie').remove('pgs_authinfo');
+          window.location.replace('/system/login');
           resolve({status: false, message: res.data.message, data: null});
-          router.push({name: 'Login'});
         } else if (res.data.status === -2) {
           resolve({status: false, message: res.data.message, data: null});
         } else {

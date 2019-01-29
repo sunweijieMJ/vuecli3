@@ -9,6 +9,23 @@ const state = {
   unread_msg: { // ETC 未读消息数
     num: 0,
     show: false
+  },
+  global: {},
+  okr_publish: { // ETC OKR发布框
+    status: false,
+    source: ''
+  },
+  task_publish: { // ETC Task发布框
+    status: false,
+    source: ''
+  },
+  task_close: { // ETC Task关闭框
+    status: false,
+    source: ''
+  },
+  task_follow: { // ETC Task跟进框
+    status: false,
+    source: ''
   }
 };
 

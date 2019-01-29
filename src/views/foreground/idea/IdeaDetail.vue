@@ -272,8 +272,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../../assets/scss/_base.scss';
-
   .idea-detail {
     width: 800px;
     margin: 12px auto 0;

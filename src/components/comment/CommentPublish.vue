@@ -219,7 +219,7 @@ export default {
       if(this.topic_anchor){
         // 搜索话题关键字截取
         let final_content = text.substring(this.topic_anchor, this.content_end);
-        this.topic_con = final_content.trim();
+        this.topic_con = final_content;
         this.string_length = final_content.length; // ETC 搜索的字符长度
         let noneArr = [];
         // 拆分话题字符
@@ -232,6 +232,7 @@ export default {
             this.jshow = true;
             this.searchTopic(final_content);
           }
+          // this.searchTopic(final_content);
         }else if(!noneArr.length && this.jshow){
           this.searchTopic();
         }else{
@@ -376,7 +377,7 @@ export default {
       this.submit_state = true;
       let text = document.getElementById('text').value;
       this.publish_state = false;
-      if((text || this.thinksPhotos) && !this.publish_state){
+      if(text && !this.publish_state){
         IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
           if(res.status){
             this.$message({message: '发布成功', type: 'success', duration: 1000});
@@ -400,8 +401,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
 .comment-publish{
   z-index: 2000;
   position: fixed;

@@ -84,8 +84,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .single-idea {
     display: flex;
     justify-content: space-between;
@@ -147,8 +145,13 @@
         }
       }
     }
+    &:hover .idea-btn {
+      opacity: 1;
+    }
     .idea-btn {
       display: flex;
+      transition: opacity 0.5s;
+      opacity: 0;
       p {
         display: flex;
         flex-direction: column;
@@ -167,8 +170,6 @@
   }
 </style>
 <style lang="scss">
-  @import '../../assets/scss/_base.scss';
-
   .single-idea .main-paragraph {
     p {
       @include erow(3);

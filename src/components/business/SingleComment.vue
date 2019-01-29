@@ -129,8 +129,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .single-comment {
     display: flex;
     .comment-icon {
@@ -278,8 +276,6 @@
   }
 </style>
 <style lang="scss">
-  @import '../../assets/scss/_base.scss';
-
   .single-comment .info-paragraph {
     p {
       font-size: $h3Font;

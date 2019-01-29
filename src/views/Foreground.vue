@@ -30,7 +30,7 @@
             </el-badge>
             <el-dropdown @command="handleCommand" trigger="hover">
               <img :src="self_info.header_photo" alt="" @click="paramsSkip('Profile', {id: self_info.user_id})">
-              <el-dropdown-menu slot="dropdown">
+              <el-dropdown-menu slot="dropdown" class="nav-user">
                 <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
                 <el-dropdown-item command="exit">退出登录</el-dropdown-item>
               </el-dropdown-menu>
@@ -55,6 +55,7 @@
   import frequent from '../mixins/frequent.js';
   import readMore from '../utils/filters/readMore.js';
 
+
   export default {
     mixins: [frequent],
     data() {
@@ -65,10 +66,10 @@
             text: '瓴里圈',
             name: 'IdeaList'
           },
-          // {
-          //   text: 'OKR',
-          //   name: 'OKRList'
-          // }
+          {
+            text: 'OKR',
+            name: 'OKRList'
+          }
         ],
         readMore,
         message: { // ETC 未读消息列表
@@ -76,6 +77,15 @@
           list: []
         }
       };
+    },
+    updated() {
+      // 暂时
+      let that = this;
+      if(that.$route.matched[1].path === '/foreground/fore_okr') {
+        that.current = 1;
+      } else {
+        that.current = 0;
+      }
     },
     created() {
       let that = this;
@@ -86,7 +96,11 @@
       // 切换tab
       select(item, index) {
         this.current = index;
-        this.$router.push({name: item.name});
+        if(index === 1) {
+          this.$router.push({name: 'OKRList', query: {okr_type: 0}});
+        } else {
+          this.$router.push({name: item.name});
+        }
       },
       // 消息列表
       getMessageList() {
@@ -263,19 +277,16 @@
       }
     }
   }
-  .el-dropdown-menu {
-    padding: 20px 0;
+  .nav-user {
     .el-dropdown-menu__item {
-      padding: 0 40px;
+      width: 100px;
       font-size: $h3Font;
-      line-height: 30px;
+      line-height: 48px;
       color: $h1Color;
-      &:first-child {
-        margin-bottom: 20px;
-      }
+      text-align: center;
       &:hover {
         color: $h1Color;
-        background-color: #ccc;
+        background-color: $backColor;
       }
     }
   }

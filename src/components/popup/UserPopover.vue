@@ -40,8 +40,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .user-popover {
     width: 360px;
     height: 210px;

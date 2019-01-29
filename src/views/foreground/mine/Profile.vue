@@ -209,8 +209,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../../assets/scss/_base.scss';
-
   .profile {
     background-color: #F6F6F6;
     .profile-user {
@@ -397,8 +395,6 @@
   }
 </style>
 <style lang="scss">
-  @import '../../../assets/scss/_base.scss';
-
   .profile {
     .list .el-tabs {
       box-sizing: border-box;

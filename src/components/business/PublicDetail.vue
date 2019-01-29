@@ -77,8 +77,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/scss/_base.scss';
-
   .public-detail {
     .detail-author {
       display: flex;
@@ -206,8 +204,6 @@
   }
 </style>
 <style lang="scss">
-  @import '../../assets/scss/_base.scss';
-
   .public-detail .main-paragraph {
     p {
       font-size: $h3Font;
