@@ -63,7 +63,6 @@ export default {
   },
   methods:{
     goPersonal(user_id){
-      // this.$router.push({name: 'Profile', params: {id: user_id}});
       window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
     }
   }
