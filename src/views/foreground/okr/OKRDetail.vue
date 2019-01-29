@@ -152,7 +152,6 @@ export default {
     },
     // 显示全部参与者
     showAllJoinner(val){
-      console.log('参与者', val);
     },
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
@@ -174,7 +173,6 @@ export default {
     },
     // 触底刷新
     infinite() {
-      console.log('1')
       let that = this;
       that.disabled = true;
       that.getKeyTaskList(++this.pageInfo.current_page).then(() => {
