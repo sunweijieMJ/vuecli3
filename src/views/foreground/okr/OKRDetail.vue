@@ -63,9 +63,9 @@
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
-        <span class="span2" v-show="okr_detail.is_parter">
+        <span class="span2" v-show="okr_detail.is_parter" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">
           <span class="iconfont icon-btn_add_kt1"></span>
-          <span class="task-add" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">添加</span>
+          <span class="task-add" >添加</span>
         </span>
       </div>
       <div class="key-task" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
@@ -153,10 +153,10 @@ export default {
         objId: this.$route.params.id // ETC obj id
       }).then(res => {
         if(res.status){
-          this.$message({message: res.message, type: 'success', duration: 1000});
+          this.$message({message: '删除成功', type: 'success', duration: 1750});
           this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
         }else{
-          this.$message({message: res.message, type: 'warning', duration: 1000});
+          this.$message({message: res.message, type: 'warning', duration: 1750});
         }
       });
     },
@@ -166,7 +166,7 @@ export default {
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
         if(!res.status) {
-          this.$message({message: res.message, type: 'warning', duration: 1500});
+          this.$message({message: res.message, type: 'warning', duration: 1750});
           this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
         }else{
           this.okr_detail = res.data;
@@ -429,6 +429,7 @@ export default {
     font-size: 15px;
     padding: 0 29px;
     line-height: 54px;
+    color: #303133 !important;
   }
 }
 </style>
