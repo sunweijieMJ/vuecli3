@@ -7,18 +7,20 @@
           <span class="kt-tag">{{okr_detail.okr_type_name}}</span>
           <span class="kt-title">{{okr_detail.okr_name}}</span>
         </div>
-        <el-dropdown @command="handleCommand">
+        <el-dropdown @command="handleCommand" v-if="okr_detail && okr_detail.is_owner">
           <span class="el-dropdown-link">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-btn_more_g1"></use>
             </svg>
           </span>
-          <el-dropdown-menu slot="dropdown" v-if="okr_detail.is_owner">
+          <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="编辑">
-              <span class="iconfont icon-icon_edit_l"></span> <span class="edits">编辑</span>
+              <span class="iconfont icon-icon_edit_l"></span>
+              <span class="edits">编辑</span>
             </el-dropdown-item>
             <el-dropdown-item command="删除">
-              <span class="iconfont icon-icon-"></span> <span class="edits">删除</span>
+              <span class="iconfont icon-icon-"></span>
+              <span class="edits">删除</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -71,8 +73,8 @@
       </div>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
-    <o-k-r-publish @handleOkrEdit="handleOkrEdit" @handleTaskPublish="handleTaskPublish"></o-k-r-publish>
-    <task-publish @handleTaskCreate="handleTaskCreate"></task-publish>
+    <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
+    <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskPublish="handleTaskPublish"></task-publish>
   </div>
 </template>
 <script>
@@ -131,16 +133,22 @@ export default {
           this.$store.dispatch('setOKRPublish', {status: true, type: 'edit', okrId: this.okr_detail.obj_id});
           break;
         case '删除':
-          if(!this.kt_list.length){
-            this.okr_detail.key_result = this.kr_list;
-            this.$store.dispatch('setTaskClose', {status: true, parent: this.okr_detail});
-          }else{
-            this.$message({message: '请先完成你的Task', type: 'warning', duration: 1000});
-          }
+          this.okrDelete();
           break;
         default:
           break;
       }
+    },
+    // okr删除
+    okrDelete(){
+      okrApi().delOkr({
+        objId: this.$route.params.id // ETC obj id
+      }).then(res => {
+        this.$message({message: res.message, type: 'success', duration: 1000});
+        window.history.go(-1);
+      }).catch(res => {
+        this.$message({message: res.message, type: 'warning', duration: 1000});
+      });
     },
     // 显示全部参与者
     showAllJoinner(val){
@@ -166,6 +174,7 @@ export default {
     },
     // 触底刷新
     infinite() {
+      console.log('1')
       let that = this;
       that.disabled = true;
       that.getKeyTaskList(++this.pageInfo.current_page).then(() => {
@@ -242,6 +251,7 @@ export default {
         .kt-title{
           display: inline-block;
           width: 817px;
+          line-height: 41px;
 
           white-space: nowrap;
           text-overflow: ellipsis;
