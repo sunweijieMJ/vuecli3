@@ -75,7 +75,7 @@ export default {
           font-size: 14px;
           line-height: 16px;
           text-align: center;
-          margin-right: 5px;
+          margin-right: 10px;
         }
       }
       .kr-right{
