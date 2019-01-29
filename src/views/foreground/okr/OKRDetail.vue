@@ -19,7 +19,7 @@
               <span class="edits">编辑</span>
             </el-dropdown-item>
             <el-dropdown-item command="删除">
-              <span class="iconfont icon-icon-"></span>
+              <span class="iconfont icon-icon_delete"></span>
               <span class="edits">删除</span>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -69,7 +69,7 @@
         </span>
       </div>
       <div class="key-task" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-        <KeyTask :kt_list="kt_list"></KeyTask>
+        <KeyTask :kt_list="kt_list" @upDateList="upDateList"></KeyTask>
       </div>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
@@ -110,6 +110,13 @@ export default {
     };
   },
   methods: {
+    // 刷新数据
+    upDateList(){
+      this.kt_list = [];
+      this.task_id = '';
+      this.pageInfo.current_page = 0;
+      this.infinite();
+    },
     // 编辑okr回调
     handleOkrEdit() {
       this.getBasicInfo();

@@ -82,13 +82,13 @@ export default {
         }
       }
       .kr-right{
-        width: 116px;
+        width: 110px;
         font-size:13px;
         color: #909399;
         display: flex;
         justify-content: space-between;
         .left{
-          line-height: 30px;
+          line-height: 25px;
         }
         span{
           line-height: 1;

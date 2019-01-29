@@ -43,7 +43,7 @@
                     <span>{{t.users_info.user_name}}</span>
                   </div>
                   <div>
-                    <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}--{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
+                    <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}-{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
                 </div>
                 <div @mouseover="overlayShowChild(tindex)">
@@ -55,6 +55,9 @@
           </ul>
         </el-collapse-item>
       </el-collapse>
+    </div>
+    <div v-if="!kt_list.length" class="kt-task kt-task2">
+      当前没有KetTask
     </div>
     <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
     <task-close @handleTaskClose="handleTaskClose"></task-close>
@@ -84,10 +87,12 @@ export default {
     handleTaskCheck() {
       let that = this;
       Object.assign(that.$data, that.$options.data());
+      this.$emit('upDateList');
     },
     handleTaskClose() {
       let that = this;
       Object.assign(that.$data, that.$options.data());
+      this.$emit('upDateList');
     },
     activeJudge(kindex){
       if(kindex === this.activeNames){
@@ -131,6 +136,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .kt{
+  .kt-task2{
+    padding-bottom: 25px !important;
+    padding-left: 50px !important;
+    color: #606266;
+  }
   .kt-task{
     margin-bottom: 12px;
     background-color: #FFFFFF;
@@ -189,6 +199,7 @@ export default {
         display: inline-block;
         width: 36px;
         height: 16px;
+        font-weight: normal;
         text-align: center;
         line-height: 16px;
         background: #948BEA;
@@ -222,6 +233,7 @@ export default {
       line-height: 1;
       .left{
         width: 340px;
+        font-weight: normal;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -379,6 +391,7 @@ export default {
         background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
       }
       .date{
+        color: #606266;
         .el-progress{
           width: 188px;
           font-size: 13px;

@@ -148,7 +148,7 @@ export default {
     },
     getTaskBasicInfo(){
       taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
-        if(res.status && res.data.obj_infos){
+        if(res.status){
           this.task_basic = res.data;
           if(res.data.obj_infos && Object.values(res.data.obj_infos)){
             this.okr_name = Object.values(res.data.obj_infos)[0].okr_name;

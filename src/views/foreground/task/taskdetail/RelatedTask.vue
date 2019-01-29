@@ -9,7 +9,7 @@
     <ul>
       <li v-for="(rt, rtindex) in task_list" :key="rtindex">
         <span class="related-t">T</span>
-        <span class="con">{{rt.task_name}}</span>
+        <span class="con" @click.stop="gotTaskDetail(rt.task_id)">{{rt.task_name}}</span>
         <img :src="rt.user_info.header_photo" alt="">
       </li>
     </ul>
@@ -30,6 +30,10 @@ export default {
   methods: {
     Judge(){
       this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: this.keyTask});
+    },
+    gotTaskDetail(task_id){
+      this.$router.push({name: 'TaskDetail', params: {id: task_id}});
+      location.reload();
     }
   }
 };
@@ -81,6 +85,7 @@ export default {
         color: #FFFFFF;
       }
       .con{
+        cursor: pointer;
         margin-left: 8px;
         margin-right: 27px;
         width: 258px;
