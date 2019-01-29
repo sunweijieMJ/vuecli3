@@ -41,6 +41,7 @@
   import {mapState} from 'vuex';
   import TaskApi from '../../api/Task.js';
   import {validatePercent, validateDuration} from './validate.js';
+  let origin = {};
 
   export default {
     data() {
@@ -84,8 +85,14 @@
       },
       // 关闭前
       beforeClose() {
-        let that = this;
-        if(JSON.stringify(that.$data.form) === JSON.stringify(that.$options.data().form)) {
+        let [that, flag] = [this, true];
+        for(let key in origin) {
+          if(JSON.stringify(origin[key]) !== JSON.stringify(this.$data.form[key])) {
+            flag = false;
+            break;
+          }
+        }
+        if(flag) {
           that.closeDialog();
         } else {
           that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
@@ -115,7 +122,14 @@
         let that = this;
         if(cur && that.task_close.parent) {
           Object.assign(that.$data, that.$options.data());
-          that.task_info = that.task_close.parent;
+          that.task_info = that.task_close.parent.check_info;
+          that.form = {
+            rate: that.task_close.parent.check_info.score,
+            summary: that.task_close.parent.check_info.remarks,
+            percent: that.task_close.parent.check_info.progress,
+            duration: that.task_close.parent.check_info.spend_time
+          };
+          origin = JSON.parse(JSON.stringify(this.$data.form));
         }
       }
     }
