@@ -105,7 +105,7 @@
         let that = this;
         OkrApi().getTypeList({type: 'create'}).then(res => {
           that.project_type = res.data;
-          that.form.okr_type = that.project_type[0];
+          if(!that.form.okr_type) that.form.okr_type = that.project_type[0];
           origin = JSON.parse(JSON.stringify(this.$data.form));
         });
       },

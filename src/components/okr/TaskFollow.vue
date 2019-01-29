@@ -11,7 +11,7 @@
       <el-form :model="form" :rules="rules" ref="ruleForm">
         <div class="main">
           <div class="rate">
-            <h4>感觉怎么样?</h4>
+            <h4>自我评价</h4>
             <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
               :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           </div>
@@ -129,6 +129,7 @@
     .main {
       .rate {
         display: flex;
+        align-items: center;
         padding: $up-down $left-right;
         h4 {
           font-size: $h3Font;

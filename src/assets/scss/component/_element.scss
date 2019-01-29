@@ -141,14 +141,14 @@ $up-down: 30px;
   &.middle-rate {
     .el-rate__item {
       .el-rate__icon {
-        font-size: 16px;
+        font-size: 18px;
         .el-rate__decimal {
-          font-size: 16px;
+          font-size: 18px;
         }
       }
     }
     .el-rate__text {
-      font-size: $h2Font;
+      font-size: 18px;
       font-weight: $h1Weight;
       color: $h1Color;
     }

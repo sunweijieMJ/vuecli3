@@ -278,18 +278,15 @@
     }
   }
   .nav-user {
-    padding: 20px 0;
     .el-dropdown-menu__item {
-      padding: 0 40px;
+      width: 100px;
       font-size: $h3Font;
-      line-height: 30px;
+      line-height: 48px;
       color: $h1Color;
-      &:first-child {
-        margin-bottom: 20px;
-      }
+      text-align: center;
       &:hover {
         color: $h1Color;
-        background-color: #ccc;
+        background-color: $backColor;
       }
     }
   }
