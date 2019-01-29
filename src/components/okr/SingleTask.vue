@@ -26,6 +26,7 @@
       <div class="info">
         <h4>
           <el-rate class="small-rate" v-model="item.check_info.score" show-score disabled :allow-half="true" show-text
+              :disabled-void-color="'#c0c4cc'"
               :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           <p>{{item.check_info.publish_time | timeFilter}}</p>
         </h4>
