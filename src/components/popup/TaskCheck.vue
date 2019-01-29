@@ -24,7 +24,7 @@
             icon: 'icon-okrziyuan-'
           },
           {
-            name: '完成',
+            name: '关闭',
             icon: 'icon-icon_close_l1'
           },
           {
@@ -44,7 +44,7 @@
           case '编辑':
             that.$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: that.item.task_id});
             break;
-          case '完成':
+          case '关闭':
             that.$store.dispatch('setTaskClose', {status: true, parent: that.item});
             break;
           case '添加Task':

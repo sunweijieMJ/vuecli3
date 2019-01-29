@@ -122,7 +122,11 @@
         let that = this;
         if(cur && that.task_close.parent) {
           Object.assign(that.$data, that.$options.data());
-          that.task_info = that.task_close.parent.check_info;
+          that.task_info = that.task_close.parent;
+          if(!that.task_close.parent.check_info) {
+            origin = JSON.parse(JSON.stringify(this.$data.form));
+            return;
+          }
           that.form = {
             rate: that.task_close.parent.check_info.score,
             summary: that.task_close.parent.check_info.remarks,
