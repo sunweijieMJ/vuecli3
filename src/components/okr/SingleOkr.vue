@@ -1,5 +1,5 @@
 <template>
-  <div class="single-okr" @click="paramsSkip('OKRDetail', {id: item.obj_id})">
+  <div class="single-okr" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_id}`)">
     <div class="name">
       <h3>{{item.objective_desc}}</h3>
     </div>

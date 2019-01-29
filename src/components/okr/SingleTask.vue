@@ -1,5 +1,5 @@
 <template>
-  <div class="single-task" @click="paramsSkip('TaskDetail', {id: item.task_id})">
+  <div class="single-task" @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">
     <div class="task-info">
       <div class="info-title">
         <span>{{item.is_key_task ? 'KT' : 'T'}}</span>
@@ -159,7 +159,6 @@
             }
           }
         }
-
       }
     }
     .check-info {
@@ -175,25 +174,32 @@
         border: 1px solid $lineColor;
       }
       .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         width: 450px;
-        margin-left: 22px;
+        height: 36px;
+        margin-left: 12px;
         h4 {
           display: flex;
           align-items: center;
           .el-rate {
             display: flex;
             align-items: center;
+            height: 14px;
           }
           >p {
-            margin-left: 25px;
+            margin-left: 12px;
             font-size: 12px;
             font-weight: normal;
+            line-height: 1;
             color: $h3Color;
           }
         }
         >p {
           @include tofl(450px);
           font-size: $h4Font;
+          line-height: 1;
           color: $h2Color;
         }
       }

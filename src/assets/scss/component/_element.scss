@@ -114,11 +114,11 @@ $up-down: 30px;
     background-color: #f6f6f6;
     background-image: none !important;
     font-size: $h3Font;
-    line-height: 48px;
+    line-height: 28px;
     color: $h1Color;
     &::placeholder {
       font-size: $h3Font;
-      line-height: 48px;
+      line-height: 28px;
       color: $h3Color;
     }
   }
@@ -157,6 +157,9 @@ $up-down: 30px;
     .el-rate__item {
       .el-rate__icon {
         font-size: 12px;
+        .icon-icon_star {
+          font-size: 12px;
+        }
       }
     }
     .el-rate__text {

@@ -410,20 +410,6 @@
                   border-color: #f56c6c;
                 }
               }
-              input {
-                box-sizing: border-box;
-                width: 100%;
-                height: 48px;
-                padding-left: 20px;
-                border-radius: 2px;
-                border-color: #fff;
-                background-color: $backColor;
-                &::placeholder {
-                  font-size: $h3Font;
-                  line-height: 48px;
-                  color: $h3Color;
-                }
-              }
               .percent {
                 display: flex;
                 flex-direction: column;
