@@ -22,10 +22,10 @@
           </div>
           <div class="num">
             <el-form-item label="完成度" prop="percent">
-              <el-input v-model="form.percent"></el-input>
+              <el-input v-model="form.percent" placeholder="最小单位为1"></el-input>
             </el-form-item>
             <el-form-item label="投入时长" prop="duration">
-              <el-input v-model="form.duration"></el-input>
+              <el-input v-model="form.duration" placeholder="最小单位为0.1"></el-input>
             </el-form-item>
           </div>
         </div>

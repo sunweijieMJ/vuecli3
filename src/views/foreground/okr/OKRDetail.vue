@@ -1,5 +1,5 @@
 <template>
-  <div class="okr-detail" v-if="okr_detail">
+  <div class="okr-detail">
     <div class="black-bg"></div>
     <div class="content">
       <div class="title">
@@ -232,7 +232,6 @@ export default {
   mounted(){
     this.getBasicInfo();
     this.getKeyResultList();
-    this.getKeyTaskList();
   }
 };
 </script>
@@ -267,7 +266,7 @@ export default {
           display: inline-block;
           width: 817px;
           line-height: 41px;
-          
+
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
