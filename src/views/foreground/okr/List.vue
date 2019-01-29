@@ -52,6 +52,7 @@
           }
           .el-tabs__active-bar {
             height: 3px;
+            border-radius: 1.5px;
             background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
           }
           .el-tabs__item {

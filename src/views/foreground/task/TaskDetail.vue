@@ -7,7 +7,7 @@
           <div class="subtitle">
             <span v-if="task_basic.is_key_task === 1" class="kt-tag">KT</span>
             <span v-else class="kt-tag">T</span>
-            <span>{{task_basic.task_name}}</span>
+            <span class="sub-kt-tag">{{task_basic.task_name}}</span>
           </div>
           <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
             <span class="el-dropdown-link">
@@ -225,7 +225,7 @@ export default {
     // z-index: 0 !important;
   }
   .detail-box{
-    width: 972px;
+    width: 960px;
     margin: auto;
     margin-top: -206px;
     .head-padding{
@@ -241,7 +241,7 @@ export default {
       // margin-top: 11px;
       margin-left: 46px;
       font-size:15px;
-      color: #FFFFFF;
+      color: #C0C4CC;
       line-height:21px;
       display: flex;
       align-items: center;
@@ -266,6 +266,13 @@ export default {
         color: #FFFFFF;
         display: flex;
         align-items: center;
+        .sub-kt-tag{
+          display: inline-block;
+          width: 850px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
         span{
           line-height: 1;
         }

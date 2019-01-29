@@ -21,10 +21,9 @@
         </div>
         <div class="hot">
           <div class="rate">
-            <el-rate disabled text-color="#F5A623" v-model="dy.score"
-              class="middle-rate"
-              :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"
-            ></el-rate> <span class="number">{{dy.score.toFixed(1)}}</span>
+            <el-rate class="small-rate" v-model="dy.score" show-score disabled :allow-half="true" show-text
+              :disabled-void-color="'#c0c4cc'"
+              :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           </div>
           <div class="final">
             <span class="left">
@@ -144,9 +143,11 @@ export default {
           .bignum{
             color: #FF7678;
             font-size: 18px;
+            font-weight: 500;
           }
           .min{
             font-size: 13px;
+            font-weight: normal;
           }
           .left{
             margin-right: 12px;
@@ -188,22 +189,13 @@ export default {
 }
 </style>
 <style lang="scss">
-.dynamic-left{
-  ul>li{
-    .hot{
-      .rate{
-        .middle-rate{
-          .el-rate__item{
-            .el-rate__icon,
-            .icon-icon_star,
-            .iconfont{
-              font-size: 14px !important;
-            }
-          }
-        }
+.hot{
+  .rate{
+    .small-rate{
+      .el-rate__text{
+        font-weight: 500;
       }
     }
   }
-  
 }
 </style>
