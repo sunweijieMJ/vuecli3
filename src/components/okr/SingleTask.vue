@@ -25,7 +25,7 @@
       <img :src="item.check_info.creator_info.header_photo" alt="">
       <div class="info">
         <h4>
-          <el-rate class="small-rate" v-model="item.check_info.feel_status" show-score disabled :allow-half="true" show-text
+          <el-rate class="small-rate" v-model="item.check_info.score" show-score disabled :allow-half="true" show-text
               :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           <p>{{item.check_info.publish_time | timeFilter}}</p>
         </h4>
