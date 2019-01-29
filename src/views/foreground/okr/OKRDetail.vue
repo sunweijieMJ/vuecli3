@@ -13,7 +13,7 @@
               <use xlink:href="#icon-btn_more_g1"></use>
             </svg>
           </span>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" class="okr-pop">
             <el-dropdown-item command="编辑">
               <span class="iconfont icon-icon_edit_l"></span>
               <span class="edits">编辑</span>
@@ -74,7 +74,7 @@
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </div>
     <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
-    <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskPublish="handleTaskPublish"></task-publish>
+    <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskPublish="handleTaskPublish" @handleTaskEdit="handleTaskEdit"></task-publish>
   </div>
 </template>
 <script>
@@ -110,28 +110,29 @@ export default {
     };
   },
   methods: {
-    // 刷新数据
-    upDateList(){
+    clear(){
       this.kt_list = [];
       this.task_id = '';
       this.pageInfo.current_page = 0;
       this.infinite();
+    },
+    // 刷新数据
+    upDateList(){
+      this.clear();
+    },
+    handleTaskEdit(){
+      this.clear();
     },
     // 编辑okr回调
     handleOkrEdit() {
       this.getBasicInfo();
+      this.getKeyResultList();
     },
     handleTaskPublish(){
-      this.kt_list = [];
-      this.task_id = '';
-      this.pageInfo.current_page = 0;
-      this.infinite();
+      this.clear();
     },
     handleTaskCreate() {
-      this.kt_list = [];
-      this.task_id = '';
-      this.pageInfo.current_page = 0;
-      this.infinite();
+      this.clear();
     },
     handleCommand(command){
       switch (command) {
@@ -152,7 +153,7 @@ export default {
         objId: this.$route.params.id // ETC obj id
       }).then(res => {
         this.$message({message: res.message, type: 'success', duration: 1000});
-        window.history.go(-1);
+        this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
       }).catch(res => {
         this.$message({message: res.message, type: 'warning', duration: 1000});
       });
@@ -162,6 +163,10 @@ export default {
     },
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
+        if(res.status === 0) {
+          this.$message({message: 'okr已被删除', type: 'warning', duration: 1000});
+          this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
+        }
         this.okr_detail = res.data;
         let AllJoinners = Object.values(res.data.participants);
         this.AllJoinnerNum = Object.values(res.data.participants);
@@ -402,10 +407,8 @@ export default {
     margin-bottom: 0;
   }
 }
-ul{
-  &.el-dropdown-menu{
-    padding: 0;
-  }
+.okr-pop{
+  padding: 0;
   .el-dropdown-menu__item{
     .edits{
       display: inline-block;

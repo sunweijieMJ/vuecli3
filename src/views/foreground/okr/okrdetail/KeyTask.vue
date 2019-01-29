@@ -57,7 +57,7 @@
       </el-collapse>
     </div>
     <div v-if="!kt_list.length" class="kt-task kt-task2">
-      当前没有KetTask
+      当前没有KeyTask
     </div>
     <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
     <task-close @handleTaskClose="handleTaskClose"></task-close>
@@ -129,7 +129,7 @@ export default {
       this.overlay_child_state = '';
     },
     gotTaskDetail(task_id){
-      this.$router.push({name: 'TaskDetail', params: {id: task_id}});
+      window.open(`/foreground/fore_task/task_detail/${task_id}`, '_blank');
     }
   }
 };

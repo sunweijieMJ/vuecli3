@@ -32,8 +32,9 @@ export default {
       this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: this.keyTask});
     },
     gotTaskDetail(task_id){
-      this.$router.push({name: 'TaskDetail', params: {id: task_id}});
-      location.reload();
+      // this.$router.push({name: 'TaskDetail', params: {id: task_id}});
+      // location.reload();
+      window.open(`/foreground/fore_task/task_detail/${task_id}`, '_blank');
     }
   }
 };

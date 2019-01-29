@@ -15,7 +15,7 @@
                 <use xlink:href="#icon-btn_more_p1"></use>
               </svg>
             </span>
-            <el-dropdown-menu slot="dropdown">
+            <el-dropdown-menu slot="dropdown" class="task-pop">
               <el-dropdown-item command="跟进">
                 <span class="iconfont icon-icon_check"></span>
                 <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     goOkrDetail(obj_id){
-      this.$router.push({name: 'OKRDetail', params: {id: obj_id}});
+      window.open(`/foreground/fore_okr/okr_detail/${obj_id}`, '_blank');
     },
     // 所有参与者
     showAllJoinner(val) {
@@ -378,10 +378,8 @@ export default {
     margin-bottom: 0;
   }
 }
-ul{
-  &.el-dropdown-menu{
-    padding: 0;
-  }
+.task-pop{
+  padding: 0;
   .el-dropdown-menu__item{
     &:hover{
       color: #303133 !important;
