@@ -77,6 +77,7 @@
                 if(res.status) {
                   that.$emit('handleTaskEdit');
                   that.closeDialog();
+                  that.$message({message: '修改成功', type: 'success'});
                 } else {
                   that.$message({message: res.message, type: 'error'});
                 }
@@ -86,6 +87,7 @@
                 if(res.status) {
                   that.$emit('handleTaskPublish');
                   that.closeDialog();
+                  that.$message({message: '创建成功', type: 'success'});
                 } else {
                   that.$message({message: res.message, type: 'error'});
                 }

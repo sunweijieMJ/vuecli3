@@ -68,6 +68,7 @@
               if(res.status) {
                 this.$emit('handleTaskCheck');
                 that.closeDialog();
+                that.$message({message: '跟进成功', type: 'success'});
               } else {
                 that.$message({message: res.message, type: 'error'});
               }

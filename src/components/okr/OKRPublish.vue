@@ -171,6 +171,7 @@
                 if(res.status) {
                   that.$emit('handleOkrEdit');
                   that.closeDialog();
+                  that.$message({message: '编辑成功', type: 'success'});
                 } else {
                   that.$message({message: res.message, type: 'error'});
                 }
@@ -180,6 +181,7 @@
                 if(res.status) {
                   that.$emit('handleOkrPublish');
                   that.closeDialog();
+                  that.$message({message: '创建成功', type: 'success'});
                 } else {
                   that.$message({message: res.message, type: 'error'});
                 }

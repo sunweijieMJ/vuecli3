@@ -74,8 +74,7 @@
           margin-left: 3px;
           font-size: $h4Font;
           line-height: 15px;
-          font-weight: $h1Weight;
-          color: $h3Color;
+          color: $h2Color;
         }
       }
       .num {

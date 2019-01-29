@@ -70,6 +70,7 @@
               if(res.status) {
                 this.$emit('handleTaskClose');
                 that.closeDialog();
+                that.$message({message: '关闭成功', type: 'success'});
               } else {
                 that.$message({message: res.message, type: 'error'});
               }
