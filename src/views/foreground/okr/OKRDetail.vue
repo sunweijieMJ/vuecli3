@@ -3,7 +3,7 @@
     <div class="black-bg"></div>
     <div class="content">
       <div class="title">
-        <div class="subtitle">
+        <div class="subtitle" v-if="okr_detail">
           <span class="kt-tag">{{okr_detail.okr_type_name}}</span>
           <span class="kt-title">{{okr_detail.okr_name}}</span>
         </div>
@@ -25,7 +25,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <div class="joinner">
+      <div class="joinner" v-if="okr_detail">
         <div class="left" v-if="okr_detail.bo_info">
           <div v-if="okr_detail.okr_type === 3" style="margin-right: 50px;">
             <p>{{okr_detail.okr_type_name}}</p>
@@ -232,6 +232,7 @@ export default {
   mounted(){
     this.getBasicInfo();
     this.getKeyResultList();
+    // this.getKeyTaskList();
   }
 };
 </script>
