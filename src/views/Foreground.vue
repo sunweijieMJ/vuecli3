@@ -78,12 +78,17 @@
         }
       };
     },
-    created() {
-      let that = this;
+    updated() {
       // 暂时
+      let that = this;
       if(that.$route.matched[1].path === '/foreground/fore_okr') {
         that.current = 1;
+      } else {
+        that.current = 0;
       }
+    },
+    created() {
+      let that = this;
       that.$store.dispatch('getSelfInfo');
       that.$store.dispatch('getMessageUnread');
     },
