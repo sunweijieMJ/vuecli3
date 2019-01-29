@@ -79,8 +79,10 @@
       align-items: center;
       width: 70px;
       margin-left: 20px;
+      font-weight: normal;
       i {
         font-size: 33px;
+        line-height: 1;
         color: #000;
       }
       span {
