@@ -74,9 +74,9 @@
         that.infinite();
       },
       // Task列表
-      async getSelfList(curPage, lastId) {
+      async getSelfList(currPage, lastId) {
         let that = this;
-        await TaskApi().getSelfList({curPage, lastId}).then(res => {
+        await TaskApi().getSelfList({currPage, lastId}).then(res => {
           const users_info = res.data.users_info;
           const obj_infos = res.data.obj_infos;
           const task_list = res.data.list;
