@@ -1,5 +1,5 @@
 <template>
-  <div class="okr-detail">
+  <div class="okr-detail" v-if="okr_detail">
     <div class="black-bg"></div>
     <div class="content">
       <div class="title">
@@ -163,18 +163,19 @@ export default {
     },
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
-        if(res.status === 0) {
-          this.$message({message: 'okr已被删除', type: 'warning', duration: 1000});
+        if(!res.status) {
+          this.$message({message: res.message, type: 'warning', duration: 1500});
           this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
-        }
-        this.okr_detail = res.data;
-        let AllJoinners = Object.values(res.data.participants);
-        this.AllJoinnerNum = Object.values(res.data.participants);
-
-        if(this.AllJoinnerNum.length && this.AllJoinnerNum.length <= 6){
-          this.AllJoinner = AllJoinners;
         }else{
-          this.AllJoinner = this.AllJoinnerNum.slice(0, 5);
+          this.okr_detail = res.data;
+          let AllJoinners = Object.values(res.data.participants);
+          this.AllJoinnerNum = Object.values(res.data.participants);
+
+          if(this.AllJoinnerNum.length && this.AllJoinnerNum.length <= 6){
+            this.AllJoinner = AllJoinners;
+          }else{
+            this.AllJoinner = this.AllJoinnerNum.slice(0, 5);
+          }
         }
       });
     },
