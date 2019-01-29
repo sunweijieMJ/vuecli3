@@ -388,7 +388,7 @@ export default {
       position: relative;
       &:hover .task-check{
         opacity: 1;
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 20%);
       }
       .date{
         color: #606266;

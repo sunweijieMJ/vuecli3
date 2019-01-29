@@ -152,10 +152,12 @@ export default {
       okrApi().delOkr({
         objId: this.$route.params.id // ETC obj id
       }).then(res => {
-        this.$message({message: res.message, type: 'success', duration: 1000});
-        this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
-      }).catch(res => {
-        this.$message({message: res.message, type: 'warning', duration: 1000});
+        if(res.status){
+          this.$message({message: res.message, type: 'success', duration: 1000});
+          this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
+        }else{
+          this.$message({message: res.message, type: 'warning', duration: 1000});
+        }
       });
     },
     // 显示全部参与者
@@ -230,6 +232,7 @@ export default {
   mounted(){
     this.getBasicInfo();
     this.getKeyResultList();
+    this.getKeyTaskList();
   }
 };
 </script>
