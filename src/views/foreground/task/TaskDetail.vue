@@ -261,7 +261,8 @@ export default {
       justify-content: space-between;
       align-items: center;
       .subtitle{
-        font-size: 22px;
+        font-size: 20px;
+        font-weight: 500;
         color: #FFFFFF;
         display: flex;
         align-items: center;

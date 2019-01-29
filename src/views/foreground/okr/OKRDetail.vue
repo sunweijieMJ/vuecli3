@@ -241,6 +241,7 @@ export default {
       .subtitle{
         font-size: 20px;
         color: #FFFFFF;
+        font-weight: 500;
         display: flex;
         align-items: center;
         span{
@@ -250,7 +251,7 @@ export default {
           display: inline-block;
           width: 817px;
           line-height: 41px;
-
+          
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
