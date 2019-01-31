@@ -242,10 +242,13 @@ export default {
   border-radius: 20px;
   background:rgba(255,255,255,1);
   border: none;
-  height: 20px;
-  line-height: 20px;
-  padding: 20px;
-  z-index: 100 !important;
+  height: 40px;
+  padding: 10px 20px;
+  &::placeholder {
+    font-size: $h3Font;
+    line-height: 22px;
+    color: $h3Color;
+  }
 }
 .init > .box > .el-form > .el-form-item > .el-form-item__content > .el-button {
   width: 312px;
