@@ -15,7 +15,7 @@
           </span>
           <el-dropdown-menu slot="dropdown" class="okr-pop">
             <el-dropdown-item command="编辑">
-              <span class="iconfont icon-icon_edit_l"></span>
+              <span class="iconfont icon-icon_edit"></span>
               <span class="edits">编辑</span>
             </el-dropdown-item>
             <el-dropdown-item command="删除">

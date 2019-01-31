@@ -21,7 +21,7 @@
                 <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
               </el-dropdown-item>
               <el-dropdown-item command="编辑">
-                <span class="iconfont icon-icon_edit_l"></span>
+                <span class="iconfont icon-icon_edit"></span>
                 <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
               </el-dropdown-item>
               <el-dropdown-item command="关闭">

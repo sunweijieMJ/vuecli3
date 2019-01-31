@@ -34,7 +34,7 @@
         <span>置顶</span>
       </p>
       <p @click="deleteIdea(item.thinks_id)">
-        <i class="iconfont icon-iconfontshanchu2"></i>
+        <i class="iconfont icon-icon_delete"></i>
         <span>删除</span>
       </p>
     </div>
