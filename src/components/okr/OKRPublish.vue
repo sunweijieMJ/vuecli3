@@ -41,7 +41,7 @@
               <ul class="list">
                 <li v-for="(key_result, index) in form.key_result" :key="index">
                   <el-form-item :prop="`key_result.${index}.kr_name`" :rules="{required: true, message: ' ', trigger: 'change'}">
-                    <el-input type="text" v-model="key_result.kr_name" maxlength="30" :placeholder="'请填写达成目标的关键衡量结果(30字以内)'"></el-input>
+                    <el-input type="text" v-model="key_result.kr_name" maxlength="50" :placeholder="'请填写达成目标的关键衡量结果(50字以内)'"></el-input>
                   </el-form-item>
                   <div class="percent">
                     <h5>信心指数</h5>
