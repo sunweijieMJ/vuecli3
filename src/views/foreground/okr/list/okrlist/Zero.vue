@@ -3,6 +3,12 @@
     <li v-for="(item, index) in okr_list" :key="index">
       <single-okr :item="item"></single-okr>
     </li>
+    <div class="no-result" v-if="loading.noresult">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-icon_nothing"></use>
+      </svg>
+      <p>暂时没有内容哦</p>
+    </div>
   </ul>
 </template>
 <script>
@@ -67,4 +73,22 @@
     }
   };
 </script>
-
+<style lang="scss" scoped>
+  .list {
+    .no-result {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      svg {
+        margin: 170px 0 10px;
+        width: 180px;
+      }
+      p {
+        font-size: $h4Font;
+        font-weight: $h1Weight;
+        color: $h3Color;
+      }
+    }
+  }
+</style>

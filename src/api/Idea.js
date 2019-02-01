@@ -137,6 +137,23 @@ class Idea extends Abstract {
   orderStick(data) {
     return this.postReq('Idea.StickOrder', data);
   }
+
+  /**
+   * 删除自己的想法
+   * @param {number |required} thinksId
+   * @param {number} doDel 1执行删除
+   */
+  deleteSelfIdea(data) {
+    return this.postReq('Idea.SelfIdeaDelete', data);
+  }
+
+  /**
+   * 删除自己的评论
+   * @param {number | required} commentId
+   */
+  deleteSelfComment(data) {
+    return this.postReq('Idea.SelfCommentDelete', data);
+  }
 }
 
 // 单列模式返回对象

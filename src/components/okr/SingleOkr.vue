@@ -1,7 +1,7 @@
 <template>
-  <div class="single-okr" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_id}`)">
+  <div class="single-okr">
     <div class="name">
-      <h3>{{item.objective_desc}}</h3>
+      <h3 @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_id}`)">{{item.objective_desc}}</h3>
     </div>
     <div class="desc">
       <p class="type">
@@ -9,7 +9,7 @@
         <span>{{item.okr_type !== 3 ? item.okr_type_name : item.creator_info.department_name}}</span>
       </p>
       <div class="num">
-        <div class="name">
+        <div class="name" @click.stop="paramsSkip('Profile', {id: item.creator_id})">
           <img :src="item.creator_info.header_photo | imageSize('80x80')" alt="">
           <span>{{item.creator_info.user_name}}</span>
         </div>
@@ -45,7 +45,6 @@
     margin-bottom: 12px;
     padding: 25px 50px;
     border-radius:4px;
-    cursor: pointer;
     background-color: #fff;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     .name {
@@ -56,6 +55,10 @@
         font-size: $h3Font;
         font-weight: $h1Weight;
         color: $h1Color;
+        cursor: pointer;
+        &:hover {
+          color: $linkBlue;
+        }
       }
     }
     .desc {
@@ -85,6 +88,10 @@
         .name {
           display: flex;
           align-items: center;
+          cursor: pointer;
+          &:hover span{
+            color: $linkBlue;
+          }
           img {
             box-sizing: border-box;
             width: 22px;

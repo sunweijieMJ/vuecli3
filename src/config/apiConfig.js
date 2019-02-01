@@ -35,7 +35,9 @@ const urlDict = {
     'TopicByTitle': '/thinks/gettopicbytitle', // ETC 话题title获取话题信息
     'IdeaDelete': '/crules/thinks/setdel', // ETC 删除想法
     'IdeaStick': '/crules/thinks/setistop', // ETC 设置为置顶，或取消
-    'StickOrder': '/crules/thinks/settoporder' // ETC 置顶列表排序
+    'StickOrder': '/crules/thinks/settoporder', // ETC 置顶列表排序
+    'SelfIdeaDelete': '/thinks/delthinks', // ETC 删除自己的想法
+    'SelfCommentDelete': '/thinks/delcomments' // ETC 删除自己的评论
   },
   'ManageIdea': {
     'BasicData': 'crules/org/orgbasic', // ETC 组织结构基础数据

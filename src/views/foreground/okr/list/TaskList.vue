@@ -4,6 +4,12 @@
       <li v-for="(item, index) in task_list" :key="index">
         <single-task :item="item"></single-task>
       </li>
+      <div class="no-result" v-if="loading.noresult">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-icon_nothing"></use>
+        </svg>
+        <p>暂时没有内容哦</p>
+      </div>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
     <task-publish @handleTaskEdit="handleTaskEdit" @handleTaskCreate="handleTaskCreate"></task-publish>
@@ -103,11 +109,26 @@
 </script>
 <style lang="scss" scoped>
   .task-list {
-    width: 960px;
+    width: 1040px;
     margin: auto;
     .list {
       li {
         margin-top: 12px;
+      }
+      .no-result {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        svg {
+          margin: 170px 0 10px;
+          width: 180px;
+        }
+        p {
+          font-size: $h4Font;
+          font-weight: $h1Weight;
+          color: $h3Color;
+        }
       }
     }
   }

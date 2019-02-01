@@ -1,9 +1,9 @@
 <template>
-  <div class="single-task" @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">
+  <div class="single-task">
     <div class="task-info">
       <div class="info-title">
         <span>{{item.is_key_task ? 'KT' : 'T'}}</span>
-        <h4>{{item.task_name}}</h4>
+        <h4 @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">{{item.task_name}}</h4>
       </div>
       <div class="info-desc">
         <p class="okr">
@@ -22,7 +22,7 @@
       <task-check :item="item"></task-check>
     </div>
     <div class="check-info" v-if="item.check_info">
-      <img :src="item.check_info.creator_info.header_photo" alt="">
+      <img @click.stop="paramsSkip('Profile', {id: item.check_info.creator_id})" :src="item.check_info.creator_info.header_photo" alt="">
       <div class="info">
         <h4>
           <el-rate class="small-rate" v-model="item.check_info.score" show-score disabled :allow-half="true" show-text
@@ -59,7 +59,6 @@
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
-    cursor: pointer;
     .task-info {
       box-sizing: border-box;
       position: relative;
@@ -87,6 +86,10 @@
           font-size: $h3Font;
           font-weight: $h1Weight;
           color: $h1Color;
+          cursor: pointer;
+          &:hover {
+            color: $linkBlue;
+          }
         }
       }
       .info-desc {
@@ -173,6 +176,7 @@
         height: 36px;
         border-radius: 50%;
         border: 1px solid $lineColor;
+        cursor: pointer;
       }
       .info {
         display: flex;

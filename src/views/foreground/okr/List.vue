@@ -45,7 +45,7 @@
         background-color: $h2Color;
         box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
         .el-tabs__nav-wrap {
-          width: 964px;
+          width: 1040px;
           margin: auto;
           &:after {
             position: static;

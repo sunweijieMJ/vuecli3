@@ -1,5 +1,5 @@
 <template>
-  <div class="single-comment">
+  <div class="single-comment" v-if="show_comment">
     <div class="comment-icon">
       <img :src="item.user_info.header_photo" alt="" @click="paramsSkip('Profile', {id: item.user_info.user_id})">
     </div>
@@ -26,6 +26,10 @@
             <i class="iconfont icon-icon_comment"></i>
             <span>回复</span>
           </p>
+          <p v-if="item.user_id === self_info.user_id" class="delete" @click="deleteComment(item.comment_id)">
+            <i class="iconfont icon-icon_delete1"></i>
+            <span>删除</span>
+          </p>
         </div>
         <div class="num-right">
           <p>{{item.publish_time | timeFilter}}</p>
@@ -43,6 +47,7 @@
   </div>
 </template>
 <script>
+  import {mapState} from 'vuex';
   import Paragraph from './Paragraph.js';
   import IdeaApi from '../../api/Idea.js';
   import frequent from '../..//mixins/frequent.js';
@@ -58,7 +63,8 @@
         textEnabled: { // ETC textarea激活
           status: false,
           text: ''
-        }
+        },
+        show_comment: true
       };
     },
     methods: {
@@ -90,9 +96,21 @@
             that.item.self_zan ? that.item.zan++ : that.item.zan--;
           }
         });
+      },
+      // 删除评论
+      deleteComment(commentId) {
+        let that = this;
+        that.$confirm('确定删除该评论?', '删除', {type: 'warning'}).then(() => {
+          IdeaApi().deleteSelfComment({commentId}).then(res => {
+            if(res.status) that.show_comment = false;
+          });
+        });
       }
     },
     computed: {
+      ...mapState({
+        self_info: store => store.self_info
+      }),
       parent_user() {
         let that = this;
         if(!(that.root.list && that.root.list.length)) return;
@@ -181,11 +199,14 @@
             &:first-child {
               width: 70px;
             }
-            &:last-child {
+            &:not(first-child) {
               cursor: pointer;
             }
             &.self_zan i{
               color: $themeColor;
+            }
+            &.delete {
+              margin-left: 34px;
             }
             i {
               font-size: 14px;

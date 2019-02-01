@@ -8,7 +8,6 @@
         <span>
           <i class="iconfont icon-icon_add1"></i>
         </span>
-        <p>新增OKR</p>
       </div>
     </div>
     <components :is="Zero" :key="key" :type="active_name"></components>
@@ -64,7 +63,7 @@
 </script>
 <style lang="scss">
   .okr-list {
-    width: 960px;
+    width: 1040px;
     margin: auto;
     .header {
       display: flex;
@@ -103,20 +102,14 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 30px;
-          height: 30px;
+          width: 38px;
+          height: 38px;
           border-radius:30px;
           background:linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           i {
-            font-size: 16px;
+            font-size: 20px;
             color: #fff;
           }
-        }
-        p {
-          margin-left: 8px;
-          font-size: $h2Font;
-          font-weight: $h1Weight;
-          color: $themeColor;
         }
       }
     }

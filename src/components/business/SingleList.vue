@@ -1,5 +1,5 @@
 <template>
-  <div class="single-list">
+  <div class="single-list" v-if="show_idea">
     <!-- 列表头部用户信息 -->
     <div class="list-header">
       <div class="header-author">
@@ -20,6 +20,12 @@
           </p>
         </div>
       </div>
+      <el-popover placement="bottom" trigger="click" v-if="vitem.user_id === self_info.user_id">
+        <i class="iconfont icon-icon_more" slot="reference"></i>
+        <ul class="idea-delete">
+          <li @click="deleteIdea(vitem.thinks_id)">删除</li>
+        </ul>
+      </el-popover>
     </div>
     <!-- 文本内容 -->
     <div class="list-main">
@@ -27,8 +33,10 @@
         <paragraph :text="vitem.content"></paragraph>
       </div>
       <div class="main-images" v-if="vitem.photos && vitem.photos.length">
-        <img v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex" :src="witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
-        <span v-if="vitem.photos.length > 4">共{{vitem.photos.length}}张</span>
+        <div class="image-box" :class="{single: vitem.photos.length === 1}" v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex">
+          <img :src="vitem.photos.length === 1 ? imageSize(witem, 'origin') : witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+        </div>
+        <span v-if="vitem.photos.length > 4">{{vitem.photos.length}}</span>
       </div>
     </div>
     <!-- 时间 | 点赞 | 评论 -->
@@ -63,15 +71,23 @@
   </div>
 </template>
 <script>
+  import {mapState} from 'vuex';
   import {Paragraph} from './index.js';
   import {UserPopover} from '../popup';
   import IdeaApi from '../../api/Idea.js';
   import frequent from '../../mixins/frequent.js';
+  import imageSize from '../../utils/filters/imageSize.js';
 
   export default {
     props: ['vitem'],
     components: {Paragraph, UserPopover},
     mixins: [frequent],
+    data() {
+      return {
+        imageSize,
+        show_idea: true
+      };
+    },
     methods: {
       // 想法点赞
       thumpIdea(thinksId) {
@@ -82,8 +98,20 @@
             that.vitem.self_zan ? that.vitem.zan++ : that.vitem.zan--;
           }
         });
+      },
+      // 删除想法
+      deleteIdea(thinksId) {
+        let that = this;
+        that.$confirm('确定删除该想法?', '删除', {type: 'warning'}).then(() => {
+          IdeaApi().deleteSelfIdea({thinksId, doDel: 1}).then(res => {
+            if(res.status) that.show_idea = false;
+          });
+        });
       }
-    }
+    },
+    computed: mapState({
+      self_info: store => store.self_info
+    })
   };
 </script>
 <style lang="scss" scoped>
@@ -93,70 +121,82 @@
     padding: 32px 58px;
     margin-bottom: 4px;
     background-color: #fff;
-    .list-header .header-author {
+    .list-header {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 12px;
-      img {
-        box-sizing: border-box;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1px solid $lineColor;
-        cursor: pointer;
-      }
-      .author-name {
+      .header-author {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: 18px;
-        h4 {
+        img {
+          box-sizing: border-box;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 1px solid $lineColor;
+          cursor: pointer;
+        }
+        .author-name {
           display: flex;
-          align-items: center;
-          font-weight: normal;
-          .name {
-            margin-right: 15px;
-            font-size: $h3Font;
-            line-height: 22px;
-            color: $h1Color;
-            cursor: pointer;
-          }
-          .stick {
-            box-sizing: border-box;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: 18px;
+          h4 {
             display: flex;
-            justify-content: center;
             align-items: center;
-            width: 36px;
-            height: 20px;
-            border-radius: 2px;
-            border: 1px solid $themeColor;
-            font-size: $h4Font;
-            line-height: 20px;
-            color: $themeColor;
+            font-weight: normal;
+            .name {
+              margin-right: 15px;
+              font-size: $h3Font;
+              line-height: 22px;
+              color: $h1Color;
+              cursor: pointer;
+              &:hover {
+                color: $linkBlue;
+              }
+            }
+            .stick {
+              box-sizing: border-box;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 36px;
+              height: 20px;
+              border-radius: 2px;
+              border: 1px solid $themeColor;
+              font-size: $h4Font;
+              line-height: 20px;
+              color: $themeColor;
+            }
+          }
+          p {
+            display: flex;
+            align-items: center;
+            span {
+              margin-right: 14px;
+              font-size: $h4Font;
+              line-height: 20px;
+              color: $h3Color;
+            }
           }
         }
-        p {
-          display: flex;
-          align-items: center;
-          span {
-            margin-right: 14px;
-            font-size: $h4Font;
-            line-height: 20px;
-            color: $h3Color;
-          }
-        }
+      }
+      .iconfont {
+        font-size: 20px;
+        color: $h1Color;
+        cursor: pointer;
       }
     }
     .list-main {
       overflow: hidden;
       .main-paragraph {
         margin-bottom: 7px;
-        cursor: pointer;
       }
       .main-images {
         position: relative;
-        height: 149px;
         overflow: hidden;
-        img {
+        .image-box {
+          overflow: hidden;
           float: left;
           box-sizing: border-box;
           width: 156px;
@@ -167,20 +207,29 @@
           &:last-of-type {
             margin-right: 0;
           }
+          &.single {
+            width: initial;
+            height: initial;
+            max-width: 360px;
+            max-height: 360px;
+          }
+          img {
+            width: 100%;
+            height: 100%;
+            transition: all .5s ease-out 0.1s;
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
         }
         span {
           position: absolute;
-          right: 8px; bottom: 8px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 50px;
-          height: 20px;
-          border-radius: 12px;
-          background-color: rgba(48,49,51,0.3);;
-          font-size: 14px;
+          right: 10px; bottom: 2px;
+          font-size: $h1Font;
           font-weight: 400;
+          line-height: 30px;
           color: #fff;
+          text-shadow: 0px 0px 4px rgba(0,0,0,0.5);
         }
       }
     }
@@ -271,15 +320,32 @@
 </style>
 <style lang="scss">
   .single-list .main-paragraph {
+    cursor: pointer;
     p {
       @include erow(4);
       max-height: 100px;
       font-size: $h3Font;
       line-height: 25px;
       color: $h1Color;
+      &:hover {
+        color: $linkBlue;
+      }
       a {
         font-size: $h3Font;
         color: $linkBlue;
+      }
+    }
+  }
+  .el-popover {
+    .idea-delete {
+      li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        font-size: $h3Color;
+        color: $h1Color;
+        cursor: pointer;
       }
     }
   }
