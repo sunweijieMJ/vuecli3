@@ -375,7 +375,7 @@ export default {
     // 发布新想法
     ideaSubmit(){
       this.submit_state = true;
-      let text = document.getElementById('text').value;
+      let text = document.getElementById('text').value.trim();
       this.publish_state = false;
       if(text && !this.publish_state){
         IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
