@@ -36,6 +36,7 @@
             :disabled="false"
             @handleSuccess="handleSuccess"
             @handleRemove="handleRemove"
+            @imgViewJudge="imgViewJudge"
             :hashNum="hash_num.length"
             ></upLoadImg>
         </div>
@@ -87,10 +88,16 @@ export default {
       topic_anchor: '', // ETC 保存话题#出现的节点位置
       string_length: 0, // ETC 保存搜索的字符长度
       thinksPhotos: '', // ETC 图片Hash
-      topic_con: '' // ETC 话题记录
+      topic_con: '', // ETC 话题记录
+      upload_progress: null // ETC 图片上传进度判断
     };
   },
   methods: {
+    // 图片上传进度状态知觉 1：上传中 2：上传完成
+    imgViewJudge(status){
+      this.upload_progress = status;
+      console.log('可视化：', status);
+    },
     distance(){
       if((this.clientHeight * 80 / 100) - 342 > 500){
         return (this.clientHeight - ((this.clientHeight * 80 / 100) - 342)) / 2;
@@ -378,14 +385,16 @@ export default {
       let text = document.getElementById('text').value.trim();
       this.publish_state = false;
       if(text && !this.publish_state){
-        IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
-          if(res.status){
-            this.$message({message: '发布成功', type: 'success', duration: 1000});
-            this.$emit('publishSuccess');
-          }else{
-
-          }
-        });
+        if(!this.upload_progress || this.upload_progress === 2){
+          IdeaApi().PublishFor({content: text ? text : '', thinksPhotos: this.thinksPhotos ? this.thinksPhotos : ''}).then(res => {
+            if(res.status){
+              this.$message({message: '发布成功', type: 'success', duration: 1000});
+              this.$emit('publishSuccess');
+            }else{}
+          });
+        }else{
+          this.$message({message: '图片上传中', type: 'warning'});
+        }
       }else{
         this.$message({message: '请填写您想要的发布内容', type: 'warning'});
       }

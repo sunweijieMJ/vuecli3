@@ -79,6 +79,8 @@
       },
       // 上传文件之前
       beforeUpload(file) {
+        // console.log('1')
+        this.$emit('imgViewJudge', 1);
         if (file.size / 1024 > 20480) { // ETC 20M
           this.$message({message: '请上传小于20M的图片', type: 'warning'});
           return false;
@@ -90,6 +92,8 @@
       },
       // 文件上传成功
       handleSuccess(response, file, fileList) {
+        // console.log('2')
+        this.$emit('imgViewJudge', 2);
         if (!this.multi) {
           this.imgUrl = response.result.file.image_url;
           this.$emit('handleSuccess', {name: this.index, file: this.setOneData(file), indexnum: this.indexnum, origin: fileList});
