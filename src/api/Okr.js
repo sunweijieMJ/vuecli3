@@ -116,8 +116,8 @@ class Okr extends Abstract {
     return this.getReq('Okr.OkrList', data);
   }
 
-  delOkr(data){
-    return this.postReq('Okr.DelOkr', data);
+  deleteOkr(data){
+    return this.postReq('Okr.DeleteOkr', data);
   }
 }
 

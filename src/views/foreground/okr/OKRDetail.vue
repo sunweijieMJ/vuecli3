@@ -149,7 +149,7 @@ export default {
     },
     // okr删除
     okrDelete(){
-      okrApi().delOkr({
+      okrApi().deleteOkr({
         objId: this.$route.params.id // ETC obj id
       }).then(res => {
         if(res.status){

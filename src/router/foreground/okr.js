@@ -1,5 +1,6 @@
 export default {
   path: 'fore_okr',
+  name: 'ForeOkr',
   component: () => import('../../views/foreground/OKR.vue'),
   children: [
     {

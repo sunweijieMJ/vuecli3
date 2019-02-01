@@ -1,5 +1,6 @@
 export default {
   path: 'fore_idea',
+  name: 'ForeIdea',
   component: () => import('../../views/foreground/Idea.vue'),
   children: [
     {

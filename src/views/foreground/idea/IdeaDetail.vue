@@ -8,7 +8,7 @@
         他们都觉得很赞
       </div>
       <div class="thump-icon">
-        <img v-for="(item, index) in thump_list.slice(0,47)" :key="index" :src="item.header_photo" alt="">
+        <img @click="paramsSkip('Profile', {id: item.user_id})" v-for="(item, index) in thump_list.slice(0,47)" :key="index" :src="item.header_photo" alt="">
         <span v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>
       </div>
     </div>
@@ -47,12 +47,14 @@
 <script>
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
+  import frequent from '../../../mixins/frequent.js';
   import {autoTextarea} from '../../../utils/business/tools.js';
   import {Publish, Loading} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
     components: {PublicDetail, CommentList, Publish, Loading},
+    mixins: [frequent],
     data() {
       return {
         autoTextarea,
@@ -186,7 +188,7 @@
       // 发送评论
       sendComment(thinksId, commentContent) {
         let that = this;
-        if(commentContent) {
+        if(commentContent.trim()) {
           IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
             if(res.status) {
               const textarea = that.$el.querySelector('.detail-comment textarea');
@@ -295,6 +297,7 @@
           margin: 0 10px 10px 0;
           border-radius: 50%;
           border: 1px solid $lineColor;
+          cursor: pointer;
         }
         span {
           display: flex;

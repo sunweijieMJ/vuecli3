@@ -66,7 +66,7 @@
       sendComment(commentId, commentContent) {
         let that = this;
         const thinksId = +that.$route.params.id;
-        if(commentContent) {
+        if(commentContent.trim()) {
           IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
             if(res.status) {
               that.textEnabled.status = false;

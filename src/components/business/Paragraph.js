@@ -119,14 +119,6 @@ export default {
       type: String,
       required: true
     },
-    topic: {
-      type: Array,
-      required: false
-    },
-    hangings: {
-      type: Object,
-      required: false
-    },
     forbid: {
       type: Boolean,
       required: false

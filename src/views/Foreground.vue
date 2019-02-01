@@ -75,22 +75,26 @@
         message: { // ETC 未读消息列表
           read: false,
           list: []
-        }
+        },
+        timer: null
       };
-    },
-    updated() {
-      // 暂时
-      let that = this;
-      if(that.$route.matched[1].path === '/foreground/fore_okr') {
-        that.current = 1;
-      } else {
-        that.current = 0;
-      }
     },
     created() {
       let that = this;
       that.$store.dispatch('getSelfInfo');
       that.$store.dispatch('getMessageUnread');
+      this.timer = window.setInterval(() => {
+        that.$store.dispatch('getMessageUnread');
+      }, 15000);
+    },
+    updated() {
+      // 暂时
+      let that = this;
+      if(that.$route.matched[1].name === 'ForeIdea') {
+        that.current = 0;
+      } else if(that.$route.matched[1].name === 'ForeOkr') {
+        that.current = 1;
+      }
     },
     methods: {
       // 切换tab
@@ -148,6 +152,9 @@
             break;
         }
       }
+    },
+    destroyed() {
+      window.clearInterval(this.timer);
     },
     computed: mapState({
       self_info: store => store.self_info,
