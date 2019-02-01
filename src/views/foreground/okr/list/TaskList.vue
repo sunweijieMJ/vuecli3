@@ -29,9 +29,9 @@
         disabled: false, // ETC 加载开关
         loading: {
           nomore: false, // ETC 触底
-          noresult: false // ETC 空列表
-        },
-        last_id: 0
+          noresult: false, // ETC 空列表
+          last_id: 0
+        }
       };
     },
     methods: {
@@ -52,7 +52,7 @@
         let that = this;
 
         that.disabled = true;
-        that.getSelfList(++that.pageInfo.current_page, that.last_id).then(() => {
+        that.getSelfList(++that.pageInfo.current_page, that.loading.last_id).then(() => {
           // 触底判断
           that.disabled = false;
           if(!that.task_list.length) {
@@ -80,7 +80,7 @@
           const users_info = res.data.users_info;
           const obj_infos = res.data.obj_infos;
           const task_list = res.data.list;
-          that.last_id = res.data.last_id;
+          that.loading.last_id = res.data.last_id;
           that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
           // 数据整理
           for(let i = 0, ILEN = task_list.length; i < ILEN; i++) {

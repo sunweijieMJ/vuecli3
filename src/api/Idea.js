@@ -21,6 +21,7 @@ class Idea extends Abstract {
    * @param {number} curPage 页码
    * @param {number} pages 每页数
    * @param {string} keyword 搜索,目前支持thinksId
+   * @param {number} lastId 最后一个lastId
    */
   getIdeaList(data) {
     return this.getReq('Idea.IdeaList', data);

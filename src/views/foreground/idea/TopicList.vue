@@ -32,19 +32,21 @@
         disabled: false, // ETC 加载开关
         loading: {
           nomore: false, // ETC 触底
-          noresult: false // ETC 空列表
+          noresult: false, // ETC 空列表
+          last_id: 0
         }
       };
     },
     methods: {
       // 想法列表
-      async getTopicList(topicId, curPage) {
+      async getTopicList(topicId, curPage, last_id) {
         let that = this;
-        await IdeaApi().getIdeaList({topicId, curPage}).then(res => {
+        await IdeaApi().getIdeaList({topicId, curPage, last_id}).then(res => {
           const user_infos = res.data.user_infos;
           const self_zan = res.data.self_zan;
           const idea_list = Object.values(res.data.list);
           that.topic_info = res.data.topic_info;
+          that.loading.last_id = res.data.last_id;
           that.pageInfo.page_total = Math.ceil(res.data.total / that.pageInfo.page_size);
           // 数据整理
           for(let i = 0, ILEN = idea_list.length; i < ILEN; i++) {
@@ -67,7 +69,7 @@
         that.topic_id = +that.$route.params.id;
 
         that.disabled = true;
-        that.getTopicList(that.topic_id, ++that.pageInfo.current_page).then(() => {
+        that.getTopicList(that.topic_id, ++that.pageInfo.current_page, that.loading.last_id).then(() => {
           // 触底判断
           that.disabled = false;
           if(!that.idea_list.length) {
