@@ -55,11 +55,12 @@
   import linsign from '../../utils/signFun';
   const root = process.env.VUE_APP_UploadURL;
 
-  // import {imageSize} from '../../utils/filters';
+  import imageSize from '../../utils/filters/imageSize.js';
   export default {
     props: ['multiple', 'accepts', 'list', 'limint', 'disabled', 'name', 'showicon', 'indexnum', 'Ossprivate', 'hashNum'],
     data() {
       return {
+        imageSize,
         show: false,
         // uploadurl: root + '/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
         uploadurl: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
@@ -92,7 +93,7 @@
       },
       // 文件上传成功
       handleSuccess(response, file, fileList) {
-        let newImgUrl = response.result.file.image_url.replace('m-10001', 'm-00001');
+        let newImgUrl = imageSize(response.result.file.image_url, '750x750');
         file.url = newImgUrl;
         this.$emit('imgViewJudge', 2);
         if (!this.multi) {
