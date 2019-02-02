@@ -246,7 +246,7 @@ export default {
     z-index: 0 !important;
   }
   .content{
-    width: 960px;
+    width: 1040px;
     margin: auto;
     // color: white;
     margin-top: -170px;

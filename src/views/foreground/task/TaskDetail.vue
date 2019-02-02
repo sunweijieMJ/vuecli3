@@ -225,7 +225,7 @@ export default {
     // z-index: 0 !important;
   }
   .detail-box{
-    width: 960px;
+    width: 1040px;
     margin: auto;
     margin-top: -206px;
     .head-padding{

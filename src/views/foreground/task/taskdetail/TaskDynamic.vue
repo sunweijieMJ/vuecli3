@@ -69,7 +69,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dynamic-left{
-  width: 546px;
+  width: 586px;
   .header{
     padding: 21px 2px;
     font-size:18px;
@@ -94,7 +94,7 @@ export default {
       }
     }
     li{
-      width: 490px;
+      width: 530px;
       padding: 24px 28px 24px 28px;
       .person-photo{
         display: flex;
@@ -164,7 +164,7 @@ export default {
     }
   }
   .null{
-    width:456px;
+    width:496px;
     height:42px;
     padding: 54px 45px;
     background:rgba(255,255,255,1);

@@ -96,7 +96,6 @@ export default {
     // 图片上传进度状态知觉 1：上传中 2：上传完成
     imgViewJudge(status){
       this.upload_progress = status;
-      console.log('可视化：', status);
     },
     distance(){
       if((this.clientHeight * 80 / 100) - 342 > 500){

@@ -39,7 +39,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .task-right{
-  width: 400px;
+  width: 440px;
   .header{
     padding: 21px 2px;
     display: flex;

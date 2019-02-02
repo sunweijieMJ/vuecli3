@@ -55,6 +55,7 @@
   import linsign from '../../utils/signFun';
   const root = process.env.VUE_APP_UploadURL;
 
+  // import {imageSize} from '../../utils/filters';
   export default {
     props: ['multiple', 'accepts', 'list', 'limint', 'disabled', 'name', 'showicon', 'indexnum', 'Ossprivate', 'hashNum'],
     data() {
@@ -79,7 +80,6 @@
       },
       // 上传文件之前
       beforeUpload(file) {
-        // console.log('1')
         this.$emit('imgViewJudge', 1);
         if (file.size / 1024 > 20480) { // ETC 20M
           this.$message({message: '请上传小于20M的图片', type: 'warning'});
@@ -92,7 +92,8 @@
       },
       // 文件上传成功
       handleSuccess(response, file, fileList) {
-        // console.log('2')
+        let newImgUrl = response.result.file.image_url.replace('m-10001', 'm-00001');
+        file.url = newImgUrl;
         this.$emit('imgViewJudge', 2);
         if (!this.multi) {
           this.imgUrl = response.result.file.image_url;
