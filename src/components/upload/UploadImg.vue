@@ -55,10 +55,12 @@
   import linsign from '../../utils/signFun';
   const root = process.env.VUE_APP_UploadURL;
 
+  import imageSize from '../../utils/filters/imageSize.js';
   export default {
     props: ['multiple', 'accepts', 'list', 'limint', 'disabled', 'name', 'showicon', 'indexnum', 'Ossprivate', 'hashNum'],
     data() {
       return {
+        imageSize,
         show: false,
         // uploadurl: root + '/upload_image?sign=80448712a43f26ee2485ae58dca29d11',
         uploadurl: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
@@ -79,6 +81,7 @@
       },
       // 上传文件之前
       beforeUpload(file) {
+        this.$emit('imgViewJudge', 1);
         if (file.size / 1024 > 20480) { // ETC 20M
           this.$message({message: '请上传小于20M的图片', type: 'warning'});
           return false;
@@ -90,6 +93,9 @@
       },
       // 文件上传成功
       handleSuccess(response, file, fileList) {
+        let newImgUrl = imageSize(response.result.file.image_url, '750x750');
+        file.url = newImgUrl;
+        this.$emit('imgViewJudge', 2);
         if (!this.multi) {
           this.imgUrl = response.result.file.image_url;
           this.$emit('handleSuccess', {name: this.index, file: this.setOneData(file), indexnum: this.indexnum, origin: fileList});
