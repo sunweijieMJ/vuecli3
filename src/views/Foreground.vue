@@ -103,7 +103,7 @@
         if(index === 1) {
           this.$router.push({name: 'OKRList', query: {okr_type: 0}});
         } else {
-          this.$router.push({name: item.name});
+          this.$router.push({name: item.name, query: {time: Date.now()}});
         }
       },
       // 消息列表

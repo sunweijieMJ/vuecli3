@@ -96,6 +96,15 @@
         Object.assign(that.$data, that.$options.data());
         that.infinite();
       }
+    },
+    watch: {
+      $route(to, from) {
+        if(to.name === 'IdeaList' && from.name === 'IdeaList') {
+          let that = this;
+          Object.assign(that.$data, that.$options.data());
+          that.infinite();
+        }
+      }
     }
   };
 </script>
@@ -124,6 +133,7 @@
         }
         img {
           width: 38px;
+          @extend %imglight;
         }
       }
     }

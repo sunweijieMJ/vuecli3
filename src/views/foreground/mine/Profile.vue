@@ -304,6 +304,7 @@
               line-height: 25px;
               color: #fff;
               cursor: pointer;
+              @extend %textlight;
             }
             button {
               width: 90px;
@@ -315,6 +316,7 @@
               line-height: 25px;
               color: #fff;
               cursor: pointer;
+              @extend %imglight;
             }
           }
           .msg-detail {

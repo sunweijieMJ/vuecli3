@@ -24,3 +24,17 @@
       clip: rect(0, 0, 0, 0);
       position: absolute;
   }
+
+  // 图片滑过变亮
+  %imglight {
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+
+  // 文字滑过特效
+  %textlight {
+    &:hover {
+      color: $linkBlue;
+    }
+  }

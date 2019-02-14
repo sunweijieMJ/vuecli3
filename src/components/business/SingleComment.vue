@@ -102,7 +102,10 @@
         let that = this;
         that.$confirm('确定删除该评论?', '删除', {type: 'warning'}).then(() => {
           IdeaApi().deleteSelfComment({commentId}).then(res => {
-            if(res.status) that.show_comment = false;
+            if(res.status) {
+              that.show_comment = false;
+              that.$emit('deleteSuccess');
+            }
           });
         });
       }
@@ -212,12 +215,14 @@
               font-size: 14px;
               color: $h3Color;
               cursor: pointer;
+              @extend %imglight;
             }
             span {
               margin-left: 4px;
               font-size: $h4Font;
               line-height:20px;
               color: $h3Color;
+              @extend %textlight;
             }
           }
         }

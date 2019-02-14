@@ -157,7 +157,6 @@
           font-size: $h3Font;
           line-height: 25px;
           resize: none;
-          border-color: #fff;
           background: $backColor;
           &::placeholder {
             font-size: $h3Font;

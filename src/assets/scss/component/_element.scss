@@ -116,6 +116,9 @@ $up-down: 30px;
     font-size: $h3Font;
     line-height: 28px;
     color: $h1Color;
+    &:focus {
+      border-color: $linkBlue;
+    }
     &::placeholder {
       font-size: $h3Font;
       line-height: 28px;
@@ -127,6 +130,10 @@ $up-down: 30px;
   textarea {
     font-size: $h3Font;
     color: $h1Color;
+    border-color: #fff;
+    &:focus {
+      border-color: $linkBlue;
+    }
     &::placeholder {
       font-size: $h3Font;
       color: $h3Color;

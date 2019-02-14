@@ -8,19 +8,25 @@
         他们都觉得很赞
       </div>
       <div class="thump-icon">
-        <img @click="paramsSkip('Profile', {id: item.user_id})" v-for="(item, index) in thump_list.slice(0,47)" :key="index" :src="item.header_photo" alt="">
-        <span v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>
+        <el-popover
+          v-for="(item, index) in thump_list.slice(0,47)" :key="index"
+          placement="bottom"
+          trigger="hover">
+          <img slot="reference"  @click="paramsSkip('Profile', {id: item.user_id})" :src="item.header_photo" alt="">
+          <user-popover :userinfo="item"></user-popover>
+        </el-popover>
+        <span class="max" v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>
       </div>
     </div>
     <!-- 回复评论 -->
     <div class="detail-comment">
       <img :src="self_info.header_photo" alt="">
       <div class="comment-publish" v-if="ieda_detail.user_info">
-        <!-- <publish :textEnabled="textEnabled"> -->
+        <publish :textEnabled="textEnabled">
           <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
             @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
             ></textarea>
-        <!-- </publish> -->
+        </publish>
         <div class="publish-btn" v-if="textEnabled.status">
           <span @click="textEnabled = {status: false, text: ''}">取消</span>
           <button @click="sendComment(idea_id, textEnabled.text)">发送</button>
@@ -39,7 +45,7 @@
       <div class="common-title">
         <h4>评论 ({{common_list.total}})</h4>
       </div>
-      <comment-list :list="common_list.list" @commentSuccess="commentSuccess"></comment-list>
+      <comment-list :list="common_list.list" @commentSuccess="commentSuccess" @deleteSuccess="deleteSuccess"></comment-list>
     </div>
     <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
   </div>
@@ -48,12 +54,13 @@
   import {mapState} from 'vuex';
   import IdeaApi from '../../../api/Idea.js';
   import frequent from '../../../mixins/frequent.js';
+  import {UserPopover} from '../../../components/popup';
   import {autoTextarea} from '../../../utils/business/tools.js';
   import {Publish, Loading} from '../../../components/public';
   import {PublicDetail, CommentList} from '../../../components/business';
 
   export default {
-    components: {PublicDetail, CommentList, Publish, Loading},
+    components: {PublicDetail, UserPopover, CommentList, Publish, Loading},
     mixins: [frequent],
     data() {
       return {
@@ -242,6 +249,10 @@
         that.common_list.total++;
         that.splendid_list.list = splendid;
       },
+      // 评论删除成功
+      deleteSuccess() {
+        this.common_list.total--;
+      },
       // 激活评论区
       activeComment() {
         let that = this;
@@ -299,7 +310,7 @@
           border: 1px solid $lineColor;
           cursor: pointer;
         }
-        span {
+        .max {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -374,6 +385,7 @@
             line-height: 22px;
             color: $h1Color;
             cursor: pointer;
+            @extend %textlight;
           }
           button {
             margin-left: 20px;
@@ -385,6 +397,7 @@
             font-weight: 500;
             color: #fff;
             cursor: pointer;
+            @extend %imglight;
           }
         }
       }

@@ -22,7 +22,12 @@
       <task-check :item="item"></task-check>
     </div>
     <div class="check-info" v-if="item.check_info">
-      <img @click.stop="paramsSkip('Profile', {id: item.check_info.creator_id})" :src="item.check_info.creator_info.header_photo" alt="">
+      <el-popover
+        placement="bottom"
+        trigger="hover">
+        <img slot="reference" @click.stop="paramsSkip('Profile', {id: item.check_info.creator_id})" :src="item.check_info.creator_info.header_photo" alt="">
+        <user-popover :userinfo="item.check_info.creator_info"></user-popover>
+      </el-popover>
       <div class="info">
         <h4>
           <el-rate class="small-rate" v-model="item.check_info.score" show-score disabled :allow-half="true" show-text
@@ -38,10 +43,11 @@
 <script>
   import frequent from '../../mixins/frequent.js';
   import Moment from '../../utils/business/moment.js';
+  import {UserPopover} from '../../components/popup';
   import TaskCheck from '../../components/popup/TaskCheck.vue';
 
   export default {
-    components: {TaskCheck},
+    components: {UserPopover, TaskCheck},
     mixins: [frequent],
     props: ['item'],
     data() {

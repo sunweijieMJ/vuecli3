@@ -31,10 +31,11 @@
     <div class="list-main">
       <div class="main-paragraph" v-if="vitem.content" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
         <paragraph :text="vitem.content"></paragraph>
+        <span v-calcText>展开全文</span>
       </div>
       <div class="main-images" v-if="vitem.photos && vitem.photos.length">
-        <div class="image-box" :class="{single: vitem.photos.length === 1}" v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex">
-          <img :src="vitem.photos.length === 1 ? imageSize(witem, 'origin') : witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+        <div class="image-box" v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex">
+          <img v-calcImg="vitem.photos.length" :src="vitem.photos.length === 1 ? imageSize(witem, 'origin') : witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
         </div>
         <span v-if="vitem.photos.length > 4">{{vitem.photos.length}}</span>
       </div>
@@ -60,7 +61,6 @@
     </div>
     <!-- 评论区 -->
     <div class="list-comment" v-if="vitem.replys && vitem.replys.length" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
-      <h4>精彩评论</h4>
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
           <h5 @click.stop="paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}：</h5>
@@ -107,6 +107,43 @@
             if(res.status) that.show_idea = false;
           });
         });
+      }
+    },
+    directives: {
+      calcText: {
+        inserted(el) {
+          if(el.previousSibling.offsetHeight > 100) {
+            el.previousSibling.style.maxHeight = '100px';
+            el.addEventListener('click', (e) => {
+              if(el.innerHTML === '展开全文') {
+                el.innerHTML = '收起全文';
+                el.previousSibling.style.maxHeight = 'initial';
+              } else {
+                el.innerHTML = '展开全文';
+                el.previousSibling.style.maxHeight = '100px';
+              }
+              e.stopPropagation ? e.stopPropagation() : window.event.cancelBubble = true;
+            }, false);
+          } else {
+            el.style.display = 'none';
+          }
+        }
+      },
+      calcImg: {
+        bind(el, binding) {
+          el.onload = () => {
+            if(binding.value > 1) return;
+            if(el.naturalWidth > el.naturalHeight) {
+              el.parentNode.style.width = '360px';
+              el.parentNode.style.height = 'initial';
+              el.style.height = 'initial';
+            } else {
+              el.parentNode.style.height = '360px';
+              el.parentNode.style.width = 'initial';
+              el.style.width = 'initial';
+            }
+          };
+        }
       }
     },
     computed: mapState({
@@ -185,6 +222,7 @@
         font-size: 20px;
         color: $h1Color;
         cursor: pointer;
+        @extend %textlight;
       }
     }
     .list-main {
@@ -207,19 +245,9 @@
           &:last-of-type {
             margin-right: 0;
           }
-          &.single {
-            width: initial;
-            height: initial;
-            max-width: 360px;
-            max-height: 360px;
-          }
           img {
             width: 100%;
             height: 100%;
-            transition: all .5s ease-out 0.1s;
-            &:hover {
-              transform: scale(1.1);
-            }
           }
         }
         span {
@@ -262,6 +290,7 @@
             font-size: 16px;
             color: $h2Color;
             cursor: pointer;
+            @extend %imglight;
           }
         }
       }
@@ -289,13 +318,6 @@
       padding: 15px 25px;
       background-color: $backColor;
       cursor: pointer;
-      h4 {
-        margin-bottom: 4px;
-        font-size: $h3Font;
-        font-weight: 500;
-        color: $h1Color;
-        line-height: 22px;
-      }
       .comment {
         >li {
           display: flex;
@@ -322,18 +344,20 @@
   .single-list .main-paragraph {
     cursor: pointer;
     p {
-      @include erow(4);
-      max-height: 100px;
+      overflow: hidden;
       font-size: $h3Font;
       line-height: 25px;
       color: $h1Color;
-      &:hover {
-        color: $linkBlue;
-      }
+      @extend %textlight;
       a {
         font-size: $h3Font;
         color: $linkBlue;
       }
+    }
+    >span {
+      font-size: $h3Font;
+      line-height: 25px;
+      color: $linkBlue;
     }
   }
   .el-popover {

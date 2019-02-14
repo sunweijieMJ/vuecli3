@@ -104,13 +104,19 @@
         align-items: center;
         &:first-child {
           margin-bottom: 9px;
+          i {
+            font-size: 15px;
+          }
+          span {
+            margin-left: 7px;
+          }
         }
         p {
           i {
-            font-size: $h3Font;
+            font-size: 17px;
           }
           >span {
-            margin-left: 7px;
+            margin-left: 5px;
             font-size: $h3Font;
             line-height: 22px;
             color: $h2Color;

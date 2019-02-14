@@ -25,7 +25,9 @@
         <paragraph :text="detail.content"></paragraph>
       </div>
       <div class="main-images" v-if="detail.photos && detail.photos.length">
-        <img v-for="(item, index) in detail.photos" :key="index" :src="item" alt="" @click.stop="showImage(detail.photos, index)">
+        <div class="image-box" v-for="(item, index) in detail.photos" :key="index">
+          <img v-calcImg="detail.photos.length" :src="detail.photos.length === 1 ? imageSize(item, 'origin') : item" alt="" @click.stop="showImage(detail.photos, index)">
+        </div>
       </div>
       <div class="main-num">
         <div class="num-left">
@@ -51,6 +53,7 @@
 <script>
   import IdeaApi from '../../api/Idea.js';
   import frequent from '../../mixins/frequent.js';
+  import imageSize from '../../utils/filters/imageSize.js';
   import {UserPopover} from '../../components/popup';
   import {Paragraph} from '../../components/business';
 
@@ -58,6 +61,11 @@
     components: {Paragraph, UserPopover},
     mixins: [frequent],
     props: ['detail', 'commentNums'],
+    data() {
+      return {
+        imageSize
+      };
+    },
     methods: {
       // 想法点赞
       thumpIdea(thinksId) {
@@ -72,6 +80,24 @@
       // 评论回调
       activeComment() {
         this.$emit('activeComment');
+      }
+    },
+    directives: {
+      calcImg: {
+        bind(el, binding) {
+          el.onload = () => {
+            if(binding.value > 1) return;
+            if(el.naturalWidth > el.naturalHeight) {
+              el.parentNode.style.width = '400px';
+              el.parentNode.style.height = 'initial';
+              el.style.height = 'initial';
+            } else {
+              el.parentNode.style.height = '400px';
+              el.parentNode.style.width = 'initial';
+              el.style.width = 'initial';
+            }
+          };
+        }
       }
     }
   };
@@ -141,7 +167,8 @@
       .main-images {
         width: 668px;
         overflow: hidden;
-        img {
+        .image-box {
+          overflow: hidden;
           float: left;
           box-sizing: border-box;
           width: 220px;
@@ -151,6 +178,14 @@
           cursor: pointer;
           &:nth-child(3n) {
             margin-right: 0;
+          }
+          img {
+            width: 100%;
+            height: 100%;
+            transition: all .5s ease-out 0.1s;
+            &:hover {
+              transform: scale(1.1);
+            }
           }
         }
       }
@@ -178,6 +213,7 @@
               font-size: 21px;
               color: $themeColor;
               cursor: pointer;
+              @extend %imglight;
             }
           }
         }

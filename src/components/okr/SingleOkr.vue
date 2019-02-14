@@ -10,8 +10,13 @@
       </p>
       <div class="num">
         <div class="name" @click.stop="paramsSkip('Profile', {id: item.creator_id})">
-          <img :src="item.creator_info.header_photo | imageSize('80x80')" alt="">
-          <span>{{item.creator_info.user_name}}</span>
+          <el-popover
+            placement="bottom"
+            trigger="hover">
+            <img slot="reference" :src="item.creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="paramsSkip('Profile', {id: item.creator_info.user_id})">
+            <user-popover :userinfo="item.creator_info"></user-popover>
+          </el-popover>
+          <span class="user-name">{{item.creator_info.user_name}}</span>
         </div>
         <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
       </div>
@@ -99,7 +104,7 @@
             border-radius: 50%;
             border: 1px solid $lineColor;
           }
-          span {
+          .user-name {
             margin-left: 7px;
             font-size: $h4Font;
             color: $h2Color;
