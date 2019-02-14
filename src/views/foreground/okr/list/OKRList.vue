@@ -106,6 +106,7 @@
           height: 38px;
           border-radius:30px;
           background:linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
+          @extend %imglight;
           i {
             font-size: 20px;
             color: #fff;
