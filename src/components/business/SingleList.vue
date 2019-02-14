@@ -31,7 +31,7 @@
     <div class="list-main">
       <div class="main-paragraph" v-if="vitem.content" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
         <paragraph :text="vitem.content"></paragraph>
-        <span v-calcText>展开全文</span>
+        <span v-calcText>...全文</span>
       </div>
       <div class="main-images" v-if="vitem.photos && vitem.photos.length">
         <div class="image-box" v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex">
@@ -114,16 +114,6 @@
         inserted(el) {
           if(el.previousSibling.offsetHeight > 100) {
             el.previousSibling.style.maxHeight = '100px';
-            el.addEventListener('click', (e) => {
-              if(el.innerHTML === '展开全文') {
-                el.innerHTML = '收起全文';
-                el.previousSibling.style.maxHeight = 'initial';
-              } else {
-                el.innerHTML = '展开全文';
-                el.previousSibling.style.maxHeight = '100px';
-              }
-              e.stopPropagation ? e.stopPropagation() : window.event.cancelBubble = true;
-            }, false);
           } else {
             el.style.display = 'none';
           }
