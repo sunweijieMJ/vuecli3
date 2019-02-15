@@ -251,7 +251,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 12px;
+      padding-top: 10px;
       .num-left {
         display: flex;
         align-items: center;
@@ -300,7 +300,7 @@
       }
     }
     .list-comment {
-      margin-top: 12px;
+      margin-top: 13px;
       padding: 15px 20px;
       background-color: $backColor;
       cursor: pointer;
