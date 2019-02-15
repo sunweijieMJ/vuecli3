@@ -81,6 +81,7 @@
       margin-left: 20px;
       font-weight: normal;
       cursor: pointer;
+      @extend %alllight;
       i {
         font-size: 33px;
         line-height: 1;

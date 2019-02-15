@@ -260,6 +260,7 @@
               margin-left: 10px;
               font-size: $h3Font;
               color: $linkBlue;
+              @extend %textlight;
             }
           }
           .name-modify {

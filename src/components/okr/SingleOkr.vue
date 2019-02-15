@@ -61,9 +61,7 @@
         font-weight: $h1Weight;
         color: $h1Color;
         cursor: pointer;
-        &:hover {
-          color: $linkBlue;
-        }
+        @extend %textlight;
       }
     }
     .desc {
@@ -94,9 +92,7 @@
           display: flex;
           align-items: center;
           cursor: pointer;
-          &:hover span{
-            color: $linkBlue;
-          }
+          @extend %alllight;
           img {
             box-sizing: border-box;
             width: 22px;

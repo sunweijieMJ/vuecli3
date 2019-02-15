@@ -35,6 +35,16 @@
   // 文字滑过特效
   %textlight {
     &:hover {
-      color: $linkBlue;
+      color: $themeColor;
+    }
+  }
+
+  // 滑过特效
+  %alllight {
+    &:hover {
+      filter: brightness(120%);
+      span {
+        color: $themeColor;
+      }
     }
   }

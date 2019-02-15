@@ -86,6 +86,7 @@ $up-down: 30px;
     color: #fff;
     color: #fff;
     background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
+    @extend %imglight;
   }
   &.add {
     box-sizing: border-box;

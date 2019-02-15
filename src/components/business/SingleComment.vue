@@ -211,18 +211,18 @@
             &.delete {
               margin-left: 34px;
             }
+            @extend %alllight;
             i {
               font-size: 14px;
               color: $h3Color;
               cursor: pointer;
-              @extend %imglight;
+
             }
             span {
               margin-left: 4px;
               font-size: $h4Font;
               line-height:20px;
               color: $h3Color;
-              @extend %textlight;
             }
           }
         }

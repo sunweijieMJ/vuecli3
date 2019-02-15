@@ -131,6 +131,7 @@
             line-height: 22px;
             color: $h1Color;
             cursor: pointer;
+            @extend %textlight;
           }
           .stick {
             box-sizing: border-box;

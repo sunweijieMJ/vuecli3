@@ -1,37 +1,45 @@
 
 <template>
   <div class="idea-detail" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-    <public-detail :detail="ieda_detail" :commentNums="common_list.total" @activeComment="activeComment"></public-detail>
-    <!-- 点赞用户列表 -->
-    <div class="detail-thump" v-if="thump_list.length">
-      <div class="thump-title">
-        他们都觉得很赞
-      </div>
-      <div class="thump-icon">
-        <el-popover
-          v-for="(item, index) in thump_list.slice(0,47)" :key="index"
-          placement="bottom"
-          trigger="hover">
-          <img slot="reference"  @click="paramsSkip('Profile', {id: item.user_id})" :src="item.header_photo" alt="">
-          <user-popover :userinfo="item"></user-popover>
-        </el-popover>
-        <span class="max" v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>
-      </div>
-    </div>
-    <!-- 回复评论 -->
-    <div class="detail-comment">
-      <img :src="self_info.header_photo" alt="">
-      <div class="comment-publish" v-if="ieda_detail.user_info">
-        <!-- <publish :textEnabled="textEnabled"> -->
-          <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
-            @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
-            ></textarea>
-        <!-- </publish> -->
-        <div class="publish-btn" v-if="textEnabled.status">
-          <span @click="textEnabled = {status: false, text: ''}">取消</span>
-          <button @click="sendComment(idea_id, textEnabled.text)">发送</button>
+    <template v-if="!idea_delete">
+      <public-detail :detail="ieda_detail" :commentNums="common_list.total" @activeComment="activeComment"></public-detail>
+      <!-- 点赞用户列表 -->
+      <div class="detail-thump" v-if="thump_list.length">
+        <div class="thump-title">
+          他们都觉得很赞
+        </div>
+        <div class="thump-icon">
+          <el-popover
+            v-for="(item, index) in thump_list.slice(0,47)" :key="index"
+            placement="bottom"
+            trigger="hover">
+            <img slot="reference"  @click="paramsSkip('Profile', {id: item.user_id})" :src="item.header_photo" alt="">
+            <user-popover :userinfo="item"></user-popover>
+          </el-popover>
+          <span class="max" v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>
         </div>
       </div>
+      <!-- 回复评论 -->
+      <div class="detail-comment">
+        <img :src="self_info.header_photo" alt="">
+        <div class="comment-publish" v-if="ieda_detail.user_info">
+          <!-- <publish :textEnabled="textEnabled"> -->
+            <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
+              @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
+              ></textarea>
+          <!-- </publish> -->
+          <div class="publish-btn" v-if="textEnabled.status">
+            <span @click="textEnabled = {status: false, text: ''}">取消</span>
+            <button @click="sendComment(idea_id, textEnabled.text)">发送</button>
+          </div>
+        </div>
+      </div>
+    </template>
+    <div class="idea-delete" v-else>
+      <p>
+        <i class="iconfont icon-icon_info"></i>
+        <span>该内容已被删除</span>
+      </p>
     </div>
     <!-- 精彩评论 -->
     <div class="detail-splendid" v-if="splendid_list.list.length">
@@ -65,6 +73,7 @@
     data() {
       return {
         autoTextarea,
+        idea_delete: false, // ETC 想法被删除
         idea_id: 0, // ETC 详情id
         ieda_detail: {}, // ETC 详情
         thump_list: [], // ETC 点赞用户列表
@@ -132,10 +141,14 @@
       getIdeaDetail(thinksId) {
         let that = this;
         IdeaApi().getIdeaDetail({thinksId}).then(res => {
-          that.ieda_detail = res.data;
-          if(!res.data.info) return;
-          const user_infos = res.data.info;
-          that.ieda_detail.user_info = user_infos[that.ieda_detail.user_id];
+          if(res.status) {
+            that.ieda_detail = res.data;
+            if(!res.data.info) return;
+            const user_infos = res.data.info;
+            that.ieda_detail.user_info = user_infos[that.ieda_detail.user_id];
+          } else {
+            that.idea_delete = true;
+          }
         });
       },
       // 点赞用户列表
@@ -322,6 +335,25 @@
           font-size: $h4Font;
           color: $h3Color;
         }
+      }
+    }
+    .idea-delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 800px;
+      height: 450px;
+      background-color: #fff;
+      box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
+      border-radius: 2px;
+      i {
+        font-size: 22px;
+        color: $themeColor;
+      }
+      span {
+        margin-left: 7px;
+        font-size: 20px;
+        color: $h3Color;
       }
     }
     .detail-comment {

@@ -23,7 +23,7 @@
     </div>
     <div class="check-info" v-if="item.check_info">
       <el-popover
-        placement="bottom"
+        placement="bottom-start"
         trigger="hover">
         <img slot="reference" @click.stop="paramsSkip('Profile', {id: item.check_info.creator_id})" :src="item.check_info.creator_info.header_photo" alt="">
         <user-popover :userinfo="item.check_info.creator_info"></user-popover>
@@ -93,9 +93,7 @@
           font-weight: $h1Weight;
           color: $h1Color;
           cursor: pointer;
-          &:hover {
-            color: $linkBlue;
-          }
+          @extend %textlight;
         }
       }
       .info-desc {
@@ -107,12 +105,12 @@
           align-items: center;
           width: 285px;
           cursor: pointer;
+          @extend %alllight;
           i {
             font-size: $h4Font;
             color: #000;
           }
           span {
-            @extend %textlight;
             @include tofl(264px);
             margin-left: 7px;
             font-size: $h4Font;

@@ -14,7 +14,7 @@
           <div class="nav-right">
             <el-badge :value="unread_msg.num ? unread_msg.num : ''">
               <el-popover placement="bottom" trigger="hover" v-model="unread_msg.show" :disabled="!unread_msg.num">
-                <i slot="reference" class="iconfont icon-icon_inbox" @click="querySkip('NewsList')" @mouseenter="message.read || getMessageList()"></i>
+                <i slot="reference" class="iconfont icon-icon_inbox" @click="querySkip('NewsList')" @mouseenter="!unread_msg.num || getMessageList()"></i>
                 <div class="message">
                   <ul>
                     <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
@@ -73,7 +73,6 @@
         ],
         readMore,
         message: { // ETC 未读消息列表
-          read: false,
           list: []
         },
         timer: null
@@ -113,7 +112,6 @@
           const origin_msg = res.data.origin_msg;
           const users_info = res.data.users_info;
           that.message.list = res.data.list;
-          that.message.read = true;
           // 数据整理
           for(let i = 0, LEN = that.message.list.length; i < LEN; i++) {
             that.message.list[i].user_info = users_info[that.message.list[i].push_user_id];

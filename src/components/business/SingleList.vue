@@ -4,7 +4,7 @@
     <div class="list-header">
       <div class="header-author">
         <el-popover
-          placement="bottom"
+          placement="bottom-start"
           trigger="hover">
           <img slot="reference" v-if="vitem.user_info" :src="vitem.user_info.header_photo" alt="" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">
           <user-popover :userinfo="vitem.user_info"></user-popover>
@@ -178,9 +178,7 @@
               line-height: 22px;
               color: $h1Color;
               cursor: pointer;
-              &:hover {
-                color: $linkBlue;
-              }
+              @extend %textlight;
             }
             .stick {
               box-sizing: border-box;
