@@ -7,8 +7,8 @@
       </div>
       <div class="info-desc">
         <p class="okr" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
-          <i v-if="item.obj_info && item.obj_info.length" class="iconfont icon-icon_link"></i>
-          <span v-if="item.obj_info && item.obj_info.length">{{item.obj_info[0].okr_name}}</span>
+          <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
+          <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].okr_name}}</span>
         </p>
         <div class="num">
           <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
