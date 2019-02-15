@@ -11,7 +11,6 @@
 </script>
 <style lang="scss" scoped>
   .loading {
-    background-color: $backColor;
     p {
       font-size: $h3Font;
       line-height: 56px;
