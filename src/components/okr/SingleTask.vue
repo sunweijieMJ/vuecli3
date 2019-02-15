@@ -105,7 +105,12 @@
           align-items: center;
           width: 285px;
           cursor: pointer;
-          @extend %alllight;
+          &:hover i{
+            color: $themeColor;
+          }
+          &:hover span{
+            color: $themeColor;
+          }
           i {
             font-size: $h4Font;
             color: #000;
