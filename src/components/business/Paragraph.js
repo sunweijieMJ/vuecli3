@@ -65,7 +65,7 @@ export default {
                           that.$message({message: '话题不存在', type: 'warning'});
                         } else {
                           const id = res.data[0].topic_id;
-                          that.$router.push({name: 'TopicList', params: {id}});
+                          that.pathSkip(`/foreground/fore_idea/topic_list/${id}`);
                         }
                       }
                     });

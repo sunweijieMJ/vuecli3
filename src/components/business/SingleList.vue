@@ -344,7 +344,6 @@
       font-size: $h3Font;
       line-height: 25px;
       color: $h1Color;
-      // @extend %textlight;
       a {
         font-size: $h3Font;
         color: $linkBlue;

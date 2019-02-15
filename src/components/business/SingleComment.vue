@@ -311,6 +311,7 @@
       a {
         font-size: $h3Font;
         color: $linkBlue;
+        @extend %textlight;
       }
     }
   }

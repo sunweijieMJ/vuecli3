@@ -281,6 +281,7 @@
         height: 55px;
         font-size: $h3Font;
         color: $linkBlue;
+        @extend %textlight;
       }
     }
   }
