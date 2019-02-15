@@ -92,7 +92,6 @@
           display: flex;
           align-items: center;
           cursor: pointer;
-          @extend %alllight;
           img {
             box-sizing: border-box;
             width: 22px;
@@ -104,6 +103,7 @@
             margin-left: 7px;
             font-size: $h4Font;
             color: $h2Color;
+            @extend %textlight;
           }
         }
         .time {

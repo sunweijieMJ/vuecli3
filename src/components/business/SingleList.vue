@@ -303,14 +303,14 @@
     }
     .list-comment {
       margin-top: 20px;
-      padding: 15px 25px;
+      padding: 12px 20px;
       background-color: $backColor;
       cursor: pointer;
       .comment {
         >li {
           display: flex;
           align-items: center;
-          line-height: 25px;
+          line-height: 24px;
           h5 {
             white-space: nowrap;
             font-size: $h3Font;
@@ -320,8 +320,8 @@
           }
           p {
             @include tofl(100%);
-            font-size: $h3Color;
-            color: $h1Color;
+            font-size: $h3Font;
+            color: $h2Color;
           }
         }
       }

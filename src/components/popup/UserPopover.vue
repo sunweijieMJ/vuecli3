@@ -57,7 +57,6 @@
         height: 56px;
         margin: 0 23px;
         border-radius: 50%;
-        border: 1px solid $lineColor;
       }
       .user-info {
         display: flex;
