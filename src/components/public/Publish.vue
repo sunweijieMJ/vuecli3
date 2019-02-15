@@ -7,9 +7,6 @@
     <ul class="user-list" v-if="user_list.length" :style="{top: `${offset.top + 25}px`, left: `${offset.left}px`}">
       <li v-for="(item, index) in user_list" :key="index" @click="selectUser(item)">{{`${item.user_name}(${item.real_name})`}}</li>
     </ul>
-    <ul class="topic-list" v-if="topic_list.length">
-      <li v-for="(item, index) in topic_list" :key="index">{{item}}</li>
-    </ul>
   </div>
 </template>
 <script>
@@ -24,8 +21,7 @@
         offset: {}, // ETC 光标位置
         cursor: 0,
         autoTextarea,
-        user_list: [],
-        topic_list: []
+        user_list: []
       };
     },
     methods: {

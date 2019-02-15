@@ -303,7 +303,7 @@
     }
     .list-comment {
       margin-top: 20px;
-      padding: 14px 20px;
+      padding: 15px 20px;
       background-color: $backColor;
       cursor: pointer;
       .comment {
@@ -311,7 +311,7 @@
           display: flex;
           align-items: center;
           line-height: 1;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
           &:last-child {
             margin-bottom: 0;
           }

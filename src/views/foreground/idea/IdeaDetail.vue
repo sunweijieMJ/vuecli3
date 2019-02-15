@@ -34,6 +34,21 @@
           </div>
         </div>
       </div>
+      <!-- 精彩评论 -->
+      <div class="detail-splendid" v-if="splendid_list.list.length">
+        <div class="splendid-title">
+          <h4>精彩评论 ({{splendid_list.list.length}})</h4>
+        </div>
+        <comment-list :list="splendid_list.list" @commentSuccess="commentSuccess"></comment-list>
+      </div>
+      <!-- 普通评论 -->
+      <div class="detail-common" v-if="common_list.total">
+        <div class="common-title">
+          <h4>评论 ({{common_list.total}})</h4>
+        </div>
+        <comment-list :list="common_list.list" @commentSuccess="commentSuccess" @deleteSuccess="deleteSuccess"></comment-list>
+      </div>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </template>
     <div class="idea-delete" v-else>
       <p>
@@ -41,21 +56,6 @@
         <span>该内容已被删除</span>
       </p>
     </div>
-    <!-- 精彩评论 -->
-    <div class="detail-splendid" v-if="splendid_list.list.length">
-      <div class="splendid-title">
-        <h4>精彩评论 ({{splendid_list.list.length}})</h4>
-      </div>
-      <comment-list :list="splendid_list.list" @commentSuccess="commentSuccess"></comment-list>
-    </div>
-    <!-- 普通评论 -->
-    <div class="detail-common" v-if="common_list.total">
-      <div class="common-title">
-        <h4>评论 ({{common_list.total}})</h4>
-      </div>
-      <comment-list :list="common_list.list" @commentSuccess="commentSuccess" @deleteSuccess="deleteSuccess"></comment-list>
-    </div>
-    <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
   </div>
 </template>
 <script>

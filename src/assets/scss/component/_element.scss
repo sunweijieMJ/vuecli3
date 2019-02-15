@@ -179,6 +179,17 @@ $up-down: 30px;
   }
 }
 
+.el-popover {
+  padding: 0;
+  border: none;
+  .popper__arrow {
+    border-bottom-color: transparent !important;
+    &::after {
+      border-bottom-color: $themeColor !important;
+    }
+  }
+}
+
 // message
 .el-message-box {
   width: 460px;

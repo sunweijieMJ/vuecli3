@@ -1,23 +1,31 @@
 <template>
   <div class="public-detail">
     <!-- 用户信息 -->
-    <div class="detail-author" v-if="detail.user_info">
-      <el-popover
-        placement="bottom"
-        trigger="hover">
-        <img slot="reference" @click.stop="paramsSkip('Profile', {id: detail.user_id})" :src="detail.user_info.header_photo" alt="">
-        <user-popover :userinfo="detail.user_info"></user-popover>
-      </el-popover>
-      <div class="author-name">
-        <h4>
-          <span class="name" @click.stop="paramsSkip('Profile', {id: detail.user_id})">{{detail.user_info.user_name}}</span>
-          <span class="stick" v-if="detail.is_top">置顶</span>
-        </h4>
-        <p>
-          <span>{{detail.user_info.department_name}}</span>
-          <span>{{detail.create_time | timeFilter}}</span>
-        </p>
+    <div class="detail-header">
+      <div class="detail-author" v-if="detail.user_info">
+        <el-popover
+          placement="bottom"
+          trigger="hover">
+          <img slot="reference" @click.stop="paramsSkip('Profile', {id: detail.user_id})" :src="detail.user_info.header_photo" alt="">
+          <user-popover :userinfo="detail.user_info"></user-popover>
+        </el-popover>
+        <div class="author-name">
+          <h4>
+            <span class="name" @click.stop="paramsSkip('Profile', {id: detail.user_id})">{{detail.user_info.user_name}}</span>
+            <span class="stick" v-if="detail.is_top">置顶</span>
+          </h4>
+          <p>
+            <span>{{detail.user_info.department_name}}</span>
+            <span>{{detail.create_time | timeFilter}}</span>
+          </p>
+        </div>
       </div>
+      <el-popover placement="bottom" trigger="click" v-if="detail.user_id === self_info.user_id">
+        <i class="iconfont icon-icon_more" slot="reference"></i>
+        <ul class="idea-delete">
+          <li @click="deleteIdea(detail.thinks_id)">删除</li>
+        </ul>
+      </el-popover>
     </div>
     <!-- 详情内容 -->
     <div class="detail-main">
@@ -51,6 +59,7 @@
   </div>
 </template>
 <script>
+  import {mapState} from 'vuex';
   import IdeaApi from '../../api/Idea.js';
   import frequent from '../../mixins/frequent.js';
   import imageSize from '../../utils/filters/imageSize.js';
@@ -77,6 +86,19 @@
           }
         });
       },
+      // 删除想法
+      deleteIdea(thinksId) {
+        let that = this;
+        that.$confirm('确定删除该想法?', '删除', {type: 'warning'}).then(() => {
+          IdeaApi().deleteSelfIdea({thinksId, doDel: 1}).then((res) => {
+            if(res.status) {
+              that.paramsSkip('IdeaList');
+            } else {
+              that.$message({message: res.message, type: 'error'});
+            }
+          });
+        });
+      },
       // 评论回调
       activeComment() {
         this.$emit('activeComment');
@@ -99,64 +121,78 @@
           };
         }
       }
-    }
+    },
+    computed: mapState({
+      self_info: store => store.self_info
+    })
   };
 </script>
 <style lang="scss" scoped>
   .public-detail {
-    .detail-author {
+    .detail-header {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 20px 66px;
       border-bottom: 1px solid $lineColor;
-      img {
-        box-sizing: border-box;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1px solid $lineColor;
-        cursor: pointer;
-      }
-      .author-name {
+      .detail-author {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: 18px;
-        h4 {
+        img {
+          box-sizing: border-box;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 1px solid $lineColor;
+          cursor: pointer;
+        }
+        .author-name {
           display: flex;
-          align-items: center;
-          font-weight: normal;
-          .name {
-            margin-right: 15px;
-            font-size: $h3Font;
-            line-height: 22px;
-            color: $h1Color;
-            cursor: pointer;
-            @extend %textlight;
-          }
-          .stick {
-            box-sizing: border-box;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: 18px;
+          h4 {
             display: flex;
-            justify-content: center;
             align-items: center;
-            width: 36px;
-            height: 20px;
-            border-radius: 2px;
-            border:1px solid $themeColor;
-            font-size: $h4Font;
-            line-height: 20px;
-            color: $themeColor;
+            font-weight: normal;
+            .name {
+              margin-right: 15px;
+              font-size: $h3Font;
+              line-height: 22px;
+              color: $h1Color;
+              cursor: pointer;
+              @extend %textlight;
+            }
+            .stick {
+              box-sizing: border-box;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 36px;
+              height: 20px;
+              border-radius: 2px;
+              border:1px solid $themeColor;
+              font-size: $h4Font;
+              line-height: 20px;
+              color: $themeColor;
+            }
+          }
+          p {
+            display: flex;
+            align-items: center;
+            span {
+              margin-right: 14px;
+              font-size: $h4Font;
+              line-height: 20px;
+              color: $h3Color;
+            }
           }
         }
-        p {
-          display: flex;
-          align-items: center;
-          span {
-            margin-right: 14px;
-            font-size: $h4Font;
-            line-height: 20px;
-            color: $h3Color;
-          }
-        }
+      }
+      .iconfont {
+        font-size: 20px;
+        color: $h1Color;
+        cursor: pointer;
+        @extend %textlight;
       }
     }
     .detail-main {

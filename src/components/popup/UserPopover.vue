@@ -130,9 +130,3 @@
     }
   }
 </style>
-<style lang="scss">
-  .el-popover {
-    padding: 1px 0 0;
-    border: none;
-  }
-</style>

@@ -253,8 +253,6 @@
 </style>
 <style lang="scss">
   .el-popover {
-    padding: 1px 0 0;
-    border: none;
     .message {
       width: 340px;
       ul {
