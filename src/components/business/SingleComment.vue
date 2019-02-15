@@ -221,7 +221,7 @@
             span {
               margin-left: 4px;
               font-size: $h4Font;
-              line-height:20px;
+              line-height: 1;
               color: $h3Color;
             }
           }
