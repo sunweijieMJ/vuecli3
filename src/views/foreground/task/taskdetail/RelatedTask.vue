@@ -72,11 +72,13 @@ export default {
       align-items: center;
       .iconfont{
         cursor: pointer;
-        @extend %imglight;
         color: #948BEA;
         font-size: 20px;
         margin-right: 6px;
       }
+    }
+    .add:hover{
+      color: #948BEA;
     }
   }
   ul{
