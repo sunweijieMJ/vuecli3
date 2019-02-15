@@ -9,11 +9,11 @@
         <span>{{item.okr_type !== 3 ? item.okr_type_name : item.creator_info.department_name}}</span>
       </p>
       <div class="num">
-        <div class="name" @click.stop="paramsSkip('Profile', {id: item.creator_id})">
+        <div class="name" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_id}`)">
           <el-popover
             placement="bottom"
             trigger="hover">
-            <img slot="reference" :src="item.creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="paramsSkip('Profile', {id: item.creator_info.user_id})">
+            <img slot="reference" :src="item.creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_info.user_id}`)">
             <user-popover :userinfo="item.creator_info"></user-popover>
           </el-popover>
           <span class="user-name">{{item.creator_info.user_name}}</span>

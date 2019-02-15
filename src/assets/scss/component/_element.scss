@@ -180,13 +180,10 @@ $up-down: 30px;
 }
 
 .el-popover {
-  padding: 0;
+  padding: 1px 0 0;
   border: none;
   .popper__arrow {
     border-bottom-color: transparent !important;
-    &::after {
-      border-bottom-color: $themeColor !important;
-    }
   }
 }
 

@@ -13,7 +13,7 @@
             v-for="(item, index) in thump_list.slice(0,47)" :key="index"
             placement="bottom"
             trigger="hover">
-            <img slot="reference"  @click="paramsSkip('Profile', {id: item.user_id})" :src="item.header_photo" alt="">
+            <img slot="reference"  @click="pathSkip(`/foreground/fore_mine/profile/${item.user_id}`)" :src="item.header_photo" alt="">
             <user-popover :userinfo="item"></user-popover>
           </el-popover>
           <span class="max" v-if="thump_list.length >= 48">{{thump_list.length > 99 ? '99+' : thump_list.length}}</span>

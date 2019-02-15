@@ -6,12 +6,12 @@
         <el-popover
           placement="bottom-start"
           trigger="hover">
-          <img slot="reference" v-if="vitem.user_info" :src="vitem.user_info.header_photo" alt="" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">
+          <img slot="reference" v-if="vitem.user_info" :src="vitem.user_info.header_photo" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${vitem.user_info.user_id}`)">
           <user-popover :userinfo="vitem.user_info"></user-popover>
         </el-popover>
         <div class="author-name">
           <h4>
-            <span class="name" v-if="vitem.user_info" @click.stop="paramsSkip('Profile', {id: vitem.user_info.user_id})">{{vitem.user_info.user_name}}</span>
+            <span class="name" v-if="vitem.user_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${vitem.user_info.user_id}`)">{{vitem.user_info.user_name}}</span>
             <span class="stick" v-if="vitem.is_top">置顶</span>
           </h4>
           <p>
@@ -63,7 +63,7 @@
     <div class="list-comment" v-if="vitem.replys && vitem.replys.length" @click="pathSkip(`/foreground/fore_idea/idea_detail/${vitem.thinks_id}`)">
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
-          <h5 @click.stop="paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}：</h5>
+          <h5 @click.stop="pathSkip(`/foreground/fore_mine/profile/${witem.user_info.user_id}`)">{{witem.user_info.user_name}}：</h5>
           <p>{{witem.comment_content}}</p>
         </li>
       </ul>
@@ -324,6 +324,7 @@
             font-weight: normal;
             color: $linkBlue;
             cursor: pointer;
+            @extend %textlight;
           }
           p {
             @include tofl(100%);
@@ -343,10 +344,11 @@
       font-size: $h3Font;
       line-height: 25px;
       color: $h1Color;
-      @extend %textlight;
+      // @extend %textlight;
       a {
         font-size: $h3Font;
         color: $linkBlue;
+        @extend %textlight;
       }
     }
     >span {

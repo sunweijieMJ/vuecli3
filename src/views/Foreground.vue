@@ -17,10 +17,10 @@
                 <i slot="reference" class="iconfont icon-icon_inbox" @click="querySkip('NewsList')" @mouseenter="!unread_msg.num || getMessageList()"></i>
                 <div class="message">
                   <ul>
-                    <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
+                    <li v-for="(witem, windex) in message.list" :key="windex" @click.stop="unread_msg.show = false || pathSkip(`/foreground/fore_idea/idea_detail/${witem.origin_msg.thinks_id}`)">
                       <p>
-                        <span @click.stop="unread_msg.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
-                        <span @click.stop="unread_msg.show = false || pathSkip(`/foreground/fore_idea/idea_detail/${witem.origin_msg.thinks_id}`)">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中{{witem.message_title}}
+                        <span @click.stop="unread_msg.show = false || pathSkip(`/foreground/fore_mine/profile/${witem.user_info.user_id}`)">{{witem.user_info.user_name}}</span>
+                        {{witem.message_title}}
                       </p>
                     </li>
                   </ul>
@@ -261,11 +261,15 @@
           border-bottom: 1px solid $lineColor;
           font-size: $h3Font;
           line-height: 25px;
+          cursor: pointer;
+          &:hover {
+            background-color: $backColor;
+          }
           p {
             color: $h1Color;
             span {
               color: $linkBlue;
-              cursor: pointer;
+              @extend %textlight;
             }
           }
         }

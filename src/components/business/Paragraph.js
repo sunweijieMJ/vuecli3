@@ -1,7 +1,9 @@
 import UserApi from '../../api/User';
 import IdeaApi from '../../api/Idea';
+import frequent from '../../mixins/frequent';
 
 export default {
+  mixins: [frequent],
   render(createElement) {
     let that = this;
     if (!that.text) return;
@@ -37,7 +39,7 @@ export default {
                           that.$message({message: '用户不存在', type: 'warning'});
                         } else {
                           const id = Object.values(res.data.list)[0].user_id;
-                          that.$router.push({name: 'Profile', params: {id}});
+                          that.pathSkip(`/foreground/fore_mine/profile/${id}`);
                         }
                       }
                     });

@@ -25,7 +25,7 @@
       <el-popover
         placement="bottom-start"
         trigger="hover">
-        <img slot="reference" @click.stop="paramsSkip('Profile', {id: item.check_info.creator_id})" :src="item.check_info.creator_info.header_photo" alt="">
+        <img slot="reference" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.check_info.creator_id}`)" :src="item.check_info.creator_info.header_photo" alt="">
         <user-popover :userinfo="item.check_info.creator_info"></user-popover>
       </el-popover>
       <div class="info">

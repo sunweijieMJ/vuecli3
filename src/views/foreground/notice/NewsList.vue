@@ -80,7 +80,7 @@
         this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
       },
       goProFile(user_id){
-        this.$router.push({name: 'Profile', params: {id: user_id}});
+        this.pathSkip(`/foreground/fore_mine/profile/${user_id}`);
       },
       // 触底刷新
       infinite() {

@@ -6,12 +6,12 @@
         <el-popover
           placement="bottom"
           trigger="hover">
-          <img slot="reference" @click.stop="paramsSkip('Profile', {id: detail.user_id})" :src="detail.user_info.header_photo" alt="">
+          <img slot="reference" @click.stop="pathSkip(`/foreground/fore_mine/profile/${detail.user_id}`)" :src="detail.user_info.header_photo" alt="">
           <user-popover :userinfo="detail.user_info"></user-popover>
         </el-popover>
         <div class="author-name">
           <h4>
-            <span class="name" @click.stop="paramsSkip('Profile', {id: detail.user_id})">{{detail.user_info.user_name}}</span>
+            <span class="name" @click.stop="pathSkip(`/foreground/fore_mine/profile/${detail.user_id}`)">{{detail.user_info.user_name}}</span>
             <span class="stick" v-if="detail.is_top">置顶</span>
           </h4>
           <p>

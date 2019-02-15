@@ -87,15 +87,16 @@
 <script>
 import KeyResult from './okrdetail/KeyResult.vue';
 import KeyTask from './okrdetail/KeyTask';
+import frequent from '../../../mixins/frequent.js';
 import {Loading} from '../../../components/public';
 import {OKRPublish, TaskPublish} from '../../../components/okr';
 import dateFormat from '../../../utils/filters/dateFormat.js';
-
 import UserPopover from '../../../components/popup/UserPopover';
-
 import okrApi from '../../../api/Okr.js';
+
 export default {
   name: 'okrdetail',
+  mixins: [frequent],
   components: {KeyResult, KeyTask, Loading, OKRPublish, TaskPublish, UserPopover},
   data(){
     return {
@@ -120,8 +121,7 @@ export default {
   },
   methods: {
     goProFile(user_id){
-      // this.$router.push({name: 'Profile', params: {id: user_id}});
-      window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
+      this.pathSkip(`/foreground/fore_mine/profile/${user_id}`);
     },
     clear(){
       this.kt_list = [];

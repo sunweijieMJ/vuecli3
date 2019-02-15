@@ -1,5 +1,5 @@
 <template>
-  <div class="user-popover" @click.stop="paramsSkip('Profile', {id: userinfo.user_id})">
+  <div class="user-popover">
     <div class="user" v-if="userinfo">
       <img :src="userinfo.header_photo" alt="">
       <div class="user-info">
@@ -43,7 +43,6 @@
   .user-popover {
     width: 360px;
     height: 210px;
-    cursor: pointer;
     .user {
       box-sizing: border-box;
       display: flex;

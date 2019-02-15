@@ -1,16 +1,16 @@
 <template>
   <div class="single-comment" v-if="show_comment">
     <div class="comment-icon">
-      <img :src="item.user_info.header_photo" alt="" @click="paramsSkip('Profile', {id: item.user_info.user_id})">
+      <img :src="item.user_info.header_photo" alt="" @click="pathSkip(`/foreground/fore_mine/profile/${item.user_info.user_id}`)">
     </div>
     <div class="comment-info">
       <div class="info-name">
         <p>
-          <span @click="paramsSkip('Profile', {id: item.user_info.user_id})">{{item.user_info.user_name}}</span>
+          <span @click="pathSkip(`/foreground/fore_mine/profile/${item.user_info.user_id}`)">{{item.user_info.user_name}}</span>
           <span v-if="parent_user">&nbsp;(回复)&nbsp;</span>
         </p>
         <p v-if="parent_user">
-          <span @click="paramsSkip('Profile', {id: parent_user.user_id})">{{parent_user.user_name}}</span>
+          <span @click="pathSkip(`/foreground/fore_mine/profile/${parent_user.user_id}`)">{{parent_user.user_name}}</span>
         </p>
       </div>
       <div class="info-paragraph">
@@ -182,6 +182,7 @@
             cursor: pointer;
             &:first-child {
               color: $linkBlue;
+              @extend %textlight;
             }
           }
         }
