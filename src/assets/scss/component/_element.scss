@@ -225,6 +225,7 @@ $up-down: 30px;
       font-weight: $h1Weight;
       line-height: 40px;
       border: 1px solid $themeColor;
+      @extend %imglight;
       &:first-child {
         color: $themeColor;
         background-color: #fff;
