@@ -91,6 +91,7 @@
             background-color: transparent;
             font-size: $h3Font;
             color: $h2Color;
+            @extend %textlight;
           }
         }
       }

@@ -42,7 +42,9 @@
   // 滑过特效
   %alllight {
     &:hover {
-      filter: brightness(120%);
+      i, img {
+        filter: brightness(120%);
+      }
       span {
         color: $themeColor;
       }
