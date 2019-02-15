@@ -169,6 +169,7 @@
           font-family:PingFangSC-Regular;
           color: #303133;
           .name{
+            @extend %textlight;
             color:rgba(85,129,199,1);
           }
           .date{
@@ -180,6 +181,7 @@
         .comment-idea{
           margin-top: 9px;
           p{
+            // @extend %textlight;
             font-size:15px;
             font-family:PingFangSC-Regular;
             word-break: break-word;
@@ -209,6 +211,7 @@
             height: 16px;
           }
           p{
+            // @extend %textlight;
             font-size:15px;
             font-family:PingFangSC-Regular;
             color:rgba(96,98,102,1);
