@@ -199,11 +199,12 @@
       padding: 0 66px;
       border-bottom: 1px solid $lineColor;
       .main-paragraph {
-        margin: 20px 0 8px;
+        margin-top: 20px;
       }
       .main-images {
         width: 668px;
         overflow: hidden;
+        margin-top: 8px;
         .image-box {
           overflow: hidden;
           float: left;
@@ -230,7 +231,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 30px;
+        padding: 25px 0 30px;
         .num-left {
           display: flex;
           align-items: center;

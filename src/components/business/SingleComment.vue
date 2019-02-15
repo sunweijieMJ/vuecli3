@@ -73,16 +73,20 @@
         let that = this;
         const thinksId = +that.$route.params.id;
         if(commentContent.trim()) {
-          IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
-            if(res.status) {
-              that.textEnabled.status = false;
-              if(that.root.hasOwnProperty('index')) {
-                that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id, index: that.root.index});
-              } else {
-                that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id});
+          if(commentContent.length > 500) {
+            that.$message({message: '评论不能超过500字', type: 'warning'});
+          } else {
+            IdeaApi().PubishComment({thinksId, commentId, commentContent}).then(res => {
+              if(res.status) {
+                that.textEnabled.status = false;
+                if(that.root.hasOwnProperty('index')) {
+                  that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id, index: that.root.index});
+                } else {
+                  that.$emit('commentSuccess', {data: res.data, id: that.root.comment_id});
+                }
               }
-            }
-          });
+            });
+          }
         } else {
           that.$message({message: '评论不能为空', type: 'warning'});
         }

@@ -209,18 +209,22 @@
       sendComment(thinksId, commentContent) {
         let that = this;
         if(commentContent.trim()) {
-          IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
-            if(res.status) {
-              const textarea = that.$el.querySelector('.detail-comment textarea');
-              textarea.value = '';
-              autoTextarea(textarea);
-              that.textEnabled = {
-                status: false,
-                text: ''
-              };
-              that.commentSuccess({data: res.data});
-            }
-          });
+          if(commentContent.length > 500) {
+            that.$message({message: '评论不能超过500字', type: 'warning'});
+          } else {
+            IdeaApi().PubishComment({thinksId, commentContent}).then(res => {
+              if(res.status) {
+                const textarea = that.$el.querySelector('.detail-comment textarea');
+                textarea.value = '';
+                autoTextarea(textarea);
+                that.textEnabled = {
+                  status: false,
+                  text: ''
+                };
+                that.commentSuccess({data: res.data});
+              }
+            });
+          }
         } else {
           that.$message({message: '评论不能为空', type: 'warning'});
         }
