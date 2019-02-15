@@ -33,7 +33,10 @@
                 <svg class="icon" aria-hidden="true" v-if="a.content && a.content.status === 2">
                   <use xlink:href="#icon-icon_info"></use>
                 </svg>
-                <p v-if="a.content" :class="{isread: (a.content.type == 1 && a.content.status === 2) ? true : false}">
+                <p class="isread" v-if="a.content && a.content.status === 2">
+                  {{a.content.content}}
+                </p>
+                <p v-else>
                   {{a.content.content}}
                 </p>
               </div>
@@ -209,14 +212,13 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          color: #909399;
           .icon-con{
             width: 100%;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             .isread{
-              color: #909399;
+              color: #909399 !important;
             }
           }
           .icon{
@@ -228,7 +230,7 @@
             font-size:15px;
             line-height: 17px;
             font-family:PingFangSC-Regular;
-            color: #909399;
+            color: rgba(96,98,102,1);
             line-height:25px;
             text-overflow: ellipsis;
             overflow: hidden;
