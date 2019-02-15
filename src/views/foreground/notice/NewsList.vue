@@ -26,9 +26,15 @@
               </p>
             </div>
             <div class="distr">
-              <p v-if="a.content">
-                {{a.content.content}}
-              </p>
+              <div class="icon-con">
+                <svg class="icon" aria-hidden="true" v-if="a.content && a.content.status === 2">
+                  <use xlink:href="#icon-icon_info"></use>
+                </svg>
+                <p v-if="a.content" :class="{isread: a.content.status === 2 ? true : false}">
+                  {{a.content.content}}
+                </p>
+              </div>
+              <span v-if="a.content && a.content.status === 2">1</span>
             </div>
           </div>
         </li>
@@ -180,6 +186,21 @@
           margin-top: 13px;
           padding: 14px 17px;
           background:rgba(246,246,246,1);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .icon-con{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .isread{
+              color: #909399;
+            }
+          }
+          .icon{
+            width: 26px;
+            height: 16px;
+          }
           p{
             font-size:15px;
             font-family:PingFangSC-Regular;
@@ -188,6 +209,16 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+          }
+          span{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50px;
+            color: white;
+            background: #FF7678;
+            line-height: 20px;
+            text-align: center;
           }
         }
       }
