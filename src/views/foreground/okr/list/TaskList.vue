@@ -125,7 +125,7 @@
           width: 180px;
         }
         p {
-          font-size: $h4Font;
+          font-size: $h3Font;
           font-weight: $h1Weight;
           color: $h3Color;
         }
