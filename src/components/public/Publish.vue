@@ -21,7 +21,8 @@
         offset: {}, // ETC 光标位置
         cursor: 0,
         autoTextarea,
-        user_list: []
+        user_list: [],
+        user_input: ''
       };
     },
     methods: {
@@ -113,6 +114,7 @@
         padding: 0 16px;
         font-size: $h3Font;
         color: $h1Color;
+        cursor: pointer;
         &:hover {
           background-color: $backColor;
         }

@@ -215,12 +215,10 @@
     }
     .list-main {
       overflow: hidden;
-      .main-paragraph {
-        margin-bottom: 7px;
-      }
       .main-images {
         position: relative;
         overflow: hidden;
+        margin-top: 7px;
         .image-box {
           overflow: hidden;
           float: left;
@@ -253,7 +251,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 20px;
+      padding-top: 12px;
       .num-left {
         display: flex;
         align-items: center;
@@ -302,7 +300,7 @@
       }
     }
     .list-comment {
-      margin-top: 20px;
+      margin-top: 12px;
       padding: 15px 20px;
       background-color: $backColor;
       cursor: pointer;

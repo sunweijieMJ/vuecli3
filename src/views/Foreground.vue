@@ -17,7 +17,7 @@
                 <i slot="reference" class="iconfont icon-icon_inbox" @click="querySkip('NewsList')" @mouseenter="!unread_msg.num || getMessageList()"></i>
                 <div class="message">
                   <ul>
-                    <li v-for="(witem, windex) in message.list" :key="windex" @click.stop="unread_msg.show = false || pathSkip(`/foreground/fore_idea/idea_detail/${witem.origin_msg.thinks_id}`)">
+                    <li v-for="(witem, windex) in message.list" :key="windex" @click.stop="unread_msg.show = false || skipDetail(witem)">
                       <p>
                         <span @click.stop="unread_msg.show = false || pathSkip(`/foreground/fore_mine/profile/${witem.user_info.user_id}`)">{{witem.user_info.user_name}}</span>
                         {{witem.message_title}}
@@ -103,6 +103,14 @@
           this.$router.push({name: 'OKRList', query: {okr_type: 0}});
         } else {
           this.$router.push({name: item.name, query: {time: Date.now()}});
+        }
+      },
+      skipDetail(witem) {
+        let that = this;
+        if(witem.origin_msg.status === 2) {
+          that.$message({message: witem.origin_msg.content, type: 'warning'});
+        } else {
+          that.pathSkip(`/foreground/fore_idea/idea_detail/${witem.origin_msg.thinks_id}`);
         }
       },
       // 消息列表
