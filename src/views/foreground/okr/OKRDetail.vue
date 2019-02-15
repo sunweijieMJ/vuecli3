@@ -44,7 +44,14 @@
           </div>
         </div>
         <div class="right">
-          <img v-for="(a, index) in AllJoinner" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
+          <el-popover
+            placement="bottom"
+            trigger="hover"
+            v-for="(a, index) in AllJoinner" :key="index"
+            class="head-img">
+            <img slot="reference" style="cursor: pointer;" v-if="a" :src="a.header_photo" alt="" @click.stop="goProFile(a.user_id)">
+            <user-popover :userinfo="a"></user-popover>
+          </el-popover>
           <el-dropdown @command="showAllJoinner" v-if="AllJoinnerNum.length && AllJoinnerNum.length > 6">
             <span class="el-dropdown-link">
               <div class="all-per" v-if="AllJoinnerNum">{{AllJoinnerNum.length}}</div>
@@ -84,10 +91,12 @@ import {Loading} from '../../../components/public';
 import {OKRPublish, TaskPublish} from '../../../components/okr';
 import dateFormat from '../../../utils/filters/dateFormat.js';
 
+import UserPopover from '../../../components/popup/UserPopover';
+
 import okrApi from '../../../api/Okr.js';
 export default {
   name: 'okrdetail',
-  components: {KeyResult, KeyTask, Loading, OKRPublish, TaskPublish},
+  components: {KeyResult, KeyTask, Loading, OKRPublish, TaskPublish, UserPopover},
   data(){
     return {
       dateFormat,
@@ -110,6 +119,9 @@ export default {
     };
   },
   methods: {
+    goProFile(user_id){
+      this.$router.push({name: 'Profile', params: {id: user_id}});
+    },
     clear(){
       this.kt_list = [];
       this.task_id = '';
