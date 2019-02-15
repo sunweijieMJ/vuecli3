@@ -24,8 +24,15 @@
                   </div>
                 </div>
                 <div @mouseover="overlayShow(ktindex)">
-                  <el-progress :percentage="kt.progress" ></el-progress>
+                  <el-progress v-if="kt.status_name !== '完成'" :percentage="kt.progress" ></el-progress>
+                  <div class="finally-status" v-if="kt.status_name == '完成'">
+                    <span class="cont">完成度</span>
+                    <span class="span2">
+                      <span class="number">{{kt.progress}}</span><span>%</span>
+                    </span>
+                  </div>
                 </div>
+                
               </div>
               <task-check :item="kt"></task-check>
             </div>
@@ -46,9 +53,16 @@
                     <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}-{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
                 </div>
-                <div @mouseover="overlayShowChild(tindex)">
-                  <el-progress :percentage="t.progress" ></el-progress>
+                <div @mouseover="overlayShowChild(tindex)" class="right">
+                  <el-progress v-if="t.status_name !== '完成'" :percentage="t.progress" ></el-progress>
+                  <div class="finally-status" v-if="t.status_name == '完成'">
+                    <span class="cont">完成度</span>
+                    <span class="span2">
+                      <span class="number">{{t.progress}}</span><span>%</span>
+                    </span>
+                  </div>
                 </div>
+                
               </div>
               <task-check :item="t"></task-check>
             </li>
@@ -231,6 +245,22 @@ export default {
       font-size:13px;
       color:#606266;
       line-height: 1;
+      .finally-status{
+        width: 90px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        .cont{
+          color: #606266;
+          line-height: 26px;
+        }
+        .span2{
+          color: #FF7678;
+          .number{
+            font-size: 22px;
+          }
+        }
+      }
       .left{
         width: 340px;
         font-weight: normal;
@@ -330,6 +360,27 @@ export default {
               height: 20px;
               border-radius: 50px;
               margin-right: 7px;
+            }
+          }
+          .right{
+            .finally-status{
+              width: 90px;
+              display: flex;
+              justify-content: space-between;
+              font-size: 13px;
+              span{
+                line-height: normal;
+              }
+              .cont{
+                color: #606266;
+                line-height: 30px;
+              }
+              .span2{
+                color: #FF7678;
+                .number{
+                  font-size: 22px;
+                }
+              }
             }
           }
         }

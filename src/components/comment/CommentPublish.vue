@@ -484,12 +484,16 @@ export default {
         color:rgba(48,49,51,1);
         display: flex;
         align-items: center;
+        i{
+          @extend %imglight;
+        }
         span{
           margin-left: 8px;
         }
       }
       .submit{
         cursor: pointer;
+        @extend %textlight;
         width: 90px;
         height: 40px;
         text-align: center;
@@ -525,6 +529,7 @@ export default {
         justify-content: flex-end;
         .submit{
           cursor: pointer;
+          @extend %textlight;
           width: 90px;
           height: 40px;
           text-align: center;
