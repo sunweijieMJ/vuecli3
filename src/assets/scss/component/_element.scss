@@ -180,10 +180,10 @@ $up-down: 30px;
 }
 
 .el-popover {
-  padding: 1px 0 0;
+  padding: 0;
   border: none;
   .popper__arrow {
-    border-bottom-color: transparent !important;
+    display: none;
   }
 }
 
