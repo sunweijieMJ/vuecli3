@@ -197,6 +197,7 @@
           justify-content: space-between;
           align-items: center;
           .icon-con{
+            width: 100%;
             display: flex;
             justify-content: flex-start;
             align-items: center;
