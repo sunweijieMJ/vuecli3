@@ -75,9 +75,8 @@
         if(status === 2){
 
         }else{
-          this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
+          window.open(`/foreground/fore_idea/idea_detail/${user_id}`, '_blank');
         }
-        this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
       },
       goProFile(user_id){
         this.pathSkip(`/foreground/fore_mine/profile/${user_id}`);
