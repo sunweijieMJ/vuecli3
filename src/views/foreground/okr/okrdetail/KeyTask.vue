@@ -27,7 +27,7 @@
                     <span @click.stop="goProFile(kt.users_info.user_id)" class="head-name">{{kt.users_info.user_name}}</span>
                   </div>
                   <div>
-                    <span>{{dateFormat(kt.start_time, 'yyyy/MM/dd')}}--{{dateFormat(kt.end_time, 'yyyy/MM/dd')}}</span>
+                    <span>{{dateFormat(kt.start_time, 'yyyy/MM/dd')}}-{{dateFormat(kt.end_time, 'yyyy/MM/dd')}}</span>
                   </div>
                 </div>
                 <div @mouseover="overlayShow(ktindex)">

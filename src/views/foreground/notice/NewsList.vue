@@ -21,9 +21,12 @@
               <span class="date">{{a.publish_time | timeFilter}}</span>
             </div>
             <div class="comment-idea">
-              <p>
+              <p v-if="a.content.type === 2 && a.content.status !== 2">
                 {{a.message_desc}}
               </p>
+              <span class="bg-gray" v-if="a.content.type === 2 && a.content.status === 2">
+                {{a.message_desc}}
+              </span>
             </div>
             <div class="distr">
               <div class="icon-con">
@@ -180,6 +183,10 @@
         }
         .comment-idea{
           margin-top: 9px;
+          .bg-gray{
+            background-color: #F6F6F6;
+            border-radius: 11px;
+          }
           p{
             // @extend %textlight;
             font-size:15px;
@@ -188,11 +195,15 @@
             color:rgba(96,98,102,1);
             line-height:22px;
           }
+          span{
+            font-size: 15px;
+            padding: 4px 10px;
+          }
         }
         .distr{
           width: 652px;
           margin-top: 13px;
-          padding: 14px 17px;
+          padding: 12px 17px;
           background:rgba(246,246,246,1);
           display: flex;
           justify-content: space-between;
@@ -213,6 +224,7 @@
           p{
             // @extend %textlight;
             font-size:15px;
+            line-height: 17px;
             font-family:PingFangSC-Regular;
             color:rgba(96,98,102,1);
             line-height:25px;
