@@ -10,14 +10,21 @@
                   <i v-if="kt.sub_tasks && kt.sub_tasks.length" style="cursor: pointer;" class="iconfont icon-sanjiaoyou"></i>
                 </div>
                 <div>
-                  <span class="task-box-kt">KT</span><span style="cursor: pointer;" @click.stop="gotTaskDetail(kt.task_id)">{{kt.task_name}}</span>
+                  <span class="task-box-kt">KT</span><span class="got-task-detail" style="cursor: pointer;" @click.stop="gotTaskDetail(kt.task_id)">{{kt.task_name}}</span>
                 </div>
               </div>
               <div class="objactive">
                 <div class="left">
                   <div class="img" v-if="kt.users_info">
-                    <img :src="kt.users_info.header_photo" alt="">
-                    <span>{{kt.users_info.user_name}}</span>
+                    <!-- <img :src="kt.users_info.header_photo" alt=""> -->
+                    <el-popover
+                      placement="bottom"
+                      trigger="hover"
+                      class="head-img">
+                      <img slot="reference" style="cursor: pointer;" v-if="kt.users_info" :src="kt.users_info.header_photo" alt="" @click.stop="goProFile(kt.users_info.user_id)">
+                      <user-popover :userinfo="kt.users_info"></user-popover>
+                    </el-popover>
+                    <span @click.stop="goProFile(kt.users_info.user_id)" class="head-name">{{kt.users_info.user_name}}</span>
                   </div>
                   <div>
                     <span>{{dateFormat(kt.start_time, 'yyyy/MM/dd')}}--{{dateFormat(kt.end_time, 'yyyy/MM/dd')}}</span>
@@ -46,8 +53,15 @@
               <div class="date">
                 <div class="left">
                   <div class="img">
-                    <img :src="t.users_info.header_photo" alt="">
-                    <span>{{t.users_info.user_name}}</span>
+                    <!-- <img :src="t.users_info.header_photo" alt=""> -->
+                    <el-popover
+                      placement="bottom"
+                      trigger="hover"
+                      class="head-img">
+                      <img slot="reference" style="cursor: pointer;" v-if="t.users_info" :src="t.users_info.header_photo" alt="" @click.stop="goProFile(t.users_info.user_id)">
+                      <user-popover :userinfo="t.users_info"></user-popover>
+                    </el-popover>
+                    <span @click.stop="goProFile(t.users_info.user_id)" class="head-name">{{t.users_info.user_name}}</span>
                   </div>
                   <div>
                     <span>{{dateFormat(t.start_time, 'yyyy/MM/dd')}}-{{dateFormat(t.end_time, 'yyyy/MM/dd')}}</span>
@@ -81,9 +95,10 @@
 import dateFormat from '../../../../utils/filters/dateFormat.js';
 import TaskCheck from '../../../../components/popup/TaskCheck.vue';
 import {TaskFollow, TaskClose} from '../../../../components/okr';
+import UserPopover from '../../../../components/popup/UserPopover';
 
 export default {
-  components: {TaskCheck, TaskFollow, TaskClose},
+  components: {TaskCheck, TaskFollow, TaskClose, UserPopover},
   name: 'keyTask',
   props: ['kt_list'],
   data(){
@@ -95,6 +110,10 @@ export default {
     };
   },
   methods: {
+    goProFile(user_id){
+      // this.$router.push({name: 'Profile', params: {id: user_id}});
+      window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
+    },
     handleChange(val){
       this.activeNames = val;
     },
@@ -164,6 +183,9 @@ export default {
     .task-box{
       padding-right: 50px;
       position: relative;
+      .got-task-detail{
+        @extend %textlight;
+      }
       &:hover .task-check{
         opacity: 1;
         background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
@@ -276,6 +298,10 @@ export default {
         .img{
           display: flex;
           align-items: center;
+          .head-name{
+            cursor: pointer;
+            @extend %textlight;
+          }
         }
       }
     }
@@ -322,6 +348,7 @@ export default {
         }
         .title{
           cursor: pointer;
+          @extend %textlight;
           display: flex;
           align-items: center;
           font-size:15px;
@@ -354,6 +381,10 @@ export default {
             .img{
               display: flex;
               align-items: center;
+              .head-name{
+                cursor: pointer;
+                @extend %textlight;
+              }
             }
             img{
               width: 20px;

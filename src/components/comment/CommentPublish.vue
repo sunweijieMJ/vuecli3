@@ -484,16 +484,19 @@ export default {
         color:rgba(48,49,51,1);
         display: flex;
         align-items: center;
-        i{
-          @extend %imglight;
-        }
+        @extend %alllight;
         span{
           margin-left: 8px;
         }
       }
+      .u-i-i:hover{
+        span{
+          @extend %textlight;
+        }
+      }
       .submit{
         cursor: pointer;
-        @extend %textlight;
+        @extend %imglight;
         width: 90px;
         height: 40px;
         text-align: center;
@@ -529,7 +532,7 @@ export default {
         justify-content: flex-end;
         .submit{
           cursor: pointer;
-          @extend %textlight;
+          @extend %imglight;
           width: 90px;
           height: 40px;
           text-align: center;

@@ -5,7 +5,7 @@
         提醒
       </div>
       <ul v-if="for_list.length">
-        <li v-for="(a, index) in for_list" :key="index" v-if="a.name" @click="goIdeaDetail(a.content.thinks_id)">
+        <li v-for="(a, index) in for_list" :key="index" v-if="a.name" @click="goIdeaDetail(a.content.thinks_id, a.content.status)">
           <el-popover
             placement="bottom"
             trigger="hover"
@@ -34,7 +34,7 @@
                   {{a.content.content}}
                 </p>
               </div>
-              <span v-if="a.content && a.content.status === 2">1</span>
+              <!-- <span v-if="a.content && a.content.status === 2">1</span> -->
             </div>
           </div>
         </li>
@@ -71,8 +71,13 @@
       };
     },
     methods: {
-      goIdeaDetail(user_id){
-        this.pathSkip(`/foreground/fore_idea/idea_detail/${user_id}`);
+      goIdeaDetail(user_id, status){
+        if(status === 2){
+
+        }else{
+          this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
+        }
+        this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
       },
       goProFile(user_id){
         this.$router.push({name: 'Profile', params: {id: user_id}});
@@ -212,16 +217,16 @@
             overflow: hidden;
             white-space: nowrap;
           }
-          span{
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 50px;
-            color: white;
-            background: #FF7678;
-            line-height: 20px;
-            text-align: center;
-          }
+          // span{
+          //   display: inline-block;
+          //   width: 20px;
+          //   height: 20px;
+          //   border-radius: 50px;
+          //   color: white;
+          //   background: #FF7678;
+          //   line-height: 20px;
+          //   text-align: center;
+          // }
         }
       }
     }

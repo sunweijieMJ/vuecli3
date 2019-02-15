@@ -52,7 +52,15 @@
             </div>
           </div>
           <div class="right">
-            <img v-for="(a, index) in task_basic.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt="">
+            <!-- <img v-for="(a, index) in task_basic.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt=""> -->
+            <el-popover
+              placement="bottom"
+              trigger="hover"
+              v-for="(a, index) in task_basic.participants" :key="index"
+              class="head-img">
+              <img slot="reference" style="cursor: pointer;" v-if="a" :src="a.header_photo" alt="" @click.stop="goProFile(a.user_id)">
+              <user-popover :userinfo="a"></user-popover>
+            </el-popover>
             <el-dropdown v-if="task_basic.participants && task_basic.participants.length > 6" @command="showAllJoinner">
               <span class="el-dropdown-link">
                 <div class="all-per" v-if="task_basic.participants">{{task_basic.participants.length}}</div>
@@ -87,11 +95,13 @@ import TaskDynamic from './taskdetail/TaskDynamic';
 import RelatedTask from './taskdetail/RelatedTask';
 import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
+
+import UserPopover from '../../../components/popup/UserPopover';
 import {TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, RelatedTask, Loading, TaskPublish, TaskFollow, TaskClose
+    TaskDynamic, RelatedTask, Loading, TaskPublish, TaskFollow, TaskClose, UserPopover
   },
   data(){
     return {
@@ -115,6 +125,10 @@ export default {
     };
   },
   methods: {
+    goProFile(user_id){
+      // this.$router.push({name: 'Profile', params: {id: user_id}});
+      window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
+    },
     goOkrDetail(obj_id){
       window.open(`/foreground/fore_okr/okr_detail/${obj_id}`, '_blank');
     },
@@ -238,6 +252,7 @@ export default {
     }
     .chao-link{
       cursor: pointer;
+      @extend %textlight;
       // margin-top: 11px;
       margin-left: 46px;
       font-size:15px;
@@ -289,6 +304,8 @@ export default {
         }
       }
       .el-dropdown-link{
+        cursor: pointer;
+        @extend %imglight;
         .icon{
           width: 38px;
           height: 38px;

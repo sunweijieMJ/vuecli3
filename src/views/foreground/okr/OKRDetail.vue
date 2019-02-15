@@ -120,7 +120,8 @@ export default {
   },
   methods: {
     goProFile(user_id){
-      this.$router.push({name: 'Profile', params: {id: user_id}});
+      // this.$router.push({name: 'Profile', params: {id: user_id}});
+      window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
     },
     clear(){
       this.kt_list = [];
@@ -298,6 +299,8 @@ export default {
       }
     }
     .el-dropdown-link{
+      cursor: pointer;
+      @extend %imglight;
       .icon{
         width: 38px;
         height: 38px;
@@ -366,6 +369,7 @@ export default {
       }
       .iconfont{
         cursor: pointer;
+        @extend %imglight;
         color: #948BEA;
         font-size: 20px;
         margin-left: 20px;

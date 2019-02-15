@@ -10,7 +10,14 @@
       <li v-for="(rt, rtindex) in task_list" :key="rtindex">
         <span class="related-t">T</span>
         <span class="con" @click.stop="gotTaskDetail(rt.task_id)">{{rt.task_name}}</span>
-        <img :src="rt.user_info.header_photo" alt="">
+        <!-- <img :src="rt.user_info.header_photo" alt=""> -->
+        <el-popover
+          placement="bottom"
+          trigger="hover"
+          class="head-img">
+          <img slot="reference" style="cursor: pointer;" v-if="rt.user_info" :src="rt.user_info.header_photo" alt="" @click.stop="goPersonal(rt.user_info.user_id)">
+          <user-popover :userinfo="rt.user_info"></user-popover>
+        </el-popover>
       </li>
     </ul>
     <ul class="null" v-if="task_list.length === 0">
@@ -19,15 +26,22 @@
   </div>
 </template>
 <script>
+import UserPopover from '../../../../components/popup/UserPopover';
 export default {
   name: 'RelatedTask',
   props: ['task_list', 'keyTask'],
+  components: {
+    UserPopover
+  },
   data(){
     return {
 
     };
   },
   methods: {
+    goPersonal(user_id){
+      window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
+    },
     Judge(){
       this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: this.keyTask});
     },
@@ -57,6 +71,8 @@ export default {
       display: flex;
       align-items: center;
       .iconfont{
+        cursor: pointer;
+        @extend %imglight;
         color: #948BEA;
         font-size: 20px;
         margin-right: 6px;
@@ -85,6 +101,7 @@ export default {
       }
       .con{
         cursor: pointer;
+        @extend %textlight;
         margin-left: 8px;
         margin-right: 27px;
         width: 258px;

@@ -11,7 +11,14 @@
       </li>
       <li>
         <div class="person-photo">
-          <img :src="dy.user_info.header_photo" alt="" @click="goPersonal(dy.user_info.user_id)">
+          <!-- <img :src="dy.user_info.header_photo" alt="" @click="goPersonal(dy.user_info.user_id)"> -->
+          <el-popover
+            placement="bottom"
+            trigger="hover"
+            class="head-img">
+            <img slot="reference" style="cursor: pointer;" v-if="dy.user_info" :src="dy.user_info.header_photo" alt="" @click.stop="goPersonal(dy.user_info.user_id)">
+            <user-popover :userinfo="dy.user_info"></user-popover>
+          </el-popover>
           <div>
             <p>
               <span class="name" @click="goPersonal(dy.user_info.user_id)">{{dy.user_info.user_name}}</span>
@@ -52,15 +59,19 @@
   </div>
 </template>
 <script>
+import UserPopover from '../../../../components/popup/UserPopover';
 export default {
   name: 'TaskDynamic',
   props: ['dynamic_list', 'dynamic_num'],
+  components: {
+    UserPopover
+  },
   data(){
     return {
       value1: 3
     };
   },
-  methods:{
+  methods: {
     goPersonal(user_id){
       window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
     }
@@ -113,6 +124,7 @@ export default {
         }
         .name{
           cursor: pointer;
+          @extend %textlight;
           color: #303133;
           margin-right: 7px;
         }

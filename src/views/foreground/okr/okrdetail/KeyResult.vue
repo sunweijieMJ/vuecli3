@@ -21,9 +21,13 @@
   </div>
 </template>
 <script>
+import UserPopover from '../../../../components/popup/UserPopover';
 export default {
   name: 'keyresult',
   props: ['kr_list', 'okr_detail'],
+  components: {
+    UserPopover
+  },
   data(){
     return {
 
