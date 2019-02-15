@@ -306,6 +306,9 @@
       padding: 15px 20px;
       background-color: $backColor;
       cursor: pointer;
+      &:hover {
+        background-color: #eae9e9;
+      }
       .comment {
         >li {
           display: flex;
