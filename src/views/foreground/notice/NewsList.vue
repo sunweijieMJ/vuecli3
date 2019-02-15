@@ -123,7 +123,7 @@
 </script>
 <style lang="scss" scoped>
 .new-list{
-  margin-top: 5px;
+  // margin-top: 5px;
   width: 100%;
   background-color: white;
   // text-align: left;
@@ -185,7 +185,7 @@
           margin-top: 9px;
           .bg-gray{
             background-color: #F6F6F6;
-            border-radius: 11px;
+            border-radius: 50px;
           }
           p{
             // @extend %textlight;
@@ -196,8 +196,9 @@
             line-height:22px;
           }
           span{
+            color: #909399;
             font-size: 15px;
-            padding: 4px 10px;
+            padding: 2px 10px;
           }
         }
         .distr{
