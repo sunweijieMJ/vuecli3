@@ -364,6 +364,9 @@
         font-size: $h3Color;
         color: $h1Color;
         cursor: pointer;
+        &:hover {
+          background-color: $backColor;
+        }
       }
     }
   }

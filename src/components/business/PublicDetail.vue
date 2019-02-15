@@ -290,4 +290,20 @@
       }
     }
   }
+  .el-popover {
+    .idea-delete {
+      li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        font-size: $h3Color;
+        color: $h1Color;
+        cursor: pointer;
+        &:hover {
+          background-color: $backColor;
+        }
+      }
+    }
+  }
 </style>
