@@ -73,6 +73,7 @@ $up-down: 30px;
     border:1px solid $themeColor;
     color: $themeColor;
     background-color: #fff;
+    @extend %imglight;
   }
   &.confirm {
     width: 90px;
@@ -100,6 +101,7 @@ $up-down: 30px;
     color: $linkBlue;
     border:1px solid $linkBlue;
     background-color: #fff;
+    @extend %imglight;
   }
 }
 // input控件

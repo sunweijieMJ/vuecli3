@@ -29,13 +29,13 @@
     </div>
     <!-- 文本内容 -->
     <div class="list-main">
-      <div class="main-paragraph" v-if="vitem.content" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+      <div class="main-paragraph" v-if="vitem.content" @click="pathSkip(`/foreground/fore_idea/idea_detail/${vitem.thinks_id}`)">
         <paragraph :text="vitem.content"></paragraph>
-        <span v-calcText>...全文</span>
+        <span v-calcText>全文</span>
       </div>
       <div class="main-images" v-if="vitem.photos && vitem.photos.length">
         <div class="image-box" v-for="(witem, windex) in vitem.photos.slice(0, 4)" :key="windex">
-          <img v-calcImg="vitem.photos.length" :src="vitem.photos.length === 1 ? imageSize(witem, 'origin') : witem" alt="" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+          <img v-calcImg="vitem.photos.length" :src="vitem.photos.length === 1 ? imageSize(witem, 'origin') : witem" alt="" @click="pathSkip(`/foreground/fore_idea/idea_detail/${vitem.thinks_id}`)">
         </div>
         <span v-if="vitem.photos.length > 4">{{vitem.photos.length}}</span>
       </div>
@@ -48,7 +48,7 @@
           <span>{{vitem.zan}}</span>
         </p>
         <p>
-          <i class="iconfont icon-icon_comment" @click.stop="paramsSkip('IdeaDetail', {id: vitem.thinks_id})"></i>
+          <i class="iconfont icon-icon_comment" @click.stop="pathSkip(`/foreground/fore_idea/idea_detail/${vitem.thinks_id}`)"></i>
           <span>{{vitem.total_comments}}</span>
         </p>
       </div>
@@ -60,7 +60,7 @@
       </div>
     </div>
     <!-- 评论区 -->
-    <div class="list-comment" v-if="vitem.replys && vitem.replys.length" @click="paramsSkip('IdeaDetail', {id: vitem.thinks_id})">
+    <div class="list-comment" v-if="vitem.replys && vitem.replys.length" @click="pathSkip(`/foreground/fore_idea/idea_detail/${vitem.thinks_id}`)">
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
           <h5 @click.stop="paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}：</h5>

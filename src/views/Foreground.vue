@@ -20,7 +20,7 @@
                     <li v-for="(witem, windex) in message.list" :key="windex" @click="querySkip('NewsList')">
                       <p>
                         <span @click.stop="unread_msg.show = false || paramsSkip('Profile', {id: witem.user_info.user_id})">{{witem.user_info.user_name}}</span>在
-                        <span @click.stop="unread_msg.show = false || paramsSkip('IdeaDetail', {id: witem.origin_msg.thinks_id})">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中{{witem.message_title}}
+                        <span @click.stop="unread_msg.show = false || pathSkip(`/foreground/fore_idea/idea_detail/${witem.origin_msg.thinks_id}`)">{{readMore(witem.origin_msg.content, 30, '...')}}</span>中{{witem.message_title}}
                       </p>
                     </li>
                   </ul>

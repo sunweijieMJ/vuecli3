@@ -47,9 +47,11 @@
   import UserPopover from '../../../components/popup/UserPopover';
   import NoticeApi from '../../../api/Notice.js';
   import {Loading} from '../../../components/public';
+  import frequent from '../../../mixins/frequent.js';
 
   export default {
     name: 'NewsList',
+    mixins: [frequent],
     components: {
       UserPopover, Loading
     },
@@ -70,7 +72,7 @@
     },
     methods: {
       goIdeaDetail(user_id){
-        this.$router.push({name: 'IdeaDetail', params: {id: user_id}});
+        this.pathSkip(`/foreground/fore_idea/idea_detail/${user_id}`);
       },
       goProFile(user_id){
         this.$router.push({name: 'Profile', params: {id: user_id}});
