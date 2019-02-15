@@ -71,7 +71,7 @@
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
         <span class="span2" v-show="okr_detail.is_parter" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">
-          <span class="iconfont icon-btn_add_kt1"></span>
+          <i class="iconfont icon-btn_add_kt1"></i>
           <span class="task-add" >添加</span>
         </span>
       </div>
@@ -366,10 +366,12 @@ export default {
       .span2{
         display: flex;
         align-items: center;
+        &:hover span{
+          color: $purple
+        }
       }
       .iconfont{
         cursor: pointer;
-        @extend %imglight;
         color: #948BEA;
         font-size: 20px;
         margin-left: 20px;
