@@ -21,10 +21,10 @@
               <span class="date">{{a.publish_time | timeFilter}}</span>
             </div>
             <div class="comment-idea">
-              <p v-if="a.content.type === 2 && a.content.status !== 2">
+              <p v-if="a.content.status !== 2">
                 {{a.message_desc}}
               </p>
-              <span class="bg-gray" v-if="a.content.type === 2 && a.content.status === 2">
+              <span class="bg-gray" v-if="a.content.type === 2 && a.content.status === 2 && a.message_desc">
                 {{a.message_desc}}
               </span>
             </div>
@@ -209,6 +209,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          color: #909399;
           .icon-con{
             width: 100%;
             display: flex;
@@ -227,7 +228,7 @@
             font-size:15px;
             line-height: 17px;
             font-family:PingFangSC-Regular;
-            color:rgba(96,98,102,1);
+            color: #909399;
             line-height:25px;
             text-overflow: ellipsis;
             overflow: hidden;
