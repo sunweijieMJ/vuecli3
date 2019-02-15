@@ -1,6 +1,6 @@
 <template>
-  <div class="comment-publish">
-    <div class="hello" :style="hello_box">
+  <div class="comment-publish" @click="shutDown">
+    <div class="hello" :style="hello_box" @click.stop="">
       <div class="new-idea">瓴里圈 <div class="shut" @click="shutDown"><span class="iconfont icon-icon-"></span></div></div>
       <div class="comment-idea" :style="textarea_box_style">
         <textarea name="" id="text" class="text2" cols="30" rows="10"
