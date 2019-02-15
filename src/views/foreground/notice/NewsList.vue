@@ -33,7 +33,7 @@
                 <svg class="icon" aria-hidden="true" v-if="a.content && a.content.status === 2">
                   <use xlink:href="#icon-icon_info"></use>
                 </svg>
-                <p v-if="a.content" :class="{isread: a.content.status === 2 ? true : false}">
+                <p v-if="a.content" :class="{isread: (a.content.type == 1 && a.content.status === 2) ? true : false}">
                   {{a.content.content}}
                 </p>
               </div>
