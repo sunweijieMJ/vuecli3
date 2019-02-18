@@ -21,9 +21,12 @@
               <span class="date">{{a.publish_time | timeFilter}}</span>
             </div>
             <div class="comment-idea">
-              <p v-if="a.content.status !== 2">
+              <!-- <p v-if="a.content.status !== 2">
                 {{a.message_desc}}
-              </p>
+              </p> -->
+              <div class="info-paragraphs">
+                <Paragraph v-if="a.content.status !== 2" :text="a.message_desc"></Paragraph>
+              </div>
               <span class="bg-gray" v-if="a.content.type === 2 && a.content.status === 2 && a.message_desc">
                 {{a.message_desc}}
               </span>
@@ -33,14 +36,16 @@
                 <svg class="icon" aria-hidden="true" v-if="a.content && a.content.status === 2">
                   <use xlink:href="#icon-icon_info"></use>
                 </svg>
-                <p class="isread" v-if="a.content && a.content.status === 2">
+                <!-- <p class="isread" v-if="a.content && a.content.status === 2">
                   {{a.content.content}}
-                </p>
+                </p> -->
+                <div v-if="a.content && a.content.status === 2" class="info-paragraphs">
+                  <Paragraph :text="a.content.content"></Paragraph>
+                </div>
                 <p v-else>
                   {{a.content.content}}
                 </p>
               </div>
-              <!-- <span v-if="a.content && a.content.status === 2">1</span> -->
             </div>
           </div>
         </li>
@@ -54,12 +59,15 @@
   import NoticeApi from '../../../api/Notice.js';
   import {Loading} from '../../../components/public';
   import frequent from '../../../mixins/frequent.js';
+  import Paragraph from '../../../components/business/Paragraph.js';
 
   export default {
     name: 'NewsList',
     mixins: [frequent],
     components: {
-      UserPopover, Loading
+      UserPopover,
+      Loading,
+      Paragraph
     },
     data(){
       return {
@@ -251,4 +259,18 @@
     }
   }
 }
+</style>
+<style lang="scss">
+  .info-paragraphs {
+    p {
+      font-size: $h3Font;
+      line-height: 25px;
+      color: $h1Color;
+      a {
+        font-size: $h3Font;
+        color: $linkBlue;
+        @extend %textlight;
+      }
+    }
+  }
 </style>
