@@ -4,7 +4,7 @@
       @click="getFocus" @blur="textBlur"
       @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getOffset($event)" @focus="textEnabled.status = true"
       ></textarea>
-    <ul class="user-list" v-if="user_list.length" :style="{top: `${offset.top + 25}px`, left: `${offset.left}px`}">
+    <ul class="user-list" v-if="user_list.length" :style="{left: `${offset.left}px`}">
       <li v-for="(item, index) in user_list" :key="index" @click="selectUser(item)">{{`${item.user_name}(${item.real_name})`}}</li>
     </ul>
   </div>
@@ -42,8 +42,7 @@
         const offset_at = text.lastIndexOf('@', that.cursor - 1);
         if(offset_at === -1) return;
         const match_input = text.slice(offset_at, that.cursor);
-
-        if(match_input.indexOf(' ') !== -1) {
+        if(match_input.indexOf(' ') !== -1 || !match_input) {
           that.user_list = [];
         } else {
           that.getUserList(match_input.slice(1));
@@ -73,7 +72,9 @@
         that.getUserList(match_input);
       },
       textBlur() {
-        // this.user_list = [];
+        setTimeout(() => {
+          this.user_list = [];
+        }, 200);
       },
       // 选择用户名
       selectUser(userInfo) {
@@ -82,9 +83,35 @@
 
         const text = that.textEnabled.text;
         const offset_at = text.lastIndexOf('@', that.cursor - 1);
-        that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + ' ' + that.textEnabled.text.slice(offset_at + 1);
+        const offset_space = text.indexOf(' ', offset_at);
+        if(that.cursor === text.length) {
+          that.textEnabled.text = that.textEnabled.text.slice(0, offset_at) + '@' + userInfo.user_name + ' ';
+        } else {
+          if(offset_space === -1) {
+            that.textEnabled.text = that.textEnabled.text.slice(0, offset_at) + '@' + userInfo.user_name + ' ' + that.textEnabled.text.slice(offset_at + 1);
+          } else {
+            that.textEnabled.text = that.textEnabled.text.slice(0, offset_at) + '@' + userInfo.user_name + ' ' + that.textEnabled.text.slice(offset_space + 1);
+          }
+        }
+
         that.user_list = [];
         textarea.focus();
+      }
+    },
+    watch: {
+      user_list(cur) {
+        if(!cur.length) return;
+        let that = this;
+        that.$nextTick(() => {
+          const userEle = that.$el.querySelector('.user-list');
+          if(window.innerHeight - that.$el.getBoundingClientRect().bottom < userEle.offsetHeight) {
+            userEle.style.top = 'inherit';
+            userEle.style.bottom = `${that.offset.top + 30}px`;
+          } else {
+            userEle.style.bottom = 'inherit';
+            userEle.style.top = `${that.offset.top + 25}px`;
+          }
+        });
       }
     }
   };

@@ -41,8 +41,10 @@
         </div>
       </div>
       <div class="comment-publish" v-if="textEnabled.status">
-        <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`" v-model="textEnabled.text"
-          @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)"></textarea>
+        <publish :textEnabled="textEnabled">
+          <textarea ref="textarea" :placeholder="`回复${item.user_info.user_name}:`" v-model="textEnabled.text"
+            @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)"></textarea>
+        </publish>
         <div class="publish-btn">
           <span @click="textEnabled.status = false">取消</span>
           <button @click="sendComment(item.comment_id, textEnabled.text)">发送</button>
@@ -57,11 +59,12 @@
   import Paragraph from './Paragraph.js';
   import IdeaApi from '../../api/Idea.js';
   import frequent from '../..//mixins/frequent.js';
+  import {Publish} from '../../components/public';
   import {autoTextarea} from '../../utils/business/tools.js';
 
   export default {
     props: ['item', 'root'],
-    components: {UserPopover, Paragraph},
+    components: {UserPopover, Paragraph, Publish},
     mixins: [frequent],
     data() {
       return {
