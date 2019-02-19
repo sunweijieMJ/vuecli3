@@ -100,7 +100,7 @@
       select(item, index) {
         this.current = index;
         if(index === 1) {
-          this.$router.push({name: 'OKRList', query: {okr_type: 0}});
+          this.$router.push({name: 'OKRList', query: {okr_type: 0, time: Date.now()}});
         } else {
           this.$router.push({name: item.name, query: {time: Date.now()}});
         }

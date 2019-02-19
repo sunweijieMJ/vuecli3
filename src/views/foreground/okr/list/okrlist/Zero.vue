@@ -70,6 +70,15 @@
           that.okr_list = that.okr_list.concat(okr_list);
         });
       }
+    },
+    watch: {
+      $route(to, from) {
+        if(to.name === 'OKRList' && from.name === 'OKRList') {
+          let that = this;
+          Object.assign(that.$data, that.$options.data());
+          that.infinite();
+        }
+      }
     }
   };
 </script>
