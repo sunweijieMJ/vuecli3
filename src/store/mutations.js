@@ -22,6 +22,9 @@ const mutations = {
   },
   [types.TASK_FOLLOW]: (state, data) => {
     state.task_follow = data;
+  },
+  [types.SEND_FLAG]: (state, data) => {
+    state.send_flag = data;
   }
 };
 

@@ -23,11 +23,11 @@
       <div class="detail-comment">
         <img :src="self_info.header_photo" alt="">
         <div class="comment-publish" v-if="ieda_detail.user_info">
-          <!-- <publish :textEnabled="textEnabled"> -->
+          <publish :textEnabled="textEnabled">
             <textarea ref="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
               @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184)" @focus="textEnabled.status = true"
               ></textarea>
-          <!-- </publish> -->
+          </publish>
           <div class="publish-btn" v-if="textEnabled.status">
             <span @click="textEnabled = {status: false, text: ''}">取消</span>
             <button @click="sendComment(idea_id, textEnabled.text)">发送</button>

@@ -4,9 +4,11 @@
  */
 
 import axios from 'axios';
+import store from '../store/index';
 import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
 import storage from '../utils/storage';
+import interceptor from '../config/Global';
 const baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
@@ -19,10 +21,19 @@ const Axios = axios.create({
   }
 });
 
+// 添加响应拦截器
+Axios.interceptors.response.use((response) => {
+  if (interceptor.submit_request.includes(response.config.url.split('?')[0].split(baseURL)[1])) {
+    store.dispatch('setSendFlag', false);
+  }
+  // 对响应数据做点什么
+  return response;
+}, (error) => {
+  // 对响应错误做点什么
+  return Promise.reject(error);
+});
+
 class Abstract {
-  /**
-   * 构造函数，单例模式，只会调用一次
-   */
   constructor() {
     this.ApiUrl = ApiUrl;
     this.linsign = linsign;
@@ -32,6 +43,7 @@ class Abstract {
     let that = this;
     let _Url = url.split('.');
     url = that.ApiUrl.getUrl(_Url[0], _Url[1]);
+
     // 签名加密
     if (method === 'POST') {
       url = url + `${url.indexOf('?') === -1 ? '?' : '&'}pgs_authinfo=${encodeURIComponent(storage('cookie').get('pgs_authinfo'))}`;
@@ -40,8 +52,15 @@ class Abstract {
       params.pgs_authinfo = encodeURIComponent(storage('cookie').get('pgs_authinfo'));
       params.sign = that.linsign.signHash(url, params);
     }
-
     return new Promise((resolve, reject) => {
+      // 终止重复请求
+      if (interceptor.submit_request.includes(url.split('?')[0])) {
+        if (store.state.send_flag) {
+          resolve({status: false, message: '重复请求终止', data: null});
+          return;
+        }
+        store.dispatch('setSendFlag', true);
+      }
       Axios({
         baseURL,
         method,

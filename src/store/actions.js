@@ -49,6 +49,9 @@ const actions = {
   },
   setTaskFollow: ({commit}, data) => {
     commit(types.TASK_FOLLOW, data);
+  },
+  setSendFlag: ({commit}, data) => {
+    commit(types.SEND_FLAG, data);
   }
 };
 

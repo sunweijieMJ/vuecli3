@@ -32,27 +32,60 @@
           this.user_list = Object.values(res.data.list);
         });
       },
-      // 光标索引
+      // @click 光标索引
       getFocus(e) {
-        this.cursor = Cursor().getFocus(e.target);
+        let that = this;
+        that.cursor = Cursor().getFocus(e.target);
+        that.offset = Cursor().getInputPositon(e.target, that.$el);
+
+        const text = e.target.value;
+        if(!text) return;
+        const offset_at = text.lastIndexOf('@', that.cursor - 1);
+        if(offset_at === -1) return;
+        const match_input = text.slice(offset_at, that.cursor);
+
+        if(match_input.indexOf(' ') !== -1) {
+          that.user_list = [];
+        } else {
+          that.getUserList(match_input.slice(1));
+        }
       },
-      // 光标坐标
+      // @input 光标坐标
       getOffset(e) {
         let that = this;
         const keyword = e.data;
         that.cursor = Cursor().getFocus(e.target);
         that.offset = Cursor().getInputPositon(e.target, that.$el);
+
         if (keyword === '@') {
           that.getUserList();
         } else if(keyword === ' ') {
           that.user_list = [];
         }
+
+        const text = e.target.value;
+        const offset_at = text.lastIndexOf('@', that.cursor - 1);
+        if(offset_at === -1) {
+          that.user_list = [];
+          return;
+        }
+        const match_input = text.slice(offset_at + 1, that.cursor);
+        if(match_input.indexOf(' ') !== -1) return;
+        that.getUserList(match_input);
       },
       // 选择用户名
       selectUser(userInfo) {
         let that = this;
         const textarea = that.$el.querySelector('textarea');
-        that.textEnabled.text += userInfo.user_name + ' ';
+
+        const text = that.textEnabled.text;
+        const offset_at = text.lastIndexOf('@', that.cursor - 1);
+        const offset_space = text.indexOf(' ', offset_at);
+        if(offset_space === -1) {
+          that.textEnabled.text += userInfo.user_name + ' ';
+        } else {
+          that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + that.textEnabled.text.slice(offset_space);
+        }
         that.user_list = [];
         textarea.focus();
       }

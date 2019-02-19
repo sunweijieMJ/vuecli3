@@ -1,7 +1,12 @@
 <template>
   <div class="single-comment" v-if="show_comment">
     <div class="comment-icon">
-      <img :src="item.user_info.header_photo" alt="" @click="pathSkip(`/foreground/fore_mine/profile/${item.user_info.user_id}`)">
+      <el-popover
+        placement="bottom"
+        trigger="hover">
+        <img slot="reference" :src="item.user_info.header_photo" alt="" @click="pathSkip(`/foreground/fore_mine/profile/${item.user_info.user_id}`)">
+        <user-popover :userinfo="item.user_info"></user-popover>
+      </el-popover>
     </div>
     <div class="comment-info">
       <div class="info-name">
@@ -48,6 +53,7 @@
 </template>
 <script>
   import {mapState} from 'vuex';
+  import {UserPopover} from '../popup';
   import Paragraph from './Paragraph.js';
   import IdeaApi from '../../api/Idea.js';
   import frequent from '../..//mixins/frequent.js';
@@ -55,7 +61,7 @@
 
   export default {
     props: ['item', 'root'],
-    components: {Paragraph},
+    components: {UserPopover, Paragraph},
     mixins: [frequent],
     data() {
       return {

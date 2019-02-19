@@ -26,7 +26,8 @@ const state = {
   task_follow: { // ETC Task跟进框
     status: false,
     source: ''
-  }
+  },
+  send_flag: false
 };
 
 export default state;

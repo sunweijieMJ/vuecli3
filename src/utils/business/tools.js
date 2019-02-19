@@ -35,8 +35,7 @@ const pagetitle = (title) => {
 };
 
 // 解析queryString
-const parseUrl = () => {
-  const url = window.location.search;
+const parseUrl = (url = window.location.search) => {
   if (url.indexOf('?') !== -1) {
     const str = url.substr(1);
     const strs = str.split('&');
