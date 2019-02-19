@@ -82,7 +82,7 @@
         const offset_at = text.lastIndexOf('@', that.cursor - 1);
         const offset_space = text.indexOf(' ', offset_at);
         if(offset_space === -1) {
-          that.textEnabled.text += userInfo.user_name + ' ';
+          that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + ' ';
         } else {
           that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + that.textEnabled.text.slice(offset_space);
         }
