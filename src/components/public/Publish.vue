@@ -1,7 +1,7 @@
 <template>
   <div class="publish">
     <textarea id="textarea" placeholder="写下你的评论..." v-model="textEnabled.text"
-      @click="getFocus"
+      @click="getFocus" @blur="textBlur"
       @propertychange="autoTextarea($event.target, 0, 184)" @input="autoTextarea($event.target, 0, 184) || getOffset($event)" @focus="textEnabled.status = true"
       ></textarea>
     <ul class="user-list" v-if="user_list.length" :style="{top: `${offset.top + 25}px`, left: `${offset.left}px`}">
@@ -21,8 +21,7 @@
         offset: {}, // ETC 光标位置
         cursor: 0,
         autoTextarea,
-        user_list: [],
-        user_input: ''
+        user_list: []
       };
     },
     methods: {
@@ -73,6 +72,9 @@
         if(match_input.indexOf(' ') !== -1) return;
         that.getUserList(match_input);
       },
+      textBlur() {
+        // this.user_list = [];
+      },
       // 选择用户名
       selectUser(userInfo) {
         let that = this;
@@ -80,12 +82,7 @@
 
         const text = that.textEnabled.text;
         const offset_at = text.lastIndexOf('@', that.cursor - 1);
-        const offset_space = text.indexOf(' ', offset_at);
-        if(offset_space === -1) {
-          that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + ' ';
-        } else {
-          that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + that.textEnabled.text.slice(offset_space);
-        }
+        that.textEnabled.text = that.textEnabled.text.slice(0, offset_at + 1) + userInfo.user_name + ' ' + that.textEnabled.text.slice(offset_at + 1);
         that.user_list = [];
         textarea.focus();
       }
