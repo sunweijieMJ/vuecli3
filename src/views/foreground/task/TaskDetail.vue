@@ -273,6 +273,7 @@ export default {
       cursor: pointer;
       @extend %textlight;
       // margin-top: 11px;
+      width: 360px;
       margin-left: 46px;
       font-size:15px;
       color: #C0C4CC;
