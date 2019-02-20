@@ -41,7 +41,14 @@
         </div>
         <div class="joinners">
           <div class="left" v-if="task_basic.to_info">
-            <img :src="task_basic.to_info.header_photo" alt="">
+            <!-- <img :src="task_basic.to_info.header_photo" alt=""> -->
+            <el-popover
+              placement="bottom"
+              trigger="hover"
+              class="head-img">
+              <img slot="reference" style="cursor: pointer;" v-if="task_basic.to_info" :src="task_basic.to_info.header_photo" alt="" @click.stop="goProFile(task_basic.to_info.user_id)">
+              <user-popover :userinfo="task_basic.to_info"></user-popover>
+            </el-popover>
             <div class="name">
               <p>Owner</p>
               <p>{{task_basic.to_info.user_name}}</p>
@@ -56,17 +63,17 @@
             <el-popover
               placement="bottom"
               trigger="hover"
-              v-for="(a, index) in task_basic.participants" :key="index"
+              v-for="(a, index) in AllJoinner" :key="index"
               class="head-img">
               <img slot="reference" style="cursor: pointer;" v-if="a" :src="a.header_photo" alt="" @click.stop="goProFile(a.user_id)">
               <user-popover :userinfo="a"></user-popover>
             </el-popover>
-            <el-dropdown v-if="task_basic.participants && task_basic.participants.length > 6" @command="showAllJoinner">
+            <el-dropdown v-if="AllJoinnerNum.length && AllJoinnerNum.length > 6" @command="showAllJoinner">
               <span class="el-dropdown-link">
-                <div class="all-per" v-if="task_basic.participants">{{task_basic.participants.length}}</div>
+                <div class="all-per" v-if="AllJoinnerNum">{{AllJoinnerNum.length}}</div>
               </span>
               <el-dropdown-menu slot="dropdown" class="joinner-drops">
-                <el-dropdown-item v-for="(j, jindex) in task_basic.participants" :key="jindex" :command="j.user_id" :divided="true">
+                <el-dropdown-item v-for="(j, jindex) in AllJoinnerNum" :key="jindex" :command="j.user_id" :divided="true">
                   <img v-if="j.header_photo" :src="j.header_photo" alt="">
                   <span>{{j.user_name}}({{j.real_name}})</span>
                 </el-dropdown-item>
@@ -108,6 +115,8 @@ export default {
       task_basic: '', // ETC task基础信息
       okr_name: '',
       obj_id: 0,
+      AllJoinnerNum: '',
+      AllJoinner: [],
       dynamic_list: [],
       dynamic_num: '',
       last_id: '',
@@ -134,7 +143,8 @@ export default {
     },
     // 所有参与者
     showAllJoinner(val) {
-      return val;
+      window.open(`/foreground/fore_mine/profile/${val}`, '_blank');
+      // return val;
     },
     handleCommand() {
       return;
@@ -167,6 +177,15 @@ export default {
           if(res.data.obj_infos && Object.values(res.data.obj_infos)){
             this.okr_name = Object.values(res.data.obj_infos)[0].okr_name;
             this.obj_id = Object.values(res.data.obj_infos)[0].obj_id;
+          }
+
+          let AllJoinners = Object.values(res.data.participants);
+          this.AllJoinnerNum = Object.values(res.data.participants);
+
+          if(this.AllJoinnerNum.length && this.AllJoinnerNum.length <= 6){
+            this.AllJoinner = AllJoinners;
+          }else{
+            this.AllJoinner = this.AllJoinnerNum.slice(0, 5);
           }
         }
       });

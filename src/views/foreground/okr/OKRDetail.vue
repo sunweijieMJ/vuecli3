@@ -31,7 +31,14 @@
             <p>{{okr_detail.okr_type_name}}</p>
             <p>{{okr_detail.bo_info.department_name}}</p>
           </div>
-          <img v-if="okr_detail.bo_info.header_photo" :src="okr_detail.bo_info.header_photo" alt="">
+          <!-- <img v-if="okr_detail.bo_info.header_photo" :src="okr_detail.bo_info.header_photo" alt=""> -->
+          <el-popover
+            placement="bottom"
+            trigger="hover"
+            class="head-img">
+            <img slot="reference" style="cursor: pointer;" v-if="okr_detail.bo_info" :src="okr_detail.bo_info.header_photo" alt="" @click.stop="goProFile(okr_detail.bo_info.user_id)">
+            <user-popover :userinfo="okr_detail.bo_info"></user-popover>
+          </el-popover>
           <div class="name">
             <p>Owner</p>
             <p>{{okr_detail.bo_info.user_name}}</p>
@@ -175,6 +182,7 @@ export default {
     },
     // 显示全部参与者
     showAllJoinner(val){
+      this.pathSkip(`/foreground/fore_mine/profile/${val}`);
     },
     getBasicInfo(){
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
