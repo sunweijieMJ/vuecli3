@@ -148,7 +148,8 @@
         let that = this;
         if(cur) {
           that.$nextTick(() => {
-            that.$refs.textarea.focus();
+            const textarea = that.$el.querySelector('.comment-publish textarea');
+            textarea.focus();
           });
         } else {
           const textarea = that.$el.querySelector('.comment-publish textarea');
