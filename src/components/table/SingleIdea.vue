@@ -157,6 +157,7 @@
         flex-direction: column;
         margin-left: 50px;
         cursor: pointer;
+        @extend %alllight;
         i {
           font-size: 28px;
         }
@@ -171,16 +172,23 @@
 </style>
 <style lang="scss">
   .single-idea .main-paragraph {
+    cursor: pointer;
     p {
       @include erow(3);
       max-height: 66px;
       font-size: $h3Font;
       line-height: 22px;
-      color: $h2Color;
+      color: $h1Color;
       a {
         font-size: $h3Font;
         color: $linkBlue;
+        @extend %textlight;
       }
+    }
+    >span {
+      font-size: $h3Font;
+      line-height: 25px;
+      color: $linkBlue;
     }
   }
 </style>

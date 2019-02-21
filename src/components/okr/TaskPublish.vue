@@ -26,7 +26,7 @@
             <member v-model="form.task_user"></member>
           </div>
           <!-- 关联 -->
-          <div class="relevancy">
+          <div class="relevancy" v-if="form.object_ids.length">
             <relevancy :object_ids="form.object_ids"></relevancy>
           </div>
         </div>

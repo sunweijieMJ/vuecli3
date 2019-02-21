@@ -4,7 +4,8 @@ import Member from './Member.vue';
 import DateRange from './DateRange.vue';
 import Relevancy from './Relevancy.vue';
 import TaskCheck from './TaskCheck.vue';
+import UploadPhoto from './UploadPhoto.vue';
 
 export {
-  ShowImage, UserPopover, Member, DateRange, Relevancy, TaskCheck
+  ShowImage, UserPopover, Member, DateRange, Relevancy, TaskCheck, UploadPhoto
 };

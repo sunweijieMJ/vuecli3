@@ -64,7 +64,7 @@
       <ul class="comment">
         <li v-for="(witem, windex) in vitem.replys" :key="windex">
           <h5 @click.stop="pathSkip(`/foreground/fore_mine/profile/${witem.user_info.user_id}`)">{{witem.user_info.user_name}}：</h5>
-          <p>{{witem.comment_content}}</p>
+          <paragraph :text="witem.comment_content"></paragraph>
         </li>
       </ul>
     </div>
@@ -354,6 +354,22 @@
       color: $linkBlue;
     }
   }
+  .single-list .list-comment li {
+    p {
+      @include tofl(100%);
+      font-size: $h4Font;
+      color: $h2Color;
+      a {
+        font-size: $h4Font;
+        color: $linkBlue;
+        @extend %textlight;
+      }
+    }
+    >span {
+      font-size: $h4Font;
+      color: $h2Color;
+    }
+  }
   .el-popover {
     .idea-delete {
       li {
@@ -364,6 +380,7 @@
         font-size: $h3Color;
         color: $h1Color;
         cursor: pointer;
+        @extend %textlight;
         &:hover {
           background-color: $backColor;
         }

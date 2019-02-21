@@ -300,6 +300,7 @@
         font-size: $h3Color;
         color: $h1Color;
         cursor: pointer;
+        @extend %textlight;
         &:hover {
           background-color: $backColor;
         }

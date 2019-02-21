@@ -83,6 +83,7 @@
         </ul>
       </div>
     </div>
+    <upload-photo></upload-photo>
   </div>
 </template>
 <script>
@@ -90,9 +91,10 @@
   import IdeaApi from '../../../api/Idea.js';
   import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
+  import {UploadPhoto} from '../../../components/popup';
 
   export default {
-    components: {PublicList, Loading},
+    components: {PublicList, UploadPhoto, Loading},
     data() {
       return {
         upload_url: `${process.env.VUE_APP_UploadURL}upload_image?sign=80448712a43f26ee2485ae58dca29d11`,
@@ -198,7 +200,8 @@
       },
       // 切换tab
       handleClick(tab) {
-        console.log(tab);
+        // console.log(tab);
+        // this.$store.dispatch('setUploadPhoto', {status: true, source: this.user_info.header_photo});
       }
     },
     watch: {

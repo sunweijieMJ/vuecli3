@@ -50,6 +50,9 @@ const actions = {
   setTaskFollow: ({commit}, data) => {
     commit(types.TASK_FOLLOW, data);
   },
+  setUploadPhoto: ({commit}, data) => {
+    commit(types.UPLOAD_PHOTO, data);
+  },
   setSendFlag: ({commit}, data) => {
     commit(types.SEND_FLAG, data);
   }
