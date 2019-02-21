@@ -9,7 +9,7 @@
           </canvas>
         </div>
         <div class="btn">
-          <el-slider v-model="photo_size" :format-tooltip="formatTooltip"></el-slider>
+          <el-slider v-model="photo_size" :min="1" :step="0.1" :max="2" :format-tooltip="formatTooltip"></el-slider>
         </div>
       </div>
       <div class="footer" slot="footer">
@@ -26,7 +26,11 @@
       return {
         photo_size: 0,
         canvas: null,
-        context: null
+        context: null,
+        start: 0,
+        end: 0,
+        img_width: 0,
+        img_height: 0
       };
     },
     methods: {
@@ -38,40 +42,58 @@
         const originX = e.clientX;
         const originY = e.clientY;
 
+        const disX = originX - that.start;
+        const disY = originY - that.end;
+
+        let new_start = e.clientX - disX;
+        let new_end = e.clientY - disY;
+        const maxX = new_start + that.img_width;
+        const maxY = new_end + that.img_height;
         that.canvas.onmousemove = (e) => {
-          this.dragImage(e, originX, originY);
+          if(new_start <= 54 && new_end <= 54 && maxX >= 360 - 54 && maxY >= 360 - 54) {
+            new_start = e.clientX - disX;
+            new_end = e.clientY - disY;
+            that.drawImage(new_start, new_end);
+          }
         };
         that.canvas.onmouseup = () => {
           that.canvas.onmousemove = null;
           that.canvas.onmouseup = null;
         };
       },
-      dragImage(e) {
-        let that = this;
-        const toLeft = e.offsetX;
-        const toTop = e.offsetY;
-        that.drawImage(toLeft - ((that.canvas.width / 100) * (that.photo_size)), toTop - ((that.canvas.height / 100) * (that.photo_size)));
-      },
       drawImage(start, end) {
         let that = this;
         that.canvas = this.$el.querySelector('canvas');
         that.context = that.canvas.getContext('2d');
         const img = new Image();
-
         img.src = that.upload_photo.source;
+        // 画布构图
         img.onload = () => {
           that.context.clearRect(0, 0, that.canvas.width, that.canvas.height);
           that.context.save();
-          const multiple = that.canvas.width / 100;
-          start = start || (that.canvas.width / 2) - (((that.photo_size * multiple) + 250) / 2);
-          end = end || (that.canvas.height / 2) - (((that.photo_size * multiple) + 250) / 2);
 
-          that.context.drawImage(img, start, end, ((that.photo_size * multiple) + 250), ((that.photo_size * multiple) + 250));
+
+          that.img_width = img.width;
+          that.img_height = img.height;
+          const ratio = that.img_width / that.img_height;
+          if(that.img_width > that.img_height) {
+            that.img_width = that.canvas.width;
+            that.img_height = that.img_width / ratio;
+          } else {
+            that.img_height = that.canvas.height;
+            that.img_width = that.img_height * ratio;
+          }
+          that.img_width = that.img_width * that.photo_size;
+          that.img_height = that.img_height * that.photo_size;
+          that.start = start || (that.canvas.width / 2) - ((that.img_width) / 2);
+          that.end = end || (that.canvas.height / 2) - ((that.img_height) / 2);
+
+          that.context.drawImage(img, that.start, that.end, that.img_width, that.img_height);
           that.context.fillStyle = 'rgba(246,246,246,0.8)';
           that.context.fillRect(0, 0, that.canvas.width, that.canvas.height);
           that.context.rect(54, 54, 250, 250);
           that.context.clip();
-          that.context.drawImage(img, start, end, ((that.photo_size * multiple) + 250), ((that.photo_size * multiple) + 250));
+          that.context.drawImage(img, that.start, that.end, that.img_width, that.img_height);
           that.context.restore();
         };
       },
@@ -92,7 +114,7 @@
         });
       },
       photo_size(cur) {
-        if(!cur) return;
+        if(cur === 1) return;
         this.drawImage();
       }
     }
