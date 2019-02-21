@@ -104,15 +104,11 @@
         let that = this;
         that.$nextTick(() => {
           const userEle = that.$el.querySelector('.user-list');
-          userEle.style.bottom = 'inherit';
-          userEle.style.top = `${that.offset.top + 25}px`;
-          // if(window.innerHeight - that.$el.getBoundingClientRect().bottom < userEle.offsetHeight) {
-          //   userEle.style.top = 'inherit';
-          //   userEle.style.bottom = `${that.offset.top + 30}px`;
-          // } else {
-          //   userEle.style.bottom = 'inherit';
-          //   userEle.style.top = `${that.offset.top + 25}px`;
-          // }
+          if(window.innerHeight - that.$el.getBoundingClientRect().bottom < userEle.offsetHeight) {
+            userEle.style.top = `${that.offset.top - userEle.offsetHeight}px`;
+          } else {
+            userEle.style.top = `${that.offset.top + 25}px`;
+          }
         });
       }
     }
