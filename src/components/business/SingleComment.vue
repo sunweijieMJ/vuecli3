@@ -217,7 +217,8 @@
             &:first-child {
               width: 70px;
             }
-            &:not(first-child) {
+            &:not(:first-child) {
+              @extend %alllight;
               cursor: pointer;
             }
             &.self_zan i{
@@ -226,12 +227,11 @@
             &.delete {
               margin-left: 34px;
             }
-            @extend %alllight;
             i {
               font-size: 14px;
               color: $h3Color;
+              @extend %imglight;
               cursor: pointer;
-
             }
             span {
               margin-left: 4px;
