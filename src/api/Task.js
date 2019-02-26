@@ -73,18 +73,21 @@ class Task extends Abstract {
    * 关联task列表
    * @param {num} objId: 12  * okr id
    */
-  getTaskList(data){
+  getOkrKeyTask(data){
     return this.getReq('Task.OkrKeyTask', data);
   }
 
   /**
-   * 我的task list
+   * task list
+   * @param {number} qtype create 我的| take 参与|team 团队|all 全部
+   * @param {number} qdep_id 部门id
+   * @param {number} quser_id 用户id
    * @param {number} lastId 最后一条id
    * @param {number} curPage 当前页
    * @param {number} pages 每页总数
    */
-  getSelfList(data) {
-    return this.getReq('Task.SelfList', data);
+  getTaskList(data) {
+    return this.getReq('Task.TaskList', data);
   }
 
   /**

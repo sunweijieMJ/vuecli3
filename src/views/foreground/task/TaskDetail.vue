@@ -165,10 +165,10 @@ export default {
       this.getTaskBasicInfo();
     },
     handleTaskCreate() {
-      this.getTaskList();
+      this.getOkrKeyTask();
     },
     handleTaskPublish(){
-      this.getTaskList();
+      this.getOkrKeyTask();
     },
     getTaskBasicInfo(){
       taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
@@ -228,8 +228,8 @@ export default {
         }
       });
     },
-    getTaskList(){
-      taskApi().getTaskList({taskId: this.$route.params.id}).then(res => {
+    getOkrKeyTask(){
+      taskApi().getOkrKeyTask({taskId: this.$route.params.id}).then(res => {
         if(res.status && res.data !== [] && res.data.list){
           let newArr = res.data.list;
           for (let i = 0; i < newArr.length; i++) {
@@ -243,7 +243,7 @@ export default {
   mounted(){
     this.getTaskBasicInfo();
     // this.getTaskDynamicList();
-    this.getTaskList();
+    this.getOkrKeyTask();
 
   }
 };

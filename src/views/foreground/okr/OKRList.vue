@@ -184,6 +184,7 @@
           const okr_list = res.data.list;
           that.loading.last_id = res.data.last_id;
           that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
+
           // 数据整理
           for(let i = okr_list.length - 1; i >= 0; i--) {
             if(!okr_list[i]) {
@@ -192,19 +193,20 @@
             }
             okr_list[i].creator_info = user_info[okr_list[i].creator_id];
           }
-
           that.okr_list = that.okr_list.concat(okr_list);
         });
       },
       // 重置okr列表
-      resetList(last_id, currPage, qtype = this.active_okr, qdep_id = this.active_part[0], quser_id = this.active_part[1], okr_type = this.active_kind[0]) {
+      resetList(qtype = this.active_okr, qdep_id = this.active_part[0], quser_id = this.active_part[1], okr_type = this.active_kind[0]) {
         let that = this;
+        that.disabled = true;
+        // 重置数据
         that.okr_list = [];
         Object.assign(that.$data.pageInfo, that.$options.data().pageInfo);
         Object.assign(that.$data.loading, that.$options.data().loading);
         Object.assign(that.$data.disabled, that.$options.data().disabled);
 
-        OkrApi().getOkrList({last_id, currPage, qtype, qdep_id, quser_id, okr_type}).then(res => {
+        OkrApi().getOkrList({lastId: that.loading.last_id, currPage: ++that.pageInfo.current_page, qtype, qdep_id, quser_id, okr_type}).then(res => {
           const user_info = res.data.user_info;
           const okr_list = res.data.list;
           that.loading.last_id = res.data.last_id;
@@ -217,8 +219,20 @@
             }
             okr_list[i].creator_info = user_info[okr_list[i].creator_id];
           }
-
           that.okr_list = okr_list;
+
+          // 触底判断
+          that.disabled = false;
+          if(!that.okr_list.length) {
+            that.disabled = true;
+            that.loading = {
+              nomore: true,
+              noresult: true
+            };
+          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+            that.disabled = true;
+            that.loading.nomore = true;
+          }
         });
       }
     },

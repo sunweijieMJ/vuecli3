@@ -141,6 +141,22 @@ $up-down: 30px;
   }
 }
 
+.el-date-range-picker {
+  .el-picker-panel__body-wrapper {
+    .el-picker-panel__sidebar {
+      .el-picker-panel__shortcut:first-child {
+        font-size: $h3Font;
+        color: $h2Color;
+        &:first-child {
+          font-weight: $h1Weight;
+          color: $themeColor;
+          cursor: inherit;
+        }
+      }
+    }
+  }
+}
+
 // rate控件
 .el-rate {
   display: flex;

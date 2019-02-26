@@ -1,5 +1,6 @@
 export default {
   path: 'fore_task',
+  name: 'ForeTask',
   component: () => import('../../views/foreground/Task.vue'),
   children: [
     {

@@ -21,7 +21,8 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-            <date-range v-model="form.daterange"></date-range>
+            <custom-date v-model="form.daterange"></custom-date>
+            <!-- <date-range v-model="form.daterange"></date-range> -->
           </div>
           <!-- 参与者 -->
           <div class="task-user">
@@ -70,11 +71,11 @@
   import {mapState} from 'vuex';
   import OkrApi from '../../api/Okr.js';
   import Moment from '../../utils/business/moment.js';
-  import {Member, DateRange} from '../../components/popup';
+  import {Member, DateRange, CustomDate} from '../../components/popup';
   let origin = {};
 
   export default {
-    components: {Member, DateRange},
+    components: {Member, DateRange, CustomDate},
     data() {
       return {
         form: {
