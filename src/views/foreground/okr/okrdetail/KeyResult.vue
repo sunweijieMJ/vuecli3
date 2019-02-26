@@ -1,7 +1,7 @@
 <template>
   <div class="kr">
     <div class="kr-title">
-      <div>{{okr_detail.objective_desc}}</div>
+      <div>{{okr_detail.objective_name}}</div>
     </div>
     <ul>
       <li v-for="(kr, krindex) in kr_list" :key="krindex">

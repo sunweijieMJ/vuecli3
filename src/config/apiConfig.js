@@ -14,7 +14,9 @@ const urlDict = {
     'UserUpdate': '/user/update', // ETC 用户信息更新
     'UserList': '/user/list', // ETC 用户列表
     'UserPass': '/user/initpwd', // ETC 密码获取
-    'UserByName': '/user/getusersbyname' // ETC 用户名获取用户信息
+    'UserByName': '/user/getusersbyname', // ETC 用户名获取用户信息
+    'PartList': '/org/departmentlist', // ETC 获取所有部门数据
+    'StaffsByDep': '/org/getstaffsbydep' // ETC 根据部门ID获取对应员工信息
   },
   'Notice': {
     'MessageList': '/com/messagelist', // ETC 消息列表
@@ -53,7 +55,7 @@ const urlDict = {
     'SimpleList': '/okr/okr/simplelist', // ETC 获取okr简洁版列表
     'DeleteKrFromOkr': '/okr/okr/delkr', // ETC 删除 OKR 关联 KR
     'DeleteUserFromOkr': '/okr/okr/deluser', // ETC 删除 OKR 关联 User
-    'TypeList': '/okr/okr/typelist', // ETC okr type
+    'KindList': '/okr/okr/typelist', // ETC okr type
     'OkrList': '/okr/okr/list', // ETC okr list
     'DeleteOkr': '/okr/okr/delokr' // ETC okr删除
   },

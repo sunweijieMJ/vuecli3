@@ -7,7 +7,7 @@
           <p>
             <i class="okr" v-if="item.obj_id">{{item.okr_type_name}}</i>
             <i v-else>KT</i>
-            <span>{{item.task_name || item.okr_name | readMore(15, '...')}}</span>
+            <span>{{item.task_name || item.objective_name | readMore(15, '...')}}</span>
           </p>
         </el-tag>
       </div>

@@ -105,7 +105,7 @@ $up-down: 30px;
   }
 }
 // input控件
-.el-input {
+.custom-input {
   input {
     box-sizing: border-box;
     width: 100%;
@@ -127,8 +127,6 @@ $up-down: 30px;
       color: $h3Color;
     }
   }
-}
-.el-textarea {
   textarea {
     font-size: $h3Font;
     color: $h1Color;
@@ -179,11 +177,20 @@ $up-down: 30px;
   }
 }
 
+// 弹出框
 .el-popover {
   padding: 0;
   border: none;
   .popper__arrow {
     display: none;
+  }
+}
+
+// 级联选择器
+.el-cascader-menus {
+  .el-cascader-menu {
+    max-height: 204px;
+    height: inherit;
   }
 }
 

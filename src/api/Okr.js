@@ -101,12 +101,15 @@ class Okr extends Abstract {
   /**
    * okr类型
    */
-  getTypeList(data){
-    return this.getReq('Okr.TypeList', data);
+  getKindList(data){
+    return this.getReq('Okr.KindList', data);
   }
 
   /**
    * okr 列表
+   * @param {number | required} qtype create 创建| take 参与|team 团队|all 全部
+   * @param {number | required} qdep_id 部门id查询
+   * @param {number | required} quser_id 用户id查询
    * @param {number | required} okr_type 1 ~ 4
    * @param {number} last_id 最后一条id
    * @param {number} currPage: 当前页

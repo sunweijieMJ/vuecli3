@@ -31,7 +31,7 @@
           <div class="objective">
             <h4>Objective</h4>
             <el-form-item prop="objective">
-              <el-input type="textarea" v-model="form.objective" maxlength="50" placeholder="你的目标是什么?(50字以内)"></el-input>
+              <el-input class="custom-input" type="textarea" v-model="form.objective" maxlength="50" placeholder="你的目标是什么?(50字以内)"></el-input>
             </el-form-item>
           </div>
           <!-- Key Result -->
@@ -41,7 +41,7 @@
               <ul class="list">
                 <li v-for="(key_result, index) in form.key_result" :key="index">
                   <el-form-item :prop="`key_result.${index}.kr_name`" :rules="{required: true, message: ' ', trigger: 'change'}">
-                    <el-input type="text" v-model="key_result.kr_name" maxlength="50" :placeholder="'请填写达成目标的关键衡量结果(50字以内)'"></el-input>
+                    <el-input class="custom-input" type="text" v-model="key_result.kr_name" maxlength="50" :placeholder="'请填写达成目标的关键衡量结果(50字以内)'"></el-input>
                   </el-form-item>
                   <div class="percent">
                     <h5>信心指数</h5>
@@ -101,9 +101,9 @@
       };
     },
     methods: {
-      getTypeList() {
+      getKindList() {
         let that = this;
-        OkrApi().getTypeList({type: 'create'}).then(res => {
+        OkrApi().getKindList({type: 'create'}).then(res => {
           that.project_type = res.data;
           if(!that.form.okr_type) that.form.okr_type = that.project_type[0];
           origin = JSON.parse(JSON.stringify(this.$data.form));
@@ -262,13 +262,13 @@
               end_time: Moment().format(that.okr_publish.source.end_time, 'YYYY/MM/DD')
             },
             task_user: Object.values(that.okr_publish.source.participants),
-            objective: that.okr_publish.source.objective_desc,
+            objective: that.okr_publish.source.objective_name,
             key_result: that.okr_publish.source.key_result
           };
         } else if(cur === 'create') {
           that.form.bo_user = that.self_info;
         }
-        this.getTypeList();
+        this.getKindList();
       }
     }
   };

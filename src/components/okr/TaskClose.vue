@@ -17,15 +17,15 @@
           </div>
           <div class="summary">
             <el-form-item prop="summary">
-              <el-input type="textarea" v-model="form.summary" placeholder="总结一下吧"></el-input>
+              <el-input class="custom-input" type="textarea" v-model="form.summary" placeholder="总结一下吧"></el-input>
             </el-form-item>
           </div>
           <div class="num">
             <el-form-item label="完成度" prop="percent">
-              <el-input v-model="form.percent" placeholder="最小单位为1"></el-input>
+              <el-input class="custom-input" v-model="form.percent" placeholder="最小单位为1"></el-input>
             </el-form-item>
             <el-form-item label="总投入时长" prop="duration">
-              <el-input v-model="form.duration" placeholder="最小单位为0.1"></el-input>
+              <el-input class="custom-input" v-model="form.duration" placeholder="最小单位为0.1"></el-input>
             </el-form-item>
           </div>
         </div>

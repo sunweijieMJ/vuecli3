@@ -14,7 +14,7 @@
           <el-button class="add" slot="reference">添加</el-button>
           <div class="popover-member">
             <h4>参与者</h4>
-            <el-input type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
+            <el-input class="custom-input" type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
             <template v-if="keyword">
               <ul class="list" v-if="user_list.length">
                 <li v-for="(item, index) in user_list" :key="index" @click="chooseUser(item, index)">
@@ -178,7 +178,7 @@
     h4 {
       width: 46px;
       margin-bottom: 12px;
-      font-size: $h3Color;
+      font-size: $h3Font;
       font-weight: 400;
       color: $h2Color;
     }

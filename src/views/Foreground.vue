@@ -7,7 +7,7 @@
             <h1 @click="querySkip('IdeaList')">
               <img src="../../static/svg/icon_PGS.svg" alt=""/>
             </h1>
-            <li v-for="(vitem, vindex) in router.slice(0, 2)" :key="vindex" :class="{active: vindex === current}">
+            <li v-for="(vitem, vindex) in router" :key="vindex" :class="{active: vindex === current}">
               <a href="javascript:;" @click="select(vitem, vindex)">{{vitem.text}}</a>
             </li>
           </ul>
@@ -55,7 +55,6 @@
   import frequent from '../mixins/frequent.js';
   import readMore from '../utils/filters/readMore.js';
 
-
   export default {
     mixins: [frequent],
     data() {
@@ -69,6 +68,10 @@
           {
             text: 'OKR',
             name: 'OKRList'
+          },
+          {
+            text: 'Task',
+            name: 'TaskList'
           }
         ],
         readMore,
@@ -93,16 +96,20 @@
         that.current = 0;
       } else if(that.$route.matched[1].name === 'ForeOkr') {
         that.current = 1;
+      } else if(that.$route.matched[1].name === 'ForeTask') {
+        that.current = 2;
       }
     },
     methods: {
       // 切换tab
       select(item, index) {
+        let that = this;
         this.current = index;
-        if(index === 1) {
-          this.$router.push({name: 'OKRList', query: {okr_type: 0, time: Date.now()}});
+        if(index === 0) {
+          that.$router.push({name: item.name, query: {time: Date.now()}});
         } else {
-          this.$router.push({name: item.name, query: {time: Date.now()}});
+          const query = Object.assign({}, that.$route.query, {time: Date.now()});
+          that.$router.push({name: item.name, query});
         }
       },
       skipDetail(witem) {
@@ -139,20 +146,6 @@
               storage('cookie').remove('pgs_authinfo');
               that.$router.push({name: 'Login'});
             });
-            break;
-          default:
-            break;
-        }
-      },
-      listenScroll() {
-        let that = this;
-        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
-        switch (that.$route.name) {
-          case 'IdeaList':
-            storage('localstorage').set('IdeaList', scrollTop);
-            break;
-          case 'TopicList':
-            storage('localstorage').set('TopicList', scrollTop);
             break;
           default:
             break;

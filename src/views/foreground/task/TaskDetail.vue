@@ -175,7 +175,7 @@ export default {
         if(res.status){
           this.task_basic = res.data;
           if(res.data.obj_infos && Object.values(res.data.obj_infos)){
-            this.okr_name = Object.values(res.data.obj_infos)[0].okr_name;
+            this.okr_name = Object.values(res.data.obj_infos)[0].objective_name;
             this.obj_id = Object.values(res.data.obj_infos)[0].obj_id;
           }
 

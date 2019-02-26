@@ -63,6 +63,23 @@ class User extends Abstract {
     return this.postReq('User.UserByName', data);
   }
 
+  /**
+   * 获取所有部门数据
+   */
+  getPartList(data) {
+    return this.getReq('User.PartList', data);
+  }
+
+  /**
+   * 根据部门ID获取对应员工信息
+   * @param {number} depId 部门ID ,不填写则为全部
+   * @param {number} curPage
+   * @param {number} pages
+   */
+  getStaffsByDep(data) {
+    return this.getReq('User.StaffsByDep', data);
+  }
+
 }
 
 // 单列模式返回对象

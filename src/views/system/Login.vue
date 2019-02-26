@@ -16,10 +16,10 @@
       <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
         <el-form-item
         prop="email">
-          <el-input type="text" v-model="ruleForm2.email" auto-complete="off" @input="change" placeholder="工作邮箱地址"></el-input>
+          <el-input class="custom-input" type="text" v-model="ruleForm2.email" auto-complete="off" @input="change" placeholder="工作邮箱地址"></el-input>
         </el-form-item>
         <el-form-item prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off" @input="change" placeholder="密码"></el-input>
+          <el-input class="custom-input" type="password" v-model="ruleForm2.pass" auto-complete="off" @input="change" placeholder="密码"></el-input>
           <p v-show="login_judge" class="pass_error">邮箱或密码不正确</p>
         </el-form-item>
         <el-form-item>

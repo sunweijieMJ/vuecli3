@@ -5,7 +5,7 @@
       <div class="title">
         <div class="subtitle" v-if="okr_detail">
           <span class="kt-tag">{{okr_detail.okr_type_name}}</span>
-          <span class="kt-title">{{okr_detail.okr_name}}</span>
+          <span class="kt-title">{{okr_detail.objective_name}}</span>
         </div>
         <el-dropdown @command="handleCommand" v-if="okr_detail && okr_detail.is_owner">
           <span class="el-dropdown-link">
@@ -174,7 +174,7 @@ export default {
       }).then(res => {
         if(res.status){
           this.$message({message: '删除成功', type: 'success', duration: 1750});
-          this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
+          this.$router.push({name: 'OKRList', query: {active_menu: 'create'}});
         }else{
           this.$message({message: res.message, type: 'warning', duration: 1750});
         }
@@ -188,7 +188,7 @@ export default {
       okrApi().getBasicInfo({objId: this.$route.params.id}).then(res => {
         if(!res.status) {
           this.$message({message: res.message, type: 'warning', duration: 1750});
-          this.$router.push({name: 'OKRList', query: {okr_type: this.okr_detail.okr_type}});
+          this.$router.push({name: 'OKRList', query: {active_menu: 'create'}});
         }else{
           this.okr_detail = res.data;
           let AllJoinners = Object.values(res.data.participants);

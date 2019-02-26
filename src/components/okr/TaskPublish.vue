@@ -18,7 +18,7 @@
           <!-- ktask -->
           <div class="ktask">
             <el-form-item prop="task_content">
-              <el-input type="textarea" v-model="form.task_content" maxlength="50" placeholder="请填写达成OKR的关键任务(50字以内)"></el-input>
+              <el-input class="custom-input" type="textarea" v-model="form.task_content" maxlength="50" placeholder="请填写达成OKR的关键任务(50字以内)"></el-input>
             </el-form-item>
           </div>
           <!-- 参与者 -->
@@ -180,7 +180,7 @@
               that.form.object_ids.push({
                 obj_id: this.task_publish.parent.obj_id,
                 okr_type_name: this.task_publish.parent.okr_type_name,
-                okr_name: this.task_publish.parent.okr_name
+                objective_name: this.task_publish.parent.objective_name
               });
             } else {
               that.form.parent_id = this.task_publish.parent.task_id;

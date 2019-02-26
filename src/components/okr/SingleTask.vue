@@ -8,7 +8,7 @@
       <div class="info-desc">
         <p class="okr" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
           <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
-          <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].okr_name}}</span>
+          <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
         </p>
         <div class="num">
           <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
@@ -38,6 +38,9 @@
         <p>{{item.check_info.remarks}}</p>
       </div>
     </div>
+    <div class="update" v-else-if="item.edit_time">
+      <p>编辑于{{item.edit_time | timeFilter}}</p>
+    </div>
   </div>
 </template>
 <script>
@@ -62,6 +65,7 @@
 
   .single-task {
     width: 100%;
+    margin-bottom: 12px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -223,6 +227,13 @@
     &:hover .task-check{
       opacity: 1;
       background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 20%);
+    }
+    .update {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 50px;
+      border-top: 1px solid $lineColor;
     }
   }
 </style>
