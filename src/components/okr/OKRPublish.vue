@@ -4,6 +4,13 @@
       <h2 class="header" slot="title">OKR</h2>
       <el-form :model="form" :rules="rules" ref="ruleForm">
         <div class="main">
+          <!-- Objective -->
+          <div class="objective">
+            <el-form-item prop="objective">
+              <el-input class="custom-input" type="textarea" v-model="form.objective" maxlength="50" placeholder="你的目标是什么?(50字以内)"></el-input>
+            </el-form-item>
+          </div>
+          <!-- 基础信息 -->
           <div class="title">
             <div class="bo">
               <img :src="form.bo_user.header_photo" alt="">
@@ -27,13 +34,6 @@
           <!-- 参与者 -->
           <div class="task-user">
             <member v-model="form.task_user"></member>
-          </div>
-          <!-- Objective -->
-          <div class="objective">
-            <h4>Objective</h4>
-            <el-form-item prop="objective">
-              <el-input class="custom-input" type="textarea" v-model="form.objective" maxlength="50" placeholder="你的目标是什么?(50字以内)"></el-input>
-            </el-form-item>
           </div>
           <!-- Key Result -->
           <div class="key-result">
@@ -299,7 +299,7 @@
         position: relative;
         display: flex;
         height: 40px;
-        padding: 0 $left-right $up-down;
+        padding: $up-down $left-right;
         border-bottom: 1px solid $lineColor;
         .bo {
           display: flex;
@@ -353,14 +353,7 @@
       }
       .objective {
         position: relative;
-        padding: $up-down $left-right;
-        border-bottom: 1px solid $lineColor;
-        h4 {
-          font-size: $h1Font;
-          font-weight: $h1Weight;
-          line-height: 30px;
-          color: $themeColor;
-        }
+        padding: 0 $left-right;
         .is-error {
           textarea {
             border-color: #f56c6c;
@@ -371,7 +364,6 @@
           width: 100%;
           height: 73px;
           padding: 10px 20px;
-          margin-top: 15px;
           border-radius: 2px;
           font-size: $h3Font;
           line-height: 25px;

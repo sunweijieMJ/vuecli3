@@ -4,6 +4,12 @@
       <h2 class="header" slot="title">Task</h2>
       <el-form :model="form" status-icon :rules="rules" ref="ruleForm">
         <div class="main">
+          <!-- ktask -->
+          <div class="ktask">
+            <el-form-item prop="task_content">
+              <el-input class="custom-input" type="textarea" v-model="form.task_content" maxlength="50" placeholder="请填写达成OKR的关键任务(50字以内)"></el-input>
+            </el-form-item>
+          </div>
           <!-- task信息 -->
           <div class="title">
             <div class="bo">
@@ -14,12 +20,6 @@
               </div>
             </div>
             <date-range v-model="form.daterange"></date-range>
-          </div>
-          <!-- ktask -->
-          <div class="ktask">
-            <el-form-item prop="task_content">
-              <el-input class="custom-input" type="textarea" v-model="form.task_content" maxlength="50" placeholder="请填写达成OKR的关键任务(50字以内)"></el-input>
-            </el-form-item>
           </div>
           <!-- 参与者 -->
           <div class="task-user">
@@ -249,8 +249,7 @@
         }
       }
       .ktask {
-        padding: 0 $left-right $up-down;
-        border-bottom: 1px solid $lineColor;
+        padding: 0 $left-right;
         .is-error {
           textarea {
             border-color: #f56c6c;
@@ -284,7 +283,7 @@
 
     .el-dialog__wrapper {
       .el-dialog__header {
-        padding: 28px $left-right 0;
+        padding: $up-down $left-right;
         .header {
           font-size: $h1Font;
           font-weight: $h1Weight;
