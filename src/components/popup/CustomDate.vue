@@ -8,8 +8,7 @@
       <div slot="reference" class="current">
         <h4>起止时间</h4>
         <p>
-          <span v-if="shortcut_date">{{shortcut_date}}</span>
-          <span v-else>{{`${Moment().format(daterange[0])}-${Moment().format(daterange[1])}`}}</span>
+          <span>{{shortcut_date}}</span>
           <i class="iconfont icon-btn_more_s"></i>
         </p>
       </div>
@@ -49,36 +48,36 @@
         Moment,
         date_popover: false,
         date_popup: false,
-        shortcut_date: '',
+        shortcut_date: '请选择',
         daterange: '',
         shortcut: [
           {
             name: '第一季度Q1',
-            time: '2019-Q1'
+            range: [new Date('2019/1/1'), new Date('2019/3/31')]
           },
           {
             name: '第二季度Q2',
-            time: '2019-Q2'
+            range: [new Date('2019/4/1'), new Date('2019/6/30')]
           },
           {
             name: '第三季度Q3',
-            time: '2019-Q3'
+            range: [new Date('2019/7/1'), new Date('2019/9/30')]
           },
           {
             name: '第四季度Q4',
-            time: '2019-Q4'
+            range: [new Date('2019/10/1'), new Date('2019/12/31')]
           },
           {
             name: '上半年H1',
-            time: '2019-H1'
+            range: [new Date('2019/1/1'), new Date('2019/6/30')]
           },
           {
             name: '下半年H2',
-            time: '2019-H2'
+            range: [new Date('2019/7/1'), new Date('2019/12/31')]
           },
           {
             name: '全年',
-            time: '2019-All'
+            range: [new Date('2019/1/1'), new Date('2019/12/31')]
           }
         ],
         pickerOptions: {
@@ -90,63 +89,56 @@
               text: '第一季度Q1',
               onClick(picker) {
                 const start = new Date('2019/1/1');
-                const end = new Date('2019/3/31 23:59:59');
+                const end = new Date('2019/3/31');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-Q1';
               }
             },
             {
               text: '第二季度Q2',
               onClick(picker) {
                 const start = new Date('2019/4/1');
-                const end = new Date('2019/6/30 23:59:59');
+                const end = new Date('2019/6/30');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-Q2';
               }
             },
             {
               text: '第三季度Q3',
               onClick(picker) {
                 const start = new Date('2019/7/1');
-                const end = new Date('2019/9/30 23:59:59');
+                const end = new Date('2019/9/30');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-Q3';
               }
             },
             {
               text: '第四季度Q4',
               onClick(picker) {
                 const start = new Date('2019/10/1');
-                const end = new Date('2019/12/31 23:59:59');
+                const end = new Date('2019/12/31');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-Q4';
               }
             },
             {
               text: '上半年H1',
               onClick(picker) {
                 const start = new Date('2019/1/1');
-                const end = new Date('2019/6/30 23:59:59');
+                const end = new Date('2019/6/30');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-H1';
               }
             },
             {
               text: '下半年H2',
               onClick(picker) {
                 const start = new Date('2019/7/1');
-                const end = new Date('2019/12/31 23:59:59');
+                const end = new Date('2019/12/31');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-H2';
               }
             },
             {
               text: '全年',
               onClick(picker) {
                 const start = new Date('2019/1/1');
-                const end = new Date('2019/12/31 23:59:59');
+                const end = new Date('2019/12/31');
                 picker.$emit('pick', [start, end]);
-                that.shortcut_date = '2019-All';
               }
             }
           ]
@@ -157,15 +149,15 @@
       that = this;
       if(that.value.start_time || that.value.end_time) {
         that.daterange = [that.value.start_time, that.value.end_time];
-      } else {
-        that.daterange = [new Date(), new Date().setMonth(new Date().getMonth() + 3)];
       }
     },
     methods: {
+      // 快捷按钮
       chooseShort(item) {
-        this.shortcut_date = item.time;
+        this.daterange = item.range;
         this.date_popover = false;
       },
+      // 激活自定义弹框
       activeCustom() {
         this.date_popup = true;
         this.date_popover = false;
@@ -174,11 +166,47 @@
     watch: {
       daterange(cur) {
         let that = this;
-        that.shortcut_date = '';
+        const start_time = Moment().format(cur[0]);
+        const end_time = Moment().format(cur[1]);
+        const range = JSON.stringify([new Date(start_time), new Date(end_time)]);
+        const Q1 = JSON.stringify([new Date('2019/1/1'), new Date('2019/3/31')]);
+        const Q2 = JSON.stringify([new Date('2019/4/1'), new Date('2019/6/30')]);
+        const Q3 = JSON.stringify([new Date('2019/7/1'), new Date('2019/9/30')]);
+        const Q4 = JSON.stringify([new Date('2019/10/1'), new Date('2019/12/31')]);
+        const H1 = JSON.stringify([new Date('2019/1/1'), new Date('2019/6/30')]);
+        const H2 = JSON.stringify([new Date('2019/7/1'), new Date('2019/12/31')]);
+        const All = JSON.stringify([new Date('2019/1/1'), new Date('2019/12/31')]);
+
+        switch (range) {
+          case Q1:
+            that.shortcut_date = '2019-Q1';
+            break;
+          case Q2:
+            that.shortcut_date = '2019-Q2';
+            break;
+          case Q3:
+            that.shortcut_date = '2019-Q3';
+            break;
+          case Q4:
+            that.shortcut_date = '2019-Q4';
+            break;
+          case H1:
+            that.shortcut_date = '2019-H1';
+            break;
+          case H2:
+            that.shortcut_date = '2019-H2';
+            break;
+          case All:
+            that.shortcut_date = '2019-All';
+            break;
+          default:
+            that.shortcut_date = `${start_time}-${end_time}`;
+            break;
+        }
 
         that.$emit('input', {
-          start_time: Moment().format(cur[0]),
-          end_time: Moment().format(cur[1])
+          start_time,
+          end_time
         });
       },
       date_popup(cur) {
