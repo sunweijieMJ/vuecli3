@@ -29,7 +29,7 @@
               </el-popover>
             </el-badge>
             <el-dropdown @command="handleCommand" trigger="hover">
-              <img :src="self_info.header_photo" alt="" @click="paramsSkip('Profile', {id: self_info.user_id})">
+              <img :src="self_info.header_photo" alt="" @click="handleCommand('homepage')">
               <el-dropdown-menu slot="dropdown" class="nav-user">
                 <el-dropdown-item command="homepage">我的主页</el-dropdown-item>
                 <el-dropdown-item command="exit">退出登录</el-dropdown-item>
@@ -88,6 +88,11 @@
       this.timer = window.setInterval(() => {
         that.$store.dispatch('getMessageUnread');
       }, 15000);
+      // 去除滚动条宽度
+      that.$nextTick(() => {
+        const innerWidth = document.documentElement.offsetWidth - that.getScrollbarWidth();
+        document.querySelector('.header-box .header').style.width = document.body.style.width = innerWidth + 'px';
+      });
     },
     updated() {
       // 暂时
@@ -150,6 +155,21 @@
           default:
             break;
         }
+      },
+      getScrollbarWidth() {
+        let odiv = document.createElement('div');
+        let styles = {
+          width: '100px',
+          height: '100px',
+          overflowY: 'scroll'
+        };
+        let i;
+        let scrollbarWidth;
+        for (i in styles) odiv.style[i] = styles[i];
+        document.body.appendChild(odiv);
+        scrollbarWidth = odiv.offsetWidth - odiv.clientWidth;
+        odiv.remove();
+        return scrollbarWidth;
       }
     },
     destroyed() {
@@ -172,6 +192,7 @@
         height: 60px;
         position: fixed;
         left: 0; right: 0;
+        width: 100%;
         z-index: 2000;
         background-color: #fff;
         box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -247,7 +268,7 @@
       }
     }
     .main {
-      min-height: calc(100% - 60px);
+      min-height: calc(100vh - 60px);
       background-color: #f6f6f6;
     }
   }

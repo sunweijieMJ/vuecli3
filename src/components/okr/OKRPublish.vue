@@ -21,15 +21,15 @@
             </div>
             <div class="type">
               <h4>类型</h4>
-              <el-dropdown @command="handleCommand" trigger="click">
+              <el-dropdown v-if="project_type.length > 1" @command="handleCommand" trigger="click">
                 <p>{{form.okr_type.name}}<i class="iconfont icon-btn_more_s"></i></p>
                 <el-dropdown-menu slot="dropdown" class="okr-type">
                   <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item.name}}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
+              <p v-else>{{form.okr_type.name}}</p>
             </div>
             <custom-date v-model="form.daterange"></custom-date>
-            <!-- <date-range v-model="form.daterange"></date-range> -->
           </div>
           <!-- 参与者 -->
           <div class="task-user">

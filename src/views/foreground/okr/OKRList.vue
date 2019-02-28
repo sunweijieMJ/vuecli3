@@ -18,11 +18,11 @@
       <el-cascader
         v-model="active_part"
         placeholder="全部作者"
-        expand-trigger="click"
+        expand-trigger="hover"
         :options="part_list"
         :show-all-levels="false"
-        :change-on-select="true"
-        @change="partChange"
+        @active-item-change="handleItemChange"
+        @change="resetList()"
       ></el-cascader>
       <el-cascader
         v-model="active_kind"
@@ -120,15 +120,19 @@
           }
         });
       },
-      // 角色改变
-      partChange(item) {
+      // 联想二级菜单
+      handleItemChange(item) {
         let that = this;
         UserApi().getStaffsByDep({depId: item[0]}).then(res => {
           if(!res.status) return;
           const user_list = Object.values(res.data.list);
           for(let i = 0, ILEN = that.part_list.length; i < ILEN; i++) {
             if(that.part_list[i].dep_id === item[0]) {
-              that.part_list[i].children = [];
+              that.part_list[i].children = [
+                {
+                  label: `${that.part_list[i].department_name}(all)`
+                }
+              ];
               for(let j = 0, JLEN = user_list.length; j < JLEN; j++) {
                 that.part_list[i].children.push({
                   label: `${user_list[j].user_name}(${user_list[j].real_name})`,
@@ -139,7 +143,6 @@
             }
           }
         });
-        that.resetList();
       },
       // 菜单改变
       handleClick(e) {

@@ -23,8 +23,9 @@
         </div>
       </div>
     </div>
-    <div class="update" v-if="item.edit_time">
-      <p>编辑于{{item.edit_time | timeFilter}}</p>
+    <div class="update">
+      <p v-if="item.edit_time">编辑于 {{item.edit_time | timeFilter}}</p>
+      <p v-else>创建于 {{item.create_time | timeFilter}}</p>
     </div>
   </div>
 </template>

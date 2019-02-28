@@ -12,6 +12,11 @@ export default {
       path: 'okr_detail/:id',
       name: 'OKRDetail',
       component: () => import('../../views/foreground/okr/OKRDetail.vue')
+    },
+    {
+      path: 'okr_logs/:id',
+      name: 'OKRLogs',
+      component: () => import('../../views/foreground/okr/OKRLogs.vue')
     }
   ]
 };

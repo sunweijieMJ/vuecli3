@@ -38,8 +38,9 @@
         <p>{{item.check_info.remarks}}</p>
       </div>
     </div>
-    <div class="update" v-else-if="item.edit_time">
-      <p>编辑于{{item.edit_time | timeFilter}}</p>
+    <div class="update" v-else-if="item.edit_time || item.create_time">
+      <p v-if="item.edit_time">编辑于 {{item.edit_time | timeFilter}}</p>
+      <p v-else>创建于 {{item.create_time | timeFilter}}</p>
     </div>
   </div>
 </template>
