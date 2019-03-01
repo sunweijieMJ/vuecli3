@@ -248,7 +248,7 @@
       }
     }
     .main {
-      min-height: calc(100vh - 60px);
+      // min-height: calc(100vh - 60px);
       background-color: #f6f6f6;
     }
   }

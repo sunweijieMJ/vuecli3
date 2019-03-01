@@ -27,6 +27,7 @@
         @change="resetList()"
       ></el-cascader>
       <el-cascader
+        class="kind-select"
         v-model="active_kind"
         :options="kind_list"
         :clearable="true"
@@ -353,7 +354,6 @@
       .el-cascader {
         box-sizing: border-box;
         display: flex;
-        // width: 170px;
         height: 40px;
         padding: 10px 20px;
         margin-right: 12px;
@@ -365,7 +365,6 @@
         }
         .el-input {
           input {
-            width: inherit;
             height: 20px;
             padding: 0;
             font-size: $h3Font;
@@ -382,10 +381,17 @@
           .el-input__icon {
             color: $h1Color;
           }
+          .el-input__suffix {
+            right: -10px;
+          }
         }
         .el-cascader__label {
-          display: flex;
-          align-items: center;
+          padding: 0 15px;
+          line-height: 40px;
+        }
+
+        &.kind-select input{
+          width: 80px;
         }
       }
     }
