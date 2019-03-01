@@ -88,11 +88,6 @@
       this.timer = window.setInterval(() => {
         that.$store.dispatch('getMessageUnread');
       }, 15000);
-      // 去除滚动条宽度
-      that.$nextTick(() => {
-        const innerWidth = document.documentElement.offsetWidth - that.getScrollbarWidth();
-        document.querySelector('.header-box .header').style.width = document.body.style.width = innerWidth + 'px';
-      });
     },
     updated() {
       // 暂时
@@ -155,21 +150,6 @@
           default:
             break;
         }
-      },
-      getScrollbarWidth() {
-        let odiv = document.createElement('div');
-        let styles = {
-          width: '100px',
-          height: '100px',
-          overflowY: 'scroll'
-        };
-        let i;
-        let scrollbarWidth;
-        for (i in styles) odiv.style[i] = styles[i];
-        document.body.appendChild(odiv);
-        scrollbarWidth = odiv.offsetWidth - odiv.clientWidth;
-        odiv.remove();
-        return scrollbarWidth;
       }
     },
     destroyed() {

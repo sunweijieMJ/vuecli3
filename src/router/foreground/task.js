@@ -12,11 +12,6 @@ export default {
       path: 'task_detail/:id',
       name: 'TaskDetail',
       component: () => import('../../views/foreground/task/TaskDetail.vue')
-    },
-    {
-      path: 'task_logs/:id',
-      name: 'TaskLogs',
-      component: () => import('../../views/foreground/task/TaskLogs.vue')
     }
   ]
 };

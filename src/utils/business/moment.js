@@ -8,6 +8,7 @@ class Moment {
 
   format(time, type) {
     if (!isNaN(+time)) time = +time;
+    if (typeof time === 'number' && time.toString().length === 10) time = time * 1000;
     if (typeof time === 'string') time = time.split('-').join('/');
 
     const year = new Date(time).getFullYear();

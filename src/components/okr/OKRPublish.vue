@@ -29,7 +29,9 @@
               </el-dropdown>
               <p v-else>{{form.okr_type.name}}</p>
             </div>
-            <custom-date v-model="form.daterange"></custom-date>
+            <el-form-item prop="daterange">
+              <custom-date v-model="form.daterange"></custom-date>
+            </el-form-item>
           </div>
           <!-- 参与者 -->
           <div class="task-user">
@@ -81,10 +83,8 @@
         form: {
           bo_user: '',
           okr_type: '',
-          daterange: {
-            start_time: '',
-            end_time: ''
-          },
+          daterange: '',
+          duration: '',
           task_user: [],
           objective: '',
           key_result: [
@@ -97,11 +97,54 @@
         },
         project_type: [],
         rules: {
-          objective: [{required: true, message: ' ', trigger: 'change'}]
+          objective: [{required: true, message: ' ', trigger: 'change'}],
+          daterange: [{required: true, message: ' ', trigger: 'change'}]
         }
       };
     },
     methods: {
+      // 解析时间
+      dateParse() {
+        let [that, duration] = [this, ''];
+        const start_time = that.form.daterange.start_time;
+        const end_time = that.form.daterange.end_time;
+        const range = JSON.stringify([new Date(start_time), new Date(end_time)]);
+        const Q1 = JSON.stringify([new Date('2019/1/1'), new Date('2019/3/31')]);
+        const Q2 = JSON.stringify([new Date('2019/4/1'), new Date('2019/6/30')]);
+        const Q3 = JSON.stringify([new Date('2019/7/1'), new Date('2019/9/30')]);
+        const Q4 = JSON.stringify([new Date('2019/10/1'), new Date('2019/12/31')]);
+        const H1 = JSON.stringify([new Date('2019/1/1'), new Date('2019/6/30')]);
+        const H2 = JSON.stringify([new Date('2019/7/1'), new Date('2019/12/31')]);
+        const All = JSON.stringify([new Date('2019/1/1'), new Date('2019/12/31')]);
+
+        switch (range) {
+          case Q1:
+            duration = '2019-Q1';
+            break;
+          case Q2:
+            duration = '2019-Q2';
+            break;
+          case Q3:
+            duration = '2019-Q3';
+            break;
+          case Q4:
+            duration = '2019-Q4';
+            break;
+          case H1:
+            duration = '2019-H1';
+            break;
+          case H2:
+            duration = '2019-H2';
+            break;
+          case All:
+            duration = '2019-All';
+            break;
+          default:
+            break;
+        }
+        return duration;
+      },
+      // 获取okr类型
       getKindList() {
         let that = this;
         OkrApi().getKindList({type: 'create'}).then(res => {
@@ -236,6 +279,7 @@
           okrType: that.form.okr_type.id,
           startTime: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
           endTime: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD'),
+          duration: that.dateParse(),
           takeUser,
           objectiveName: that.form.objective,
           keyResult
@@ -262,6 +306,7 @@
               start_time: Moment().format(that.okr_publish.source.start_time, 'YYYY/MM/DD'),
               end_time: Moment().format(that.okr_publish.source.end_time, 'YYYY/MM/DD')
             },
+            duration: that.okr_publish.source.duration_span,
             task_user: Object.values(that.okr_publish.source.participants),
             objective: that.okr_publish.source.objective_name,
             key_result: that.okr_publish.source.key_result
@@ -270,6 +315,10 @@
           that.form.bo_user = that.self_info;
         }
         this.getKindList();
+      },
+      'form.daterange'(cur) {
+        // 手动验证日期
+        if(cur) this.$refs.ruleForm.validateField('daterange');
       }
     }
   };

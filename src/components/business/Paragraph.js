@@ -29,21 +29,24 @@ export default {
                   innerHTML: item
                 },
                 on: {
-                  click: (e) => {
+                  mouseenter: (e) => {
                     if (that.forbid) return;
                     let userNames = e.target.innerText.substring(1);
                     userNames = userNames.split();
                     UserApi().getUserByName({userNames}).then(res => {
                       if (res.status) {
-                        if (!res.data.total) {
-                          that.$message({message: '用户不存在', type: 'warning'});
-                        } else {
-                          const id = Object.values(res.data.list)[0].user_id;
-                          that.pathSkip(`/foreground/fore_mine/profile/${id}`);
-                        }
+                        e.target.addEventListener('click', (e) => {
+                          if (res.data.total) {
+                            const id = Object.values(res.data.list)[0].user_id;
+                            that.pathSkip(`/foreground/fore_mine/profile/${id}`);
+                          } else {
+                            that.$message({message: '用户不存在', type: 'warning'});
+                          }
+                          e.stopPropagation ? e.stopPropagation() : window.event.cancelBubble = true;
+                        }, false);
                       }
                     });
-                    e.stopPropagation();
+                    e.stopPropagation ? e.stopPropagation() : window.event.cancelBubble = true;
                   }
                 }
               }
@@ -56,20 +59,23 @@ export default {
                   href: 'javascript:;'
                 },
                 on: {
-                  click: (e) => {
+                  mouseenter: (e) => {
                     if (that.forbid) return;
                     const topicTitles = e.target.innerText.replace(/#/g, '').trim().split(' ');
                     IdeaApi().getTopicByTitle({topicTitles}).then(res => {
                       if (res.status) {
-                        if (!res.data.length) {
-                          that.$message({message: '话题不存在', type: 'warning'});
-                        } else {
-                          const id = res.data[0].topic_id;
-                          that.pathSkip(`/foreground/fore_idea/topic_list/${id}`);
-                        }
+                        e.target.addEventListener('click', (e) => {
+                          if (res.data.length) {
+                            const id = res.data[0].topic_id;
+                            that.pathSkip(`/foreground/fore_idea/topic_list/${id}`);
+                          } else {
+                            that.$message({message: '话题不存在', type: 'warning'});
+                          }
+                          e.stopPropagation ? e.stopPropagation() : window.event.cancelBubble = true;
+                        }, false);
                       }
                     });
-                    e.stopPropagation();
+                    e.stopPropagation ? e.stopPropagation() : window.event.cancelBubble = true;
                   }
                 }
               },

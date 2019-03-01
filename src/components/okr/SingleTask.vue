@@ -11,6 +11,7 @@
           <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
         </p>
         <div class="num">
+          <p v-if="item.duration_span" class="time">{{`${new Date().getFullYear()}-${item.duration_span}`}}</p>
           <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
           <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
           <p class="progress" v-else>

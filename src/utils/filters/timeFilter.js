@@ -2,9 +2,10 @@ import fillZero from './fillZero';
 
 // 时间过滤
 let timeFilter = (time) => {
-  // Safari只支持yyyy/mm/dd
   if (!time) return;
   if (!isNaN(+time)) time = +time;
+  if (typeof time === 'number' && time.toString().length === 10) time = time * 1000;
+  // Safari只支持yyyy/mm/dd
   if (typeof time === 'string') time = time.split('-').join('/');
   const old = new Date(time).getTime();
   const cur = new Date().getTime();

@@ -13,8 +13,8 @@ export default {
       this.$router.push({name, params});
     },
     // path
-    pathSkip(path) {
-      window.open(path, '_blank');
+    pathSkip(url) {
+      window.open(url, '_blank');
     },
     // 大图展示
     showImage(source, index) {

@@ -20,6 +20,7 @@
         placeholder="全部作者"
         expand-trigger="hover"
         :options="part_list"
+        :clearable="true"
         :show-all-levels="false"
         @active-item-change="handleItemChange"
         @change="resetList()"

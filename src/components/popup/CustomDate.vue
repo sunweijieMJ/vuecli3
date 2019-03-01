@@ -147,7 +147,7 @@
     },
     created() {
       that = this;
-      if(that.value.start_time || that.value.end_time) {
+      if(that.value) {
         that.daterange = [that.value.start_time, that.value.end_time];
       }
     },
@@ -256,6 +256,10 @@
         display: none;
       }
     }
+  }
+
+  .is-error .custom-date .current p span{
+    color: #f56c6c;
   }
 
   .el-popover {

@@ -29,6 +29,18 @@ class Notice extends Abstract {
     return this.getReq('Notice.MessageUnread', data);
   }
 
+  /**
+   * 日志列表
+   * @param {string} business_type: * 1: okr, 2: task
+   * @param {number} business_id okr|task id
+   * @param {number} last_id
+   * @param {number} currPage
+   * @param {number} pages
+   */
+  getLogList(data) {
+    return this.getReq('Notice.LogList', data);
+  }
+
 }
 
 // 单列模式返回对象
