@@ -208,8 +208,26 @@ $up-down: 30px;
     max-height: 204px;
     height: inherit;
     .el-cascader-menu__item {
+      height: initial;
+      padding: 10px 16px;
+      font-size: $h3Font;
+      line-height: 1;
+      color: $h1Color;
+      border-bottom: 1px solid $lineColor;
+      &:last-child {
+        border-bottom: 0;
+      }
+      &:hover {
+        background-color: $backColor;
+      }
       &.is-active {
         color: $linkBlue;
+      }
+      &.el-cascader-menu__item--extensible {
+        padding-right: 26px;
+        &::after {
+          right: 10px;
+        }
       }
     }
   }

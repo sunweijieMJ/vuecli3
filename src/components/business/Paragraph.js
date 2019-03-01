@@ -30,11 +30,12 @@ export default {
                 },
                 on: {
                   mouseenter: (e) => {
-                    if (that.forbid) return;
+                    if (that.forbid || e.target.getAttribute('event')) return;
                     let userNames = e.target.innerText.substring(1);
                     userNames = userNames.split();
                     UserApi().getUserByName({userNames}).then(res => {
                       if (res.status) {
+                        e.target.setAttribute('event', true);
                         e.target.addEventListener('click', (e) => {
                           if (res.data.total) {
                             const id = Object.values(res.data.list)[0].user_id;
@@ -60,10 +61,11 @@ export default {
                 },
                 on: {
                   mouseenter: (e) => {
-                    if (that.forbid) return;
+                    if (that.forbid || e.target.getAttribute('event')) return;
                     const topicTitles = e.target.innerText.replace(/#/g, '').trim().split(' ');
                     IdeaApi().getTopicByTitle({topicTitles}).then(res => {
                       if (res.status) {
+                        e.target.setAttribute('event', true);
                         e.target.addEventListener('click', (e) => {
                           if (res.data.length) {
                             const id = res.data[0].topic_id;
