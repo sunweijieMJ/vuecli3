@@ -122,6 +122,10 @@ class Okr extends Abstract {
   deleteOkr(data){
     return this.postReq('Okr.DeleteOkr', data);
   }
+
+  pushOkrDes(data){
+    return this.postReq('Okr.Description', data);
+  }
 }
 
 // 单列模式返回对象

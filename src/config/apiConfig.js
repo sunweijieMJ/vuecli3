@@ -57,7 +57,8 @@ const urlDict = {
     'DeleteUserFromOkr': '/okr/okr/deluser', // ETC 删除 OKR 关联 User
     'KindList': '/okr/okr/typelist', // ETC okr type
     'OkrList': '/okr/okr/list', // ETC okr list
-    'DeleteOkr': '/okr/okr/delokr' // ETC okr删除
+    'Description': '/okr/okr/updatecolumns', // ETC okr描述
+    'DeleteOkr': '/okr/okr/delokr', // ETC okr删除
   },
   'Task': {
     'CreateTask': '/okr/task/create', // ETC 创建Task

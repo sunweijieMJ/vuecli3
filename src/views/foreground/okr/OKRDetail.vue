@@ -22,6 +22,10 @@
               <span class="iconfont icon-icon_delete"></span>
               <span class="edits">删除</span>
             </el-dropdown-item>
+            <el-dropdown-item command="添加">
+              <span class="iconfont icon-icon_add"></span>
+              <span class="edits">添加KT</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -73,7 +77,14 @@
         </div>
       </div>
       <div class="key-result">
-        <KeyResult :kr_list="kr_list" :okr_detail="okr_detail"></KeyResult>
+        <KeyResult 
+          @updateOkr="updateOkr"
+          :isOwner="okr_detail.is_owner"
+          :okrDec="okr_detail.obj_desc"
+          :objId="okr_detail.obj_id"
+          :kr_list="kr_list"
+          :okr_detail="okr_detail"
+          ></KeyResult>
       </div>
       <div class="add-key-task">
         <span class="task-name">Key Task</span>
@@ -127,6 +138,10 @@ export default {
     };
   },
   methods: {
+    // 刷新okr列表
+    updateOkr(){
+      this.getBasicInfo();
+    },
     goProFile(user_id){
       this.pathSkip(`/foreground/fore_mine/profile/${user_id}`);
     },
@@ -162,6 +177,9 @@ export default {
           break;
         case '删除':
           this.okrDelete();
+          break;
+        case '添加':
+          this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: this.okr_detail});
           break;
         default:
           break;
@@ -253,7 +271,6 @@ export default {
   mounted(){
     this.getBasicInfo();
     this.getKeyResultList();
-    // this.getKeyTaskList();
   }
 };
 </script>
@@ -456,6 +473,16 @@ export default {
     padding: 0 29px;
     line-height: 54px;
     color: #303133 !important;
+  }
+}
+.content{
+  .title{
+    .el-dropdown{
+      position: fixed;
+      right: 138px;
+      bottom: 21px !important;
+      z-index: 1000;
+    }
   }
 }
 </style>

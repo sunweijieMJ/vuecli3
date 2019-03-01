@@ -181,7 +181,7 @@ export default {
     border-radius:4px;
     padding: 25px 0 0 30px;
     .task-box{
-      padding-right: 50px;
+      padding-right: 35px;
       position: relative;
       .got-task-detail{
         @extend %textlight;
