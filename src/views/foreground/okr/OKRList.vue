@@ -19,6 +19,7 @@
         v-model="active_part"
         placeholder="全部作者"
         expand-trigger="hover"
+        popper-class="custom-cascader"
         :options="part_list"
         :clearable="true"
         :show-all-levels="false"
@@ -28,7 +29,9 @@
       <el-cascader
         v-model="active_kind"
         :options="kind_list"
+        :clearable="true"
         placeholder="全部类型"
+        popper-class="custom-cascader"
         @change="resetList()"
       ></el-cascader>
     </div>
@@ -173,7 +176,6 @@
         OkrApi().getKindList({}).then(res => {
           if(!res.status) return;
           that.kind_list = res.data;
-          that.kind_list.unshift({id: 0, name: '全部'});
           for(let i = 0, LEN = that.kind_list.length; i < LEN; i++) {
             that.kind_list[i].label = that.kind_list[i].name;
             that.kind_list[i].value = that.kind_list[i].id;
@@ -351,7 +353,7 @@
       .el-cascader {
         box-sizing: border-box;
         display: flex;
-        width: 170px;
+        // width: 170px;
         height: 40px;
         padding: 10px 20px;
         margin-right: 12px;

@@ -1,8 +1,7 @@
 <template>
   <div class="single-log">
     <div class="header">
-      <i class="iconfont icon-okrziyuan-" v-if="vitem.action_name.substr(0, 2) === '更新'"></i>
-      <i class="iconfont icon-icon_add_l1" v-else></i>
+      <i class="iconfont icon-icon_log"></i>
       <div class="desc">
         <div class="author">
           <span @click.stop="pathSkip(`/foreground/fore_mine/profile/${vitem.user_info.user_id}`)">{{vitem.user_info.user_name}}</span>

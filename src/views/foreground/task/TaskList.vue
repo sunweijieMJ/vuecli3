@@ -11,13 +11,15 @@
     </div>
     <div class="task-select" v-if="active_task === 'all'">
       <el-cascader
-        v-model="active_part"
+         v-model="active_part"
         placeholder="全部作者"
-        expand-trigger="click"
+        expand-trigger="hover"
+        popper-class="custom-cascader"
         :options="part_list"
+        :clearable="true"
         :show-all-levels="false"
-        :change-on-select="true"
-        @change="partChange"
+        @active-item-change="handleItemChange"
+        @change="resetList()"
       ></el-cascader>
     </div>
     <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
@@ -115,7 +117,7 @@
         that.$router.push({name: that.$route.name, query: {active_task: e.name}});
       },
       // 角色改变
-      partChange(item) {
+      handleItemChange(item) {
         let that = this;
         UserApi().getStaffsByDep({depId: item[0]}).then(res => {
           if(!res.status) return;
@@ -321,7 +323,7 @@
       .el-cascader {
         box-sizing: border-box;
         display: flex;
-        width: 170px;
+        // width: 170px;
         height: 40px;
         padding: 10px 20px;
         margin-right: 12px;
@@ -357,6 +359,7 @@
         }
       }
     }
+
   }
 </style>
 

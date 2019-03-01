@@ -203,10 +203,15 @@ $up-down: 30px;
 }
 
 // 级联选择器
-.el-cascader-menus {
+.custom-cascader {
   .el-cascader-menu {
     max-height: 204px;
     height: inherit;
+    .el-cascader-menu__item {
+      &.is-active {
+        color: $linkBlue;
+      }
+    }
   }
 }
 

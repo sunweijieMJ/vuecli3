@@ -29,7 +29,7 @@
           },
           {
             name: '添加Task',
-            icon: 'icon-icon_add_l'
+            icon: 'icon-icon_add_l1'
           }
         ]
       };
