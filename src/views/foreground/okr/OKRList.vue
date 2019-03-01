@@ -44,7 +44,7 @@
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-icon_nothing"></use>
         </svg>
-        <p>暂时没有内容哦</p>
+        <p>当前没有内容</p>
       </div>
     </ul>
     <o-k-r-publish @handleOkrPublish="handleOkrPublish"></o-k-r-publish>
@@ -284,7 +284,7 @@
       display: flex;
       flex-direction: column;
       height: 140px;
-      background-color: $h2Color;
+      background-color: #45474B;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
       h3 {
         width: 1040px;

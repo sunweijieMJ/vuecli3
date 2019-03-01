@@ -14,7 +14,7 @@
             <el-popover
               placement="bottom"
               trigger="hover">
-              <img slot="reference" :src="item.creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_info.user_id}`)">
+              <img slot="reference" :src="item.creator_info.header_photo | imageSize('80x80')" alt="">
               <user-popover :userinfo="item.creator_info"></user-popover>
             </el-popover>
             <span class="user-name">{{item.creator_info.user_name}}</span>

@@ -351,7 +351,6 @@
       display: flex;
       justify-content: space-between;
       width: 1040px;
-      height: 300px;
       padding-top: 12px;
       margin: auto;
       .achieve {

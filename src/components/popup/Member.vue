@@ -112,7 +112,7 @@
       closeTag(index) {
         let that = this;
         const objId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.obj_id;
-        const taskId = that.$store.state.okr_publish.source && that.$store.state.okr_publish.source.task_id;
+        const taskId = that.$store.state.task_publish.source && that.$store.state.task_publish.source.task_id;
         const userId = that.join_list[index].user_id;
         if(that.join_list[index].isNew) {
           that.join_list.splice(index, 1);

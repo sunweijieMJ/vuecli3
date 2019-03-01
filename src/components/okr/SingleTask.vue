@@ -6,18 +6,33 @@
         <h4 @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">{{item.task_name}}</h4>
       </div>
       <div class="info-desc">
-        <p class="okr" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
-          <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
-          <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
-        </p>
-        <div class="num">
-          <p v-if="item.duration_span" class="time">{{`${new Date().getFullYear()}-${item.duration_span}`}}</p>
-          <p class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
-          <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
-          <p class="progress" v-else>
-            <span>完成度</span>
-            <i>{{item.progress}}</i>
+        <div class="okr">
+          <p class="name" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
+            <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
+            <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
           </p>
+          <div class="owner" v-if="item.obj_info && item.obj_info.length && item.obj_info[0].creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <img slot="reference" :src="item.obj_info[0].creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
+              <user-popover :userinfo="item.obj_info[0].creator_info"></user-popover>
+            </el-popover>
+            <span>{{item.obj_info[0].creator_info.user_name}}</span>
+          </div>
+        </div>
+        <div class="desc">
+          <template>
+            <p v-if="item.duration_span" class="time">{{`${new Date().getFullYear()}-${item.duration_span}`}}</p>
+            <p v-else class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
+          </template>
+          <template>
+            <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
+            <p class="progress" v-else>
+              <span>完成度</span>
+              <i>{{item.progress}}</i>
+            </p>
+          </template>
         </div>
       </div>
       <task-check :item="item"></task-check>
@@ -109,26 +124,47 @@
         .okr {
           display: flex;
           align-items: center;
-          width: 285px;
-          cursor: pointer;
-          &:hover i{
-            color: $themeColor;
+          .name {
+            display: flex;
+            align-items: center;
+            width: 285px;
+            cursor: pointer;
+            &:hover i{
+              color: $themeColor;
+            }
+            &:hover span{
+              color: $themeColor;
+            }
+            i {
+              font-size: $h4Font;
+              color: #000;
+            }
+            span {
+              @include tofl(264px);
+              margin-left: 7px;
+              font-size: $h4Font;
+              color: $h2Color;
+            }
           }
-          &:hover span{
-            color: $themeColor;
-          }
-          i {
-            font-size: $h4Font;
-            color: #000;
-          }
-          span {
-            @include tofl(264px);
-            margin-left: 7px;
-            font-size: $h4Font;
-            color: $h2Color;
+          .owner {
+            display: flex;
+            align-items: center;
+            img {
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+            }
+            span {
+              margin-left: 7px;
+              font-size: $h4Font;
+              line-height: 1;
+              color: $h2Color;
+              cursor: pointer;
+              @extend %textlight;
+            }
           }
         }
-        .num {
+        .desc {
           display: flex;
           justify-content: space-between;
           align-items: center;

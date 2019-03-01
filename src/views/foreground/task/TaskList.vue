@@ -30,7 +30,7 @@
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-icon_nothing"></use>
         </svg>
-        <p>暂时没有内容哦</p>
+        <p>当前没有内容</p>
       </div>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
@@ -177,6 +177,9 @@
               task_list[i].obj_info = [];
               for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
+                for(let k = 0, KLEN = task_list[i].obj_info.length; k < KLEN; k++) {
+                  task_list[i].obj_info[k].creator_info = users_info[task_list[i].obj_info[k].creator_id];
+                }
               }
             }
             if(!users_info) continue;
@@ -209,6 +212,9 @@
               task_list[i].obj_info = [];
               for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
+                for(let k = 0, KLEN = task_list[i].obj_info.length; k < KLEN; k++) {
+                  task_list[i].obj_info[k].creator_info = users_info[task_list[i].obj_info[k].creator_id];
+                }
               }
             }
             if(!users_info) continue;
