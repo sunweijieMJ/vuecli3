@@ -59,6 +59,7 @@ const urlDict = {
     'KindList': '/okr/okr/typelist', // ETC okr type
     'OkrList': '/okr/okr/list', // ETC okr list
     'Description': '/okr/okr/updatecolumns', // ETC okr描述
+    'OkrDynamic': 'okr/okr/progresslist', // ETC okr动态
     'DeleteOkr': '/okr/okr/delokr', // ETC okr删除
   },
   'Task': {

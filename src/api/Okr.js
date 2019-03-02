@@ -126,6 +126,10 @@ class Okr extends Abstract {
   pushOkrDes(data){
     return this.postReq('Okr.Description', data);
   }
+
+  getOkrDynamic(data){
+    return this.getReq('Okr.OkrDynamic', data);
+  }
 }
 
 // 单列模式返回对象

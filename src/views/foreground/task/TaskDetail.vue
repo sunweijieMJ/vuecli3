@@ -12,7 +12,7 @@
           <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
             <span class="el-dropdown-link">
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-btn_more_p1"></use>
+                <use xlink:href="#icon-btn_more_purple1"></use>
               </svg>
             </span>
             <el-dropdown-menu slot="dropdown" class="task-pop">
@@ -443,6 +443,16 @@ export default {
     }
     font-size: 15px;
     color: #303133 !important;
+  }
+}
+.task-detail{
+  .detail-box{
+    .el-dropdown{
+      position: fixed;
+      right: 138px;
+      bottom: 21px !important;
+      z-index: 1000;
+    }
   }
 }
 </style>

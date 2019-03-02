@@ -5,13 +5,14 @@
     </div>
     <ul v-for="(dy, dyindex) in dynamic_list" :key="dyindex">
       <li class="item-state">
+        <span class="iconfont icon-icon_add" v-if="dy.type_name === '创建'"></span>
+        <span class="iconfont icon-icon_edit" v-if="dy.type_name === '编辑'"></span>
         <span class="iconfont icon-icon_close_l" v-if="dy.type_name === '完成'"></span>
         <span class="iconfont icon-icon_check" v-if="dy.type_name === '跟进'"></span>
         <span>{{dy.type_name}}</span>
       </li>
       <li>
         <div class="person-photo">
-          <!-- <img :src="dy.user_info.header_photo" alt="" @click="goPersonal(dy.user_info.user_id)"> -->
           <el-popover
             placement="bottom"
             trigger="hover"
@@ -22,11 +23,13 @@
           <div>
             <p>
               <span class="name" @click="goPersonal(dy.user_info.user_id)">{{dy.user_info.user_name}}</span>
+              <span class="description">{{dy.type_name}}了这个Task</span>
+              <span class="checkout" v-if="dy.type_name === '创建' || dy.type_name === '编辑'" @click="goDialg(dy.pro_id, dy.mao_id)">查看</span>
             </p>
             <p class="time">{{dy.publish_time | timeFilter}}</p>
           </div>
         </div>
-        <div class="hot">
+        <div class="hot" v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'">
           <div class="rate">
             <el-rate class="small-rate" v-model="dy.score" show-score disabled :allow-half="true" show-text
               :disabled-void-color="'#c0c4cc'"
@@ -43,7 +46,7 @@
             </span>
           </div>
         </div>
-        <p class="des">
+        <p v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'" class="des">
           {{dy.remarks}}
         </p>
       </li>
@@ -74,6 +77,10 @@ export default {
   methods: {
     goPersonal(user_id){
       window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
+    },
+    goDialg(pro_id, mao_id){
+      console.log('查看日志');
+      this.$router.push({name: 'LogList', query: {log_type: 1, log_id: pro_id, anchor: mao_id}});
     }
   }
 };
@@ -127,6 +134,21 @@ export default {
           @extend %textlight;
           color: #303133;
           margin-right: 7px;
+        }
+        .description{
+          margin-right: 10px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #606266;
+          line-height:21px;
+        }
+        .checkout{
+          cursor: pointer;
+          @extend %textlight;
+          font-size: 15px;
+          font-weight: 500;
+          color: #303133;
+          line-height: 21px;
         }
         .time{
           font-size:13px;

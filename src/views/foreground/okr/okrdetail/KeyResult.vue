@@ -18,18 +18,29 @@
         </div>
       </li>
     </ul>
-    <div class="edit">
+    <div class="edit" v-if="!isOwner && !okrDec"></div>
+    <div class="edit" v-else>
       <div class="left">
         <span class="bg"></span>
         <span class="text">描述</span>
       </div>
       <span @click="personEdit" v-show="isOwner" class="iconfont icon-compile"></span>
     </div>
-    <div class="description">
-      <p :class="content_state ? 'content_style' : 'content-des'" @click="ShowOrNot">{{okrDec}}</p>
-      <div class="angle">
-        <span v-if="!content_state  && okrDec" class="iconfont icon-xiangshang" @click="inShow"></span>
-        <span v-if="content_state" class="iconfont icon-xiangxia" @click="onShow"></span>
+    <div class="description" v-if="okrDec">
+      <!-- 默认展示一行 -->
+      <div @click="ShowOrNot" v-if="!content_state" class="hidden">
+        <Paragraph class="content_style" :text="okrDec"></Paragraph>
+      </div>
+      <!-- <p class="content_style" v-if="!content_state">{{okrDec}}</p> -->
+      <!-- 展开 -->
+      <div @click="ShowOrNot" v-if="content_state" class="">
+        <Paragraph  class="content-des" :text="okrDec"></Paragraph>
+      </div>
+      
+      <!-- <p class="content-des" v-if="content_state" @click="ShowOrNot">{{okrDec}}</p> -->
+      <div class="angle" v-show="on_in">
+        <span v-if="content_state  && okrDec" class="iconfont icon-xiangshang" @click="onShow"></span>
+        <span v-if="!content_state" class="iconfont icon-xiangxia" @click="inShow"></span>
       </div>
     </div>
 
@@ -48,12 +59,13 @@
 </template>
 <script>
 import UserPopover from '../../../../components/popup/UserPopover';
+import {Paragraph} from '../../../../components/business';
 import okrApi from '../../../../api/Okr.js';
 export default {
   name: 'keyresult',
   props: ['kr_list', 'okr_detail', 'objId', 'isOwner', 'okrDec'],
   components: {
-    UserPopover
+    UserPopover, Paragraph
   },
   data(){
     return {
@@ -64,6 +76,7 @@ export default {
       },
       hello_box: this.distance() + 'px', // ETC 盒子距离顶部距离
       okr_description: '',
+      on_in: true, // ETC 内容展开箭头状态
       content_state: null // ETC 描述内容的高度
     };
   },
@@ -124,16 +137,18 @@ export default {
   },
   mounted(){
     this.clientHeight = document.documentElement.clientHeight;
-
-    setTimeout(() => {
-      if(document.querySelector('.content-des').clientHeight > 29){
-        this.content_state = true;
-      }else{
-        this.content_state = false;
-      }
-    }, 500);
   },
   watch: {
+    okrDec(){
+      this.content_state = false;
+      setTimeout(() => {
+        if(document.querySelector('.content_style').clientWidth > 920 || document.querySelector('.content_style').clientHeight > 29){
+          this.on_in = true;
+        }else{
+          this.on_in = false;
+        }
+      }, 500);
+    }
   }
 };
 </script>
@@ -250,8 +265,13 @@ export default {
     margin-top: 4px;
     display: flex;
     justify-content: space-between;
+    .hidden{
+      height: 29px;
+      overflow: hidden;
+    }
     .content_style{
       cursor: pointer;
+      word-break: break-word;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -263,6 +283,7 @@ export default {
     }
     .content-des{
       cursor: pointer;
+      word-break: break-word;
       font-size: 15px;
       font-weight: 400;
       color: #606266;
