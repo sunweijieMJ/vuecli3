@@ -146,6 +146,7 @@ export default {
       okr_dynamic_list: [],
       pageInfo: { // ETC 页码信息
         current_page: 0,
+        current_page2: 0,
         page_size: 6,
         page_total: 0
       },
@@ -173,6 +174,7 @@ export default {
     // tab切换
     handleClick(){
       this.pageInfo.current_page = 0;
+      this.pageInfo.current_page2 = 0;
       this.task_id = '';
       this.kt_list = [];
       this.okr_dynamic_list = [];
@@ -198,6 +200,7 @@ export default {
       this.kt_list = [];
       this.task_id = '';
       this.pageInfo.current_page = 0;
+      this.pageInfo.current_page2 = 0;
       if(this.activeName === 'first'){
         this.infinite1();
       }else if(this.activeName === 'second'){
@@ -303,7 +306,7 @@ export default {
       if(this.activeName === 'first') return;
       let that = this;
       that.disabled2 = true;
-      that.getOkrDynamic(++this.pageInfo.current_page).then(() => {
+      that.getOkrDynamic(++this.pageInfo.current_page2).then(() => {
         that.disabled2 = false;
         if(!that.okr_dynamic_list.length) {
           that.disabled2 = true;
@@ -311,7 +314,7 @@ export default {
             nomore: true,
             noresult: true
           };
-        } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+        } else if(that.pageInfo.current_page2 >= that.pageInfo.page_total){
           that.disabled2 = true;
           that.loading.nomore = true;
         }
@@ -344,7 +347,7 @@ export default {
     async getOkrDynamic(){
       return await okrApi().getOkrDynamic({
         obj_id: this.$route.params.id, // ETC okr id
-        currPage: this.pageInfo.current_page, // ETC 当前第几页
+        currPage: this.pageInfo.current_page2, // ETC 当前第几页
         pages: this.pageInfo.page_size, // ETC 每页总数
         last_id: this.task_id ? this.task_id : ''
       }).then(res => {
