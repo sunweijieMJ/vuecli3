@@ -19,7 +19,7 @@
             <div class="title">
               <span class="name" @click.stop="goProFile(d.users_info.user_id)">{{d.users_info.user_name}}</span>
               <span class="action">编辑了这个okr</span>
-              <span class="check" @click="goCheckout(d.pro_id, d.mao_id)">查看</span>
+              <span class="check" @click="goCheckout(d.obj_id, d.mao_id)">查看</span>
             </div>
             <div class="date">
               <span>{{d.publish_time | timeFilter}}</span>
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     goCheckout(pro_id, mao_id){
-      this.$router.push({name: 'LogList', query: {log_type: 2, log_id: pro_id, anchor: mao_id}});
+      this.$router.push({name: 'LogList', query: {log_type: 1, log_id: pro_id, anchor: mao_id}});
     },
     goProFile(user_id){
       // this.$router.push({name: 'Profile', params: {id: user_id}});

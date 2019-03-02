@@ -24,7 +24,7 @@
             <p>
               <span class="name" @click="goPersonal(dy.user_info.user_id)">{{dy.user_info.user_name}}</span>
               <span class="description">{{dy.type_name}}了这个Task</span>
-              <span class="checkout" v-if="dy.type_name === '创建' || dy.type_name === '编辑'" @click="goDialg(dy.pro_id, dy.mao_id)">查看</span>
+              <span class="checkout" v-if="dy.type_name === '创建' || dy.type_name === '编辑'" @click="goDialg(dy.task_id, dy.mao_id)">查看</span>
             </p>
             <p class="time">{{dy.publish_time | timeFilter}}</p>
           </div>
@@ -79,8 +79,7 @@ export default {
       window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
     },
     goDialg(pro_id, mao_id){
-      console.log('查看日志');
-      this.$router.push({name: 'LogList', query: {log_type: 1, log_id: pro_id, anchor: mao_id}});
+      this.$router.push({name: 'LogList', query: {log_type: 2, log_id: pro_id, anchor: mao_id}});
     }
   }
 };

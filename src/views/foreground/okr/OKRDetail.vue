@@ -78,43 +78,44 @@
         </div>
       </div>
     </div>
-    <div class="content">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane v-for="(ml, mindex) in menu_list" :label="ml.label" :name="ml.name" :key="mindex">
-          <div v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-            <div v-if="ml.name === 'first'">
-              <div class="key-result">
-                <KeyResult 
-                  @updateOkr="updateOkr"
-                  :isOwner="okr_detail.is_owner"
-                  :okrDec="okr_detail.obj_desc"
-                  :objId="okr_detail.obj_id"
-                  :kr_list="kr_list"
-                  :okr_detail="okr_detail"
-                  ></KeyResult>
+    <div class="okr-content">
+      <div>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane v-for="(ml, mindex) in menu_list" :label="ml.label" :name="ml.name" :key="mindex">
+            <div >
+              <div v-if="ml.name === 'first'" v-infinite-scroll="infinite1" infinite-scroll-disabled="disabled">
+                <div class="key-result">
+                  <KeyResult 
+                    @updateOkr="updateOkr"
+                    :isOwner="okr_detail.is_owner"
+                    :okrDec="okr_detail.obj_desc"
+                    :objId="okr_detail.obj_id"
+                    :kr_list="kr_list"
+                    :okr_detail="okr_detail"
+                    ></KeyResult>
+                </div>
+                <div class="add-key-task">
+                  <span class="task-name">Key Task</span>
+                  <span class="span2" v-show="okr_detail.is_parter" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">
+                    <i class="iconfont icon-btn_add_kt1"></i>
+                    <span class="task-add" >添加</span>
+                  </span>
+                </div>
+                <div class="key-task">
+                  <KeyTask :kt_list="kt_list" @upDateList="upDateList"></KeyTask>
+                </div>
               </div>
-              <div class="add-key-task">
-                <span class="task-name">Key Task</span>
-                <span class="span2" v-show="okr_detail.is_parter" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: okr_detail})">
-                  <i class="iconfont icon-btn_add_kt1"></i>
-                  <span class="task-add" >添加</span>
-                </span>
+              <div v-if="ml.name === 'second'" v-infinite-scroll="infinite2" infinite-scroll-disabled="disabled2">
+                <OkrDynamic :okr_dynamic_list="okr_dynamic_list"></OkrDynamic>
               </div>
-              <div class="key-task">
-                <KeyTask :kt_list="kt_list" @upDateList="upDateList"></KeyTask>
-              </div>
+              <loading v-if="ml.name === 'first'" :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+              <loading v-if="ml.name === 'second'" :loading="disabled2" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
             </div>
-            <div v-if="ml.name === 'second'">
-              <OkrDynamic :okr_dynamic_list="okr_dynamic_list"></OkrDynamic>
-            </div>
-          </div>
-        </el-tab-pane>
-        <!-- <el-tab-pane label="动态" name="second">
-          
-        </el-tab-pane> -->
-      </el-tabs>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
-    <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+    
     <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
     <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskPublish="handleTaskPublish" @handleTaskEdit="handleTaskEdit"></task-publish>
   </div>
@@ -149,6 +150,7 @@ export default {
         page_total: 0
       },
       disabled: false, // ETC 加载开关
+      disabled2: false,
       loading: {
         nomore: false, // ETC 触底
         noresult: false // ETC 空列表
@@ -171,14 +173,19 @@ export default {
     // tab切换
     handleClick(){
       this.pageInfo.current_page = 0;
-      this.disabled = false;
       this.task_id = '';
       this.kt_list = [];
       this.okr_dynamic_list = [];
       this.loading.nomore = false;
       this.loading.noresult = false;
+      this.disabled2 = false,
+      this.disabled = false;
       this.pageInfo.page_total = 0;
-      this.infinite();
+      if(this.activeName === 'first'){
+        this.infinite1();
+      }else if(this.activeName === 'second'){
+        this.infinite2();
+      }
     },
     // 刷新okr列表
     updateOkr(){
@@ -191,7 +198,11 @@ export default {
       this.kt_list = [];
       this.task_id = '';
       this.pageInfo.current_page = 0;
-      this.infinite();
+      if(this.activeName === 'first'){
+        this.infinite1();
+      }else if(this.activeName === 'second'){
+        this.infinite2();
+      }
     },
     // 刷新数据
     upDateList(){
@@ -267,41 +278,44 @@ export default {
         this.kr_list = Object.values(res.data);
       });
     },
-    // 触底刷新
-    infinite() {
-      // console.log('触底动作', this.loading.nomore, this.loading.noresult);
+    // okr触底刷新
+    infinite1(){
+      // if(this.activeName === 'second') return;
       let that = this;
       that.disabled = true;
-      if(this.activeName === 'first'){
-        that.getKeyTaskList(++this.pageInfo.current_page).then(() => {
-          // 触底判断
-          that.disabled = false;
-          if(!that.kt_list.length) {
-            that.disabled = true;
-            that.loading = {
-              nomore: true,
-              noresult: true
-            };
-          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
-            that.disabled = true;
-            that.loading.nomore = true;
-          }
-        });
-      }else if(this.activeName === 'second'){
-        that.getOkrDynamic(++this.pageInfo.current_page).then(() => {
-          that.disabled = false;
-          if(!that.okr_dynamic_list.length) {
-            that.disabled = true;
-            that.loading = {
-              nomore: true,
-              noresult: true
-            };
-          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
-            that.disabled = true;
-            that.loading.nomore = true;
-          }
-        });
-      }
+      that.getKeyTaskList(++this.pageInfo.current_page).then(() => {
+        // 触底判断
+        that.disabled = false;
+        if(!that.kt_list.length) {
+          that.disabled = true;
+          that.loading = {
+            nomore: true,
+            noresult: true
+          };
+        } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+          that.disabled = true;
+          that.loading.nomore = true;
+        }
+      });
+    },
+    // 动态触底刷新
+    infinite2() {
+      if(this.activeName === 'first') return;
+      let that = this;
+      that.disabled2 = true;
+      that.getOkrDynamic(++this.pageInfo.current_page).then(() => {
+        that.disabled2 = false;
+        if(!that.okr_dynamic_list.length) {
+          that.disabled2 = true;
+          that.loading = {
+            nomore: true,
+            noresult: true
+          };
+        } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
+          that.disabled2 = true;
+          that.loading.nomore = true;
+        }
+      });
     },
     async getKeyTaskList(){
       return await okrApi().getKeyTaskList({
@@ -344,7 +358,6 @@ export default {
           }
           this.okr_dynamic_list = this.okr_dynamic_list.concat(new_key_task);
         }
-        // console.log(this.okr_dynamic_list);
       });
     }
   },
@@ -457,7 +470,7 @@ export default {
       }
     }
   }
-  .content{
+  .okr-content{
     width: 1040px;
     margin: auto;
     // color: white;
@@ -659,48 +672,49 @@ export default {
     }
   }
 }
-.content{
-  height: 300px;
-  overflow: initial;
-  .el-tabs{
-    box-sizing: border-box;
-    .el-tabs__header{
-      margin-top: -56px;
-      margin-bottom: 0;
-      .el-tabs__nav-wrap::after{
-        display: none;
-      }
-      .el-tabs__nav-scroll{
-        height: 56px;
-        background-color: #45474B; 
-        .el-tabs__nav{
-          
-          line-height: 56px;
-          margin-left: 38px;
-          .el-tabs__item.is-active{
-            color: white;
-            font-size: 18px;
-            font-weight:500;
+.okr-detail{
+  .okr-content{
+    .el-tabs{
+      box-sizing: border-box;
+      .el-tabs__header{
+        margin-top: -56px;
+        margin-bottom: 0;
+        .el-tabs__nav-wrap::after{
+          display: none;
+        }
+        .el-tabs__nav-scroll{
+          height: 56px;
+          background-color: #45474B; 
+          .el-tabs__nav{
+            
+            line-height: 56px;
+            margin-left: 38px;
+            .el-tabs__item.is-active{
+              color: white;
+              font-size: 18px;
+              font-weight:500;
+            }
+            .el-tabs__item{
+              color: #C0C4CC;
+              font-size: 18px;
+              font-weight:500;
+            }
           }
-          .el-tabs__item{
-            color: #C0C4CC;
-            font-size: 18px;
-            font-weight:500;
+          .el-tabs__active-bar{
+            bottom: 14px;
+            height: 3px;
+            background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
           }
         }
-        .el-tabs__active-bar{
-          bottom: 14px;
-          height: 3px;
-          background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
-        }
       }
-    }
-    .el-tabs__content{
-      overflow: initial;
-      .el-tab-pane{
+      .el-tabs__content{
+        // overflow: initial;
+        .el-tab-pane{
+        }
       }
     }
   }
 }
+
 </style>
 
