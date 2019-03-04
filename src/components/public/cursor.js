@@ -40,7 +40,7 @@ class Cursor {
         div.style.cssText = 'visibility:hidden;display:inline-block;position:absolute;z-index:-100;word-wrap:break-word;word-break:break-all;overflow:hidden;';
       }
       div.style.left = this.offset(elem).left + 'px';
-      // div.style.top = this.offset(elem).top + 'px';
+      div.style.top = this.offset(elem).top + 'px';
       let strTmp = elem.value.substring(0, index).replace(/</g, '<').replace(/>/g, '>').replace(/\n/g, '<br/>').replace(/\s/g, none);
       text.innerHTML = strTmp;
 

@@ -27,10 +27,10 @@
             name: '关闭',
             icon: 'icon-icon_close_l1'
           },
-          {
-            name: '添加Task',
-            icon: 'icon-icon_add_l1'
-          }
+          // {
+          //   name: '添加Task',
+          //   icon: 'icon-icon_add_l1'
+          // }
         ]
       };
     },
