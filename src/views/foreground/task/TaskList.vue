@@ -83,7 +83,7 @@
           name: 'team'
         },
         {
-          label: '全部Task',
+          label: '全部TASK',
           name: 'all'
         }
       ];

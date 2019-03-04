@@ -33,7 +33,10 @@
         let observer = new MutationObserver(() => {
           const anchor = this.$route.query.anchor;
           const view = document.querySelector(`.anchor${anchor}`);
-          if(view) view.scrollIntoView({block: 'center', behavior: 'smooth'});
+          if(view) {
+            view.querySelector('.header i').style.color = '#22d7a0';
+            view.scrollIntoView({block: 'center', behavior: 'smooth'});
+          }
         });
 
         const options = {

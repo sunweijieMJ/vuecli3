@@ -70,7 +70,7 @@
             name: 'OKRList'
           },
           {
-            text: 'Task',
+            text: 'TASK',
             name: 'TaskList'
           }
         ],
