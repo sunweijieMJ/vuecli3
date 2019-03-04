@@ -21,7 +21,6 @@
     <div class="edit" v-if="!isOwner && !okrDec"></div>
     <div class="edit" v-else>
       <div class="left">
-        <!-- <span class="bg"></span> -->
         <span class="text">描述</span>
       </div>
       <span @click="personEdit" v-show="isOwner" class="iconfont icon-compile"></span>
@@ -50,7 +49,7 @@
       :top="hello_box"
       :before-close="handleClose">
       
-      <textarea :style="textarea_style" name="" id="" v-model="okr_description" placeholder="想传达你的思考过程？ 解读下OKR的关键路径吧"></textarea>
+      <textarea :style="textarea_style" name="" id="" v-model="okr_description" placeholder="描述设定OKR的思路吧！"></textarea>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="pushEditCon">确 定</el-button>
       </span>
@@ -159,7 +158,7 @@ export default {
   border-radius:4px;
   padding: 25px 50px 25px 50px;
   .kr-title{
-    font-size:19px;
+    font-size:17px;
     font-weight:500;
     color: #303133;
     display: flex;
@@ -242,20 +241,10 @@ export default {
         color: #22D7A0;
         font-weight: 500;
       }
-      // .bg{
-      //   z-index: 0;
-      //   display: inline-block;
-      //   width: 100%;
-      //   height: 4px;
-      //   position: absolute;
-      //   bottom: 3px;
-      //   left: 0;
-      //   background-color: #22D7A0;
-      // }
     }
     span{
       cursor: pointer;
-      @extend %imglight;
+      // @extend %imglight;
     }
     .iconfont{
       color: #303133;

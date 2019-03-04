@@ -100,7 +100,7 @@ export default {
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     border-radius:2px;
     .item-state{
-      padding: 14px 28px;
+      padding: 16px 22px;
       border-bottom: 1px solid #f6f6f6;
       font-size:15px;
       font-weight:500;
@@ -111,8 +111,8 @@ export default {
       }
     }
     li{
-      width: 530px;
-      padding: 24px 28px 24px 28px;
+      width: 510px;
+      padding: 26px 38px 26px 38px;
       .person-photo{
         display: flex;
         align-items: center;
@@ -132,6 +132,7 @@ export default {
           cursor: pointer;
           @extend %textlight;
           color: #303133;
+          font-weight: 500;
           margin-right: 7px;
         }
         .description{

@@ -63,7 +63,7 @@ export default {
     border-radius: 2px;
     li{
       .header{
-        padding: 16px 11px;
+        padding: 16px 22px;
         color: #303133;
         border-bottom: 1px solid #f6f6f6;
         span{
@@ -76,7 +76,7 @@ export default {
         }
       }
       .con{
-        padding: 39px 36px;
+        padding: 26px 39px;
         display: flex;
         justify-content: flex-start;
         .img{

@@ -375,7 +375,7 @@ export default {
   .black-bg{
     width: 100%;
     height: 230px;
-    background-color: #606266;
+    background-color: #45474B;
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     z-index: 0 !important;
   }
@@ -388,7 +388,7 @@ export default {
       align-items: center;
       .subtitle{
         margin-top: 33px;
-        font-size: 20px;
+        font-size: 17px;
         color: #FFFFFF;
         font-weight: 500;
         display: flex;
@@ -409,7 +409,7 @@ export default {
           display: inline-block;
           width: 44px;
           height: 18px;
-          font-size: 15px;
+          font-size: 14px;
           line-height: 18px;
           text-align: center;
           background: #22D7A0;
@@ -680,32 +680,33 @@ export default {
     .el-tabs{
       box-sizing: border-box;
       .el-tabs__header{
-        margin-top: -56px;
+        margin-top: -61px;
         margin-bottom: 0;
         .el-tabs__nav-wrap::after{
           display: none;
         }
         .el-tabs__nav-scroll{
-          height: 56px;
-          background-color: #45474B; 
+          padding: 5px 0; 
+          height: 51px;
+          background-color: #303133; 
           .el-tabs__nav{
-            
             line-height: 56px;
-            margin-left: 38px;
+            margin-left: 50px;
             .el-tabs__item.is-active{
               color: white;
-              font-size: 18px;
+              font-size: 17px;
               font-weight:500;
             }
             .el-tabs__item{
               color: #C0C4CC;
-              font-size: 18px;
+              font-size: 17px;
               font-weight:500;
             }
           }
           .el-tabs__active-bar{
             bottom: 14px;
             height: 3px;
+            border-radius: 2px;
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
           }
         }
