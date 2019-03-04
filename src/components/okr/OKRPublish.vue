@@ -329,7 +329,7 @@
 
   .okr-publish {
     .main {
-      max-height: 570px;
+      max-height: 500px;
       overflow-y: auto;
       .name {
         padding: 8px $left-right $up-down;
