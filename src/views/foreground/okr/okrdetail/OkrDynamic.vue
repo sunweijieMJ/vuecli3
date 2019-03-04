@@ -94,6 +94,9 @@ export default {
           }
         }
         .right{
+          flex-direction: column;
+          justify-content: space-between;
+          display: flex;
           .title{
             font-size: 15px;
             span{
@@ -113,7 +116,6 @@ export default {
             }
           }
           .date{
-            margin-top: 8px;
             font-size: 13px;
             font-weight:400;
             color: #909399;
