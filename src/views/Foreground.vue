@@ -139,6 +139,7 @@
         let that = this;
         switch (command) {
           case 'homepage':
+            document.querySelector('.nav-user').style.display = 'none';
             that.$router.push({name: 'Profile', params: {id: that.self_info.user_id}});
             break;
           case 'exit':
@@ -248,7 +249,6 @@
       }
     }
     .main {
-      // min-height: calc(100vh - 60px);
       background-color: #f6f6f6;
     }
   }
