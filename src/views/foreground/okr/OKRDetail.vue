@@ -7,27 +7,6 @@
             <span class="kt-tag">{{okr_detail.okr_type_name}}</span>
             <span class="kt-title">{{okr_detail.objective_name}}</span>
           </div>
-          <el-dropdown @command="handleCommand" v-if="okr_detail && okr_detail.is_owner">
-            <span class="el-dropdown-link">
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-btn_more_green1"></use>
-              </svg>
-            </span>
-            <el-dropdown-menu slot="dropdown" class="okr-pop">
-              <el-dropdown-item command="编辑">
-                <span class="iconfont icon-icon_edit"></span>
-                <span class="edits">编辑</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="删除">
-                <span class="iconfont icon-icon_delete"></span>
-                <span class="edits">删除</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="添加">
-                <span class="iconfont icon-icon_add"></span>
-                <span class="edits">添加KT</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
         </div>
         <div class="joinner" v-if="okr_detail">
           <div class="left" v-if="okr_detail.bo_info">
@@ -115,7 +94,29 @@
         </el-tabs>
       </div>
     </div>
-    
+    <div class="drop-link-class">
+      <el-dropdown @command="handleCommand" v-if="okr_detail && okr_detail.is_owner">
+        <span class="el-dropdown-link">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-btn_more_green1"></use>
+          </svg>
+        </span>
+        <el-dropdown-menu slot="dropdown" class="okr-pop">
+          <el-dropdown-item command="编辑">
+            <span class="iconfont icon-icon_edit"></span>
+            <span class="edits">编辑</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="删除">
+            <span class="iconfont icon-icon_delete"></span>
+            <span class="edits">删除</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="添加">
+            <span class="iconfont icon-icon_add"></span>
+            <span class="edits">添加KT</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
     <o-k-r-publish @handleOkrEdit="handleOkrEdit"></o-k-r-publish>
     <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskPublish="handleTaskPublish" @handleTaskEdit="handleTaskEdit"></task-publish>
   </div>
@@ -418,16 +419,6 @@ export default {
         }
       }
     }
-    .el-dropdown-link{
-      cursor: pointer;
-      @extend %imglight;
-      .icon{
-        width: 48px;
-        height: 48px;
-        box-shadow:0px 0px 15px 0px rgba(34,215,160,0.5);
-        border-radius:30px;
-      }
-    }
     .joinner{
       display: flex;
       justify-content: space-between;
@@ -604,6 +595,26 @@ export default {
         font-weight:500;
         color: #303133;
         cursor: pointer;
+      }
+    }
+  }
+  .drop-link-class{
+    width: 1040px;
+    height: 50px;
+    position: fixed;
+    bottom: 30px;
+    left: calc((100% - 1040px) / 2 + 12px);
+    .el-dropdown{
+      right: -100%;
+    }
+    .el-dropdown-link{
+      cursor: pointer;
+      @extend %imglight;
+      .icon{
+        width: 48px;
+        height: 48px;
+        box-shadow:0px 0px 15px 0px rgba(34,215,160,0.5);
+        border-radius:30px;
       }
     }
   }

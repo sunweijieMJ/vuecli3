@@ -9,31 +9,6 @@
             <span v-else class="kt-tag">T</span>
             <span class="sub-kt-tag">{{task_basic.task_name}}</span>
           </div>
-          <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
-            <span class="el-dropdown-link">
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-btn_more_purple1"></use>
-              </svg>
-            </span>
-            <el-dropdown-menu slot="dropdown" class="task-pop">
-              <el-dropdown-item command="跟进">
-                <span class="iconfont icon-icon_check"></span>
-                <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="编辑">
-                <span class="iconfont icon-icon_edit"></span>
-                <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="关闭">
-                <span class="iconfont icon-icon_close_l"></span>
-                <span class="edit" @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
-              </el-dropdown-item>
-              <el-dropdown-item v-if="0" command="添加Task">
-                <span class="iconfont icon-icon_add"></span>
-                <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
         </div>
         <div class="chao-link">
           <span class="iconfont icon-icon_link" v-show="okr_name ? okr_name : false"></span>
@@ -91,6 +66,33 @@
           <RelatedTask :task_list="task_list" :keyTask="task_basic"></RelatedTask>
         </div>
       </div>
+    </div>
+    <div class="drop-link-class">
+      <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
+        <span class="el-dropdown-link">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-btn_more_purple1"></use>
+          </svg>
+        </span>
+        <el-dropdown-menu slot="dropdown" class="task-pop">
+          <el-dropdown-item command="跟进">
+            <span class="iconfont icon-icon_check"></span>
+            <span class="edit" @click="$store.dispatch('setTaskFollow', {status: true, parent: task_basic})">跟进</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="编辑">
+            <span class="iconfont icon-icon_edit"></span>
+            <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="关闭">
+            <span class="iconfont icon-icon_close_l"></span>
+            <span class="edit" @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
+          </el-dropdown-item>
+          <el-dropdown-item v-if="0" command="添加Task">
+            <span class="iconfont icon-icon_add"></span>
+            <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskEdit="handleTaskEdit" @handleTaskPublish="handleTaskPublish"></task-publish>
@@ -324,16 +326,6 @@ export default {
           margin-right: 10px;
         }
       }
-      .el-dropdown-link{
-        cursor: pointer;
-        @extend %imglight;
-        .icon{
-          width: 38px;
-          height: 38px;
-          box-shadow:0px 0px 15px 0px rgba(148,139,234,0.5);
-          border-radius:30px;
-        }
-      }
     }
     .joinners{
       display: flex;
@@ -384,6 +376,26 @@ export default {
     .task-modal{
       display: flex;
       justify-content: space-between;
+    }
+  }
+  .drop-link-class{
+    width: 1040px;
+    height: 50px;
+    position: fixed;
+    bottom: 30px;
+    left: calc((100% - 1040px) / 2 + 12px);
+    .el-dropdown{
+      right: -100%;
+    }
+    .el-dropdown-link{
+      cursor: pointer;
+      @extend %imglight;
+      .icon{
+        width: 48px;
+        height: 48px;
+        box-shadow:0px 0px 15px 0px rgba(148,139,234,0.5);
+        border-radius:30px;
+      }
     }
   }
 }
