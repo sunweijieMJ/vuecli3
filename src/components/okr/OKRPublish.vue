@@ -27,7 +27,7 @@
                   <el-dropdown-item v-for="(item, index) in project_type" :key="index" :command="item">{{item.name}}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
-              <p v-else>{{form.okr_type.name}}</p>
+              <p v-else class="selected">{{form.okr_type.name}}</p>
             </div>
             <el-form-item prop="daterange">
               <custom-date v-model="form.daterange"></custom-date>
@@ -389,6 +389,9 @@
             font-size: $h3Font;
             color: $h1Color;
             cursor: pointer;
+            &.selected {
+              cursor: initial;
+            }
             i {
               font-size: 12px;
               color: $h1Color;

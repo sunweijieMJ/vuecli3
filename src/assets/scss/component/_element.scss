@@ -180,13 +180,15 @@ $up-down: 30px;
   &.small-rate {
     .el-rate__item {
       .el-rate__icon {
-        font-size: 14px;
+        margin-right: 3px;
+        font-size: 13px;
         .icon-icon_star {
-          font-size: 14px;
+          font-size: 13px;
         }
       }
     }
     .el-rate__text {
+      margin-left: 3px;
       font-size: 14px;
       font-weight: $h1Weight;
       color: $h1Color;

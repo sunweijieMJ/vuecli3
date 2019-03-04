@@ -135,7 +135,6 @@
             }
           }
         });
-        that.resetList();
       },
       handleTaskCreate() {
         this.resetList();
@@ -195,7 +194,7 @@
         let that = this;
         that.disabled = true;
         // 重置数据
-        that.okr_list = [];
+        that.task_list = [];
         Object.assign(that.$data.pageInfo, that.$options.data().pageInfo);
         Object.assign(that.$data.loading, that.$options.data().loading);
         Object.assign(that.$data.disabled, that.$options.data().disabled);
