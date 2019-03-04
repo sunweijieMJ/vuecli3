@@ -18,7 +18,7 @@
         </div>
       </li>
     </ul>
-    <div class="edit" v-if="!isOwner && !okrDec"></div>
+    <div v-if="!isOwner && !okrDec"></div>
     <div class="edit" v-else>
       <div class="left">
         <span class="text">描述</span>
