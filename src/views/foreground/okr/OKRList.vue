@@ -17,7 +17,7 @@
     <div class="okr-select" v-if="active_okr === 'all'">
       <el-cascader
         v-model="active_part"
-        placeholder="全部作者"
+        placeholder="全部用户"
         expand-trigger="hover"
         popper-class="custom-cascader"
         :options="part_list"

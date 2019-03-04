@@ -12,7 +12,7 @@
     <div class="task-select" v-if="active_task === 'all'">
       <el-cascader
          v-model="active_part"
-        placeholder="全部作者"
+        placeholder="全部用户"
         expand-trigger="hover"
         popper-class="custom-cascader"
         :options="part_list"
