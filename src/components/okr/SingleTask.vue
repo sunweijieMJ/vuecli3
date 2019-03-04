@@ -11,7 +11,7 @@
             <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
             <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
           </p>
-          <div class="owner" v-if="item.obj_info && item.obj_info.length && item.obj_info[0].creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
+          <div class="owner" v-if="item.obj_info && item.obj_info.length && item.obj_info[0] && item.obj_info[0].creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
             <el-popover
               placement="bottom"
               trigger="hover">

@@ -177,6 +177,7 @@
               for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
                 for(let k = 0, KLEN = task_list[i].obj_info.length; k < KLEN; k++) {
+                  if(!task_list[i].obj_info[k]) continue;
                   task_list[i].obj_info[k].creator_info = users_info[task_list[i].obj_info[k].creator_id];
                 }
               }
@@ -212,6 +213,7 @@
               for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
                 for(let k = 0, KLEN = task_list[i].obj_info.length; k < KLEN; k++) {
+                  if(!task_list[i].obj_info[k]) continue;
                   task_list[i].obj_info[k].creator_info = users_info[task_list[i].obj_info[k].creator_id];
                 }
               }
