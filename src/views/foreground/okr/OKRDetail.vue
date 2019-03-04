@@ -165,7 +165,8 @@ export default {
         noresult: false // ETC 空列表
       },
       task_id: '',
-      activeName: window.sessionStorage.getItem('label') ? window.sessionStorage.getItem('label') : 'first',
+      activeName: 'first',
+      // window.sessionStorage.getItem('label') ? window.sessionStorage.getItem('label') :
       menu_list: [
         {
           label: 'OKR',
@@ -181,7 +182,7 @@ export default {
   methods: {
     // tab切换
     handleClick(){
-      window.sessionStorage.setItem('label', this.activeName);
+      // window.sessionStorage.setItem('label', this.activeName);
       this.pageInfo.current_page = 0;
       this.pageInfo.current_page2 = 0;
       this.task_id = '';
