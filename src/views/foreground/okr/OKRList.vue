@@ -388,7 +388,7 @@
         }
         .el-cascader__label {
           width: 90%;
-          padding: 0 15px;
+          padding: 0 20px;
           line-height: 40px;
           color: $h1Color;
         }

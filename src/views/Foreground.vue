@@ -288,6 +288,7 @@
     }
   }
   .nav-user {
+    padding: 0;
     .el-dropdown-menu__item {
       width: 100px;
       font-size: $h3Font;

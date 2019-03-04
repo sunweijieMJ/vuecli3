@@ -176,10 +176,11 @@
     display: flex;
     align-items: center;
     h4 {
+      align-self: flex-start;
       width: 46px;
-      margin-bottom: 12px;
       font-size: $h3Font;
       font-weight: 400;
+      line-height: 36px;
       color: $h2Color;
     }
     .content {
