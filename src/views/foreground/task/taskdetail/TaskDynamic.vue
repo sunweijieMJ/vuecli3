@@ -159,9 +159,9 @@ export default {
         }
       }
       .hot{
-        margin-top: 12px;
+        margin-top: 13px;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         .rate{
           display: flex;
@@ -174,6 +174,7 @@ export default {
           }
         }
         .final{
+          margin-left: 23px;
           color: #606266;
           font-size: 13px;
           .bignum{

@@ -99,7 +99,7 @@ export default {
       }).then(res => {
         if(res.status){
           this.dialogVisible = false;
-          this.$message({message: res.message, type: 'success', duration: 1000});
+          this.$message({message: '发布成功', type: 'success', duration: 1000});
           this.$emit('updateOkr');
         }else{
           this.$message({message: res.message, type: 'warning'});
@@ -147,7 +147,7 @@ export default {
     okrDec(){
       this.content_state = false;
       setTimeout(() => {
-        if(document.querySelector('.content_style').clientWidth > 920 || document.querySelector('.content_style').clientHeight > 29){
+        if(document.querySelector('.content_style') && (document.querySelector('.content_style').clientWidth > 920 || document.querySelector('.content_style').clientHeight > 29)){
           this.on_in = true;
         }else{
           this.on_in = false;

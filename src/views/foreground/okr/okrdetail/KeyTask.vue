@@ -268,7 +268,7 @@ export default {
       color:#606266;
       line-height: 1;
       .finally-status{
-        width: 90px;
+        width: 94px;
         display: flex;
         justify-content: space-between;
         font-size: 13px;
@@ -395,7 +395,7 @@ export default {
           }
           .right{
             .finally-status{
-              width: 90px;
+              width: 94px;
               display: flex;
               justify-content: space-between;
               font-size: 13px;

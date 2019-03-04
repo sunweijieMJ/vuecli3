@@ -28,8 +28,15 @@
             </div>
             <div>
               <p>起止时间</p>
-              <p>{{dateFormat(okr_detail.start_time, 'yyyy/MM/dd')}}
-                -{{dateFormat(okr_detail.end_time, 'yyyy/MM/dd')}}
+              <p v-if="okr_detail.duration_span">
+                <span>{{okr_detail.create_year}}</span>
+                - 
+                <span>{{okr_detail.duration_span}}</span>
+              </p>
+              <p v-else>
+                <span>{{dateFormat(okr_detail.start_time, 'yyyy/MM/dd')}}</span>
+                - 
+                <span>{{dateFormat(okr_detail.end_time, 'yyyy/MM/dd')}}</span>
               </p>
             </div>
           </div>
@@ -158,7 +165,7 @@ export default {
         noresult: false // ETC 空列表
       },
       task_id: '',
-      activeName: 'first',
+      activeName: window.sessionStorage.getItem('label') ? window.sessionStorage.getItem('label') : 'first',
       menu_list: [
         {
           label: 'OKR',
@@ -174,6 +181,7 @@ export default {
   methods: {
     // tab切换
     handleClick(){
+      window.sessionStorage.setItem('label', this.activeName);
       this.pageInfo.current_page = 0;
       this.pageInfo.current_page2 = 0;
       this.task_id = '';
@@ -218,7 +226,11 @@ export default {
     // 编辑okr回调
     handleOkrEdit() {
       this.getBasicInfo();
-      this.getKeyResultList();
+      if(this.activeName === 'second'){
+        location.reload();
+      }else{
+        this.getKeyResultList();
+      }
     },
     handleTaskPublish(){
       this.clear();
