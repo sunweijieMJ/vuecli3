@@ -1,7 +1,7 @@
 <template>
   <div class="daterange">
     <div class="date" v-show="!date_popup">
-      <h4>起止时间</h4>
+      <h4>时间</h4>
       <p @click="date_popup = true">
         <span>{{`${Moment().format(daterange[0])}-${Moment().format(daterange[1])}`}}</span>
         <i class="iconfont icon-btn_more_s"></i>

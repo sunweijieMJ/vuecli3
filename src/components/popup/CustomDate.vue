@@ -6,7 +6,7 @@
       placement="bottom"
       trigger="click">
       <div slot="reference" class="current">
-        <h4>起止时间</h4>
+        <h4>时间</h4>
         <p>
           <span>{{shortcut_date}}</span>
           <i class="iconfont icon-btn_more_s"></i>
@@ -248,6 +248,7 @@
       border:1px solid $linkBlue;
       background-color: $backColor;
       input {
+        line-height: initial;
         background-image: none !important;
         background-color: $backColor;
       }

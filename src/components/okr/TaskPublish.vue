@@ -211,7 +211,7 @@
         padding: $up-down $left-right;
         .bo {
           display: flex;
-          width: 235px;
+          width: 260px;
           img {
             box-sizing: border-box;
             width: 40px;

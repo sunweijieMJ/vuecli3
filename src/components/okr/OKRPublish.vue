@@ -352,7 +352,7 @@
         border-bottom: 1px solid $lineColor;
         .bo {
           display: flex;
-          width: 240px;
+          width: 260px;
           img {
             box-sizing: border-box;
             width: 40px;
@@ -379,7 +379,7 @@
           }
         }
         .type {
-          width: 230px;
+          width: 260px;
           h4 {
             font-size: $h4Font;
             font-weight: normal;

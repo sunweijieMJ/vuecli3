@@ -19,7 +19,7 @@
             </el-popover>
             <span class="user-name">{{item.creator_info.user_name}}</span>
           </div>
-          <p v-if="item.duration_span" class="time">{{`${new Date().getFullYear()}-${item.duration_span}`}}</p>
+          <p v-if="item.duration_span" class="time">{{item.create_year}}-{{item.duration_span}}</p>
           <p v-else class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
         </div>
       </div>

@@ -32,7 +32,7 @@
     <div class="footer">
       <div class="time">
         <h5>时间</h5>
-        <p v-if="vitem.origin.basic.duration_span">{{`${new Date().getFullYear()}-${vitem.origin.basic.duration_span}`}}</p>
+        <p v-if="vitem.origin.basic.duration_span">{{vitem.origin.basic.create_year}}-{{vitem.origin.basic.duration_span}}</p>
         <p v-else>{{Moment().format(vitem.origin.basic.start_time)}}-{{Moment().format(vitem.origin.basic.end_time)}}</p>
       </div>
       <div class="user">

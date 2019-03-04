@@ -97,11 +97,6 @@
           color: $h1Color;
         }
       }
-      .log-list li {
-        &:last-child .single-log{
-          border-bottom: 0;
-        }
-      }
     }
   }
 </style>

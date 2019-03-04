@@ -141,6 +141,14 @@ $up-down: 30px;
   }
 }
 
+.el-form .el-form-item {
+  &.is-success {
+    .el-date-editor {
+      border-color: $linkBlue;
+    }
+  }
+}
+
 // 日期选择
 .el-date-range-picker {
   .el-picker-panel__body-wrapper {
