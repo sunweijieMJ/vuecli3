@@ -5,7 +5,7 @@
     </div>
     <ul v-for="(dy, dyindex) in dynamic_list" :key="dyindex">
       <li class="item-state">
-        <span class="iconfont icon-icon_add" v-if="dy.type_name === '创建'"></span>
+        <span class="iconfont icon-icon_add2" v-if="dy.type_name === '创建'"></span>
         <span class="iconfont icon-icon_edit" v-if="dy.type_name === '编辑'"></span>
         <span class="iconfont icon-icon_close_l" v-if="dy.type_name === '完成'"></span>
         <span class="iconfont icon-icon_check" v-if="dy.type_name === '跟进'"></span>

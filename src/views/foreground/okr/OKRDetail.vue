@@ -118,7 +118,7 @@
             <span class="edits">删除</span>
           </el-dropdown-item>
           <el-dropdown-item command="添加">
-            <span class="iconfont icon-icon_add"></span>
+            <span class="iconfont icon-icon_add2"></span>
             <span class="edits">添加KT</span>
           </el-dropdown-item>
         </el-dropdown-menu>

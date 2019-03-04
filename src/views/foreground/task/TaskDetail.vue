@@ -88,7 +88,7 @@
             <span class="edit" @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
           </el-dropdown-item>
           <el-dropdown-item v-if="0" command="添加Task">
-            <span class="iconfont icon-icon_add"></span>
+            <span class="iconfont icon-icon_add2"></span>
             <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
           </el-dropdown-item>
         </el-dropdown-menu>

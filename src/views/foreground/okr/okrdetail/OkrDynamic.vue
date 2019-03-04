@@ -4,7 +4,7 @@
       <li>
         <div class="header">
           <span class="iconfont icon-icon_edit" v-if="d.type_name === '编辑'"></span>
-          <span class="iconfont icon-icon_add1" v-if="d.type_name === '创建'"></span>
+          <span class="iconfont icon-icon_add2" v-if="d.type_name === '创建'"></span>
           <span>{{d.type_name}}</span>
         </div>
         <div class="con">
@@ -20,8 +20,8 @@
           <div class="right">
             <div class="title">
               <span class="name" @click.stop="goProFile(d.users_info.user_id)">{{d.users_info.user_name}}</span>
-              <span class="action" v-if="d.type_name === '编辑'">编辑了这个okr</span>
-              <span class="action" v-if="d.type_name === '创建'">创建了这个okr</span>
+              <span class="action" v-if="d.type_name === '编辑'">编辑了这个OKR</span>
+              <span class="action" v-if="d.type_name === '创建'">创建了这个OKR</span>
               <span class="check" @click="goCheckout(d.obj_id, d.mao_id)">查看</span>
             </div>
             <div class="date">
