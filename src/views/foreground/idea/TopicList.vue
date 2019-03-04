@@ -109,7 +109,7 @@
       background-color: #fff;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
       h3 {
-        font-size: 18px;
+        font-size: $h2Font;
         line-height: 28px;
         color: $h1Color;
       }

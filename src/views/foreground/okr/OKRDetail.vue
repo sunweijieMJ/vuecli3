@@ -388,7 +388,7 @@ export default {
       align-items: center;
       .subtitle{
         margin-top: 33px;
-        font-size: 17px;
+        font-size: $h2Font;
         color: #FFFFFF;
         font-weight: 500;
         display: flex;
@@ -422,8 +422,10 @@ export default {
       cursor: pointer;
       @extend %imglight;
       .icon{
-        width: 38px;
-        height: 38px;
+        width: 48px;
+        height: 48px;
+        box-shadow:0px 0px 15px 0px rgba(34,215,160,0.5);
+        border-radius:30px;
       }
     }
     .joinner{
@@ -593,12 +595,12 @@ export default {
         margin-right: 6px;
       }
       .task-name{
-        font-size:18px;
+        font-size: $h2Font;
         font-weight:500;
         color: #909399;
       }
       .task-add{
-        font-size:18px;
+        font-size: $h2Font;
         font-weight:500;
         color: #303133;
         cursor: pointer;
@@ -694,12 +696,12 @@ export default {
             margin-left: 50px;
             .el-tabs__item.is-active{
               color: white;
-              font-size: 17px;
+              font-size: $h2Font;
               font-weight:500;
             }
             .el-tabs__item{
               color: #C0C4CC;
-              font-size: 17px;
+              font-size: $h2Font;
               font-weight:500;
             }
           }

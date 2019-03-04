@@ -257,7 +257,7 @@ export default {
         background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
         border-radius:20px;
         font-weight:500;
-        font-size: 18px;
+        font-size: $h2Font;
         color:rgba(255,255,255,1);
       }
     }
@@ -285,7 +285,7 @@ export default {
           background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           border-radius:20px;
           font-weight:500;
-          font-size: 18px;
+          font-size: $h2Font;
           color:rgba(255,255,255,1);
         }
       }

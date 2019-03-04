@@ -43,17 +43,18 @@
       </div>
     </div>
 
-    <el-dialog
-      title="描述"
-      :visible.sync="dialogVisible"
-      :top="hello_box"
-      :before-close="handleClose">
-      
-      <textarea :style="textarea_style" name="" id="" v-model="okr_description" placeholder="描述设定OKR的思路吧！"></textarea>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="pushEditCon">确 定</el-button>
-      </span>
-    </el-dialog>
+    <div class="custom-dialog">
+      <el-dialog
+        title="描述"
+        :visible.sync="dialogVisible"
+        :before-close="handleClose">
+        
+        <el-input class="custom-input" type="textarea" maxlength="500" @input="contentChange" :style="textarea_style" name="" id="" v-model="okr_description" placeholder="描述设定OKR的思路吧！"></el-input>
+        <div class="footer" slot="footer">
+          <el-button class="confirm" type="primary" @click="pushEditCon">确定</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <script>
@@ -80,6 +81,11 @@ export default {
     };
   },
   methods: {
+    contentChange(val){
+      if(val && val.length >= 500){
+        this.$message({message: '字符不能超过500', type: 'warning'});
+      }
+    },
     // 展示编辑窗口
     personEdit(){
       this.dialogVisible = true;
@@ -111,17 +117,17 @@ export default {
         });
     },
     limitHeight(){
-      if((document.documentElement.clientHeight * 80 / 100) > 500){
-        return 500;
+      if((document.documentElement.clientHeight * 70 / 100) > 400){
+        return 400;
       }else{
-        return (document.documentElement.clientHeight * 80 / 100);
+        return (document.documentElement.clientHeight * 70 / 100);
       }
     },
     distance(){
-      if((document.documentElement.clientHeight * 80 / 100) > 500){
-        return (document.documentElement.clientHeight - (document.documentElement.clientHeight * 80 / 100)) / 2;
+      if((document.documentElement.clientHeight * 70 / 100) > 400){
+        return (document.documentElement.clientHeight - (document.documentElement.clientHeight * 70 / 100)) / 2;
       }else{
-        return (document.documentElement.clientHeight * 20 / 100) / 2;
+        return (document.documentElement.clientHeight * 30 / 100) / 2;
       }
     },
     ShowOrNot(){
@@ -158,7 +164,7 @@ export default {
   border-radius:4px;
   padding: 25px 50px 25px 50px;
   .kr-title{
-    font-size:17px;
+    font-size:$h2Font;
     font-weight:500;
     color: #303133;
     display: flex;
@@ -331,28 +337,17 @@ export default {
         color: #FF7678;
         line-height: 1;
       }
-      .el-dialog__headerbtn{
-        color: white;
-        right: -40px;
-        font-size: 28px;
-        z-index: 1001;
-      }
     }
     .el-dialog__body{
       padding: 22px 41px;
       border-bottom: 1px solid #f6f6f6;
-    }
-    .el-dialog__footer{
-      padding: 23px 33px;
-      .el-button{
-        padding: 8px 26px;
-        background:linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
-        border: none;
-        border-radius: 20px;
-        @extend %imglight;
-        span{
-          font-size: 18px;
-          line-height: 1;
+      .el-textarea{
+        .el-textarea__inner{
+          font-size: $h3Font;
+          padding: 22px 41px 0 41px;
+          height: inherit;
+          border: none;
+          resize: none;
         }
       }
     }

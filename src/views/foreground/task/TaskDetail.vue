@@ -86,7 +86,8 @@
         <div class="task-dynamic" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
-        <div class="telated-task" v-if="task_basic.is_key_task">
+        <!-- <div class="telated-task" v-if="task_basic.is_key_task"> -->
+        <div class="telated-task" v-if="0">
           <RelatedTask :task_list="task_list" :keyTask="task_basic"></RelatedTask>
         </div>
       </div>
@@ -296,20 +297,20 @@ export default {
       justify-content: space-between;
       align-items: center;
       .subtitle{
-        font-size: 20px;
+        font-size: $h2Font;
         font-weight: 500;
         color: #FFFFFF;
         display: flex;
         align-items: center;
         .sub-kt-tag{
           display: inline-block;
-          width: 850px;
+          width: 994px;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
         }
         span{
-          line-height: 1;
+          // line-height: 1;
         }
         .kt-tag{
           display: inline-block;
@@ -329,6 +330,8 @@ export default {
         .icon{
           width: 38px;
           height: 38px;
+          box-shadow:0px 0px 15px 0px rgba(148,139,234,0.5);
+          border-radius:30px;
         }
       }
     }

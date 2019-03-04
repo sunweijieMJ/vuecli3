@@ -60,7 +60,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size:18px;
+    font-size: $h2Font;
     font-weight:500;
     .title{
       color: #909399;

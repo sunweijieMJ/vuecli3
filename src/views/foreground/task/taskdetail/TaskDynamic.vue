@@ -86,10 +86,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dynamic-left{
-  width: 586px;
+  // width: 586px;
+  width: 750px;
   .header{
     padding: 21px 2px;
-    font-size:18px;
+    font-size: $h2Font;
     font-weight:500;
     color: #909399;
     line-height:25px;
@@ -100,6 +101,7 @@ export default {
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     border-radius:2px;
     .item-state{
+      width: 706px;
       padding: 16px 22px;
       border-bottom: 1px solid #f6f6f6;
       font-size:15px;
@@ -111,7 +113,8 @@ export default {
       }
     }
     li{
-      width: 510px;
+      // 510
+      width: 674px;
       padding: 26px 38px 26px 38px;
       .person-photo{
         display: flex;
@@ -138,7 +141,6 @@ export default {
         .description{
           margin-right: 10px;
           font-size: 15px;
-          font-weight: 500;
           color: #606266;
           line-height:21px;
         }
@@ -166,7 +168,7 @@ export default {
           align-items: center;
           .number{
             margin-left: 7px;
-            font-size: 18px;
+            font-size: $h2Font;
             color: #303133;
             font-weight: 400;
           }
@@ -176,7 +178,7 @@ export default {
           font-size: 13px;
           .bignum{
             color: #FF7678;
-            font-size: 18px;
+            font-size: $h2Font;
             font-weight: 500;
           }
           .min{
