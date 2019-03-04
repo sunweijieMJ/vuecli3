@@ -72,6 +72,8 @@
 </script>
 <style lang="scss" scoped>
   .okr-logs {
+    min-height: calc(100vh - 60px);
+    height: 100%;
     background-color: #fff;
     .container {
       width: 1040px;
