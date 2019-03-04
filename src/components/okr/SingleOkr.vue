@@ -127,6 +127,10 @@
       height: 40px;
       padding: 0 50px;
       border-top: 1px solid $lineColor;
+      p {
+        font-size: $h4Font;
+        color: $h3Color;
+      }
     }
   }
 </style>

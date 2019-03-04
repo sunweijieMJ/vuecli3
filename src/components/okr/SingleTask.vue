@@ -18,7 +18,7 @@
               <img slot="reference" :src="item.obj_info[0].creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
               <user-popover :userinfo="item.obj_info[0].creator_info"></user-popover>
             </el-popover>
-            <span>{{item.obj_info[0].creator_info.user_name}}</span>
+            <span class="owner-name">{{item.obj_info[0].creator_info.user_name}}</span>
           </div>
         </div>
         <div class="desc">
@@ -37,7 +37,7 @@
       </div>
       <task-check :item="item"></task-check>
     </div>
-    <div class="check-info" v-if="item.check_info">
+    <div class="check-info" v-if="item.check_info && item.check_info.type !== 5 && item.check_info.type !== 6">
       <el-popover
         placement="bottom-start"
         trigger="hover">
@@ -127,7 +127,7 @@
           .name {
             display: flex;
             align-items: center;
-            width: 285px;
+            width: 270px;
             cursor: pointer;
             &:hover i{
               color: $themeColor;
@@ -140,7 +140,7 @@
               color: #000;
             }
             span {
-              @include tofl(264px);
+              @include tofl(250px);
               margin-left: 7px;
               font-size: $h4Font;
               color: $h2Color;
@@ -149,12 +149,13 @@
           .owner {
             display: flex;
             align-items: center;
+            margin-left: 40px;
             img {
               width: 20px;
               height: 20px;
               border-radius: 50%;
             }
-            span {
+            .owner-name {
               margin-left: 7px;
               font-size: $h4Font;
               line-height: 1;
@@ -225,8 +226,8 @@
       border-top: 1px solid $lineColor;
       img {
         box-sizing: border-box;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         border: 1px solid $lineColor;
         cursor: pointer;
@@ -236,7 +237,7 @@
         flex-direction: column;
         justify-content: space-between;
         width: 450px;
-        height: 36px;
+        height: 32px;
         margin-left: 12px;
         h4 {
           display: flex;
@@ -272,6 +273,10 @@
       height: 40px;
       padding: 0 50px;
       border-top: 1px solid $lineColor;
+      p {
+        font-size: $h4Font;
+        color: $h3Color;
+      }
     }
   }
 </style>

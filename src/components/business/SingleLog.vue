@@ -96,7 +96,7 @@
     }
     .main {
       padding: 20px 30px;
-      margin: 20px 50px;
+      margin: 20px 0 20px 50px;
       background-color: $backColor;
       .okr {
         h4 {
@@ -197,13 +197,16 @@
       .user {
         display: flex;
         align-items: center;
-        margin-top: 14px;
+        flex-wrap: wrap;
+        margin-top: 2px;
         span {
-          padding: 2px 15px;
-          margin-right: 6px;
+          display: inline-flex;
+          padding: 5px 15px;
+          margin: 12px 6px 0 0;
           border-radius: 13px;
           background-color: $backColor;
-          font-size: $h4Font;
+          font-size: $h3Font;
+          line-height: 1;
           color: $h1Color;
           cursor: pointer;
           @extend %textlight;

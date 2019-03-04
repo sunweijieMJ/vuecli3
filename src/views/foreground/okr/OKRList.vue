@@ -288,7 +288,7 @@
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
       h3 {
         width: 1040px;
-        margin: 30px auto;
+        margin: 36px auto 26px;
         font-size: 30px;
         line-height: 1;
         font-weight: $h1Weight;
@@ -296,6 +296,7 @@
       }
       .menu-box {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         width: 1040px;
         margin: 0 auto;
@@ -350,7 +351,7 @@
       display: flex;
       align-items: center;
       width: 1040px;
-      margin: 20px auto;
+      margin: 12px auto;
       .el-cascader {
         box-sizing: border-box;
         display: flex;
@@ -386,8 +387,10 @@
           }
         }
         .el-cascader__label {
+          width: 90%;
           padding: 0 15px;
           line-height: 40px;
+          color: $h1Color;
         }
 
         &.kind-select input{

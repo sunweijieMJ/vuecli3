@@ -179,14 +179,14 @@ $up-down: 30px;
   &.small-rate {
     .el-rate__item {
       .el-rate__icon {
-        font-size: 12px;
+        font-size: 14px;
         .icon-icon_star {
-          font-size: 12px;
+          font-size: 14px;
         }
       }
     }
     .el-rate__text {
-      font-size: $h3Font;
+      font-size: 14px;
       font-weight: $h1Weight;
       color: $h1Color;
     }
@@ -205,11 +205,11 @@ $up-down: 30px;
 // 级联选择器
 .custom-cascader {
   .el-cascader-menu {
-    max-height: 204px;
+    max-height: 270px;
     height: inherit;
     .el-cascader-menu__item {
       height: initial;
-      padding: 10px 16px;
+      padding: 12px 16px;
       font-size: $h3Font;
       line-height: 1;
       color: $h1Color;
@@ -220,11 +220,8 @@ $up-down: 30px;
       &:hover {
         background-color: $backColor;
       }
-      &.is-active {
-        color: $linkBlue;
-      }
       &.el-cascader-menu__item--extensible {
-        padding-right: 26px;
+        padding-right: 36px;
         &::after {
           right: 10px;
         }

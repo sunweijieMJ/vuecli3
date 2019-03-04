@@ -8,7 +8,7 @@
         </el-tag>
         <el-popover
           v-model="member_popover"
-          placement="bottom"
+          placement="right"
           width="400"
           trigger="click">
           <el-button class="add" slot="reference">添加</el-button>
