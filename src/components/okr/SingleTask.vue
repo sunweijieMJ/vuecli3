@@ -37,7 +37,7 @@
       </div>
       <task-check :item="item"></task-check>
     </div>
-    <div class="check-info" v-if="item.check_info && item.check_info.type !== 5 && item.check_info.type !== 6">
+    <div class="check-info" v-if="item.check_info && item.check_info.type !== 5 && item.check_info.type !== 6 && 0">
       <el-popover
         placement="bottom-start"
         trigger="hover">
