@@ -21,7 +21,7 @@
     <div class="edit" v-if="!isOwner && !okrDec"></div>
     <div class="edit" v-else>
       <div class="left">
-        <span class="bg"></span>
+        <!-- <span class="bg"></span> -->
         <span class="text">描述</span>
       </div>
       <span @click="personEdit" v-show="isOwner" class="iconfont icon-compile"></span>
@@ -239,24 +239,26 @@ export default {
       .text{
         position: relative;
         z-index: 1;
+        color: #22D7A0;
+        font-weight: 500;
       }
-      .bg{
-        z-index: 0;
-        display: inline-block;
-        width: 100%;
-        height: 4px;
-        position: absolute;
-        bottom: 3px;
-        left: 0;
-        background-color: #22D7A0;
-      }
+      // .bg{
+      //   z-index: 0;
+      //   display: inline-block;
+      //   width: 100%;
+      //   height: 4px;
+      //   position: absolute;
+      //   bottom: 3px;
+      //   left: 0;
+      //   background-color: #22D7A0;
+      // }
     }
     span{
       cursor: pointer;
       @extend %imglight;
     }
     .iconfont{
-      color: #1AD59D;
+      color: #303133;
       font-size: 22px;
       margin-left: 8px;
     }
