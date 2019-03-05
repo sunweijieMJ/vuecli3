@@ -295,7 +295,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       .subtitle{
-        font-size: $h2Font;
+        font-size: 18px;
         font-weight: 500;
         color: #FFFFFF;
         display: flex;

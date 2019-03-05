@@ -164,7 +164,7 @@ export default {
   border-radius:4px;
   padding: 25px 50px 25px 50px;
   .kr-title{
-    font-size:$h2Font;
+    font-size: 18px;
     font-weight:500;
     color: #303133;
     display: flex;

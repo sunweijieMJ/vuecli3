@@ -410,7 +410,7 @@ export default {
       align-items: center;
       .subtitle{
         margin-top: 33px;
-        font-size: $h2Font;
+        font-size: 18px;
         color: #FFFFFF;
         font-weight: 500;
         display: flex;
