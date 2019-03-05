@@ -165,7 +165,7 @@ export default {
         noresult: false // ETC 空列表
       },
       task_id: '',
-      activeName: 'first',
+      activeName: this.$route.params.tab ? this.$route.params.tab : 'first',
       // window.sessionStorage.getItem('label') ? window.sessionStorage.getItem('label') :
       menu_list: [
         {
@@ -198,6 +198,7 @@ export default {
       }else if(this.activeName === 'second'){
         this.infinite2();
       }
+      this.$router.push({name: 'OKRDetail', params: {tab: this.activeName, id: this.$route.params.id}});
     },
     // 刷新okr列表
     updateOkr(){
@@ -228,7 +229,14 @@ export default {
     handleOkrEdit() {
       this.getBasicInfo();
       if(this.activeName === 'second'){
-        location.reload();
+        this.pageInfo.current_page2 = 0;
+        this.task_id = '';
+        this.okr_dynamic_list = [];
+        this.loading.nomore = false;
+        this.loading.noresult = false;
+        this.disabled2 = false,
+        this.pageInfo.page_total = 0;
+        this.infinite2();
       }else{
         this.getKeyResultList();
       }

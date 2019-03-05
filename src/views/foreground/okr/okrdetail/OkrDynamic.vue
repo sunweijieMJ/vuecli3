@@ -46,7 +46,8 @@ export default {
   },
   methods: {
     goCheckout(pro_id, mao_id){
-      this.$router.push({name: 'LogList', query: {log_type: 1, log_id: pro_id, anchor: mao_id}});
+      window.open(`/foreground/fore_notice/log_list?log_type=1&log_id=${pro_id}&anchor=${mao_id}`, '_blank');
+      // this.$router.push({name: 'LogList', query: {log_type: 1, log_id: pro_id, anchor: mao_id}});
     },
     goProFile(user_id){
       // this.$router.push({name: 'Profile', params: {id: user_id}});

@@ -9,7 +9,7 @@ export default {
       component: () => import('../../views/foreground/okr/OKRList.vue')
     },
     {
-      path: 'okr_detail/:id',
+      path: 'okr_detail/:id/:tab?',
       name: 'OKRDetail',
       component: () => import('../../views/foreground/okr/OKRDetail.vue')
     }

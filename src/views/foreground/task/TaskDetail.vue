@@ -393,7 +393,8 @@ export default {
       .icon{
         width: 48px;
         height: 48px;
-        box-shadow:0px 0px 15px 0px rgba(148,139,234,0.5);
+        background: rgba(148,139,234,1);
+        box-shadow: 0px 0px 15px 0px rgba(148,139,234,0.5);
         border-radius:30px;
       }
     }
