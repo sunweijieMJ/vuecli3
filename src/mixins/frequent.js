@@ -1,3 +1,5 @@
+import linsign from '../utils/signFun';
+
 export default {
   methods: {
     // 返回
@@ -13,7 +15,8 @@ export default {
       this.$router.push({name, params});
     },
     // path
-    pathSkip(url) {
+    pathSkip(url, query) {
+      if (query) url = `${url}?${linsign.urlConcat(query)}`;
       window.open(url, '_blank');
     },
     // 大图展示
