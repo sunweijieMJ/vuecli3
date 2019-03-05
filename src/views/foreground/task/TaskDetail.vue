@@ -69,11 +69,7 @@
     </div>
     <div class="drop-link-class">
       <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
-        <span class="el-dropdown-link">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-btn_more_purple1"></use>
-          </svg>
-        </span>
+        <span style="fontSize: 48px;" class="iconfont icon-btn_more_green1"></span>
         <el-dropdown-menu slot="dropdown" class="task-pop">
           <el-dropdown-item command="跟进">
             <span class="iconfont icon-icon_check"></span>
@@ -386,17 +382,15 @@ export default {
     left: calc((100% - 1040px) / 2 + 12px);
     .el-dropdown{
       right: -100%;
+      border-radius:30px;
     }
-    .el-dropdown-link{
+    .icon-btn_more_green1{
+      color: #948BEA;
+      box-shadow: 0px 0px 15px 0px rgba(148,139,234,0.5);
+      border-radius:30px;
       cursor: pointer;
       @extend %imglight;
-      .icon{
-        width: 48px;
-        height: 48px;
-        background: rgba(148,139,234,1);
-        box-shadow: 0px 0px 15px 0px rgba(148,139,234,0.5);
-        border-radius:30px;
-      }
+      font-size: 48px;
     }
   }
 }

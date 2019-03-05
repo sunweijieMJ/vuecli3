@@ -103,11 +103,12 @@
     </div>
     <div class="drop-link-class">
       <el-dropdown @command="handleCommand" v-if="okr_detail && okr_detail.is_owner">
-        <span class="el-dropdown-link">
+        <!-- <span class="el-dropdown-link">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-btn_more_green1"></use>
           </svg>
-        </span>
+        </span> -->
+        <span style="fontSize: 48px;" class="iconfont icon-btn_more_green1"></span>
         <el-dropdown-menu slot="dropdown" class="okr-pop">
           <el-dropdown-item command="编辑">
             <span class="iconfont icon-icon_edit"></span>
@@ -165,8 +166,7 @@ export default {
         noresult: false // ETC 空列表
       },
       task_id: '',
-      activeName: this.$route.params.tab ? this.$route.params.tab : 'first',
-      // window.sessionStorage.getItem('label') ? window.sessionStorage.getItem('label') :
+      activeName: this.$route.query.tab ? this.$route.query.tab : 'first',
       menu_list: [
         {
           label: 'OKR',
@@ -183,6 +183,7 @@ export default {
     // tab切换
     handleClick(){
       // window.sessionStorage.setItem('label', this.activeName);
+      this.$router.push({name: 'OKRDetail', query: {tab: this.activeName}, params: {id: this.$route.params.id}});
       this.pageInfo.current_page = 0;
       this.pageInfo.current_page2 = 0;
       this.task_id = '';
@@ -198,7 +199,6 @@ export default {
       }else if(this.activeName === 'second'){
         this.infinite2();
       }
-      this.$router.push({name: 'OKRDetail', params: {tab: this.activeName, id: this.$route.params.id}});
     },
     // 刷新okr列表
     updateOkr(){
@@ -628,15 +628,13 @@ export default {
     .el-dropdown{
       right: -100%;
     }
-    .el-dropdown-link{
+    .icon-btn_more_green1{
+      font-size: 48px;
       cursor: pointer;
       @extend %imglight;
-      .icon{
-        width: 48px;
-        height: 48px;
-        box-shadow:0px 0px 15px 0px rgba(34,215,160,0.5);
-        border-radius:30px;
-      }
+      box-shadow:0px 0px 15px 0px rgba(34,215,160,0.5);
+      border-radius:30px;
+      color: #1AD59D;
     }
   }
 }

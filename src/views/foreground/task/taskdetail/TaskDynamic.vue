@@ -63,8 +63,10 @@
 </template>
 <script>
 import UserPopover from '../../../../components/popup/UserPopover';
+import frequent from '../../../../mixins/frequent';
 export default {
   name: 'TaskDynamic',
+  mixins: [frequent],
   props: ['dynamic_list', 'dynamic_num'],
   components: {
     UserPopover
@@ -76,10 +78,10 @@ export default {
   },
   methods: {
     goPersonal(user_id){
-      window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
+      this.pathSkip(`/foreground/fore_mine/profile/${user_id}`);
     },
     goDialg(pro_id, mao_id){
-      this.$router.push({name: 'LogList', query: {log_type: 2, log_id: pro_id, anchor: mao_id}});
+      this.pathSkip('/foreground/fore_notice/log_list', {log_type: 2, log_id: pro_id, anchor: mao_id});
     }
   }
 };
