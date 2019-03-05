@@ -110,7 +110,7 @@
         }
         h4 {
           margin-left: 10px;
-          font-size: $h3Font;
+          font-size: $h2Font;
           font-weight: $h1Weight;
           color: $h1Color;
           cursor: pointer;

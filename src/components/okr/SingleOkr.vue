@@ -65,7 +65,7 @@
         align-items: center;
         h3 {
           @include tofl(100%);
-          font-size: $h3Font;
+          font-size: $h2Font;
           font-weight: $h1Weight;
           color: $h1Color;
           cursor: pointer;
