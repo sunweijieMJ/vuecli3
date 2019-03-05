@@ -11,14 +11,12 @@
 </template>
 <script>
   import IdeaApi from '../../../api/Idea.js';
-  import activate from '../../../mixins/activate.js';
   import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
 
   export default {
     name: 'TopicList',
     components: {PublicList, Loading},
-    mixins: [activate],
     data(){
       return {
         topic_id: 0, // ETC 话题id

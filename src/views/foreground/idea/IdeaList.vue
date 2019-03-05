@@ -14,7 +14,6 @@
 </template>
 <script>
   import IdeaApi from '../../../api/Idea.js';
-  import activate from '../../../mixins/activate.js';
   import {Loading} from '../../../components/public';
   import {PublicList} from '../../../components/business';
   import CommentPublish from '../../../components/comment/CommentPublish';
@@ -24,7 +23,6 @@
     components: {
       PublicList, Loading, CommentPublish
     },
-    mixins: [activate],
     data(){
       return {
         idea_list: [], // ETC 想法列表

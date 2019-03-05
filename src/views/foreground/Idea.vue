@@ -1,6 +1,4 @@
 <template>
-  <keep-alive :include="'IdeaList, TopicList'">
-    <router-view/>
-  </keep-alive>
+  <router-view/>
 </template>
 
