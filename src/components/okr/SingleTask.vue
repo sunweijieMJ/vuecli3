@@ -11,14 +11,14 @@
             <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
             <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
           </p>
-          <div class="owner" v-if="item.obj_info && item.obj_info.length && item.obj_info[0] && item.obj_info[0].creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
+          <div class="owner" v-if="item.creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_info.user_id}`)">
             <el-popover
               placement="bottom"
               trigger="hover">
-              <img slot="reference" :src="item.obj_info[0].creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.obj_info[0].creator_info.user_id}`)">
-              <user-popover :userinfo="item.obj_info[0].creator_info"></user-popover>
+              <img slot="reference" :src="item.creator_info.header_photo | imageSize('80x80')" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_info.user_id}`)">
+              <user-popover :userinfo="item.creator_info"></user-popover>
             </el-popover>
-            <span class="owner-name">{{item.obj_info[0].creator_info.user_name}}</span>
+            <span class="owner-name">{{item.creator_info.user_name}}</span>
           </div>
         </div>
         <div class="desc">

@@ -175,18 +175,19 @@
           that.loading.last_id = res.data.last_id;
           that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
           // 数据整理
+          for(let key in obj_infos) {
+            if(!users_info) break;
+            obj_infos[key].creator_info = users_info[obj_infos[key].creator_id];
+          }
           for(let i = 0, ILEN = task_list.length; i < ILEN; i++) {
             if(task_list[i].obj_id) {
               task_list[i].obj_info = [];
               for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
-                for(let k = 0, KLEN = task_list[i].obj_info.length; k < KLEN; k++) {
-                  if(!task_list[i].obj_info[k]) continue;
-                  task_list[i].obj_info[k].creator_info = users_info[task_list[i].obj_info[k].creator_id];
-                }
               }
             }
             if(!users_info) continue;
+            task_list[i].creator_info = users_info[task_list[i].creator_id];
             if(!task_list[i].check_info) continue;
             task_list[i].check_info.creator_info = users_info[task_list[i].creator_id];
           }
@@ -211,18 +212,19 @@
           that.loading.last_id = res.data.last_id;
           that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
           // 数据整理
+          for(let key in obj_infos) {
+            if(!users_info) break;
+            obj_infos[key].creator_info = users_info[obj_infos[key].creator_id];
+          }
           for(let i = 0, ILEN = task_list.length; i < ILEN; i++) {
             if(task_list[i].obj_id) {
               task_list[i].obj_info = [];
               for(let j = 0, JLEN = task_list[i].obj_id.length; j < JLEN; j++) {
                 task_list[i].obj_info.push(obj_infos[task_list[i].obj_id[j]]);
-                for(let k = 0, KLEN = task_list[i].obj_info.length; k < KLEN; k++) {
-                  if(!task_list[i].obj_info[k]) continue;
-                  task_list[i].obj_info[k].creator_info = users_info[task_list[i].obj_info[k].creator_id];
-                }
               }
             }
             if(!users_info) continue;
+            task_list[i].creator_info = users_info[task_list[i].creator_id];
             if(!task_list[i].check_info) continue;
             task_list[i].check_info.creator_info = users_info[task_list[i].creator_id];
           }
