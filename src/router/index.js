@@ -39,6 +39,7 @@ export default new Router({
     },
     {
       path: '*',
+      redirect: '/foreground/fore_idea/idea_list',
       component: () => import('../views/Error.vue')
     }
   ]

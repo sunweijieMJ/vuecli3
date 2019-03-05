@@ -1,5 +1,6 @@
 <template>
-  <div class="task-check" v-if="item.status === 1 && (item.task_owner_id === self_info.user_id || (item.participants ? item.participants.includes(self_info.user_id) : false))">
+  <div class="task-check" v-if="item.status === 1 && (item.task_owner_id === self_info.user_id)">
+    <!-- (item.participants ? item.participants.includes(self_info.user_id) : false) -->
     <li v-for="(menuitem, index) in check_list" :key="index" @click.stop="handleTask(menuitem)"
       v-if="(item.is_key_task && (item.participants && item.participants.includes(self_info.user_id)) && menuitem.name === '添加Task') || (item.task_owner_id === self_info.user_id && menuitem.name !== '添加Task')">
       <i :class="menuitem.icon" class="iconfont"></i>
