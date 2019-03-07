@@ -12,6 +12,11 @@ export default {
       path: 'task_detail/:id',
       name: 'TaskDetail',
       component: () => import('../../views/foreground/task/TaskDetail.vue')
+    },
+    {
+      path: 'report_redact/:id?',
+      name: 'ReportRedact',
+      component: () => import('../../views/foreground/task/ReportRedact.vue')
     }
   ]
 };

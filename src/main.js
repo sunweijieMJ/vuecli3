@@ -25,6 +25,7 @@ for (let key in filters) {
 // 全局守卫
 router.beforeEach((to, from, next) => {
   const token = storage('cookie').get('pgs_authinfo');
+
   if (token) {
     if(to.name === 'Login') {
       next({name: 'IdeaList'});

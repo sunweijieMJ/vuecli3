@@ -6,7 +6,8 @@
 const urlDict = {
   'System': {
     'GlobalInfo': '/config/global', // ETC 全局变量
-    'UploadImg': '/com/upload' // ETC 图片上传
+    'UploadImg': '/com/upload', // ETC 图片上传
+    'UserAction': '/user_action_log?app=pgs-lanehub' // ETC 数据埋点
   },
   'User': {
     'UserLogin': '/user/login', // ETC 用户登录
@@ -60,7 +61,7 @@ const urlDict = {
     'OkrList': '/okr/okr/list', // ETC okr list
     'Description': '/okr/okr/updatecolumns', // ETC okr描述
     'OkrDynamic': 'okr/okr/progresslist', // ETC okr动态
-    'DeleteOkr': '/okr/okr/delokr', // ETC okr删除
+    'DeleteOkr': '/okr/okr/delokr' // ETC okr删除
   },
   'Task': {
     'CreateTask': '/okr/task/create', // ETC 创建Task

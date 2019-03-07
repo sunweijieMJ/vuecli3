@@ -23,6 +23,7 @@
           </div>
           <!-- 参与者 -->
           <div class="task-user">
+            <h4>参与者</h4>
             <member v-model="form.task_user"></member>
           </div>
           <!-- 关联 -->
@@ -273,8 +274,18 @@
         }
       }
       .task-user {
+        display: flex;
+        align-items: center;
         padding: $up-down $left-right 18px;
         border-bottom: 1px solid $lineColor;
+        h4 {
+          align-self: flex-start;
+          width: 46px;
+          font-size: $h3Font;
+          font-weight: 400;
+          line-height: 36px;
+          color: $h2Color;
+        }
       }
       .relevancy {
         padding: $up-down $left-right 18px;
