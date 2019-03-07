@@ -1,5 +1,6 @@
 const global = {
   filter_token: ['pgs_authinfo'],
+  action_request: ['/user_action_log'],
   submit_request: [
     '/thinks/publish', '/thinks/publishcomment',
     '/okr/okr/create', '/okr/okr/update',

@@ -19,6 +19,15 @@ class System extends Abstract {
   uploadImg(data) {
     return this.postReq('System.UploadImg', data);
   }
+
+  /**
+   * 数据埋点
+   * @param {array} actions
+   * http://git.release.weiheinc.com/joe/api-doc/blob/master/Infrastracture/LanehubDataRequest.md
+   */
+  sendUserAction(data) {
+    return this.postReq('System.UserAction', data);
+  }
 }
 
 // 单列模式返回对象

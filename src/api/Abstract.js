@@ -9,7 +9,7 @@ import linsign from '../utils/signFun';
 import ApiUrl from '../config/apiConfig';
 import storage from '../utils/storage';
 import interceptor from '../config/Global';
-const baseURL = process.env.VUE_APP_BaseURL;
+let baseURL = process.env.VUE_APP_BaseURL;
 
 // axios 配置
 const Axios = axios.create({
@@ -53,6 +53,12 @@ class Abstract {
       params.sign = that.linsign.signHash(url, params);
     }
     return new Promise((resolve, reject) => {
+      // 埋点请求更换baseURL
+      if (interceptor.action_request.includes(url.split('?')[0])) {
+        baseURL = process.env.VUE_APP_ActionURL;
+      } else {
+        baseURL = process.env.VUE_APP_BaseURL;
+      }
       // 终止重复请求
       if (interceptor.submit_request.includes(url.split('?')[0])) {
         if (store.state.send_flag) {
