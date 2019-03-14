@@ -1,43 +1,40 @@
 <template>
   <div class="task-list">
-    <div class="task-select" v-if="active_task === 'all'">
-      <el-cascader
-         v-model="active_part"
-        placeholder="全部用户"
-        expand-trigger="hover"
-        popper-class="custom-cascader"
-        :options="part_list"
-        :clearable="true"
-        :show-all-levels="false"
-        @active-item-change="handleItemChange"
-        @change="resetList()"
-      ></el-cascader>
-    </div>
-    <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-      <li v-for="(item, index) in task_list" :key="index">
-        <single-task :item="item"></single-task>
-      </li>
-      <div class="no-result" v-if="loading.noresult">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-icon_nothing"></use>
-        </svg>
-        <p>当前没有内容</p>
+    <no-result v-if="loading.noresult"></no-result>
+    <template v-else>
+      <div class="task-select" v-if="active_task === 'all'">
+        <el-cascader
+          v-model="active_part"
+          placeholder="全部用户"
+          expand-trigger="hover"
+          popper-class="custom-cascader"
+          :options="part_list"
+          :clearable="true"
+          :show-all-levels="false"
+          @active-item-change="handleItemChange"
+          @change="resetList()"
+        ></el-cascader>
       </div>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
-    </ul>
-    <task-publish @handleTaskEdit="resetList" @handleTaskCreate="resetList"></task-publish>
-    <task-follow @handleTaskCheck="resetList"></task-follow>
-    <task-close @handleTaskClose="resetList"></task-close>
+      <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
+        <li v-for="(item, index) in task_list" :key="index">
+          <single-task :item="item"></single-task>
+        </li>
+        <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+      </ul>
+      <task-publish @handleTaskEdit="resetList" @handleTaskCreate="resetList"></task-publish>
+      <task-follow @handleTaskCheck="resetList"></task-follow>
+      <task-close @handleTaskClose="resetList"></task-close>
+    </template>
   </div>
 </template>
 <script>
   import TaskApi from '../../../api/Task.js';
   import UserApi from '../../../api/User.js';
-  import {Loading} from '../../../components/public';
+  import {Loading, NoResult} from '../../../components/public';
   import {SingleTask, TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
 
   export default {
-    components: {SingleTask, Loading, TaskPublish, TaskFollow, TaskClose},
+    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose},
     data() {
       return {
         active_task: '', // ETC 当前激活菜单
@@ -60,7 +57,7 @@
     created() {
       let that = this;
       that.getPartList();
-      that.active_task = that.$route.query.active || 'create';
+      that.active_task = that.$route.query.type || 'create';
     },
     methods: {
       // 触底刷新
@@ -205,7 +202,7 @@
       $route(to, from) {
         let that = this;
         if(to.name === that.$route.name && from.name === that.$route.name) {
-          that.active_task = that.$route.query.active || 'create';
+          that.active_task = that.$route.query.type || 'create';
           that.resetList();
         }
       }
@@ -217,21 +214,6 @@
     .list {
       width: 1040px;
       margin: 12px auto 0;
-      .no-result {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        svg {
-          margin: 170px 0 10px;
-          width: 180px;
-        }
-        p {
-          font-size: $h3Font;
-          font-weight: $h1Weight;
-          color: $h3Color;
-        }
-      }
     }
   }
 </style>

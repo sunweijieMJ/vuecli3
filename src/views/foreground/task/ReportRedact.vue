@@ -5,11 +5,11 @@
         <el-popover
           placement="bottom-start"
           trigger="hover">
-          <img slot="reference" :src="form.user_info.header_photo" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${form.user_info.user_id}`)">
-          <user-popover :userinfo="form.user_info"></user-popover>
+          <img slot="reference" :src="(form.user_info || self_info).header_photo" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${(form.user_info || self_info).user_id}`)">
+          <user-popover :userinfo="(form.user_info || self_info)"></user-popover>
         </el-popover>
         <div class="info">
-          <h4>周报-{{form.user_info.real_name}}</h4>
+          <h4>周报-{{(form.user_info || self_info).real_name}}</h4>
           <weekly-date :key="key" v-model="form.daterange"></weekly-date>
         </div>
       </div>
@@ -132,6 +132,7 @@
           that.getWeeklyKtList();
         });
       } else {
+        that.getDefaultUsers();
         that.getWeeklyKtList();
       }
     },
@@ -139,7 +140,11 @@
       publish(action) {
         let that = this;
         ReportApi().publish({action, ...that.report_info}).then(res => {
-          console.log(res)
+          if(res.status) {
+            that.$message({message: `${action === 'publish' ? '发布' : '保存'}成功`, type: 'success'});
+          } else {
+            that.$message({message: res.message, type: 'warning'});
+          }
         });
       },
       handleTaskCheck(data) {
@@ -191,6 +196,13 @@
         let that = this;
         that.form.summary.status = false;
       },
+      getDefaultUsers() {
+        let that = this;
+        ReportApi().getDefaultUsers({}).then(res => {
+          console.log(res)
+          that.form.recipient = res.data;
+        });
+      },
       getWeeklyKtList() {
         let that = this;
         ReportApi().getWeeklyKtList({start_day: '2019-03-01', end_day: '2019-03-08'}).then(res => {
@@ -231,6 +243,8 @@
       async getReportDetail(report_id) {
         let that = this;
         await ReportApi().getReportDetail({report_id}).then(res => {
+
+          if(!res.data.basic) return;
           const report_info = res.data;
           const user_info = report_info.user_info;
 
@@ -265,13 +279,6 @@
           };
           that.key++;
         });
-      }
-    },
-    watch: {
-      self_info(cur) {
-        let that = this;
-        if(that.report_id) return;
-        that.form.user_info = cur;
       }
     },
     computed: {

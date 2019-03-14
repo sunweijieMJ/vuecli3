@@ -1,6 +1,6 @@
 <template>
   <div class="report-list">
-    <div class="report-main">
+    <div class="report-main" v-if="report_list.length">
       <div class="main-nav">
         <el-cascader
           v-if="active_report === 'all'"
@@ -41,16 +41,18 @@
         <div v-else class="null">请先选择周报</div>
       </div>
     </div>
+    <no-result v-else></no-result>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex';
   import UserApi from '../../../api/User.js';
   import ReportApi from '../../../api/Report.js';
+  import {NoResult} from '../../../components/public';
   import {SingleReport, SingleInfo} from '../../../components/report';
 
   export default {
-    components: {SingleReport, SingleInfo},
+    components: {SingleReport, SingleInfo, NoResult},
     data() {
       return {
         active_report: '', // ETC 当前类型
@@ -80,7 +82,7 @@
     created() {
       let that = this;
       that.getPartList();
-      that.active_report = that.$route.query.active || 'recipient';
+      that.active_report = that.$route.query.type || 'self';
       that.getReportList(that.active_report);
     },
     methods: {
@@ -90,7 +92,7 @@
           if(res.status) {
             that.$message({message: '反馈成功', type: 'success'});
           } else {
-            that.$message({message: res.message, type: 'error'});
+            that.$message({message: res.message, type: 'warning'});
           }
         });
       },
@@ -167,6 +169,22 @@
           that.report_list = that.report_list.concat(report_list);
         });
       },
+      // 重置Task列表
+      resetList(type) {
+        let that = this;
+        ReportApi().getReportList({type}).then(res => {
+          const user_info = res.data.user_info;
+          const report_list = res.data.list;
+          that.loading.last_id = res.data.last_id;
+          that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
+
+          for(let i = 0, LEN = report_list.length; i < LEN; i++) {
+            report_list[i].user_info = user_info[report_list[i].user_id];
+          }
+
+          that.report_list = report_list;
+        });
+      },
       getReportDetail(index) {
         let that = this;
         that.current_report = index;
@@ -190,8 +208,8 @@
       $route(to, from) {
         let that = this;
         if(to.name === that.$route.name && from.name === that.$route.name) {
-          that.active_report = that.$route.query.active || 'recipient';
-          that.getReportList(that.active_report);
+          that.active_report = that.$route.query.type || 'recipient';
+          that.resetList(that.active_report);
         }
       }
     },

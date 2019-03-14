@@ -2,7 +2,7 @@
   <div class="single-report">
     <div class="info">
       <el-badge is-dot class="item" :hidden="!item.is_read">W{{item.report_week}}周报-{{item.user_info.real_name}}</el-badge>
-      <single-status v-if="!item.is_feedback" :text="'待反馈'" :color="'#FF7676'" :back="'#FEEDED'"></single-status>
+      <single-status v-if="$route.query.active === 'recipient' && !item.is_feedback" :text="'待反馈'" :color="'#FF7676'" :back="'#FEEDED'"></single-status>
     </div>
     <div class="time">
       <h5>{{Moment().format(item.report_start_day, 'MM-DD')}}-{{Moment().format(item.report_end_day, 'MM-DD')}}</h5>

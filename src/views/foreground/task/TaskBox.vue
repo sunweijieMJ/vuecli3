@@ -3,11 +3,11 @@
     <div class="header">
       <div class="menu-box">
         <el-tabs v-model="active_menu" @tab-click="handleClick">
-          <el-tab-pane v-for="(witem, windex) in menu_list" :key="windex" :label="witem.label" :name="witem.name">
+          <el-tab-pane v-for="(witem, windex) in menu_list" :key="windex" :label="witem.label" :name="witem.name" :type="witem.type">
             <el-dropdown v-if="witem.name === active_menu" slot="label" @command="handleCommand" trigger="click">
               <li>{{witem.label}}</li>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(vitem, vindex) in (windex === 0 ? task_nav : report_nav)" :key="vindex" :command="vitem.name">{{vitem.label}}</el-dropdown-item>
+                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : report_menu)" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-tab-pane>
@@ -29,49 +29,69 @@
     data() {
       return {
         active_menu: this.$route.name,
-        menu_list: [
+        menu_list: {
+          TaskList: {
+            label: '我的KT',
+            name: 'TaskList',
+            type: 'create'
+          },
+          ReportList: {
+            label: '我的周报',
+            name: 'ReportList',
+            type: 'self'
+          }
+        },
+        task_menu: [
           {
             label: '我的KT',
-            name: 'TaskList'
+            name: 'TaskList',
+            type: 'create'
           },
           {
-            label: '我的周报',
-            name: 'ReportList'
+            label: '参与KT',
+            name: 'TaskList',
+            type: 'take'
+          },
+          {
+            label: '团队KT',
+            name: 'TaskList',
+            type: 'team'
+          },
+          {
+            label: '全部KT',
+            name: 'TaskList',
+            type: 'all'
           }
         ],
-        task_nav: [
-          {
-            label: '我的',
-            name: 'create'
-          },
-          {
-            label: '我参与的',
-            name: 'take'
-          },
-          {
-            label: '我团队的',
-            name: 'team'
-          },
-          {
-            label: '全部TASK',
-            name: 'all'
-          }
-        ],
-        report_nav: [
+        report_menu: [
           {
             label: '我的周报',
-            name: 'self'
+            name: 'ReportList',
+            type: 'self'
           },
           {
             label: '我收到的',
-            name: 'recipient'
+            name: 'ReportList',
+            type: 'recipient'
           },
           {
-            label: '全部',
-            name: 'all'
+            label: '全部周报',
+            name: 'ReportList',
+            type: 'all'
           }
         ]
       };
+    },
+    created() {
+      let that = this;
+      const query = that.$route.query;
+      if(query.label) {
+        that.menu_list[that.$route.name] = {
+          label: query.label,
+          name: that.$route.name,
+          type: query.type
+        };
+      }
     },
     methods: {
       handleClick(e) {
@@ -81,7 +101,8 @@
       },
       handleCommand(command) {
         let that = this;
-        that.$router.push({name: that.$route.name, query: {active: command}});
+        that.menu_list[that.$route.name] = command;
+        that.$router.push({name: that.$route.name, query: {label: command.label, type: command.type}});
       }
     }
   };
