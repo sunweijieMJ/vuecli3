@@ -5,8 +5,10 @@
 
 const urlDict = {
   'System': {
-    'GlobalInfo': '/config/global', // ETC 全局变量
     'UploadImg': '/com/upload', // ETC 图片上传
+    'OrgBasic': '/crules/org/orgbasic', // ETC 组织结构基础数据
+    'DepartMentList': '/crules/org/departmentlist', // ETC 部门数据
+    'StaffsByDep': '/crules/org/getstaffsbydep', // ETC 员工数据
     'UserAction': '/user_action_log?app=pgs-lanehub' // ETC 数据埋点
   },
   'User': {
@@ -43,11 +45,6 @@ const urlDict = {
     'SelfIdeaDelete': '/thinks/delthinks', // ETC 删除自己的想法
     'SelfCommentDelete': '/thinks/delcomments' // ETC 删除自己的评论
   },
-  'ManageIdea': {
-    'BasicData': '/crules/org/orgbasic', // ETC 组织结构基础数据
-    'DepartMentData': '/crules/org/departmentlist', // ETC 部门数据
-    'StaffData': '/crules/org/getstaffsbydep' // ETC 员工数据
-  },
   'Okr': {
     'CreateOkr': '/okr/okr/create', // ETC 创建OKR
     'UpdateOkr': '/okr/okr/update', // ETC 编辑OKR
@@ -74,6 +71,15 @@ const urlDict = {
     'TaskCheck': '/okr/task/check', // ETC check task 任务
     'TaskFinish': '/okr/task/finish', // ETC finish task 任务
     'TaskClose': '/okr/task/close' // ETC 关闭 task 任务
+  },
+  'Report': {
+    'PublishReport': '/report/weeklywork/publish', // ETC 发布周报
+    'ReportList': '/report/weeklywork/list', // ETC 周报列表
+    'ReportDetail': '/report/weeklywork/detail', // ETC 周报详细信息
+    'DefaultUsers': '/user/weekly/defaultusers', // ETC 周报默认接收人
+    'WeeklyKtList': '/report/weeklywork/worklist', // ETC 周工作task列表
+    'PublishFeedBack': '/report/weeklywork/publishfeedback', // ETC 发布周报反馈
+    'ReportUnread': '/user/weekly/waitread' // ETC 是否有未读周报
   }
 };
 

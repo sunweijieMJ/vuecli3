@@ -242,6 +242,28 @@ $up-down: 30px;
   }
 }
 
+// radio
+.custom-radio {
+  .el-radio__input {
+
+  }
+  .el-radio__label {
+    color: $h2Color;
+  }
+  &.is-checked {
+    .el-radio__input {
+      .el-radio__inner {
+        color: $linkBlue;
+        border-color: $linkBlue;
+        background-color: $linkBlue;
+      }
+    }
+    .el-radio__label {
+      color: $h1Color;
+    }
+  }
+}
+
 // message
 .el-message-box {
   width: 460px;

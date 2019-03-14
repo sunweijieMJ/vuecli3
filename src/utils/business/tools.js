@@ -162,7 +162,6 @@ const blocked = (func, delay) => {
  */
 import {os} from './judge.js';
 const autoTextarea = (ele, extra = 0, maxHeight, minHeight = 48) => {
-
   let [scrollTop, height, padding, style] = [0, 0, 0, ele.style];
 
   if (ele._length === ele.value.length) return;

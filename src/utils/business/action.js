@@ -19,7 +19,7 @@ class UserActions {
           extra: {
             ...extra,
             userAgent: window.navigator.userAgent,
-            uuid: storage('cookie').get('ssr_authinfo')
+            uuid: storage('cookie').get('pgs_authinfo')
           }
         }
       ]
@@ -37,7 +37,7 @@ class UserActions {
           extra: {
             ...extra,
             userAgent: window.navigator.userAgent,
-            uuid: storage('cookie').get('ssr_authinfo'),
+            uuid: storage('cookie').get('pgs_authinfo'),
             during: (Date.now() - this.last_time).toString().substr(0, 10)
           }
         }

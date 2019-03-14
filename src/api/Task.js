@@ -98,6 +98,7 @@ class Task extends Abstract {
    * @param {number | required} speedTime 花费时间
    * @param {number | required} progress 进度
    * @param {number | required} feel 满意程度从1 ~4 升序
+   * @param {number | required} type 1:跟进，2：完成
    */
   checkTask(data) {
     return this.postReq('Task.TaskCheck', data);

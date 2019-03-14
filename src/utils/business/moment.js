@@ -21,6 +21,9 @@ class Moment {
       case 'YYYY-MM-DD':
         return `${year}-${fillZero(month)}-${fillZero(date)}`;
         break;
+      case 'MM-DD':
+        return `${fillZero(month)}/${fillZero(date)}`;
+        break;
       default:
         return `${year}/${fillZero(month)}/${fillZero(date)}`;
         break;

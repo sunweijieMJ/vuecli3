@@ -8,7 +8,7 @@
       placement="top-start"
       width="400"
       trigger="click">
-      <el-button class="add" slot="reference">添加</el-button>
+      <slot slot="reference"></slot>
       <div class="popover-member">
         <h4>参与者</h4>
         <el-input class="custom-input" type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
@@ -91,6 +91,7 @@
           item.isNew = true;
           that.join_list.push(item);
           that.user_list[index].isExist = !that.user_list[index].isExist;
+          that.member_popover = false;
         }
       },
       async deleteUser(item) {

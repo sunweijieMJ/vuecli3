@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-  import ManageApi from '../../../api/Manage.js';
+  import SystemApi from '../../../api/System.js';
   import {Loading} from '../../../components/public';
 
   export default {
@@ -93,14 +93,14 @@
         this.depart_name = name;
       },
       // 基础数据
-      getBasicData(){
-        ManageApi().getBasicData({}).then(res => {
+      getOrgBasic(){
+        SystemApi().getOrgBasic({}).then(res => {
           this.all_num = res.data;
         });
       },
       // 部门列表
-      getDepartMentData(page){
-        ManageApi().getDepartMentData({}).then(res => {
+      getDepartMentList(page){
+        SystemApi().getDepartMentList({}).then(res => {
           this.department = res.data.list;
           if(this.department.length){
             this.show = [];
@@ -118,8 +118,8 @@
         });
       },
       // 员工列表
-      async getStaffData(id, page){
-        return await ManageApi().getStaffData({depId: id, curPage: page, pages: 20}).then(res => {
+      async getStaffsByDep(id, page){
+        return await SystemApi().getStaffsByDep({depId: id, curPage: page, pages: 20}).then(res => {
           if(res.data.list){
             this.department_staff = this.department_staff.concat(Object.values(res.data.list));
           }
@@ -127,7 +127,7 @@
         });
       },
       getStaffData2(id){
-        ManageApi().getStaffData({depId: id, curPage: 1, pages: 20}).then(res => {
+        SystemApi().getStaffsByDep({depId: id, curPage: 1, pages: 20}).then(res => {
           this.department_staff = Object.values(res.data.list);
           // console.log(Object.values(res.data.list));
           this.pageInfo.page_total = res.data.total;
@@ -137,7 +137,7 @@
       infinite() {
         let that = this;
         that.disabled = true;
-        that.getStaffData(this.depart_id, ++that.pageInfo.current_page).then(() => {
+        that.getStaffsByDep(this.depart_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
           that.disabled = false;
           if(that.pageInfo.current_page >= that.pageInfo.page_total || !that.department_staff.length) {
@@ -151,8 +151,8 @@
       }
     },
     mounted(){
-      this.getBasicData();
-      this.getDepartMentData();
+      this.getOrgBasic();
+      this.getDepartMentList();
     },
     watch: {
       page_total(){

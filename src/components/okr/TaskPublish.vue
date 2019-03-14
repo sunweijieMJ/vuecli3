@@ -24,7 +24,9 @@
           <!-- 参与者 -->
           <div class="task-user">
             <h4>参与者</h4>
-            <member v-model="form.task_user"></member>
+            <member v-model="form.task_user">
+              <el-button class="add">添加</el-button>
+            </member>
           </div>
           <!-- 关联 -->
           <div class="relevancy" v-if="form.object_ids.length">
