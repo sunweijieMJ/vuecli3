@@ -28,7 +28,7 @@
           <i class="iconfont icon-icon_link"></i>
           <span>上周工作</span>
         </h3>
-        <ul class="list">
+        <ul class="list" v-if="form.curr_week_list && form.curr_week_list.length">
           <li v-for="(item, index) in form.curr_week_list.slice(0, 2)" :key="index">
             <single-follow :item="item"></single-follow>
           </li>
@@ -45,7 +45,7 @@
           <i class="iconfont icon-icon_link"></i>
           <span>下周工作</span>
         </h3>
-        <ul class="list">
+        <ul class="list" v-if="form.next_week_list && form.next_week_list.length">
           <li v-for="(item, index) in form.next_week_list.slice(0, 2)" :key="index">
             <single-follow :item="item"></single-follow>
           </li>
@@ -131,9 +131,8 @@
         this.getReportDetail(that.report_id).then(() => {
           that.getWeeklyKtList();
         });
-      }else {
+      } else {
         that.getWeeklyKtList();
-        that.form.user_info = that.self_info;
       }
     },
     methods: {
@@ -201,21 +200,25 @@
           const users_info = res.data.users_info;
           const curr_week_list = res.data.curr_week_list;
           const next_week_list = res.data.next_week_list;
-          for(let i = 0, ILEN = curr_week_list.length; i < ILEN; i++) {
-            curr_week_list[i].creator_info = users_info[curr_week_list[i].creator_id];
-            if(curr_week_list[i].obj_id) {
-              curr_week_list[i].obj_info = [];
-              for(let j = 0, JLEN = curr_week_list[i].obj_id.length; j < JLEN; j++) {
-                curr_week_list[i].obj_info.push(obj_infos[curr_week_list[i].obj_id[j]]);
+          if(curr_week_list) {
+            for(let i = 0, ILEN = curr_week_list.length; i < ILEN; i++) {
+              curr_week_list[i].creator_info = users_info[curr_week_list[i].creator_id];
+              if(curr_week_list[i].obj_id) {
+                curr_week_list[i].obj_info = [];
+                for(let j = 0, JLEN = curr_week_list[i].obj_id.length; j < JLEN; j++) {
+                  curr_week_list[i].obj_info.push(obj_infos[curr_week_list[i].obj_id[j]]);
+                }
               }
             }
           }
-          for(let i = 0, ILEN = next_week_list.length; i < ILEN; i++) {
-            next_week_list[i].creator_info = users_info[next_week_list[i].creator_id];
-            if(next_week_list[i].obj_id) {
-              next_week_list[i].obj_info = [];
-              for(let j = 0, JLEN = next_week_list[i].obj_id.length; j < JLEN; j++) {
-                next_week_list[i].obj_info.push(obj_infos[next_week_list[i].obj_id[j]]);
+          if(next_week_list) {
+            for(let i = 0, ILEN = next_week_list.length; i < ILEN; i++) {
+              next_week_list[i].creator_info = users_info[next_week_list[i].creator_id];
+              if(next_week_list[i].obj_id) {
+                next_week_list[i].obj_info = [];
+                for(let j = 0, JLEN = next_week_list[i].obj_id.length; j < JLEN; j++) {
+                  next_week_list[i].obj_info.push(obj_infos[next_week_list[i].obj_id[j]]);
+                }
               }
             }
           }
@@ -262,6 +265,13 @@
           };
           that.key++;
         });
+      }
+    },
+    watch: {
+      self_info(cur) {
+        let that = this;
+        if(that.report_id) return;
+        that.form.user_info = cur;
       }
     },
     computed: {
