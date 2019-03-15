@@ -106,7 +106,6 @@
       },
       // 触底刷新
       infinite() {
-        console.log(1)
         let that = this;
 
         that.disabled = true;
@@ -165,7 +164,7 @@
       // 获取Task列表
       async getReportList(type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
         let that = this;
-        await ReportApi().getReportList({type, qdep_id, quser_id, pages: 6}).then(res => {
+        await ReportApi().getReportList({type, qdep_id, quser_id}).then(res => {
           const user_info = res.data.user_info;
           const report_list = res.data.list;
           that.loading.last_id = res.data.last_id;
