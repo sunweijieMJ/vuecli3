@@ -15,7 +15,7 @@
           @active-item-change="handleItemChange"
           @change="resetList()"
         ></el-cascader>
-        <ul class="container">
+        <ul class="container" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <li v-for="(item, index) in report_list" :key="index" :class="{active: current_report === index}" @click="getReportDetail(index)">
             <single-report :item="item"></single-report>
           </li>
@@ -54,11 +54,11 @@
   import {mapState} from 'vuex';
   import UserApi from '../../../api/User.js';
   import ReportApi from '../../../api/Report.js';
-  import {NoResult} from '../../../components/public';
+  import {Loading, NoResult} from '../../../components/public';
   import {SingleReport, SingleInfo} from '../../../components/report';
 
   export default {
-    components: {SingleReport, SingleInfo, NoResult},
+    components: {SingleReport, SingleInfo, Loading, NoResult},
     data() {
       return {
         active_report: '', // ETC 当前类型
@@ -88,8 +88,8 @@
     created() {
       let that = this;
       that.getPartList();
-      that.active_report = that.$route.query.type || 'self';
       that.getReportList();
+      that.active_report = that.$route.query.type || 'self';
     },
     methods: {
       // 周报反馈
@@ -106,10 +106,11 @@
       },
       // 触底刷新
       infinite() {
+        console.log(1)
         let that = this;
 
         that.disabled = true;
-        that.getTaskList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
+        that.getReportList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
           that.disabled = false;
           if(!that.task_list.length) {
@@ -164,7 +165,7 @@
       // 获取Task列表
       async getReportList(type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
         let that = this;
-        await ReportApi().getReportList({type, qdep_id, quser_id}).then(res => {
+        await ReportApi().getReportList({type, qdep_id, quser_id, pages: 6}).then(res => {
           const user_info = res.data.user_info;
           const report_list = res.data.list;
           that.loading.last_id = res.data.last_id;
