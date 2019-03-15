@@ -41,7 +41,6 @@
       return {
         member_popover: false,
         keyword: '',
-        enterRender: false,
         user_list: [], // ETC 搜索列表
         join_list: [] // ETC 参与者列表
       };
@@ -49,12 +48,6 @@
     created() {
       let that = this;
       that.join_list = that.value;
-    },
-    updated() {
-      if(!this.enterRender && this.value.length !== 0) {
-        this.join_list = this.value;
-        this.enterRender = true;
-      }
     },
     methods: {
       // 搜索member
