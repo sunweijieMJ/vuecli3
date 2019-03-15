@@ -79,7 +79,7 @@ const urlDict = {
     'DefaultUsers': '/user/weekly/defaultusers', // ETC 周报默认接收人
     'WeeklyKtList': '/report/weeklywork/worklist', // ETC 周工作task列表
     'PublishFeedBack': '/report/weeklywork/publishfeedback', // ETC 发布周报反馈
-    'ReportUnread': '/user/weekly/waitread' // ETC 是否有未读周报
+    'ReportUnread': 'report/weeklywork/waitread' // ETC 是否有未读周报
   }
 };
 

@@ -3,7 +3,12 @@
     <div class="feedback" v-if="info.basic.feedback">
       <div class="feedbacker">
         <div class="user">
-          <img :src="info.basic.feedbacker_info.header_photo" alt="">
+          <el-popover
+            placement="bottom-start"
+            trigger="hover">
+            <img slot="reference" :src="info.basic.feedbacker_info.header_photo" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${info.basic.feedbacker_info.user_id}`)">
+            <user-popover :userinfo="info.basic.feedbacker_info"></user-popover>
+          </el-popover>
           <h4>{{info.basic.feedbacker_info.real_name}} 的反馈</h4>
         </div>
         <span>{{info.basic.feedback_time | timeFilter}}</span>
@@ -37,7 +42,7 @@
       <div class="main">
         <div class="last-week week">
           <h3 class="title">
-            <i class="iconfont icon-icon_link"></i>
+            <i></i>
             <span>上周工作</span>
           </h3>
           <ul class="list" v-if="info.curr_week_list && info.curr_week_list.length">
@@ -52,7 +57,7 @@
         </div>
         <div class="next-week week">
           <h3 class="title">
-            <i class="iconfont icon-icon_link"></i>
+            <i></i>
             <span>下周工作</span>
           </h3>
           <ul class="list" v-if="info.next_week_list && info.next_week_list.length">
@@ -67,10 +72,12 @@
         </div>
         <div class="summary week">
           <h3 class="title">
-            <i class="iconfont icon-icon_link"></i>
+            <i></i>
             <span>心得</span>
           </h3>
-          <p class="desc" v-html="textFilter(info.basic.summary)"></p>
+          <div class="other">
+            <p class="desc" v-html="textFilter(info.basic.summary)"></p>
+          </div>
         </div>
       </div>
     </div>
@@ -104,9 +111,9 @@
   $up-down: 30px;
 
   .single-info {
-    .feedback {
+    >.feedback {
       padding: 26px $left-right;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       border-radius: 2px;
       background-color: #fff;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -146,8 +153,8 @@
         color: $h1Color;
       }
     }
-    .detail {
-      padding: $left-right 0 $up-down;
+    >.detail {
+      padding-top: $left-right;
       border-radius: 2px;
       background-color: #fff;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -199,7 +206,7 @@
           display: flex;
           align-items: center;
           padding: 20px 0 15px;
-          border-bottom: 1px solid $lineColor;
+          border-bottom: 2px solid $lineColor;
           h4 {
             align-self: flex-start;
             font-size: $h3Font;
@@ -228,17 +235,23 @@
       .main {
         padding: 0 $left-right;
         .week {
+          padding: 28px $up-down $up-down 0;
           border-bottom: 1px solid $lineColor;
           &.summary {
             border-bottom: 0;
           }
           .title {
-            margin: $up-down 0;
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
             i {
-              font-size: $h2Font;
+              display: inline-flex;
+              width: 5px;
+              height: 17px;
+              background-color: $themeColor;
             }
             span {
-              margin-left: 2px;
+              margin-left: 5px;
               font-size: $h2Font;
               font-weight: $h1Weight;
               line-height: 1;
@@ -251,7 +264,7 @@
             }
           }
           .other {
-            padding: 0 $up-down $up-down 52px;
+            padding: 0 $up-down 0 52px;
             h4 {
               margin-bottom: 15px;
               font-size: $h3Font;

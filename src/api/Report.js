@@ -33,6 +33,8 @@ class Report extends Abstract {
   /**
    * 周报列表
    * @param {string | required} type self | recipient | all
+   * @param {number} qdep_id
+   * @param {number} quser_id
    */
   getReportList(data) {
     return this.getReq('Report.ReportList', data);

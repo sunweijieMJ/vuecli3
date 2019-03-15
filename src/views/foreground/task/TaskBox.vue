@@ -5,15 +5,23 @@
         <el-tabs v-model="active_menu" @tab-click="handleClick">
           <el-tab-pane v-for="(witem, windex) in menu_list" :key="windex" :label="witem.label" :name="witem.name" :type="witem.type">
             <el-dropdown v-if="witem.name === active_menu" slot="label" @command="handleCommand" trigger="click">
-              <li>{{witem.label}}</li>
+              <li>
+                <span>{{witem.label}}</span>
+                <i class="iconfont icon-icon_more1"></i>
+              </li>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : report_menu)" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
+            <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report ? unread.report : ''">
+              <li>
+                <span>{{witem.label}}</span>
+              </li>
+            </el-badge>
           </el-tab-pane>
         </el-tabs>
         <div class="write-report" v-if="active_menu === 'ReportList'" @click="querySkip('ReportRedact')">
-          <i class="iconfont icon-compile"></i>
+          <i class="iconfont icon-icon_add"></i>
           <span>写周报</span>
         </div>
       </div>
@@ -22,6 +30,7 @@
   </div>
 </template>
 <script>
+  import ReportApi from '../../../api/Report.js';
   import frequent from '../../../mixins/frequent.js';
 
   export default {
@@ -29,6 +38,9 @@
     data() {
       return {
         active_menu: this.$route.name,
+        unread: {
+          report: false
+        },
         menu_list: {
           TaskList: {
             label: '我的KT',
@@ -84,6 +96,7 @@
     },
     created() {
       let that = this;
+      that.getReportUnread();
       const query = that.$route.query;
       if(query.label) {
         that.menu_list[that.$route.name] = {
@@ -98,11 +111,17 @@
         let that = this;
         if(e.name === that.$route.name) return;
         that.$router.push({name: e.name});
+        that.getReportUnread();
       },
       handleCommand(command) {
         let that = this;
         that.menu_list[that.$route.name] = command;
         that.$router.push({name: that.$route.name, query: {label: command.label, type: command.type}});
+      },
+      getReportUnread() {
+        ReportApi().getReportUnread({}).then(res => {
+          this.unread.report = Boolean(res.data.wait_read);
+        });
       }
     }
   };
@@ -131,6 +150,12 @@
               &:after {
                 position: static;
               }
+              #tab-TaskList {
+                width: 90px;
+              }
+              #tab-ReportList {
+                width: 105px;
+              }
               .el-tabs__active-bar {
                 height: 3px;
                 border-radius: 1.5px;
@@ -142,14 +167,32 @@
                 font-size: $h2Font;
                 font-weight: $h1Weight;
                 color: #C0C4CC;
-                li {
-                  font-size: $h2Font;
-                  font-weight: $h1Weight;
-                  line-height: 1;
-                  color: #C0C4CC;
+                .el-badge {
+                  vertical-align: initial;
+                  .is-dot {
+                    top: 6px;
+                    right: 0;
+                  }
                 }
-                &.is-active li{
-                  color: #fff;
+                li {
+                  display: flex;
+                  align-items: center;
+                  height: 30px;
+                  span {
+                    font-size: $h2Font;
+                    font-weight: $h1Weight;
+                    line-height: 1;
+                    color: #C0C4CC;
+                  }
+                  i {
+                    font-size: 12px;
+                    color: #fff;
+                  }
+                }
+                &.is-active {
+                  li span {
+                    color: #fff;
+                  }
                 }
               }
             }
@@ -167,9 +210,10 @@
           cursor: pointer;
           @extend %imglight;
           i {
-            font-size: $h3Font;
+            font-size: 20px;
           }
           span {
+            margin-left: 5px;
             font-size: $h3Font;
             font-weight: $h1Weight;
             line-height: 1;
