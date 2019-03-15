@@ -25,7 +25,7 @@
     <div class="main">
       <div class="last-week week">
         <h3 class="title">
-          <i class="iconfont icon-icon_link"></i>
+          <i></i>
           <span>上周工作</span>
         </h3>
         <ul class="list" v-if="form.curr_week_list && form.curr_week_list.length">
@@ -36,37 +36,36 @@
         <div class="other">
           <h4>其他工作</h4>
           <p v-if="!form.curr_week_other.status" :class="{null: !form.curr_week_other.text}" @click="lastFocus" v-html="textFilter(form.curr_week_other.text || '添加工作内容…')"></p>
-          <textarea v-else class="last-text" placeholder="添加工作内容…" v-model="form.curr_week_other.text"
-            @propertychange="autoTextarea($event, 0)" @input="autoTextarea($event.target, 0)" @blur="lastBlur"></textarea>
+          <textarea v-else class="last-text" placeholder="添加工作内容…" maxlength="1000" v-model="form.curr_week_other.text"
+            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @blur="lastBlur"></textarea>
         </div>
       </div>
       <div class="next-week week">
         <h3 class="title">
-          <i class="iconfont icon-icon_link"></i>
+          <i></i>
           <span>下周工作</span>
         </h3>
         <ul class="list" v-if="form.next_week_list && form.next_week_list.length">
           <li v-for="(item, index) in form.next_week_list" :key="index">
-            <single-follow :item="item"></single-follow>
+            <single-follow :item="item" :hideFollow="true"></single-follow>
           </li>
         </ul>
         <div class="other">
           <h4>其他工作</h4>
           <p v-if="!form.next_week_other.status" :class="{null: !form.next_week_other.text}" @click="nextFocus" v-html="textFilter(form.next_week_other.text || '添加工作内容…')"></p>
-          <textarea v-else class="next-text" placeholder="添加工作内容…" v-model="form.next_week_other.text"
-            @propertychange="autoTextarea($event, 0)" @input="autoTextarea($event.target, 0)" @blur="nextBlur"></textarea>
+          <textarea v-else class="next-text" placeholder="添加工作内容…" maxlength="1000" v-model="form.next_week_other.text"
+            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @blur="nextBlur"></textarea>
         </div>
       </div>
       <div class="summary week">
         <h3 class="title">
-          <i class="iconfont icon-icon_link"></i>
-          <span>心得</span>
+          <i></i>
+          <span>想法及其他：</span>
         </h3>
         <div class="other">
-          <h4>其他工作</h4>
-          <p v-if="!form.summary.status" :class="{null: !form.summary.text}" @click="summaryFocus" v-html="textFilter(form.summary.text || '添加工作内容…')"></p>
-          <textarea v-else class="summary-text" placeholder="添加工作内容…" v-model="form.summary.text"
-            @propertychange="autoTextarea($event, 0)" @input="autoTextarea($event.target, 0)" @blur="summaryBlur"></textarea>
+          <p v-if="!form.summary.status" :class="{null: !form.summary.text}" @click="summaryFocus" v-html="textFilter(form.summary.text || '您可描述本周工作中的想法，或其他任意内容')"></p>
+          <textarea v-else class="summary-text" placeholder="您可描述本周工作中的想法，或其他任意内容" maxlength="1000" v-model="form.summary.text"
+            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @blur="summaryBlur"></textarea>
         </div>
       </div>
     </div>
@@ -153,11 +152,13 @@
         for(let i = 0, LEN = that.form.curr_week_list.length; i < LEN; i++) {
           if(that.form.curr_week_list[i].task_id === check.task_id) {
             that.form.curr_week_list[i].check_info = check;
+            that.form.curr_week_list[i].status = check.status;
           }
         }
         for(let i = 0, LEN = that.form.next_week_list.length; i < LEN; i++) {
           if(that.form.next_week_list[i].task_id === check.task_id) {
             that.form.next_week_list[i].check_info = check;
+            that.form.next_week_list[i].status = check.status;
           }
         }
       },
@@ -408,11 +409,16 @@
         }
         >.title {
           margin: $up-down 0;
+          display: flex;
+          align-items: center;
           i {
-            font-size: $h2Font;
+            display: inline-flex;
+            width: 5px;
+            height: 17px;
+            background-color: $themeColor;
           }
           span {
-            margin-left: 3px;
+            margin-left: 5px;
             font-size: $h2Font;
             font-weight: $h1Weight;
             line-height: 1;

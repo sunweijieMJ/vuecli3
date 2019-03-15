@@ -74,7 +74,7 @@
           if (valid) {
             TaskApi().checkTask(that.check_info).then(res => {
               if(res.status) {
-                this.$emit('handleTaskCheck', res.data);
+                this.$emit('handleTaskCheck', Object.assign({status: that.check_info.type}, res.data));
                 that.closeDialog();
                 that.$message({message: '跟进成功', type: 'success'});
               } else {

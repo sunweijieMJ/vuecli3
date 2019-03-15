@@ -35,7 +35,9 @@
           disabledDate(time) {
             const week = 8.64e7 * 7;
             if(that.timeOptionRange) {
-              return time.getTime() > that.timeOptionRange.getTime() + week || time.getTime() < that.timeOptionRange.getTime() - week;
+              let min_time = Date.now() - 8.64e7;
+              if(that.timeOptionRange.getTime() + week < Date.now() - 8.64e7) min_time = that.timeOptionRange.getTime() + week;
+              return time.getTime() > min_time || time.getTime() < that.timeOptionRange.getTime() - week;
             } else {
               return time.getTime() > Date.now() - 8.64e7;
             }
