@@ -11,7 +11,7 @@
       class="custom-daterange"
       v-model="daterange"
       @blur="date_popup = false"
-      @change="date_popup = false"
+      @change="handlechange"
       type="daterange"
       range-separator="至"
       start-placeholder="开始日期"
@@ -56,7 +56,13 @@
       if(that.value.start_time || that.value.end_time) {
         that.daterange = [that.value.start_time, that.value.end_time];
       } else {
-        that.daterange = [new Date().setDate(new Date().getDate() - 7), new Date()];
+        that.daterange = [new Date().setDate(new Date().getDate() - 8), new Date().setDate(new Date().getDate() - 1)];
+      }
+      this.$emit('getWeeklyKtList');
+    },
+    methods: {
+      handlechange() {
+        this.$emit('getWeeklyKtList');
       }
     },
     watch: {

@@ -10,7 +10,7 @@
         </el-popover>
         <div class="info">
           <h4>周报-{{(form.user_info || self_info).real_name}}</h4>
-          <weekly-date :key="key" v-model="form.daterange"></weekly-date>
+          <weekly-date :key="key" v-model="form.daterange" @getWeeklyKtList="getWeeklyKtList"></weekly-date>
         </div>
       </div>
       <div class="to-user">
@@ -29,7 +29,7 @@
           <span>上周工作</span>
         </h3>
         <ul class="list" v-if="form.curr_week_list && form.curr_week_list.length">
-          <li v-for="(item, index) in form.curr_week_list.slice(0, 2)" :key="index">
+          <li v-for="(item, index) in form.curr_week_list" :key="index">
             <single-follow :item="item"></single-follow>
           </li>
         </ul>
@@ -46,7 +46,7 @@
           <span>下周工作</span>
         </h3>
         <ul class="list" v-if="form.next_week_list && form.next_week_list.length">
-          <li v-for="(item, index) in form.next_week_list.slice(0, 2)" :key="index">
+          <li v-for="(item, index) in form.next_week_list" :key="index">
             <single-follow :item="item"></single-follow>
           </li>
         </ul>
@@ -63,9 +63,8 @@
           <span>心得</span>
         </h3>
         <div class="other">
-          <h4>其他工作</h4>
-          <p v-if="!form.summary.status" :class="{null: !form.summary.text}" @click="summaryFocus" v-html="textFilter(form.summary.text || '添加工作内容…')"></p>
-          <textarea v-else class="summary-text" placeholder="添加工作内容…" v-model="form.summary.text"
+          <p v-if="!form.summary.status" :class="{null: !form.summary.text}" @click="summaryFocus" v-html="textFilter(form.summary.text || '添加心得…')"></p>
+          <textarea v-else class="summary-text" placeholder="添加心得…" v-model="form.summary.text"
             @propertychange="autoTextarea($event, 0)" @input="autoTextarea($event.target, 0)" @blur="summaryBlur"></textarea>
         </div>
       </div>
@@ -121,7 +120,7 @@
             text: '',
             status: false
           },
-          daterange: ''
+          daterange: {start_time: '', end_time: ''}
         }
       };
     },
@@ -133,7 +132,7 @@
         });
       } else {
         that.getDefaultUsers();
-        that.getWeeklyKtList();
+        // that.getWeeklyKtList();
       }
     },
     methods: {
@@ -199,13 +198,31 @@
       getDefaultUsers() {
         let that = this;
         ReportApi().getDefaultUsers({}).then(res => {
-          console.log(res)
-          that.form.recipient = res.data;
+          if(res.data.list === undefined) return;
+          let result = Object.keys(res.data.list).map((key) => {
+            res.data.list[key].isNew = 1;
+            return res.data.list[key];
+          });
+          that.form.recipient = result;
         });
+      },
+      formatDate() {
+        let that = this;
+        let start_day = Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD');
+        let end_day = Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD');
+        return {start_day, end_day};
       },
       getWeeklyKtList() {
         let that = this;
-        ReportApi().getWeeklyKtList({start_day: '2019-03-01', end_day: '2019-03-08'}).then(res => {
+        let daterange = this.formatDate();
+        let start_day = daterange.start_day;
+        let end_day = daterange.end_day;
+        // 触发判断当前日期内是否存在周报
+        this.getReportDetail(0, start_day, end_day);
+        ReportApi().getWeeklyKtList({start_day, end_day}).then(res => {
+          that.form.curr_week_list = [];
+          that.form.next_week_list = [];
+          that.form.obj_infos = [];
           if(!res.status) return;
           // 数据整理
           const obj_infos = res.data.obj_infos;
@@ -240,13 +257,25 @@
           that.form.obj_infos = obj_infos;
         });
       },
-      async getReportDetail(report_id) {
+      async getReportDetail(report_id, start_day, end_day) {
         let that = this;
-        await ReportApi().getReportDetail({report_id}).then(res => {
+        let query = {};
+        // 支持日期及ID查询
+        if(report_id) {
+          query = {report_id};
+        } else if(start_day && end_day) {
+          query = {start_day, end_day};
+        }
+        await ReportApi().getReportDetail(query).then(res => {
 
           if(!res.data.basic) return;
           const report_info = res.data;
           const user_info = report_info.user_info;
+          // 选择查询的日期，则已查询日期为准
+          if(start_day && end_day) {
+            report_info.basic.report_start_day = start_day;
+            report_info.basic.report_end_day = end_day;
+          }
 
           report_info.basic.recipient_info = [];
           for(let i = 0, LEN = report_info.basic.recipient.length; i < LEN; i++) {
@@ -288,6 +317,7 @@
         for(let i = 0, LEN = that.form.recipient.length; i < LEN; i++) {
           recipient.push(that.form.recipient[i].user_id);
         }
+        let rangedate = this.formatDate();
         return {
           report_id: that.report_id,
           recipient,
@@ -297,8 +327,8 @@
           curr_week_other: that.form.curr_week_other.text,
           next_week_other: that.form.next_week_other.text,
           summary: that.form.summary.text,
-          start_day: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
-          end_day: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD')
+          start_day: rangedate.start_day,
+          end_day: rangedate.end_day
         };
       },
       ...mapState({
