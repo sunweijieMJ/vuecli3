@@ -10,7 +10,7 @@
                 <i class="iconfont icon-icon_more1"></i>
               </li>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : report_menu)" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
+                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level === 1 ? report_menu : report_menu.slice(0,2)))" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report ? unread.report : ''">
@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+  import {mapState} from 'vuex';
   import ReportApi from '../../../api/Report.js';
   import frequent from '../../../mixins/frequent.js';
 
@@ -123,7 +124,10 @@
           this.unread.report = Boolean(res.data.wait_read);
         });
       }
-    }
+    },
+    computed: mapState({
+      self_info: store => store.self_info
+    })
   };
 </script>
 <style lang="scss">

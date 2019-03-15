@@ -17,7 +17,7 @@
         <h4>发周报给：</h4>
         <member :key="key" v-model="form.recipient">
           <span class="add">
-            <i class="iconfont icon-icon_add1"></i>
+            <i class="iconfont icon-btn_add"></i>
           </span>
         </member>
       </div>
@@ -128,8 +128,7 @@
     created() {
       let that = this;
       if(that.report_id) {
-        this.getReportDetail(that.report_id).then(() => {
-        });
+        this.getReportDetail({report_id: that.report_id});
       } else {
         that.getDefaultUsers();
       }
@@ -140,6 +139,7 @@
         ReportApi().publish({action, ...that.report_info}).then(res => {
           if(res.status) {
             that.$message({message: `${action === 'publish' ? '发布' : '保存'}成功`, type: 'success'});
+            that.$router.push({name: 'ReportList'});
           } else {
             that.$message({message: res.message, type: 'warning'});
           }
@@ -247,9 +247,9 @@
         });
       },
       // 周报草稿
-      async getReportDetail(report_id) {
+      async getReportDetail({report_id, start_day, end_day}) {
         let that = this;
-        await ReportApi().getReportDetail({report_id}).then(res => {
+        await ReportApi().getReportDetail({report_id, start_day, end_day}).then(res => {
 
           if(!res.data.basic) return;
           const report_info = res.data;
@@ -292,6 +292,7 @@
       'form.daterange'(cur) {
         let that = this;
         if(cur.start_time && cur.end_time) {
+          // if(!that.report_id) that.getReportDetail({start_day: cur.start_time, end_day: cur.end_time});
           that.getWeeklyKtList(cur.start_time, cur.end_time);
         }
       }

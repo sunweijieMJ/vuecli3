@@ -64,7 +64,7 @@
         active_report: '', // ETC 当前类型
         part_list: [], // ETC 部门列表
         active_part: [], // ETC 当前作者
-        current_report: 0, // ETC 当前周报
+        current_report: -1, // ETC 当前周报
         report_list: [], // ETC 周报列表
         report_detail: '', // ETC 周报详情
         pageInfo: { // ETC 页码信息
@@ -218,6 +218,7 @@
         if(to.name === that.$route.name && from.name === that.$route.name) {
           that.active_report = that.$route.query.type || 'recipient';
           that.resetList();
+          that.current_report = -1;
           that.report_detail = '';
         }
       }

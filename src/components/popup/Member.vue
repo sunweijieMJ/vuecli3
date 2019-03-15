@@ -1,7 +1,7 @@
 <template>
   <div class="okr-member">
     <el-tag v-for="(item, index) in join_list" :key="index" closable @close="closeTag(index)">
-      {{item.user_name}}
+      {{item.real_name}}
     </el-tag>
     <el-popover
       v-model="member_popover"
