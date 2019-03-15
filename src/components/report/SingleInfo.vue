@@ -209,6 +209,7 @@
           border-bottom: 2px solid $lineColor;
           h4 {
             align-self: flex-start;
+            margin-bottom: 10px;
             font-size: $h3Font;
             font-weight: normal;
             line-height: 27px;

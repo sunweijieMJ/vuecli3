@@ -27,7 +27,7 @@
           <div class="feedback" v-if="report_detail && active_report === 'recipient' && !report_detail.basic.feedbacker" :class="{focus: feedback.focus}">
             <img :src="self_info.header_photo" alt="">
             <div class="input">
-              <textarea placeholder="写下你的反馈..." v-model="feedback.text"
+              <textarea placeholder="对本周的工作点评一下吧" v-model="feedback.text"
               @focus="feedback.focus = true"></textarea>
               <div class="control" v-if="feedback.focus">
                 <el-checkbox v-model="feedback.checked">仅本人可见</el-checkbox>
