@@ -1,6 +1,6 @@
 <template>
-  <div class="report-list">
-    <div class="report-main" v-if="report_list.length">
+  <div class="report-list" >
+    <div class="report-main" >
       <div class="main-nav">
         <el-cascader
           v-if="active_report === 'all'"
@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <no-result v-else></no-result>
+    <!-- <no-result v-show="!report_list.length"></no-result> -->
   </div>
 </template>
 <script>
@@ -106,13 +106,14 @@
       },
       // 触底刷新
       infinite() {
+        console.log(1)
         let that = this;
 
         that.disabled = true;
         that.getReportList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
           // 触底判断
           that.disabled = false;
-          if(!that.task_list.length) {
+          if(!that.report_list.length) {
             that.disabled = true;
             that.loading = {
               nomore: true,
@@ -161,10 +162,10 @@
           }
         });
       },
-      // 获取Task列表
-      async getReportList(type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
+      // 获取周报列表
+      async getReportList(lastId, currPage, type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
         let that = this;
-        await ReportApi().getReportList({type, qdep_id, quser_id}).then(res => {
+        await ReportApi().getReportList({lastId, currPage, type, qdep_id, quser_id}).then(res => {
           const user_info = res.data.user_info;
           const report_list = res.data.list;
           that.loading.last_id = res.data.last_id;
@@ -178,9 +179,9 @@
         });
       },
       // 重置Task列表
-      resetList(type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
+      resetList(lastId, currPage, type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
         let that = this;
-        ReportApi().getReportList({type, qdep_id, quser_id}).then(res => {
+        ReportApi().getReportList({lastId, currPage, type, qdep_id, quser_id}).then(res => {
           const user_info = res.data.user_info;
           const report_list = res.data.list;
           that.loading.last_id = res.data.last_id;
