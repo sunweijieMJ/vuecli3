@@ -14,7 +14,7 @@
           </p>
         </div>
       </div>
-      <el-button v-if="!hideBtn" class="add" @click="$store.dispatch('setTaskFollow', {status: true, parent: item})">跟进</el-button>
+      <el-button v-if="!hideBtn && item.status === 1" class="add" @click="$store.dispatch('setTaskFollow', {status: true, parent: item})">跟进</el-button>
     </div>
     <div class="follow" v-if="item.check_info">
       <div class="title">

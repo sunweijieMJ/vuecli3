@@ -61,7 +61,7 @@
     components: {SingleReport, SingleInfo, Loading, NoResult},
     data() {
       return {
-        active_report: '', // ETC 当前类型
+        active_report: 'self', // ETC 当前类型
         part_list: [], // ETC 部门列表
         active_part: [], // ETC 当前作者
         current_report: -1, // ETC 当前周报
@@ -88,8 +88,8 @@
     created() {
       let that = this;
       that.getPartList();
-      that.getReportList();
       that.active_report = that.$route.query.type || 'self';
+      that.getReportList();
     },
     methods: {
       // 周报反馈
@@ -216,7 +216,7 @@
       $route(to, from) {
         let that = this;
         if(to.name === that.$route.name && from.name === that.$route.name) {
-          that.active_report = that.$route.query.type || 'recipient';
+          that.active_report = that.$route.query.type || 'self';
           that.resetList();
           that.current_report = -1;
           that.report_detail = '';
