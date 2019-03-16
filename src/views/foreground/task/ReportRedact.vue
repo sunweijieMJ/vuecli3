@@ -36,7 +36,7 @@
         <div class="other">
           <h4>其他工作</h4>
           <textarea :class="{null: !form.curr_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.curr_week_other"
-            @propertychange.prevent="autoTextarea($event.target, 0)" @input.prevent="autoTextarea($event.target, 0)"></textarea>
+            @propertychange="autoTextarea($event.target, 0) || scrollView($event.target)" @input="autoTextarea($event.target, 0) || scrollView($event.target)"></textarea>
         </div>
       </div>
       <div class="next-week week">
@@ -52,7 +52,7 @@
         <div class="other">
           <h4>其他工作</h4>
           <textarea :class="{null: !form.next_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.next_week_other"
-            @propertychange.prevent="autoTextarea($event.target, 0)" @input.prevent="autoTextarea($event.target, 0)"></textarea>
+            @propertychange="autoTextarea($event.target, 0) || scrollView($event.target)" @input="autoTextarea($event.target, 0) || scrollView($event.target)"></textarea>
         </div>
       </div>
       <div class="summary week">
@@ -62,7 +62,7 @@
         </h3>
         <div class="other">
           <textarea :class="{null: !form.summary}" placeholder="添加想法或其他内容" maxlength="1000" v-model="form.summary"
-            @propertychange.prevent="autoTextarea($event.target, 0)" @input.prevent="autoTextarea($event.target, 0)"></textarea>
+            @propertychange="autoTextarea($event.target, 0) || scrollView($event.target)" @input="autoTextarea($event.target, 0) || scrollView($event.target)"></textarea>
         </div>
       </div>
     </div>
@@ -98,7 +98,7 @@
         key: 0,
         textFilter,
         autoTextarea,
-        report_id: +this.$route.params.id,
+        report_id: '',
         form: {
           user_info: '',
           recipient: [],
@@ -114,7 +114,8 @@
     },
     created() {
       let that = this;
-      if(that.report_id) {
+      if(that.$route.params.id) {
+        that.report_id = +that.$route.params.id;
         that.getReportDetail({report_id: that.report_id});
       } else {
         that.getDefaultUsers();
@@ -125,6 +126,11 @@
       }
     },
     methods: {
+      scrollView(ele) {
+        setTimeout(() => {
+          ele.scrollIntoView({block: 'center', behavior: 'smooth'});
+        }, 0);
+      },
       // 保存|发布 周报
       publish(action) {
         let that = this;
@@ -225,6 +231,9 @@
         let that = this;
         await ReportApi().getReportDetail({report_id, start_day, end_day}).then(res => {
           if(!res.data.basic) return;
+          if(res.data.basic.status === 2) {
+            that.$message({message: '本周周报已发布，请选择非本周的时间', type: 'warning'});
+          }
           const report_info = res.data;
           const user_info = report_info.user_info;
 
@@ -239,6 +248,8 @@
             report_info.basic.report_start_day = start_day;
             report_info.basic.report_end_day = end_day;
           }
+
+          Object.assign(that.$data.form, that.$options.data().form);
 
           that.form = {
             user_info: user_info[report_info.basic.user_id],
