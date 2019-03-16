@@ -36,7 +36,7 @@
         <div class="other">
           <h4>其他工作</h4>
           <textarea :class="{null: !form.curr_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.curr_week_other"
-            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
+            @propertychange.prevent="autoTextarea($event.target, 0)" @input.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
       <div class="next-week week">
@@ -52,7 +52,7 @@
         <div class="other">
           <h4>其他工作</h4>
           <textarea :class="{null: !form.next_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.next_week_other"
-            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
+            @propertychange.prevent="autoTextarea($event.target, 0)" @input.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
       <div class="summary week">
@@ -62,7 +62,7 @@
         </h3>
         <div class="other">
           <textarea :class="{null: !form.summary}" placeholder="添加想法或其他内容" maxlength="1000" v-model="form.summary"
-            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
+            @propertychange.prevent="autoTextarea($event.target, 0)" @input.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
     </div>
@@ -371,11 +371,8 @@
         border-bottom: 2px solid $lineColor;
         &.summary {
           border-bottom: 0;
-          .title {
-            margin-bottom: 15px;
-          }
           .other {
-            margin-top: 0;
+            margin-top: 5px;
           }
         }
         >.title {

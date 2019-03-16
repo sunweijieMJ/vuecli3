@@ -27,8 +27,8 @@
           <div class="feedback" v-if="report_list[current_report].is_leader && !report_list[current_report].is_feedback" :class="{focus: feedback.focus}">
             <img :src="self_info.header_photo" alt="">
             <div class="input">
-              <textarea :placeholder="`点评下${report_detail.basic.user_info.real_name}的周报吧`" v-model="feedback.text"
-              @focus="feedback.focus = true"></textarea>
+              <textarea :placeholder="`点评下${report_detail.basic.user_info.real_name}的周报吧`" maxlength="1000"
+                v-model="feedback.text" @focus="feedback.focus = true"></textarea>
               <div class="control" v-if="feedback.focus">
                 <el-checkbox v-model="feedback.checked">仅本人可见</el-checkbox>
                 <div class="btn">
@@ -39,7 +39,7 @@
             </div>
           </div>
         </template>
-        <div v-else class="null">
+        <div v-if="report_list.length && current_report === -1" class="null">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-icon_daily"></use>
           </svg>
@@ -99,6 +99,7 @@
             that.report_list[that.current_report].is_feedback = 1;
             that.getReportDetail(that.current_report);
             that.$message({message: '反馈成功', type: 'success'});
+            that.$el.querySelector('.main-info .single-info .detail').scrollIntoView({block: 'start', behavior: 'smooth'});
           } else {
             that.$message({message: res.message, type: 'warning'});
           }
