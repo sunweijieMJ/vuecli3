@@ -66,7 +66,8 @@ module.exports = {
   // 所有 webpack-dev-server 的选项都支持
   devServer: {
     open: true,
-    host: 'localhost',
+    host: '0.0.0.0',
+    disableHostCheck: true,
     port: 8080,
     https: false,
     hotOnly: false,

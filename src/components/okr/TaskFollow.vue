@@ -10,6 +10,13 @@
       </div>
       <el-form :model="form" :rules="rules" ref="ruleForm">
         <div class="main">
+          <div class="status">
+            <h4>状态</h4>
+            <div class="radio">
+              <el-radio class="custom-radio" v-model="form.type" label="1">进行中</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="2">已完成</el-radio>
+            </div>
+          </div>
           <div class="rate">
             <h4>自我评价</h4>
             <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
@@ -17,7 +24,7 @@
           </div>
           <div class="summary">
             <el-form-item prop="summary">
-              <el-input class="custom-input" type="textarea" v-model="form.summary" placeholder="总结一下吧"></el-input>
+              <el-input class="custom-input" type="textarea" v-model="form.summary" placeholder="记录下最新的进展吧"></el-input>
             </el-form-item>
           </div>
           <div class="num">
@@ -47,6 +54,7 @@
       return {
         task_info: '',
         form: {
+          type: '1',
           rate: 0,
           summary: '',
           percent: '',
@@ -66,7 +74,7 @@
           if (valid) {
             TaskApi().checkTask(that.check_info).then(res => {
               if(res.status) {
-                this.$emit('handleTaskCheck');
+                this.$emit('handleTaskCheck', Object.assign({status: that.check_info.type}, res.data));
                 that.closeDialog();
                 that.$message({message: '跟进成功', type: 'success'});
               } else {
@@ -103,7 +111,8 @@
           remark: that.form.summary,
           speedTime: that.form.duration,
           progress: that.form.percent,
-          feel: that.form.rate
+          feel: that.form.rate,
+          type: that.form.type
         };
       },
       ...mapState({
@@ -127,6 +136,20 @@
 
   .task-follow {
     .main {
+      .status {
+        display: flex;
+        padding: $up-down $left-right;
+        border-bottom: 1px solid $lineColor;
+        h4 {
+          font-size: $h3Font;
+          font-weight: normal;
+          line-height: 1;
+          color: $h2Color;
+        }
+        .radio {
+          margin-left: 60px;
+        }
+      }
       .rate {
         display: flex;
         align-items: center;
@@ -237,6 +260,9 @@
             }
           }
         }
+      }
+      .el-dialog__footer {
+        padding-top: 0 !important;
       }
     }
   }

@@ -1,55 +1,42 @@
 <template>
   <div class="task-list">
-    <div class="task-menu">
-      <h3>TASK</h3>
-      <div class="menu-box">
-        <el-tabs v-model="active_task" @tab-click="handleClick">
-          <el-tab-pane v-for="(item, index) in menu_list" :key="index" :label="item.label" :name="item.name"></el-tab-pane>
-          <router-view></router-view>
-        </el-tabs>
+    <no-result v-if="loading.noresult"></no-result>
+    <template v-else>
+      <div class="task-select" v-if="active_task === 'all'">
+        <el-cascader
+          v-model="active_part"
+          placeholder="全部用户"
+          expand-trigger="hover"
+          popper-class="custom-cascader"
+          :options="part_list"
+          :clearable="true"
+          :show-all-levels="false"
+          @active-item-change="handleItemChange"
+          @change="resetList()"
+        ></el-cascader>
       </div>
-    </div>
-    <div class="task-select" v-if="active_task === 'all'">
-      <el-cascader
-         v-model="active_part"
-        placeholder="全部用户"
-        expand-trigger="hover"
-        popper-class="custom-cascader"
-        :options="part_list"
-        :clearable="true"
-        :show-all-levels="false"
-        @active-item-change="handleItemChange"
-        @change="resetList()"
-      ></el-cascader>
-    </div>
-    <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-      <li v-for="(item, index) in task_list" :key="index">
-        <single-task :item="item"></single-task>
-      </li>
-      <div class="no-result" v-if="loading.noresult">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-icon_nothing"></use>
-        </svg>
-        <p>当前没有内容</p>
-      </div>
-      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
-    </ul>
-    <task-publish @handleTaskEdit="handleTaskEdit" @handleTaskCreate="handleTaskCreate"></task-publish>
-    <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
-    <task-close @handleTaskClose="handleTaskClose"></task-close>
+      <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
+        <li v-for="(item, index) in task_list" :key="index">
+          <single-task :item="item"></single-task>
+        </li>
+        <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+      </ul>
+      <task-publish @handleTaskEdit="resetList" @handleTaskCreate="resetList"></task-publish>
+      <task-follow @handleTaskCheck="resetList"></task-follow>
+      <task-close @handleTaskClose="resetList"></task-close>
+    </template>
   </div>
 </template>
 <script>
   import TaskApi from '../../../api/Task.js';
   import UserApi from '../../../api/User.js';
-  import {Loading} from '../../../components/public';
+  import {Loading, NoResult} from '../../../components/public';
   import {SingleTask, TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
 
   export default {
-    components: {SingleTask, Loading, TaskPublish, TaskFollow, TaskClose},
+    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose},
     data() {
       return {
-        menu_list: [], // ETC 菜单列表
         active_task: '', // ETC 当前激活菜单
         part_list: [], // ETC 部门列表
         active_part: [], // ETC 当前作者
@@ -69,26 +56,8 @@
     },
     created() {
       let that = this;
-      that.menu_list = [
-        {
-          label: '我的',
-          name: 'create'
-        },
-        {
-          label: '我参与的',
-          name: 'take'
-        },
-        {
-          label: '我团队的',
-          name: 'team'
-        },
-        {
-          label: '全部TASK',
-          name: 'all'
-        }
-      ];
       that.getPartList();
-      that.active_task = that.$route.query.active_task || 'create';
+      that.active_task = that.$route.query.type || 'create';
     },
     methods: {
       // 触底刷新
@@ -110,11 +79,6 @@
             that.loading.nomore = true;
           }
         });
-      },
-      // 菜单改变
-      handleClick(e) {
-        let that = this;
-        that.$router.push({name: that.$route.name, query: {active_task: e.name}});
       },
       // 角色改变
       handleItemChange(item) {
@@ -139,18 +103,6 @@
             }
           }
         });
-      },
-      handleTaskCreate() {
-        this.resetList();
-      },
-      handleTaskEdit() {
-        this.resetList();
-      },
-      handleTaskCheck() {
-        this.resetList();
-      },
-      handleTaskClose() {
-        this.resetList();
       },
       // 角色列表
       getPartList() {
@@ -250,7 +202,7 @@
       $route(to, from) {
         let that = this;
         if(to.name === that.$route.name && from.name === that.$route.name) {
-          that.active_task = that.$route.query.active_task || 'create';
+          that.active_task = that.$route.query.type || 'create';
           that.resetList();
         }
       }
@@ -262,74 +214,11 @@
     .list {
       width: 1040px;
       margin: 12px auto 0;
-      .no-result {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        svg {
-          margin: 170px 0 10px;
-          width: 180px;
-        }
-        p {
-          font-size: $h3Font;
-          font-weight: $h1Weight;
-          color: $h3Color;
-        }
-      }
     }
   }
 </style>
 <style lang="scss">
   .task-list {
-    .task-menu {
-      display: flex;
-      flex-direction: column;
-      height: 140px;
-      background-color: #45474B;
-      box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
-      h3 {
-        width: 1040px;
-        margin: 36px auto 26px;
-        font-size: 30px;
-        line-height: 1;
-        font-weight: $h1Weight;
-        color: $themeColor;
-      }
-      .menu-box {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 1040px;
-        margin: 0 auto;
-        height: 38px;
-        .el-tabs {
-          .el-tabs__header {
-            margin: 0;
-            .el-tabs__nav-wrap {
-              &:after {
-                position: static;
-              }
-              .el-tabs__active-bar {
-                height: 3px;
-                border-radius: 1.5px;
-                background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);;
-              }
-              .el-tabs__item {
-                height: 30px;
-                font-size: $h2Font;
-                font-weight: $h1Weight;
-                line-height: 30px;
-                color: $h3Color;
-                &.is-active {
-                  color: #fff;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
     .task-select {
       display: flex;
       align-items: center;

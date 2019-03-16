@@ -46,6 +46,7 @@
       // 去除滚动条宽度
       removeScrollWidth() {
         const innerWidth = window.innerWidth - this.getScrollbarWidth();
+        if(!document.querySelector('.header-box .header')) return;
         document.querySelector('.header-box .header').style.width = document.body.style.width = innerWidth + 'px';
       }
     },

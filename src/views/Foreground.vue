@@ -166,11 +166,11 @@
   .foreground {
     .header-box {
       position: relative;
-      height: 60px;
+      height: 48px;
       .header {
         display: flex;
         align-items: center;
-        height: 60px;
+        height: 48px;
         position: fixed;
         left: 0; right: 0;
         width: 100%;

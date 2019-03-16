@@ -1,38 +1,33 @@
 <template>
   <div class="okr-member">
-    <h4>参与者</h4>
-    <div class="content">
-      <div class="list">
-        <el-tag v-for="(item, index) in join_list" :key="index" closable @close="closeTag(index)">
-          {{item.user_name}}
-        </el-tag>
-        <el-popover
-          v-model="member_popover"
-          placement="top-start"
-          width="400"
-          trigger="click">
-          <el-button class="add" slot="reference">添加</el-button>
-          <div class="popover-member">
-            <h4>参与者</h4>
-            <el-input class="custom-input" type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
-            <template v-if="keyword">
-              <ul class="list" v-if="user_list.length">
-                <li v-for="(item, index) in user_list" :key="index" @click="chooseUser(item, index)">
-                  <div class="name">
-                    <img :src="item.header_photo" alt="">
-                    <span>{{item.user_name}} ({{item.real_name}})</span>
-                  </div>
-                  <i class="icon-btn_checked1 iconfont" v-if="item.isExist"></i>
-                </li>
-              </ul>
-              <div class="null" v-else>
-                <p>Sorry, 好像没有这个同事哦</p>
+    <el-tag v-for="(item, index) in join_list" :key="index" closable @close="closeTag(index)">
+      {{item.real_name}}
+    </el-tag>
+    <el-popover
+      v-model="member_popover"
+      placement="top-start"
+      width="400"
+      trigger="click">
+      <slot slot="reference"></slot>
+      <div class="popover-member">
+        <h4>参与者</h4>
+        <el-input class="custom-input" type="text" v-model="keyword" @input="getUserList(keyword)" placeholder="请输入昵称"></el-input>
+        <template v-if="keyword">
+          <ul class="list" v-if="user_list.length">
+            <li v-for="(item, index) in user_list" :key="index" @click="chooseUser(item, index)">
+              <div class="name">
+                <img :src="item.header_photo" alt="">
+                <span>{{item.user_name}} ({{item.real_name}})</span>
               </div>
-            </template>
+              <i class="icon-btn_checked1 iconfont" v-if="item.isExist"></i>
+            </li>
+          </ul>
+          <div class="null" v-else>
+            <p>Sorry, 好像没有这个同事哦</p>
           </div>
-        </el-popover>
+        </template>
       </div>
-    </div>
+    </el-popover>
   </div>
 </template>
 <script>
@@ -96,6 +91,7 @@
           item.isNew = true;
           that.join_list.push(item);
           that.user_list[index].isExist = !that.user_list[index].isExist;
+          that.member_popover = false;
         }
       },
       async deleteUser(item) {
@@ -173,47 +169,33 @@
   $up-down: 24px;
 
   .okr-member {
+    flex: 1;
     display: flex;
-    align-items: center;
-    h4 {
-      align-self: flex-start;
-      width: 46px;
+    flex-wrap: wrap;
+    margin-left: $left-right;
+    .el-tag {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 36px;
+      padding: 0 30px;
+      margin: 0 12px 12px 0;
+      border-radius: 20px;
+      background-color: $backColor;
       font-size: $h3Font;
-      font-weight: 400;
-      line-height: 36px;
-      color: $h2Color;
-    }
-    .content {
-      flex: 1;
-      margin-left: $left-right;
-      .list {
-        display: flex;
-        flex-wrap: wrap;
-        .el-tag {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 36px;
-          padding: 0 30px;
-          margin: 0 12px 12px 0;
-          border-radius: 20px;
-          background-color: $backColor;
-          font-size: $h3Font;
-          color: $h1Color;
-          border: none;
-          .el-tag__close {
-            top: 0;
-            color: $linkBlue;
-            &:hover {
-              color: #fff;
-              background-color: $linkBlue;
-            }
-          }
+      color: $h1Color;
+      border: none;
+      .el-tag__close {
+        top: 0;
+        color: $linkBlue;
+        &:hover {
+          color: #fff;
+          background-color: $linkBlue;
         }
       }
-      .add {
-        margin-bottom: 12px;
-      }
+    }
+    .add {
+      margin-bottom: 12px;
     }
   }
   .el-popover {

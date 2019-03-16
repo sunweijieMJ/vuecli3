@@ -1,7 +1,6 @@
 <template>
   <div class="okr-list">
     <div class="okr-menu">
-      <h3>OKR</h3>
       <div class="menu-box">
         <el-tabs v-model="active_okr" @tab-click="handleClick">
           <el-tab-pane v-for="(item, index) in menu_list" :key="index" :label="item.label" :name="item.name"></el-tab-pane>
@@ -281,19 +280,13 @@
 <style lang="scss">
   .okr-list {
     .okr-menu {
+      box-sizing: border-box;
       display: flex;
-      flex-direction: column;
-      height: 140px;
+      align-items: flex-end;
+      padding: 12px 0;
+      height: 96px;
       background-color: #45474B;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
-      h3 {
-        width: 1040px;
-        margin: 36px auto 26px;
-        font-size: 30px;
-        line-height: 1;
-        font-weight: $h1Weight;
-        color: $themeColor;
-      }
       .menu-box {
         display: flex;
         align-items: center;

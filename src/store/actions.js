@@ -1,9 +1,9 @@
 // 将types.js里的内容存为types对象
 import * as types from './types';
-import NoticeApi from '../api/Notice';
-import UserApi from '../api/User';
-import OkrApi from '../api/Okr';
-import TaskApi from '../api/Task';
+import NoticeApi from '../api/Notice.js';
+import UserApi from '../api/User.js';
+import OkrApi from '../api/Okr.js';
+import TaskApi from '../api/Task.js';
 
 const actions = {
   changeImgPopup: ({commit}, data) => {

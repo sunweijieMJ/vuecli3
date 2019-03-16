@@ -21,6 +21,30 @@ class System extends Abstract {
   }
 
   /**
+   * 组织结构基础信息
+   */
+  getOrgBasic(data) {
+    return this.getReq('System.OrgBasic', data);
+  }
+
+  /**
+   * 获取所有部门数据
+   */
+  getDepartMentList(data) {
+    return this.getReq('System.DepartMentList', data);
+  }
+
+  /**
+   * 根据部门ID 获取对应员工信息
+   * @param {num} depId * 部门ID ,不填写则为全部
+   * @param {num} curPage * 当前第几页
+   * @param {num} pages * 每页显示总数
+   */
+  getStaffsByDep(data) {
+    return this.getReq('System.StaffsByDep', data);
+  }
+
+  /**
    * 数据埋点
    * @param {array} actions
    * http://git.release.weiheinc.com/joe/api-doc/blob/master/Infrastracture/LanehubDataRequest.md
