@@ -61,7 +61,7 @@
           <span>想法及其他：</span>
         </h3>
         <div class="other">
-          <textarea :class="{null: !form.summary}" placeholder="您可描述本周工作中的想法，或其他任意内容" maxlength="1000" v-model="form.summary"
+          <textarea :class="{null: !form.summary}" placeholder="添加想法或其他内容" maxlength="1000" v-model="form.summary"
             @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
@@ -119,7 +119,9 @@
       } else {
         that.getDefaultUsers();
         const date = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate())];
-        this.getReportDetail({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])});
+        that.getReportDetail({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])}).then(() => {
+          that.getWeeklyKtList({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])});
+        });
       }
     },
     methods: {
@@ -128,15 +130,23 @@
         let that = this;
         ReportApi().publish({action, ...that.report_info}).then(res => {
           if(res.status) {
-            that.$message({message: `${action === 'publish' ? '发布' : '保存'}成功`, type: 'success'});
-            if(action === 'save') that.$router.push({name: 'ReportList'});
+            if(action === 'save') {
+              that.$message({message: '保存成功，再次写周报会打开保存的内容~', type: 'success'});
+            } else {
+              that.$router.push({name: 'ReportList'});
+              that.$message({message: '发布成功', type: 'success'});
+            }
           } else {
             that.$message({message: res.message, type: 'warning'});
           }
         });
       },
+      // 选择时间回调
       chooseDate(date) {
-        this.getReportDetail({start_day: date.start_time, end_day: date.end_time});
+        let that = this;
+        that.getReportDetail({start_day: date.start_time, end_day: date.end_time}).then(() => {
+          that.getWeeklyKtList({start_day: date.start_time, end_day: date.end_time});
+        });
       },
       // 跟进成功
       handleTaskCheck(data) {
@@ -173,7 +183,7 @@
         });
       },
       // 周工作列表
-      getWeeklyKtList(start_day, end_day) {
+      getWeeklyKtList({start_day, end_day}) {
         let that = this;
         ReportApi().getWeeklyKtList({start_day, end_day}).then(res => {
           if(!res.status) return;
@@ -246,14 +256,6 @@
           };
           that.key++;
         });
-      }
-    },
-    watch: {
-      'form.daterange'(cur) {
-        let that = this;
-        if(cur.start_time && cur.end_time) {
-          that.getWeeklyKtList(cur.start_time, cur.end_time);
-        }
       }
     },
     computed: {
@@ -451,6 +453,7 @@
         height: 40px;
         margin: 0 40px;
         &.save {
+          position: relative;
           padding: 1px;
           border-radius: 20px;
           background-image: linear-gradient(90deg, rgba(251,136,81,1), rgba(226,82,108,1));
