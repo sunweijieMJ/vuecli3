@@ -9,7 +9,7 @@
       class="custom-daterange"
       v-model="daterange"
       @blur="date_popup = false"
-      @change="date_popup = false"
+      @change="changeDate"
       type="daterange"
       range-separator="至"
       start-placeholder="开始日期"
@@ -61,12 +61,22 @@
         that.daterange = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate())];
       }
     },
+    methods: {
+      changeDate(date) {
+        this.date_popup = false;
+        this.$emit('chooseDate', {
+          start_time: Moment().format(date[0]),
+          end_time: Moment().format(date[1])
+        });
+      }
+    },
     watch: {
       daterange(cur) {
-        this.$emit('input', {
+        const date = {
           start_time: Moment().format(cur[0]),
           end_time: Moment().format(cur[1])
-        });
+        };
+        this.$emit('input', date);
       },
       date_popup(cur) {
         if(cur) {

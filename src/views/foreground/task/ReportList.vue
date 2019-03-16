@@ -96,6 +96,7 @@
         let that = this;
         ReportApi().publishFeedBack({report_id: that.report_detail.basic.report_id, feedback: that.feedback.text, only_self: Number(that.feedback.checked)}).then(res => {
           if(res.status) {
+            that.report_list[that.current_report].is_feedback = 1;
             that.getReportDetail(that.current_report);
             that.$message({message: '反馈成功', type: 'success'});
           } else {

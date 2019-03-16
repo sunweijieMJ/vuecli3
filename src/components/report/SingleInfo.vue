@@ -46,7 +46,7 @@
             <span>上周工作</span>
           </h3>
           <ul class="list" v-if="info.curr_week_list && info.curr_week_list.length">
-            <li v-for="(item, index) in info.curr_week_list.slice(0, 2)" :key="index">
+            <li v-for="(item, index) in info.curr_week_list" :key="index">
               <single-follow :item="item" :hideBtn="true"></single-follow>
             </li>
           </ul>
@@ -61,8 +61,8 @@
             <span>下周工作</span>
           </h3>
           <ul class="list" v-if="info.next_week_list && info.next_week_list.length">
-            <li v-for="(item, index) in info.next_week_list.slice(0, 2)" :key="index">
-              <single-follow :item="item" :hideBtn="true"></single-follow>
+            <li v-for="(item, index) in info.next_week_list" :key="index">
+              <single-follow :item="item" :hideFollow="true"></single-follow>
             </li>
           </ul>
           <div class="other" v-if="info.basic.next_week_other">

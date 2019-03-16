@@ -10,7 +10,7 @@
         </el-popover>
         <div class="info">
           <h4>周报-{{(form.user_info || self_info).real_name}}</h4>
-          <weekly-date :key="key" v-model="form.daterange"></weekly-date>
+          <weekly-date :key="key" v-model="form.daterange" @chooseDate="chooseDate"></weekly-date>
         </div>
       </div>
       <div class="to-user">
@@ -115,9 +115,11 @@
     created() {
       let that = this;
       if(that.report_id) {
-        this.getReportDetail({report_id: that.report_id});
+        that.getReportDetail({report_id: that.report_id});
       } else {
         that.getDefaultUsers();
+        const date = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate())];
+        this.getReportDetail({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])});
       }
     },
     methods: {
@@ -127,11 +129,14 @@
         ReportApi().publish({action, ...that.report_info}).then(res => {
           if(res.status) {
             that.$message({message: `${action === 'publish' ? '发布' : '保存'}成功`, type: 'success'});
-            that.$router.push({name: 'ReportList'});
+            if(action === 'save') that.$router.push({name: 'ReportList'});
           } else {
             that.$message({message: res.message, type: 'warning'});
           }
         });
+      },
+      chooseDate(date) {
+        this.getReportDetail({start_day: date.start_time, end_day: date.end_time});
       },
       // 跟进成功
       handleTaskCheck(data) {
@@ -209,7 +214,6 @@
       async getReportDetail({report_id, start_day, end_day}) {
         let that = this;
         await ReportApi().getReportDetail({report_id, start_day, end_day}).then(res => {
-
           if(!res.data.basic) return;
           const report_info = res.data;
           const user_info = report_info.user_info;
@@ -218,6 +222,12 @@
           for(let i = 0, LEN = report_info.basic.recipient.length; i < LEN; i++) {
             report_info.basic.recipient_info.push(user_info[report_info.basic.recipient[i]]);
             report_info.basic.recipient_info[i].isNew = true;
+          }
+
+          // 选择查询的日期，则已查询日期为准
+          if(start_day && end_day) {
+            report_info.basic.report_start_day = start_day;
+            report_info.basic.report_end_day = end_day;
           }
 
           that.form = {
