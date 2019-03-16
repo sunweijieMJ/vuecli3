@@ -50,7 +50,7 @@
               <single-follow :item="item" :hideBtn="true"></single-follow>
             </li>
           </ul>
-          <div class="other">
+          <div class="other" v-if="info.basic.curr_week_other">
             <h4>其他工作</h4>
             <p class="desc" v-html="textFilter(info.basic.curr_week_other)"></p>
           </div>
@@ -65,7 +65,7 @@
               <single-follow :item="item" :hideBtn="true"></single-follow>
             </li>
           </ul>
-          <div class="other">
+          <div class="other" v-if="info.basic.next_week_other">
             <h4>其他工作</h4>
             <p class="desc" v-html="textFilter(info.basic.next_week_other)"></p>
           </div>
@@ -75,7 +75,7 @@
             <i></i>
             <span>心得</span>
           </h3>
-          <div class="other">
+          <div class="other" v-if="info.basic.summary">
             <p class="desc" v-html="textFilter(info.basic.summary)"></p>
           </div>
         </div>
@@ -238,15 +238,17 @@
       .main {
         padding: 0 $left-right;
         .week {
-          padding: 28px 0 $up-down;
-          border-bottom: 1px solid $lineColor;
+          padding: $up-down 0;
+          border-bottom: 2px solid $lineColor;
           &.summary {
             border-bottom: 0;
+            .other {
+              margin-top: 0;
+            }
           }
           .title {
             display: flex;
             align-items: center;
-            margin-bottom: 28px;
             i {
               display: inline-flex;
               width: 5px;
@@ -262,31 +264,28 @@
             }
           }
           .list {
+            margin-top: $up-down;
             padding: 0 $up-down 0 10px;
             li {
               margin-bottom: $up-down;
+              &:last-of-type {
+                margin-bottom: 0;
+              }
             }
           }
           .other {
             padding: 0 $up-down 0 52px;
+            margin-top: $up-down;
             h4 {
-              margin-bottom: 15px;
               font-size: $h3Font;
               font-weight: $h1Weight;
               line-height: 1;
               color: $h1Color;
             }
             .desc {
+              margin-top: 15px;
               font-size: $h3Font;
               line-height: 25px;
-              color: $h1Color;
-            }
-          }
-          .content {
-            margin-left: 52px;
-            li {
-              font-size: $h3Font;
-              line-height: 1.4;
               color: $h1Color;
             }
           }

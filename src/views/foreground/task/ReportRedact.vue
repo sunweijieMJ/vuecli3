@@ -355,15 +355,18 @@
     >.main {
       padding: 0 $left-right;
       .week {
-        border-bottom: 1px solid $lineColor;
+        padding: $up-down 0;
+        border-bottom: 2px solid $lineColor;
         &.summary {
           border-bottom: 0;
           .title {
             margin-bottom: 15px;
           }
+          .other {
+            margin-top: 0;
+          }
         }
         >.title {
-          margin: $up-down 0;
           display: flex;
           align-items: center;
           i {
@@ -381,21 +384,26 @@
           }
         }
         >.list {
+          margin-top: $up-down;
           padding: 0 $up-down 0 10px;
           li {
             margin-bottom: $up-down;
+            &:last-of-type {
+              margin-bottom: 0;
+            }
           }
         }
         >.other {
-          padding: 0 $up-down $up-down 52px;
+          padding: 0 $up-down 0 52px;
+          margin-top: $up-down;
           h4 {
-            margin-bottom: 10px;
             font-size: $h3Font;
             font-weight: $h1Weight;
             line-height: 1;
             color: $h1Color;
           }
           textarea {
+            margin-top: 10px;
             width: calc(100% - 40px);
             padding: 0;
             border-radius: 2px;
