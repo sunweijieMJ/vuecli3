@@ -58,7 +58,7 @@
       if(that.value.start_time || that.value.end_time) {
         that.daterange = [that.value.start_time, that.value.end_time];
       } else {
-        that.daterange = [new Date().setDate(new Date().getDate() - 8), new Date().setDate(new Date().getDate() - 1)];
+        that.daterange = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate())];
       }
     },
     watch: {

@@ -8,6 +8,7 @@
 </script>
 <style lang="scss" scoped>
   .single-status{
+    box-sizing: border-box;
     display: inline-flex;
     justify-content: center;
     align-items: center;

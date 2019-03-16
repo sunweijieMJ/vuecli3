@@ -6,7 +6,7 @@
         <div class="info">
           <h4>
             <span @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">{{item.task_name}}</span>
-            <single-status v-if="+item.status !== 1" :text="'已完成'" :color="'#5581C7'" :back="'#EAF1FB'"></single-status>
+            <single-status v-if="+item.status === 2" :text="'已完成'" :color="'#5581C7'" :back="'#EAF1FB'"></single-status>
           </h4>
           <p v-if="item.obj_info && item.obj_info[0]" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
             <i class="iconfont icon-icon_link"></i>

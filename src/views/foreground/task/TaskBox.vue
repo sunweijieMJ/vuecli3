@@ -111,7 +111,7 @@
       handleClick(e) {
         let that = this;
         if(e.name === that.$route.name) return;
-        that.$router.push({name: e.name});
+        that.$router.push({name: e.name, query: {label: that.menu_list[e.name].label, type: that.menu_list[e.name].type}});
         that.getReportUnread();
       },
       handleCommand(command) {

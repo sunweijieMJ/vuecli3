@@ -13,7 +13,7 @@
         </div>
         <span>{{info.basic.feedback_time | timeFilter}}</span>
       </div>
-      <p>{{info.basic.feedback}}</p>
+      <p v-html="textFilter(info.basic.feedback)"></p>
     </div>
     <div class="detail">
       <div class="header">
@@ -33,7 +33,7 @@
           <span class="time">{{info.basic.publish_time | timeFilter}}</span>
         </div>
         <div class="to-user">
-          <h4>发周报给：</h4>
+          <h4>收件人：</h4>
           <p>
             <span v-for="(item, index) in info.basic.recipient_info" :key="index">{{item.real_name}}</span>
           </p>
@@ -176,10 +176,12 @@
               cursor: pointer;
             }
             .info {
+              box-sizing: border-box;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
               height: 44px;
+              padding: 1px 0;
               margin-left: 18px;
               h4 {
                 font-size: $h2Font;
@@ -236,7 +238,7 @@
       .main {
         padding: 0 $left-right;
         .week {
-          padding: 28px $up-down $up-down 0;
+          padding: 28px 0 $up-down;
           border-bottom: 1px solid $lineColor;
           &.summary {
             border-bottom: 0;
@@ -260,8 +262,9 @@
             }
           }
           .list {
+            padding: 0 $up-down 0 10px;
             li {
-              margin-bottom: 30px;
+              margin-bottom: $up-down;
             }
           }
           .other {

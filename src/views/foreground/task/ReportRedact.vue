@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="to-user">
-        <h4>发周报给：</h4>
+        <h4>收件人：</h4>
         <member :key="key" v-model="form.recipient">
           <span class="add">
             <i class="iconfont icon-btn_add"></i>
@@ -35,9 +35,8 @@
         </ul>
         <div class="other">
           <h4>其他工作</h4>
-          <p v-if="!form.curr_week_other.status" :class="{null: !form.curr_week_other.text}" @click="lastFocus" v-html="textFilter(form.curr_week_other.text || '添加工作内容…')"></p>
-          <textarea v-else class="last-text" placeholder="添加工作内容…" maxlength="1000" v-model="form.curr_week_other.text"
-            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @blur="lastBlur"></textarea>
+          <textarea :class="{null: !form.curr_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.curr_week_other"
+            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
       <div class="next-week week">
@@ -52,9 +51,8 @@
         </ul>
         <div class="other">
           <h4>其他工作</h4>
-          <p v-if="!form.next_week_other.status" :class="{null: !form.next_week_other.text}" @click="nextFocus" v-html="textFilter(form.next_week_other.text || '添加工作内容…')"></p>
-          <textarea v-else class="next-text" placeholder="添加工作内容…" maxlength="1000" v-model="form.next_week_other.text"
-            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @blur="nextBlur"></textarea>
+          <textarea :class="{null: !form.next_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.next_week_other"
+            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
       <div class="summary week">
@@ -63,9 +61,8 @@
           <span>想法及其他：</span>
         </h3>
         <div class="other">
-          <p v-if="!form.summary.status" :class="{null: !form.summary.text}" @click="summaryFocus" v-html="textFilter(form.summary.text || '您可描述本周工作中的想法，或其他任意内容')"></p>
-          <textarea v-else class="summary-text" placeholder="您可描述本周工作中的想法，或其他任意内容" maxlength="1000" v-model="form.summary.text"
-            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @blur="summaryBlur"></textarea>
+          <textarea :class="{null: !form.summary}" placeholder="您可描述本周工作中的想法，或其他任意内容" maxlength="1000" v-model="form.summary"
+            @propertychange.prevent="autoTextarea($event, 0)" @input.prevent="autoTextarea($event.target, 0)" @flcus.prevent="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
     </div>
@@ -108,18 +105,9 @@
           curr_week_list: [],
           next_week_list: [],
           obj_infos: {},
-          curr_week_other: {
-            text: '',
-            status: false
-          },
-          next_week_other: {
-            text: '',
-            status: false
-          },
-          summary: {
-            text: '',
-            status: false
-          },
+          curr_week_other: '',
+          next_week_other: '',
+          summary: '',
           daterange: ''
         }
       };
@@ -133,6 +121,7 @@
       }
     },
     methods: {
+      // 保存|发布 周报
       publish(action) {
         let that = this;
         ReportApi().publish({action, ...that.report_info}).then(res => {
@@ -144,9 +133,11 @@
           }
         });
       },
+      // 跟进成功
       handleTaskCheck(data) {
         this.checkList(data);
       },
+      // check跟进KT
       checkList(check) {
         let that = this;
         for(let i = 0, LEN = that.form.curr_week_list.length; i < LEN; i++) {
@@ -161,39 +152,6 @@
             that.form.next_week_list[i].status = check.status;
           }
         }
-      },
-      lastFocus() {
-        let that = this;
-        that.form.curr_week_other.status = true;
-        that.$nextTick(() => {
-          that.$el.querySelector('.last-text').focus();
-        });
-      },
-      lastBlur() {
-        let that = this;
-        that.form.curr_week_other.status = false;
-      },
-      nextFocus() {
-        let that = this;
-        that.form.next_week_other.status = true;
-        that.$nextTick(() => {
-          that.$el.querySelector('.next-text').focus();
-        });
-      },
-      nextBlur() {
-        let that = this;
-        that.form.next_week_other.status = false;
-      },
-      summaryFocus() {
-        let that = this;
-        that.form.summary.status = true;
-        that.$nextTick(() => {
-          that.$el.querySelector('.summary-text').focus();
-        });
-      },
-      summaryBlur() {
-        let that = this;
-        that.form.summary.status = false;
       },
       // 获取默认接收人
       getDefaultUsers() {
@@ -268,18 +226,9 @@
             curr_week_list: report_info.curr_week_list,
             next_week_list: report_info.next_week_list,
             obj_infos: report_info.obj_infos,
-            curr_week_other: {
-              text: report_info.basic.curr_week_other,
-              status: false
-            },
-            next_week_other: {
-              text: report_info.basic.next_week_other,
-              status: false
-            },
-            summary: {
-              text: report_info.basic.summary,
-              status: false
-            },
+            curr_week_other: report_info.basic.curr_week_other,
+            next_week_other: report_info.basic.next_week_other,
+            summary: report_info.basic.summary,
             daterange: {
               start_time: Moment().format(report_info.basic.report_start_day, 'YYYY-MM-DD'),
               end_time: Moment().format(report_info.basic.report_end_day, 'YYYY-MM-DD')
@@ -293,7 +242,6 @@
       'form.daterange'(cur) {
         let that = this;
         if(cur.start_time && cur.end_time) {
-          // if(!that.report_id) that.getReportDetail({start_day: cur.start_time, end_day: cur.end_time});
           that.getWeeklyKtList(cur.start_time, cur.end_time);
         }
       }
@@ -311,9 +259,9 @@
           curr_week_list: that.form.curr_week_list,
           next_week_list: that.form.next_week_list,
           obj_infos: that.form.obj_infos,
-          curr_week_other: that.form.curr_week_other.text,
-          next_week_other: that.form.next_week_other.text,
-          summary: that.form.summary.text,
+          curr_week_other: that.form.curr_week_other,
+          next_week_other: that.form.next_week_other,
+          summary: that.form.summary,
           start_day: Moment().format(that.form.daterange.start_time, 'YYYY-MM-DD'),
           end_day: Moment().format(that.form.daterange.end_time, 'YYYY-MM-DD')
         };
@@ -332,7 +280,9 @@
     width: 800px;
     padding: $left-right 0;
     margin: 12px auto 0;
+    border-radius: 2px;
     background-color: #fff;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
     >.header {
       padding: 0 $left-right;
       .from-user {
@@ -347,14 +297,16 @@
           cursor: pointer;
         }
         .info {
+          box-sizing: border-box;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           height: 48px;
+          padding: 1px 0;
           margin-left: 18px;
           h4 {
             margin-bottom: 4px;
-            font-size: $h3Font;
+            font-size: $h2Font;
             font-weight: $h1Weight;
             line-height: 1;
             color: $h1Color;
@@ -406,6 +358,9 @@
         border-bottom: 1px solid $lineColor;
         &.summary {
           border-bottom: 0;
+          .title {
+            margin-bottom: 15px;
+          }
         }
         >.title {
           margin: $up-down 0;
@@ -440,29 +395,30 @@
             line-height: 1;
             color: $h1Color;
           }
-          p {
-            font-size: $h3Font;
-            line-height: 25px;
-            color: $h1Color;
-            cursor: pointer;
-            &.null {
-              color: $linkBlue;
-              @extend %textlight;
-            }
-          }
           textarea {
             width: calc(100% - 40px);
-            padding: 10px 20px;
+            padding: 0;
             border-radius: 2px;
-            background-color: $backColor;
             font-size: $h3Font;
-            line-height: 28px;
+            line-height: 25px;
             resize: none;
             border: none;
+            cursor: pointer;
+            &:focus {
+              padding: 10px 20px;
+              background-color: $backColor;
+              cursor: initial;
+              &::placeholder {
+                color: $h3Color;
+              }
+            }
+            &:not(:focus).null {
+              height: 25px !important;
+            }
             &::placeholder {
               font-size: $h3Font;
-              line-height: 28px;
-              color: $h3Color;
+              line-height: 25px;
+              color: $linkBlue;
             }
           }
         }
@@ -487,17 +443,15 @@
           border: none;
           font-weight: normal;
           border-radius: 20px;
+          @extend %imglight;
           &.save {
+            color: $themeColor;
             &:hover {
               background-color: #fff;
             }
-            @extend %textlight;
           }
           &.submit {
-            &:hover {
-              color: #fff;
-            }
-            @extend %imglight;
+            color: #fff;
             background: linear-gradient(142deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);
           }
         }

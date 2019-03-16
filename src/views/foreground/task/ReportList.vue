@@ -1,6 +1,6 @@
 <template>
   <div class="report-list" >
-    <div class="report-main" >
+    <div class="report-main" v-show="!loading.noresult">
       <div class="main-nav">
         <el-cascader
           v-if="active_report === 'all'"
@@ -24,10 +24,10 @@
       <div class="main-info">
         <template v-if="report_detail">
           <single-info :info="report_detail"></single-info>
-          <div class="feedback" v-if="report_detail && active_report === 'recipient' && !report_detail.basic.feedbacker" :class="{focus: feedback.focus}">
+          <div class="feedback" v-if="report_list[current_report].is_leader && !report_list[current_report].is_feedback" :class="{focus: feedback.focus}">
             <img :src="self_info.header_photo" alt="">
             <div class="input">
-              <textarea placeholder="对本周的工作点评一下吧" v-model="feedback.text"
+              <textarea :placeholder="`点评下${report_detail.basic.user_info.real_name}的周报吧`" v-model="feedback.text"
               @focus="feedback.focus = true"></textarea>
               <div class="control" v-if="feedback.focus">
                 <el-checkbox v-model="feedback.checked">仅本人可见</el-checkbox>
@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <!-- <no-result v-show="!report_list.length"></no-result> -->
+    <no-result v-show="loading.noresult"></no-result>
   </div>
 </template>
 <script>
@@ -89,7 +89,6 @@
       let that = this;
       that.getPartList();
       that.active_report = that.$route.query.type || 'self';
-      that.getReportList();
     },
     methods: {
       // 周报反馈
@@ -106,7 +105,6 @@
       },
       // 触底刷新
       infinite() {
-        console.log(1)
         let that = this;
 
         that.disabled = true;
@@ -179,27 +177,25 @@
         });
       },
       // 重置Task列表
-      resetList(lastId, currPage, type = this.active_report, qdep_id = this.active_part[0], quser_id = this.active_part[1]) {
+      resetList() {
         let that = this;
-        ReportApi().getReportList({lastId, currPage, type, qdep_id, quser_id}).then(res => {
-          const user_info = res.data.user_info;
-          const report_list = res.data.list;
-          that.loading.last_id = res.data.last_id;
-          that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
-
-          for(let i = 0, LEN = report_list.length; i < LEN; i++) {
-            report_list[i].user_info = user_info[report_list[i].user_id];
-          }
-
-          that.report_list = report_list;
-        });
+        that.report_list = [];
+        that.current_report = -1;
+        that.report_detail = '';
+        Object.assign(that.$data.pageInfo, that.$options.data().pageInfo);
+        Object.assign(that.$data.loading, that.$options.data().loading);
+        Object.assign(that.$data.disabled, that.$options.data().disabled);
+        that.infinite();
       },
+      // 周报详情
       getReportDetail(index) {
         let that = this;
         that.current_report = index;
+        that.report_list[index].is_read = 1;
         const report_id = that.report_list[index].report_id;
         ReportApi().getReportDetail({report_id}).then(res => {
           const report_detail = res.data;
+
           const user_info = report_detail.user_info;
 
           report_detail.basic.recipient_info = [];
@@ -219,8 +215,6 @@
         if(to.name === that.$route.name && from.name === that.$route.name) {
           that.active_report = that.$route.query.type || 'self';
           that.resetList();
-          that.current_report = -1;
-          that.report_detail = '';
         }
       }
     },

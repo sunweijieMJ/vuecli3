@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <div class="drop-link-class">
+    <div class="drop-link-class" v-if="+task_basic.status === 1">
       <el-dropdown @command="handleCommand" v-if="task_basic && task_basic.is_owner">
         <span style="fontSize: 48px;" class="iconfont icon-btn_more_green1"></span>
         <el-dropdown-menu slot="dropdown" class="task-pop">
@@ -79,10 +79,10 @@
             <span class="iconfont icon-icon_edit"></span>
             <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: task_basic.task_id})">编辑</span>
           </el-dropdown-item>
-          <el-dropdown-item command="关闭">
+          <!-- <el-dropdown-item command="关闭">
             <span class="iconfont icon-icon_close_l"></span>
             <span class="edit" @click="$store.dispatch('setTaskClose', {status: true, parent: task_basic})">关闭</span>
-          </el-dropdown-item>
+          </el-dropdown-item> -->
           <el-dropdown-item v-if="0" command="添加Task">
             <span class="iconfont icon-icon_add2"></span>
             <span class="edit" @click="$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: task_basic})">添加Task</span>
