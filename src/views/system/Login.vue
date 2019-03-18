@@ -158,6 +158,7 @@ export default {
   background:rgba(246,246,246,1);
   background-image: url('../../../static/img/login_bg.png');
   background-size: 100% auto;
+  -webkit-background-size: 100%;
   background-repeat: no-repeat;
   min-width: 1280px;
   width: 100%;
