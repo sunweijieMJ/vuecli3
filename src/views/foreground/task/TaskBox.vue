@@ -3,14 +3,17 @@
     <div class="header">
       <div class="menu-box">
         <el-tabs v-model="active_menu" @tab-click="handleClick">
-          <el-tab-pane v-for="(witem, windex) in menu_list" :key="windex" :label="witem.label" :name="witem.name" :type="witem.type">
+          <el-tab-pane v-for="(witem, windex) in menu_list" :key="witem.type + self_info.level"  :label="witem.label" :name="witem.name" :type="witem.type">
             <el-dropdown v-if="witem.name === active_menu" slot="label" @command="handleCommand" trigger="click">
               <li>
                 <span>{{witem.label}}</span>
                 <i class="iconfont icon-icon_more1"></i>
               </li>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level === 1 ? report_menu : report_menu.slice(0,2)))" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
+              <el-dropdown-menu class="report-menu" slot="dropdown">
+                  <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
+                    <el-badge v-if="active_menu === 'ReportList' && vitem.type === 'recipient'" :isDot="unread.report ? unread.report : ''">{{vitem.label}}</el-badge>
+                    <span v-else>{{vitem.label}}</span>
+                  </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report ? unread.report : ''">
@@ -49,9 +52,9 @@
             type: 'create'
           },
           ReportList: {
-            label: '我的周报',
+            label: '我收到的',
             name: 'ReportList',
-            type: 'self'
+            type: 'recipient'
           }
         },
         task_menu: [
@@ -108,17 +111,20 @@
       }
     },
     methods: {
+      // tab切换
       handleClick(e) {
         let that = this;
         if(e.name === that.$route.name) return;
         that.$router.push({name: e.name, query: {label: that.menu_list[e.name].label, type: that.menu_list[e.name].type}});
         that.getReportUnread();
       },
+      // select筛选
       handleCommand(command) {
         let that = this;
         that.menu_list[that.$route.name] = command;
         that.$router.push({name: that.$route.name, query: {label: command.label, type: command.type}});
       },
+      // 获取未读消息
       getReportUnread() {
         ReportApi().getReportUnread({}).then(res => {
           this.unread.report = Boolean(res.data.wait_read);
@@ -223,6 +229,13 @@
             line-height: 1;
           }
         }
+      }
+    }
+  }
+  .report-menu {
+    .el-dropdown-menu__item {
+      .el-badge {
+        line-height: 20px;
       }
     }
   }

@@ -31,18 +31,24 @@
           <i>&nbsp;{{item.check_info.spend_time}}</i>
         </p>
       </div>
-      <p class="content">{{item.check_info.remarks}}</p>
+      <p class="content" v-html="textFilter(item.check_info.remarks)"></p>
     </div>
   </div>
 </template>
 <script>
   import frequent from '../../mixins/frequent.js';
+  import textFilter from '../../utils/filters/textFilter.js';
   import SingleStatus from '../../components/report/SingleStatus.vue';
 
   export default {
     components: {SingleStatus},
     mixins: [frequent],
-    props: ['item', 'hideBtn', 'hideFollow']
+    props: ['item', 'hideBtn', 'hideFollow'],
+    data() {
+      return {
+        textFilter
+      };
+    }
   };
 </script>
 <style lang="scss" scoped>

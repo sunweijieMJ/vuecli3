@@ -33,13 +33,13 @@
         timeOptionRange: null,
         pickerOptions: {
           disabledDate(time) {
-            const week = 8.64e7 * 7;
+            const week = 8.64e7 * 14;
             if(that.timeOptionRange) {
               let min_time = Date.now() - 8.64e7;
               if(that.timeOptionRange.getTime() + week < Date.now() - 8.64e7) min_time = that.timeOptionRange.getTime() + week;
               return time.getTime() > min_time || time.getTime() < that.timeOptionRange.getTime() - week;
             } else {
-              return time.getTime() > Date.now() - 8.64e7;
+              return time.getTime() > Date.now();
             }
           },
           onPick(time) {
@@ -58,7 +58,12 @@
       if(that.value.start_time || that.value.end_time) {
         that.daterange = [that.value.start_time, that.value.end_time];
       } else {
-        that.daterange = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate())];
+        if(new Date().getDay() === 1) {
+          that.daterange = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate() - 1)];
+        } else {
+          const start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1 - new Date().getDay() || 7);
+          that.daterange = [start, Date.now()];
+        }
       }
     },
     methods: {

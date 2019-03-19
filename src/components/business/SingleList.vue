@@ -361,6 +361,7 @@
   .single-list .list-comment li {
     p {
       @include tofl(100%);
+      max-height: $h4Font;
       font-size: $h4Font;
       color: $h2Color;
       a {
