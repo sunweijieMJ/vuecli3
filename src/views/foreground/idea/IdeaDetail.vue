@@ -303,11 +303,18 @@
 </script>
 <style lang="scss" scoped>
   .idea-detail {
-    width: 800px;
+    @media screen and (min-width: 1000px){
+      width: 800px;
+    }
     margin: 12px auto 0;
     background-color: #fff;
     .detail-thump {
-      padding: 35px 66px 25px;
+      @media screen and (min-width: 1000px){
+        padding: 35px 66px 25px;
+      }
+      @media screen and (min-width: 999px){
+        padding: 35px 15px 25px;
+      }
       .thump-title {
         margin-bottom: 20px;
         font-size: $h2Font;
@@ -345,7 +352,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 800px;
+      @media screen and (min-width: 1000px){
+        width: 800px;
+      }
       height: 450px;
       background-color: #fff;
       box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
@@ -362,7 +371,13 @@
     }
     .detail-comment {
       display: flex;
-      padding: 25px 66px;
+      @media screen and (min-width: 1000px){
+        padding: 25px 66px;
+      }
+      @media screen and (max-width: 999px){
+        padding: 25px 5%;
+      }
+      
       img {
         box-sizing: border-box;
         width: 48px;
@@ -439,7 +454,12 @@
       }
     }
     .detail-common, .detail-splendid {
-      padding: 15px 66px;
+      @media screen and (min-width: 1000px){
+        padding: 15px 66px;
+      }
+      @media screen and (max-width: 999px){
+        padding: 15px 5%;
+      }
       .common-title, .splendid-title {
         display: flex;
         align-items: center;

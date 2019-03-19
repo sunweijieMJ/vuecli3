@@ -418,7 +418,10 @@ export default {
   height: 100vh;
   background-color: rgba(0,0,0,0.5);
   .hello{
-    width: 687px;
+    width: 90%;
+    @media only screen and (min-width: 1000px){
+      width: 687px;
+    }
     margin: auto;
     // margin-top: 10%;
     text-align: left;
@@ -444,12 +447,11 @@ export default {
     .comment-idea{
       padding: 0px 41px;
       z-index: 1001;
-      width: 604px;
       // height: 287px;
       overflow: hidden;
       #text {
         margin-top: 22px;
-        width: 604px;
+        width: 100%;
         // height: 265px;
         box-sizing: border-box;
         font-family: PingFangSC-Regular;

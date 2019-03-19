@@ -19,7 +19,8 @@ class UserActions {
           extra: {
             ...extra,
             userAgent: window.navigator.userAgent,
-            authinfo: storage('cookie').get('pgs_authinfo')
+            authinfo: storage('cookie').get('pgs_authinfo'),
+            pgsUserId: storage('cookie').get('pgs_userId')
           }
         }
       ]

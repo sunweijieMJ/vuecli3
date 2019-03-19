@@ -144,8 +144,12 @@
 <style lang="scss" scoped>
   .single-list {
     box-sizing: border-box;
-    width: 750px;
-    padding: 32px 58px;
+    @media screen and (min-width: 1000px) {
+      padding: 32px 58px;
+    }
+    @media screen and (max-width: 750px){
+      padding: 32px 5%;
+    }
     margin-bottom: 4px;
     background-color: #fff;
     .list-header {

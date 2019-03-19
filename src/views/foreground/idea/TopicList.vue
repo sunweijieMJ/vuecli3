@@ -93,14 +93,18 @@
 </script>
 <style lang="scss" scoped>
   .topic-list {
-    width: 1040px;
+    @media only screen and (min-width: 1000px){
+      width: 1040px;
+    }
     margin: auto;
     padding-top: 12px;
     .list-header {
       box-sizing: border-box;
       display: flex;
       align-items: center;
-      width: 750px;
+      @media only screen and (min-width: 1000px){
+        width: 750px;
+      }
       height: 56px;
       padding-left: 58px;
       margin-bottom: 4px;
@@ -113,7 +117,9 @@
       }
     }
     .list-content {
-      width: 750px;
+      @media only screen and (min-width: 1000px){
+        width: 750px;
+      }
     }
   }
 </style>

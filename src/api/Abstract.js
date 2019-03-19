@@ -78,6 +78,7 @@ class Abstract {
           resolve({status: true, message: 'success', data: res.data.data});
         } else if (res.data.status === -1) {
           storage('cookie').remove('pgs_authinfo');
+          storage('cookie').remove('pgs_userId');
           window.location.replace('/system/login');
           resolve({status: false, message: res.data.message, data: null});
         } else if (res.data.status === -2) {
