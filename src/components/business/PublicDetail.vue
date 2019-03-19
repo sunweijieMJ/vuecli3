@@ -133,7 +133,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 66px;
+      @media screen and (min-width: 1000px){
+        padding: 20px 66px;
+      }
+      @media screen and (max-width: 999px){
+        padding: 20px 5%;
+      }
       border-bottom: 1px solid $lineColor;
       .detail-author {
         display: flex;
@@ -196,21 +201,36 @@
       }
     }
     .detail-main {
-      padding: 0 66px;
+      @media screen and (min-width: 1000px){
+        padding: 0 66px;
+      }
+      @media screen and (max-width: 999px){
+        padding: 0 5%;
+      }
+      
       border-bottom: 1px solid $lineColor;
       .main-paragraph {
         margin-top: 20px;
       }
       .main-images {
-        width: 668px;
+        @media screen and (min-width: 1000px){
+          width: 668px;
+        }
         overflow: hidden;
         margin-top: 8px;
         .image-box {
           overflow: hidden;
           float: left;
           box-sizing: border-box;
-          width: 220px;
-          height: 220px;
+          @media screen and (min-width: 1000px){
+            width: 220px;
+            height: 220px;
+          }
+          @media screen and (max-width: 999px){
+            width: 110px;
+            height: 110px;
+          }
+          
           margin: 4px 4px 0 0;
           border: 1px solid $lineColor;
           cursor: pointer;

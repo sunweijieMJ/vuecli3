@@ -1,9 +1,9 @@
 <template>
   <div class="showImage">
-    <el-dialog width="960px" @close="closeDialog" :visible.sync="image_popup.status">
+    <el-dialog @close="closeDialog" :visible.sync="image_popup.status">
         <el-carousel :initial-index="image_popup.index" indicator-position="outside"
           v-if="image_popup.status"
-          height="500px" :autoplay="false" trigger="click"
+          height="800px" :autoplay="false" trigger="click"
           :arrow="(image_popup.source.entity_photo_hashes ? image_popup.source.entity_photo_hashes : image_popup.source).length === 1 ? 'never' : 'hover'"
           @change="imgChange">
           <el-carousel-item v-for="(item, index) in (image_popup.source.entity_photos ? (image_popup.source.entity_photos.length ? image_popup.source.entity_photos : (image_popup.source.entity_extra.from.entity_photos ? image_popup.source.entity_extra.from.entity_photos : [])) : image_popup.source)" :key="index">
@@ -38,6 +38,12 @@
   .showImage{
     .el-dialog__wrapper{
       .el-dialog {
+        @media screen and (min-width: 1000px){
+          margin-top: 2%!important;
+        }
+        @media screen and (max-width: 999px){
+          margin-top: 10%!important;
+        }
         box-shadow: none;
         background-color: transparent;
       }
@@ -63,7 +69,10 @@
           display: flex;
           justify-content: center;
           img{
-            height: 500px;
+            height: 800px;
+            @media screen and (max-width: 750px){
+              height: 60%;
+            }
           }
         }
       }
