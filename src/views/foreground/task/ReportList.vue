@@ -99,6 +99,7 @@
             that.report_list[that.current_report].is_feedback = 1;
             that.getReportDetail(that.current_report);
             that.$message({message: '反馈成功', type: 'success'});
+            Object.assign(that.$data.feedback, that.$options.data().feedback);
             that.$el.querySelector('.main-info .single-info .detail').scrollIntoView({block: 'start', behavior: 'smooth'});
           } else {
             that.$message({message: res.message, type: 'warning'});

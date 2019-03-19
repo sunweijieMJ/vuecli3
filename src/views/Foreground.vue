@@ -104,13 +104,13 @@
       // 切换tab
       select(item, index) {
         let that = this;
-        this.current = index;
-        if(index === 0) {
-          that.$router.push({name: item.name, query: {time: Date.now()}});
-        } else {
+        if(index === that.current) {
           const query = Object.assign({}, that.$route.query, {time: Date.now()});
-          that.$router.push({name: item.name, query});
+          that.$router.push({name: that.$route.name, query});
+        } else {
+          that.$router.push({name: item.name, query: {time: Date.now()}});
         }
+        this.current = index;
       },
       skipDetail(witem) {
         let that = this;

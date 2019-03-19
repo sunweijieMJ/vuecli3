@@ -116,16 +116,35 @@
       let that = this;
       if(that.$route.params.id) {
         that.report_id = +that.$route.params.id;
-        that.getReportDetail({report_id: that.report_id});
+        that.getReportDetail({report_id: that.report_id}).then(() => {
+          that.calcText();
+        });
       } else {
         that.getDefaultUsers();
-        const date = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate())];
+        let date;
+        if(new Date().getDay() === 1) {
+          date = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate() - 1)];
+        } else {
+          const start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1 - new Date().getDay() || 7);
+          date = [start, Date.now()];
+        }
         that.getReportDetail({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])}).then(() => {
           that.getWeeklyKtList({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])});
+          that.calcText();
         });
       }
     },
     methods: {
+      calcText() {
+        let that = this;
+        that.$nextTick(() => {
+          const textarea = that.$el.querySelectorAll('textarea');
+          for(let i = 0, LEN = textarea.length; i < LEN; i++) {
+            if(textarea[i].classList.contains('null')) continue;
+            autoTextarea(textarea[i], 0);
+          }
+        });
+      },
       scrollView(ele) {
         setTimeout(() => {
           ele.scrollIntoView({block: 'center', behavior: 'smooth'});

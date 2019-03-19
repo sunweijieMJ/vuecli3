@@ -46,9 +46,7 @@
             </span>
           </div>
         </div>
-        <p v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'" class="des">
-          {{dy.remarks}}
-        </p>
+        <p v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'" class="des" v-html="textFilter(dy.remarks)"></p>
       </li>
     </ul>
     <ul class="null" v-if="dynamic_list.length === 0">
@@ -64,6 +62,8 @@
 <script>
 import UserPopover from '../../../../components/popup/UserPopover';
 import frequent from '../../../../mixins/frequent';
+import textFilter from '../../../../utils/filters/textFilter.js';
+
 export default {
   name: 'TaskDynamic',
   mixins: [frequent],
@@ -73,7 +73,8 @@ export default {
   },
   data(){
     return {
-      value1: 3
+      value1: 3,
+      textFilter
     };
   },
   methods: {
