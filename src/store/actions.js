@@ -4,6 +4,7 @@ import NoticeApi from '../api/Notice.js';
 import UserApi from '../api/User.js';
 import OkrApi from '../api/Okr.js';
 import TaskApi from '../api/Task.js';
+import storage from '@/utils/storage';
 
 const actions = {
   changeImgPopup: ({commit}, data) => {
@@ -11,7 +12,13 @@ const actions = {
   },
   getSelfInfo: ({commit}) => {
     UserApi().getUserDetail({}).then(res => {
-      if (res.status) commit(types.SELF_INFO, res.data);
+      if (res.status) {
+        commit(types.SELF_INFO, res.data);
+        // 解决未重新登录用户，种植pgs_userId cookie
+        if(!storage('cookie').get('pgs_userId')) {
+          storage('cookie').set('pgs_userId', res.data.user_id, 31636000);
+        }
+      }
     });
   },
   getMessageUnread: ({commit}) => {
