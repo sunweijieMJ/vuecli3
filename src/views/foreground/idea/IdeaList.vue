@@ -108,14 +108,18 @@
 </script>
 <style lang="scss" scoped>
   .idea-list {
-    width: 1040px;
-    margin: auto;
-    padding-top: 12px;
+    @media only screen and (min-width: 1000px){
+      width: 1040px;
+      margin: auto;
+      padding-top: 12px;
+    }
     .idea-write {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      width:750px;
+      @media only screen and (min-width: 1000px){
+        width: 750px;
+      }
       height:56px;
       margin-bottom: 4px;
       background-color: #fff;
@@ -136,7 +140,9 @@
       }
     }
     .idea-content {
-      width: 750px;
+      @media only screen and (min-width: 1000px){
+        width:750px;
+      }
     }
   }
 </style>

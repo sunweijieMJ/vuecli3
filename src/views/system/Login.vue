@@ -10,7 +10,7 @@
           <span class="iconfont icon-icon_PGS"></span>
         </div>
       </div>
-      <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBER，欢迎使用PGS</div>
+      <div class="discription" v-if="status === 0">Hi，亲爱的LANEHUBBER，欢迎使用PGS</div>
       <div class="discription" v-if="status === 2">Ops…好像没有输入正确的工作邮箱</div>
       <div class="discription" v-if="status === 1">已发送密码至你的邮箱 {{push_email}} ，请在邮件中查看</div>
       <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
@@ -88,6 +88,7 @@ export default {
         userApi().getLogin({email: this.ruleForm2.email, passwd: this.ruleForm2.pass}).then(res => {
           if(res.status){
             storage('cookie').set('pgs_authinfo', res.data.pgs_authinfo, 31636000);
+            storage('cookie').set('pgs_userId', res.data.user_id, 31636000);
             this.$message({message: '登录成功', type: 'success', duration: 1000});
             setTimeout(() => {
               this.$router.push({name: 'IdeaList'});
@@ -147,6 +148,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@media (max-width: 750px) {
+  body {
+    width: 750px;
+  }
+}
+@media (min-width: 751px) {
+  body {
+    width: 100%;
+  }
+}
 .pass_error{
   color: #f56c6c;
   position: absolute;
@@ -160,15 +171,15 @@ export default {
   background-size: 100% auto;
   -webkit-background-size: 100%;
   background-repeat: no-repeat;
-  min-width: 1280px;
   width: 100%;
   height: 100vh;
   .box{
-    width: 800px;
     margin: auto;
     text-align: center;
-    position: relative;
-    right: 180px;
+    @media only screen and (min-width: 800px){
+      position: relative;
+      right: 180px;
+    }
   }
   .icon{
     padding-top: 147px;
