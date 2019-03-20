@@ -33,14 +33,16 @@
         timeOptionRange: null,
         pickerOptions: {
           disabledDate(time) {
-            const week = 8.64e7 * 14;
+            // 初始化最大值|最小值|最大时间范围
+            let max_time = Date.now();
+            let min_time = new Date().setDate(new Date().getDate() - 14);
+            const week = 8.64e7 * 7;
             if(that.timeOptionRange) {
-              let min_time = Date.now() - 8.64e7;
-              if(that.timeOptionRange.getTime() + week < Date.now() - 8.64e7) min_time = that.timeOptionRange.getTime() + week;
-              return time.getTime() > min_time || time.getTime() < that.timeOptionRange.getTime() - week;
-            } else {
-              return time.getTime() > Date.now();
+              const pick_time = that.timeOptionRange.getTime();
+              if(pick_time + week < Date.now()) max_time = pick_time + week;
+              if(pick_time - week > min_time) min_time = pick_time - week;
             }
+            return time.getTime() > max_time || time.getTime() < min_time;
           },
           onPick(time) {
             if(time.minDate && !time.maxDate){

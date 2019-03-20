@@ -36,7 +36,7 @@
         <div class="other">
           <h4>其他工作</h4>
           <textarea :class="{null: !form.curr_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.curr_week_other"
-            @propertychange="autoTextarea($event.target, 0) || scrollView($event.target)" @input="autoTextarea($event.target, 0) || scrollView($event.target)"></textarea>
+            @propertychange="autoTextarea($event.target, 0)" @input="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
       <div class="next-week week">
@@ -52,7 +52,7 @@
         <div class="other">
           <h4>其他工作</h4>
           <textarea :class="{null: !form.next_week_other}" placeholder="添加工作内容…" maxlength="1000" v-model="form.next_week_other"
-            @propertychange="autoTextarea($event.target, 0) || scrollView($event.target)" @input="autoTextarea($event.target, 0) || scrollView($event.target)"></textarea>
+            @propertychange="autoTextarea($event.target, 0)" @input="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
       <div class="summary week">
@@ -62,7 +62,7 @@
         </h3>
         <div class="other">
           <textarea :class="{null: !form.summary}" placeholder="添加想法或其他内容" maxlength="1000" v-model="form.summary"
-            @propertychange="autoTextarea($event.target, 0) || scrollView($event.target)" @input="autoTextarea($event.target, 0) || scrollView($event.target)"></textarea>
+            @propertychange="autoTextarea($event.target, 0)" @input="autoTextarea($event.target, 0)"></textarea>
         </div>
       </div>
     </div>
@@ -144,11 +144,6 @@
             autoTextarea(textarea[i], 0);
           }
         });
-      },
-      scrollView(ele) {
-        setTimeout(() => {
-          ele.scrollIntoView({block: 'center', behavior: 'smooth'});
-        }, 0);
       },
       // 保存|发布 周报
       publish(action) {
