@@ -21,9 +21,9 @@
         </li>
         <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
       </ul>
-      <task-publish @handleTaskEdit="resetList" @handleTaskCreate="resetList"></task-publish>
-      <task-follow @handleTaskCheck="resetList"></task-follow>
-      <task-close @handleTaskClose="resetList"></task-close>
+      <task-publish @handleTaskEdit="resetList()" @handleTaskCreate="resetList()"></task-publish>
+      <task-follow @handleTaskCheck="resetList()"></task-follow>
+      <task-close @handleTaskClose="resetList()"></task-close>
     </template>
   </div>
 </template>
