@@ -9,11 +9,8 @@
                 <span>{{witem.label}}</span>
                 <i class="iconfont icon-icon_more1"></i>
               </li>
-              <el-dropdown-menu class="report-menu" slot="dropdown">
-                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
-                  <el-badge v-if="active_menu === 'ReportList' && vitem.type === 'recipient'" :isDot="unread.report">{{vitem.label}}</el-badge>
-                  <span v-else>{{vitem.label}}</span>
-                </el-dropdown-item>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report">
@@ -229,13 +226,6 @@
             line-height: 1;
           }
         }
-      }
-    }
-  }
-  .report-menu {
-    .el-dropdown-menu__item {
-      .el-badge {
-        line-height: 20px;
       }
     }
   }
