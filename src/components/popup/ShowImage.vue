@@ -40,9 +40,11 @@
       .el-dialog {
         @media screen and (min-width: 1000px){
           margin-top: 2%!important;
+          width:80%;
         }
         @media screen and (max-width: 999px){
           margin-top: 10%!important;
+          width: 90%;
         }
         box-shadow: none;
         background-color: transparent;
@@ -51,7 +53,8 @@
       .el-dialog__header{
         text-align: left;
         .el-dialog__headerbtn {
-          top: 3px;right: -20px;
+          top: 3px;
+          right:-20px;
           .el-dialog__close {
             font-size: 25px;
             color: rgba(255,255,255,0.8);
