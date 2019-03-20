@@ -72,7 +72,7 @@
           display: flex;
           justify-content: center;
           img{
-            height: 800px;
+            max-width: 1024px;
             @media screen and (max-width: 750px){
               height: 60%;
             }
