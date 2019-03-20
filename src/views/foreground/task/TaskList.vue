@@ -35,9 +35,9 @@
         </li>
         <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
       </ul>
-      <task-publish @handleTaskEdit="resetList" @handleTaskCreate="resetList" @handleTaskPublish="handleTaskPublish"></task-publish>
-      <task-follow @handleTaskCheck="resetList"></task-follow>
-      <task-close @handleTaskClose="resetList"></task-close>
+      <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
+      <task-follow @handleTaskCheck="resetList()"></task-follow>
+      <task-close @handleTaskClose="resetList()"></task-close>
     </template>
   </div>
 </template>
@@ -101,9 +101,6 @@
       },
       addTask(data){
         this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: data});
-      },
-      handleTaskPublish(){
-        this.resetData();
       },
       // 切换视图
       chekcoutView(){

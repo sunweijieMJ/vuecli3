@@ -106,7 +106,11 @@
         let that = this;
         if(index === that.current) {
           const query = Object.assign({}, that.$route.query, {time: Date.now()});
-          that.$router.push({name: that.$route.name, query});
+          if(that.$route.name === 'TaskList' || that.$route.name === 'ReportList') {
+            that.$router.push({name: that.$route.name, query});
+          } else {
+            that.$router.push({name: item.name, query});
+          }
         } else {
           that.$router.push({name: item.name, query: {time: Date.now()}});
         }
