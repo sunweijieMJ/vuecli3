@@ -3,20 +3,20 @@
     <div class="header">
       <div class="menu-box">
         <el-tabs v-model="active_menu" @tab-click="handleClick">
-          <el-tab-pane v-for="(witem, windex) in menu_list" :key="witem.type + self_info.level"  :label="witem.label" :name="witem.name" :type="witem.type">
+          <el-tab-pane v-for="(witem, windex) in menu_list" :key="witem.type + self_info.level + unread.report"  :label="witem.label" :name="witem.name" :type="witem.type">
             <el-dropdown v-if="witem.name === active_menu" slot="label" @command="handleCommand" trigger="click">
               <li>
                 <span>{{witem.label}}</span>
                 <i class="iconfont icon-icon_more1"></i>
               </li>
               <el-dropdown-menu class="report-menu" slot="dropdown">
-                  <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
-                    <el-badge v-if="active_menu === 'ReportList' && vitem.type === 'recipient'" :isDot="unread.report ? unread.report : ''">{{vitem.label}}</el-badge>
-                    <span v-else>{{vitem.label}}</span>
-                  </el-dropdown-item>
+                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
+                  <el-badge v-if="active_menu === 'ReportList' && vitem.type === 'recipient'" :isDot="unread.report">{{vitem.label}}</el-badge>
+                  <span v-else>{{vitem.label}}</span>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report ? unread.report : ''">
+            <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report">
               <li>
                 <span>{{witem.label}}</span>
               </li>
@@ -81,14 +81,14 @@
         ],
         report_menu: [
           {
-            label: '我的周报',
-            name: 'ReportList',
-            type: 'self'
-          },
-          {
             label: '我收到的',
             name: 'ReportList',
             type: 'recipient'
+          },
+          {
+            label: '我的周报',
+            name: 'ReportList',
+            type: 'self'
           },
           {
             label: '全部周报',
