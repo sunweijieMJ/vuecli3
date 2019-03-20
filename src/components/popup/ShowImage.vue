@@ -2,8 +2,7 @@
   <div class="showImage">
     <el-dialog @close="closeDialog" :visible.sync="image_popup.status">
         <el-carousel :initial-index="image_popup.index" indicator-position="outside"
-          v-if="image_popup.status"
-          height="800px" :autoplay="false" trigger="click"
+          v-if="image_popup.status" :autoplay="false" trigger="click"
           :arrow="(image_popup.source.entity_photo_hashes ? image_popup.source.entity_photo_hashes : image_popup.source).length === 1 ? 'never' : 'hover'"
           @change="imgChange">
           <el-carousel-item v-for="(item, index) in (image_popup.source.entity_photos ? (image_popup.source.entity_photos.length ? image_popup.source.entity_photos : (image_popup.source.entity_extra.from.entity_photos ? image_popup.source.entity_extra.from.entity_photos : [])) : image_popup.source)" :key="index">
@@ -38,6 +37,11 @@
   .showImage{
     .el-dialog__wrapper{
       .el-dialog {
+        position:absolute;
+        top:40%;
+        left:50%;
+        margin: 0 !important;
+        transform:translate(-50%, -40%);
         @media screen and (min-width: 1000px){
           margin-top: 2%!important;
           width:80%;
@@ -65,6 +69,9 @@
         padding: 0;
       }
       .el-carousel__container{
+        @media screen and (min-width: 750px){
+          height: 800px;
+        }
         .el-carousel__arrow {
           background-color: rgba(31,45,61,0.3);
         }
@@ -74,7 +81,8 @@
           img{
             max-width: 1024px;
             @media screen and (max-width: 750px){
-              height: 60%;
+              width: 325px;
+              justify-content: center;
             }
           }
         }
