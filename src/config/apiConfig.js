@@ -68,7 +68,8 @@ const urlDict = {
     'TaskList': '/okr/task/categorylist', // ETC task list
     'TaskCheck': '/okr/task/check', // ETC check task 任务
     'TaskFinish': '/okr/task/finish', // ETC finish task 任务
-    'TaskClose': '/okr/task/close' // ETC 关闭 task 任务
+    'TaskClose': '/okr/task/close', // ETC 关闭 task 任务
+    'GroupList': 'okr/task/grouplist' // ETC okr/task聚合
   },
   'Report': {
     'PublishReport': '/report/weeklywork/publish', // ETC 发布周报
