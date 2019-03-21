@@ -13,7 +13,7 @@
                   <span class="okr-name" @click.stop="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info.obj_id}`)" v-if="item.obj_info">{{item.obj_info.okr_name}}</span>
                 </div>
               </div>
-              <div class="insert">
+              <div class="insert" v-if="item.obj_info.is_member">
                 <span class="iconfont icon-icon_add2"></span>
                 <span class="add-kt" @click.stop="addTask">添加KT</span>
               </div>
@@ -47,7 +47,8 @@
                   <user-popover :userinfo="kt.users_info"></user-popover>
                 </el-popover>
                 <span class="name" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)">{{kt.users_info.user_name}}</span>
-                <span>{{kt.publish_time | timeFilter}}</span>
+                <span v-if="kt.edit_time">{{kt.edit_time | timeFilter}}</span>
+                <span v-else>{{kt.create_time | timeFilter}}</span>
               </div>
               <div class="right">
                 <div>
@@ -62,7 +63,7 @@
         </ul>
       </div>
       <div class="check-more">
-        <span @click="CheckMore(item.obj_info.obj_id)">查看更多KT</span>
+        <span @click="CheckMore(item.obj_info.obj_id)" v-if="item.task_list.cnt > 5 && hiddenMore">查看更多KT</span>
       </div>
     </div>
   </div>
@@ -86,7 +87,8 @@ export default {
       Moment,
       activeNames: '',
       okr_list: [], // ETC okr列表
-      pages: 1
+      pages: 1,
+      hiddenMore: true
     };
   },
   methods: {
@@ -103,7 +105,7 @@ export default {
     },
     handleChange(val) {
       this.activeNames = val;
-      this.getKRList(this.item.obj_info.creator_id);
+      this.getKRList(this.item.obj_info.obj_id);
     },
     activeJudge(kindex){
       if(kindex === this.activeNames){
@@ -141,6 +143,7 @@ export default {
 
           }else{
             this.$message({message: '没有更多KT了！', type: 'warning'});
+            this.hiddenMore = false;
           }
         }
       });
