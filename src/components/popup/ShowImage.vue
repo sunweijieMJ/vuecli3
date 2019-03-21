@@ -6,7 +6,7 @@
           :arrow="(image_popup.source.entity_photo_hashes ? image_popup.source.entity_photo_hashes : image_popup.source).length === 1 ? 'never' : 'hover'"
           @change="imgChange">
           <el-carousel-item v-for="(item, index) in (image_popup.source.entity_photos ? (image_popup.source.entity_photos.length ? image_popup.source.entity_photos : (image_popup.source.entity_extra.from.entity_photos ? image_popup.source.entity_extra.from.entity_photos : [])) : image_popup.source)" :key="index">
-            <a :href="item | imageSize('origin')" target="_blank"><img :src="item | imageSize('origin')" alt=""></a>
+            <a :href="item | imageSize('source')" target="_blank"><img :src="item | imageSize('origin')" alt=""></a>
           </el-carousel-item>
         </el-carousel>
     </el-dialog>
@@ -58,7 +58,6 @@
         text-align: left;
         .el-dialog__headerbtn {
           top: 3px;
-          right:-20px;
           .el-dialog__close {
             font-size: 25px;
             color: rgba(255,255,255,0.8);
@@ -77,12 +76,22 @@
         }
         .el-carousel__item{
           display: flex;
-          justify-content: center;
+          display:-webkit-box;
+          display:-ms-flexbox;
+          display:flex-box;
+          display:flex;
+          -webkit-box-align:center;
+          -ms-flex-align:center;
+          align-items:center;
+          -webkit-box-pack:center;
+          -ms-flex-pack:center;
+          justify-content:center;
+          text-align:center;
           img{
+            cursor:zoom-in;
             max-width: 1024px;
             @media screen and (max-width: 750px){
-              width: 325px;
-              justify-content: center;
+              width: 90%;
             }
           }
         }

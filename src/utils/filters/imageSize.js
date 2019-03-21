@@ -30,6 +30,8 @@ let imageSize = (url, size) => {
   const pattern = /(app|m|pc|web)-(\d{5})/g;
   if(size === 'origin') {
     return url.replace(pattern, `web-${imgMap.get(size)}`);
+  } else if(size === 'source') {
+    return url.split('?')[0];
   } else {
     return url.replace(pattern, `m-${imgMap.get(size)}`);
   }
