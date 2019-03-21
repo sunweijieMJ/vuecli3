@@ -39,14 +39,14 @@
               <span class="keytask-name" @click="pathSkip(`/foreground/fore_task/task_detail/${kt.task_id}`)">{{kt.task_name}}</span>
             </div>
             <div class="desc">
-              <div class="left" v-if="item.task_list.users_info[kt.task_owner_id]">
+              <div class="left">
                 <el-popover
                   placement="bottom-start"
                   trigger="hover">
-                  <img slot="reference" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)" :src="item.task_list.users_info[kt.task_owner_id].header_photo" alt="">
-                  <user-popover :userinfo="item.task_list.users_info[kt.task_owner_id]"></user-popover>
+                  <img slot="reference" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)" :src="kt.users_info.header_photo" alt="">
+                  <user-popover :userinfo="kt.users_info"></user-popover>
                 </el-popover>
-                <span class="name" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)">{{item.task_list.users_info[kt.task_owner_id].user_name}}</span>
+                <span class="name" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)">{{kt.users_info.user_name}}</span>
                 <span>{{kt.publish_time | timeFilter}}</span>
               </div>
               <div class="right">
@@ -125,9 +125,16 @@ export default {
         lastId: this.item.task_list.last_id
       }).then(res => {
         if(res.status){
+          let newKTlist = [];
+          newKTlist = res.data.list;
+          if(newKTlist.length){
+            for (let i = 0; i < newKTlist.length; i++) {
+              newKTlist[i].users_info = res.data.users_info[newKTlist[i].task_owner_id];
+            }
+          }
           let newKt = [];
           newKt = this.item.task_list.list;
-          newKt = newKt.concat(res.data.list);
+          newKt = newKt.concat(newKTlist);
           this.$set(this.item.task_list, 'list', newKt);
           this.$set(this.item.task_list, 'last_id', res.data.last_id);
           if(res.data.list.length){
