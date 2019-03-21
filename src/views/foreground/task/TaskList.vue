@@ -10,7 +10,7 @@
           <el-cascader
             v-if="active_task === 'all'"
             v-model="active_part"
-            placeholder="全部用户"
+            placeholder="全部作者"
             expand-trigger="hover"
             popper-class="custom-cascader"
             :options="part_list"
@@ -78,7 +78,7 @@
           }
         ],
         button_state: 1, // ETC 按钮状态记录
-        chekcout_view: 0, // ETC 切换试图
+        chekcout_view: 1, // ETC 切换试图
         switch_index: 0 // ETC 按钮切换识别
       };
     },
@@ -128,7 +128,16 @@
           lastId: this.loading.last_id
         }).then(res => {
           if(res.status){
-            this.group_list = this.group_list.concat(res.data.list);
+            let newList = [];
+            newList = res.data.list;
+            if(newList.length){
+              for (let i = 0; i < newList.length; i++) {
+                for (let j = 0; j < newList[i].task_list.list.length; j++) {
+                  newList[i].task_list.list[j].users_info = res.data.list[i].task_list.users_info[res.data.list[i].task_list.list[j].task_owner_id];
+                }
+              }
+            }
+            this.group_list = this.group_list.concat(newList);
             this.loading.last_id = res.data.last_id;
             this.pageInfo.page_total = Math.ceil(res.data.cnt / this.pageInfo.page_size);
           }
