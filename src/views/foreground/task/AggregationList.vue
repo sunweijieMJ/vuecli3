@@ -47,8 +47,8 @@
                   <user-popover :userinfo="kt.users_info"></user-popover>
                 </el-popover>
                 <span class="name" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)">{{kt.users_info.user_name}}</span>
-                <span v-if="kt.edit_time">{{kt.edit_time | timeFilter}}</span>
-                <span v-else>{{kt.create_time | timeFilter}}</span>
+                <span v-if="kt.edit_time">编辑于 {{kt.edit_time | timeFilter}}</span>
+                <span v-else>创建于 {{kt.create_time | timeFilter}}</span>
               </div>
               <div class="right">
                 <div>
