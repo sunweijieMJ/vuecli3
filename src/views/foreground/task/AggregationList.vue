@@ -123,7 +123,7 @@ export default {
         quser_id: this.obj.quser_id,
         status: this.obj.status, // ETC 完成或进行中的状态
         currPage: ++this.pages,
-        pages: 6,
+        pages: 5,
         lastId: this.item.task_list.last_id
       }).then(res => {
         if(res.status){
