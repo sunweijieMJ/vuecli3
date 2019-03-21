@@ -78,7 +78,7 @@
           }
         ],
         button_state: 1, // ETC 按钮状态记录
-        chekcout_view: 0, // ETC 切换试图
+        chekcout_view: 1, // ETC 切换试图
         switch_index: 0 // ETC 按钮切换识别
       };
     },
