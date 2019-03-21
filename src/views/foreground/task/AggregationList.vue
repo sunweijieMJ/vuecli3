@@ -1,6 +1,6 @@
 <template>
   <div class="aggregation">
-    <div class="okr-kt" v-for="(ac, aindex) in 1" :key="aindex">
+    <div class="okr-kt" v-if="item.task_list.list.length" v-for="(ac, aindex) in 1" :key="aindex">
       <el-collapse accordion v-model="activeNames" @change="handleChange">
         <el-collapse-item :name="aindex">
           <template slot="title">
