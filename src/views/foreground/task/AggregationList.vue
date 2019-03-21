@@ -63,7 +63,7 @@
         </ul>
       </div>
       <div class="check-more">
-        <span @click="CheckMore(item.obj_info.obj_id)" v-if="item.task_list.cnt > 5 && hiddenMore">查看更多KT</span>
+        <span @click="CheckMore(item.obj_info.obj_id)" v-if="item.task_list.cnt >= item.task_list.list.length && hiddenMore">查看更多KT</span>
       </div>
     </div>
   </div>
