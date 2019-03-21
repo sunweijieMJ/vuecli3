@@ -29,7 +29,7 @@
         <li v-for="(item, index) in (chekcout_view === 0 ? task_list : group_list)" :key="index">
           <single-task :item="item" v-if="chekcout_view === 0"></single-task>
           <AggregationList v-if="chekcout_view === 1" :item="item"
-          :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1}"
+          :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
           @addTask="addTask"></AggregationList>
         </li>
         <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
@@ -108,7 +108,9 @@
       chekcoutView(){
         if(this.chekcout_view === 0){
           this.chekcout_view = 1;
+          this.pageInfo.page_size = 5;
         }else{
+          this.pageInfo.page_size = 15;
           this.chekcout_view = 0;
         }
         this.resetData();
@@ -127,7 +129,7 @@
           quser_id: this.active_part[1],
           status: this.button_state, // ETC 完成或进行中的状态
           currPage: this.pageInfo.current_page,
-          pages: 15,
+          pages: 5,
           lastId: this.loading.last_id
         }).then(res => {
           if(res.status){
@@ -152,6 +154,7 @@
         let that = this;
         that.disabled = true;
         if(this.chekcout_view){
+          console.log(1)
           that.getGroupList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
             that.disabled = false;

@@ -13,9 +13,9 @@
                   <span class="okr-name" @click.stop="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info.obj_id}`)" v-if="item.obj_info">{{item.obj_info.okr_name}}</span>
                 </div>
               </div>
-              <div class="insert" v-if="item.obj_info.is_member">
+              <div class="insert" @click.stop="addTask" v-if="item.obj_info && item.obj_info.is_member && obj.switch_index === 0">
                 <span class="iconfont icon-icon_add2"></span>
-                <span class="add-kt" @click.stop="addTask">添加KT</span>
+                <span class="add-kt">添加KT</span>
               </div>
             </div>
           </template>
@@ -56,6 +56,10 @@
                 </div>
                 <div class="grocess">
                   <el-progress :percentage="kt.progress" :stroke-width="9"></el-progress>
+                  <!-- <p class="progress" v-else>
+                    <span>完成度</span>
+                    <i>{{kt.progress}}</i>
+                  </p> -->
                 </div>
               </div>
             </div>
@@ -279,9 +283,10 @@ export default {
       .insert{
         display: flex;
         align-items: center;
+        cursor: pointer;
+        @extend %textlight;
         .add-kt{
-          cursor: pointer;
-          @extend %textlight;
+          
         }
         .iconfont{
           margin-right: 5px;
@@ -374,6 +379,30 @@ export default {
                         border-radius: 8px;
                         height:9px;
                       }
+                    }
+                  }
+                }
+                .progress {
+                  display: flex;
+                  align-items: flex-end;
+                  span {
+                    font-size: $h4Font;
+                    color: $h2Color;
+                  }
+                  i {
+                    position: relative;
+                    margin-left: 10px;
+                    font-size: $h1Font;
+                    font-style: normal;
+                    font-weight: $h1Weight;
+                    line-height: 100%;
+                    color: $themeColor;
+                    &::after {
+                      content: '%';
+                      position: absolute;
+                      font-size: 13px;
+                      height: 12px;
+                      bottom: 7px;
                     }
                   }
                 }
