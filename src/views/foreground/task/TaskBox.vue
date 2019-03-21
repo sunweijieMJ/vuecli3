@@ -9,7 +9,7 @@
                 <span>{{witem.label}}</span>
                 <i class="iconfont icon-icon_more1"></i>
               </li>
-              <el-dropdown-menu slot="dropdown">
+              <el-dropdown-menu  class="task-report" slot="dropdown">
                 <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -226,6 +226,19 @@
             line-height: 1;
           }
         }
+      }
+    }
+  }
+  .task-report {
+    padding: 0;
+    .el-dropdown-menu__item {
+      padding: 16px;
+      font-size: $h3Font;
+      line-height: 1;
+      color: $h1Color;
+      &:hover {
+        color: $themeColor;
+        background-color: $backColor;
       }
     }
   }

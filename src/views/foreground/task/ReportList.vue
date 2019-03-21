@@ -1,6 +1,6 @@
 <template>
-  <div class="report-list" >
-    <div class="report-main" v-show="!loading.noresult">
+  <div class="report-list">
+    <div class="report-main" :style="{height: loading.noresult ? 'initial' : '100%'}">
       <div class="main-nav">
         <el-cascader
           v-if="active_report === 'all'"
@@ -15,13 +15,13 @@
           @active-item-change="handleItemChange"
           @change="resetList()"
         ></el-cascader>
-        <ul class="container" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
+        <ul class="container" v-show="!loading.noresult" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <li v-for="(item, index) in report_list" :key="index" :class="{active: current_report === index}" @click="getReportDetail(index)">
             <single-report :item="item"></single-report>
           </li>
         </ul>
       </div>
-      <div class="main-info">
+      <div class="main-info" v-show="!loading.noresult">
         <template v-if="report_detail">
           <single-info :info="report_detail"></single-info>
           <div class="feedback" v-if="report_list[current_report].is_leader && !report_list[current_report].is_feedback" :class="{focus: feedback.focus}">
