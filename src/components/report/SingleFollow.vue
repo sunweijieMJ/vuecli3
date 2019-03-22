@@ -9,7 +9,7 @@
             <single-status v-if="+item.status === 2" :text="'已完成'" :color="'#5581C7'" :back="'#EAF1FB'"></single-status>
           </h4>
           <p v-if="item.obj_info && item.obj_info[0]" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
-            <i class="iconfont icon-icon_link"></i>
+            <i class="iconfont icon-icon_link1"></i>
             <span>{{item.obj_info[0].objective_name}}</span>
           </p>
         </div>
@@ -123,7 +123,7 @@
     }
     .follow {
       padding: 17px 22px;
-      margin: 15px 0 0 30px;
+      margin: 15px 0 0 22px;
       border-radius:2px;
       background-color: $backColor;
       .title {
@@ -152,8 +152,8 @@
       }
       .content {
         font-size: $h3Font;
-        line-height: 1.4;
-        color: $h1Color;
+        line-height: 1.5;
+        color: $h2Color;
       }
     }
   }

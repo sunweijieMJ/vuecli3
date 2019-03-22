@@ -366,7 +366,7 @@
           flex: 1;
           display: flex;
           flex-wrap: wrap;
-          margin-left: 20px;
+          margin-left: 6px;
           .el-tag {
             height: 27px;
             padding: 0 15px;
@@ -428,18 +428,19 @@
           }
         }
         >.other {
-          padding: 0 $up-down 0 52px;
+          padding: 0 $up-down 0 32px;
           margin-top: $up-down;
           h4 {
+            margin-left: 20px;
             font-size: $h3Font;
             font-weight: $h1Weight;
             line-height: 1;
             color: $h1Color;
           }
           textarea {
-            margin-top: 10px;
+            margin-top: 8px;
             width: calc(100% - 40px);
-            padding: 0;
+            padding: 0 20px;
             border-radius: 2px;
             font-size: $h3Font;
             line-height: 25px;
@@ -453,6 +454,9 @@
               &::placeholder {
                 color: $h3Color;
               }
+            }
+            &:hover {
+              background-color: $backColor;
             }
             &:not(:focus).null {
               height: 25px !important;
@@ -469,6 +473,7 @@
     >.footer {
       display: flex;
       justify-content: center;
+      margin: 20px 0;
       .btn-box {
         box-sizing: border-box;
         width: 200px;
@@ -484,6 +489,7 @@
           width: 100%;
           height: 100%;
           border: none;
+          font-size: $h2Font;
           font-weight: normal;
           border-radius: 20px;
           @extend %imglight;

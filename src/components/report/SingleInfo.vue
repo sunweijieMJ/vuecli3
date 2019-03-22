@@ -9,7 +9,10 @@
             <img slot="reference" :src="info.basic.feedbacker_info.header_photo" alt="" @click.stop="pathSkip(`/foreground/fore_mine/profile/${info.basic.feedbacker_info.user_id}`)">
             <user-popover :userinfo="info.basic.feedbacker_info"></user-popover>
           </el-popover>
-          <h4>{{info.basic.feedbacker_info.real_name}} 的反馈</h4>
+          <h4>
+            <strong>{{info.basic.feedbacker_info.real_name}}</strong>
+            <span> 的反馈</span>
+          </h4>
         </div>
         <span>{{info.basic.feedback_time | timeFilter}}</span>
       </div>
@@ -112,7 +115,7 @@
 
   .single-info {
     >.feedback {
-      padding: 26px $left-right;
+      padding: 26px $left-right $left-right;
       margin-bottom: 6px;
       border-radius: 2px;
       background-color: #fff;
@@ -121,7 +124,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 3px;
         .user {
           display: flex;
           align-items: center;
@@ -134,10 +136,18 @@
           }
           h4 {
             margin-left: 10px;
-            font-size: $h3Font;
-            font-weight: $h1Weight;
-            line-height: 1;
-            color: $h1Color;
+            strong {
+              font-size: $h2Font;
+              font-weight: $h1Weight;
+              line-height: 1;
+              color: $h1Color;
+            }
+            span {
+              font-size: $h2Font;
+              font-weight: normal;
+              line-height: 1;
+              color: $h1Color;
+            }
           }
         }
         span {
@@ -149,7 +159,7 @@
       p {
         margin: 0 52px;
         font-size: $h3Font;
-        line-height: 1.4;
+        line-height: 1.6;
         color: $h1Color;
       }
     }
@@ -182,7 +192,7 @@
               justify-content: space-between;
               height: 44px;
               padding: 1px 0;
-              margin-left: 18px;
+              margin-left: 10px;
               h4 {
                 font-size: $h2Font;
                 font-weight: $h1Weight;
@@ -221,7 +231,7 @@
             flex: 1;
             display: flex;
             flex-wrap: wrap;
-            margin-left: 20px;
+            margin-left: 6px;
             span {
               height: 27px;
               padding: 0 15px;
@@ -242,6 +252,7 @@
           border-bottom: 2px solid $lineColor;
           &.summary {
             border-bottom: 0;
+            padding-bottom: 50px;
             .other {
               margin-top: 0;
             }
@@ -283,9 +294,9 @@
               color: $h1Color;
             }
             .desc {
-              margin-top: 15px;
+              margin-top: 12px;
               font-size: $h3Font;
-              line-height: 25px;
+              line-height: 1.6;
               color: $h1Color;
             }
           }
