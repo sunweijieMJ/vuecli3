@@ -61,12 +61,12 @@
             type: 'create'
           },
           {
-            label: '参与KT',
+            label: '我参与的',
             name: 'TaskList',
             type: 'take'
           },
           {
-            label: '团队KT',
+            label: '我团队的',
             name: 'TaskList',
             type: 'team'
           },

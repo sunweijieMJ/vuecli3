@@ -126,6 +126,12 @@ class Task extends Abstract {
     return this.postReq('Task.TaskClose', data);
   }
 
+  /**
+   * okr/Task聚合
+   */
+  getGroupList(data){
+    return this.getReq('Task.GroupList', data);
+  }
 }
 
 // 单列模式返回对象

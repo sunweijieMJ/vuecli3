@@ -11,6 +11,8 @@
             <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link1"></i>
             <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
           </p>
+        </div>
+        <div class="desc">
           <div class="owner" v-if="item.creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_info.user_id}`)">
             <el-popover
               placement="bottom"
@@ -19,20 +21,25 @@
               <user-popover :userinfo="item.creator_info"></user-popover>
             </el-popover>
             <span class="owner-name">{{item.creator_info.user_name}}</span>
+
+            <div class="update" v-if="item.edit_time || item.create_time">
+              <p v-if="item.edit_time">编辑于 {{item.edit_time | timeFilter}}</p>
+              <p v-else>创建于 {{item.create_time | timeFilter}}</p>
+            </div>
           </div>
-        </div>
-        <div class="desc">
-          <template>
-            <p v-if="item.duration_span" class="time">{{item.create_year}}-{{item.duration_span}}</p>
-            <p v-else class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
-          </template>
-          <template>
-            <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
-            <p class="progress" v-else>
-              <span>完成度</span>
-              <i>{{item.progress}}</i>
-            </p>
-          </template>
+          <div class="grocess">
+            <template>
+              <p v-if="item.duration_span" class="time">{{item.create_year}}-{{item.duration_span}}</p>
+              <p v-else class="time">{{`${Moment().format(item.start_time)}-${Moment().format(item.end_time)}`}}</p>
+            </template>
+            <template>
+              <el-progress :percentage="item.progress" :stroke-width="9" v-if="item.status === 1"></el-progress>
+              <p class="progress" v-else>
+                <span>完成度</span>
+                <i>{{item.progress}}</i>
+              </p>
+            </template>
+          </div>
         </div>
       </div>
       <task-check :item="item"></task-check>
@@ -53,10 +60,6 @@
         </h4>
         <p>{{item.check_info.remarks}}</p>
       </div>
-    </div>
-    <div class="update" v-else-if="item.edit_time || item.create_time">
-      <p v-if="item.edit_time">编辑于 {{item.edit_time | timeFilter}}</p>
-      <p v-else>创建于 {{item.create_time | timeFilter}}</p>
     </div>
   </div>
 </template>
@@ -91,12 +94,11 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      height: 100px;
-      padding: 25px $left-right;
+      padding: 19px $left-right;
       .info-title {
         display: flex;
         align-items: center;
-        margin-bottom: 13px;
+        margin-bottom: 10px;
         span {
           display: flex;
           justify-content: center;
@@ -105,7 +107,7 @@
           height: 16px;
           border-radius: 8px;
           background-color: $purple;
-          font-size: $h4Font;
+          font-size: 14px;
           color: #fff;
         }
         h4 {
@@ -118,13 +120,12 @@
         }
       }
       .info-desc {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         .okr {
+          margin-left: 44px;
           display: flex;
           align-items: center;
           .name {
+            
             display: flex;
             align-items: center;
             width: 270px;
@@ -136,20 +137,26 @@
               color: $themeColor;
             }
             i {
-              font-size: $h4Font;
-              color: #000;
+              font-size: 12px;
+              color: #909399;
             }
             span {
               @include tofl(250px);
-              margin-left: 7px;
+              line-height: 1;
+              margin-left: 3px;
               font-size: $h4Font;
-              color: $h2Color;
+              color: #909399;
             }
           }
+        }
+        .desc {
+          margin-top: 21px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
           .owner {
             display: flex;
             align-items: center;
-            margin-left: 40px;
             img {
               width: 20px;
               height: 20px;
@@ -159,18 +166,19 @@
             .owner-name {
               margin-left: 7px;
               font-size: $h4Font;
+              font-weight: 500;
               line-height: 1;
-              color: $h2Color;
+              color: #303133;
               cursor: pointer;
               @extend %textlight;
             }
           }
-        }
-        .desc {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 400px;
+          .grocess{
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
           .time {
             font-size: $h4Font;
             color: $h2Color;
@@ -271,12 +279,11 @@
     .update {
       display: flex;
       align-items: center;
-      height: 40px;
-      padding: 0 50px;
-      border-top: 1px solid $lineColor;
+      margin-left: 6px;
       p {
         font-size: $h4Font;
-        color: $h3Color;
+        color: #606266;
+        font-weight: 400;
       }
     }
   }
