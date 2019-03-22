@@ -6,19 +6,35 @@
           <div class="info">
             <div class="name">
               <span>KT</span>
-              <h4>PGS信息流，OKR上线</h4>
+              <h4>{{kt_info.task_name}}</h4>
             </div>
             <div class="num">
-              <li v-for="(item, index) in 4" :key="index">
+              <li>
                 <span>完成度</span>
-                <p>50%</p>
+                <p>{{kt_info.check_info.progress}}%</p>
+              </li>
+              <li>
+                <span>总投入时长</span>
+                <p>{{kt_info.check_info.spend_time}}天</p>
+              </li>
+              <li>
+                <span>满意度</span>
+                <el-rate class="small-rate" v-model="kt_info.check_info.review_performance" show-score disabled :allow-half="true" show-text
+                  :disabled-void-color="'#c0c4cc'"
+                  :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+              </li>
+              <li>
+                <span>相关度</span>
+                <el-rate class="small-rate" v-model="kt_info.check_info.review_relativity" show-score disabled :allow-half="true" show-text
+                  :disabled-void-color="'#c0c4cc'"
+                  :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </li>
             </div>
             <div class="desc">
-              <p :style="{'-webkit-line-clamp': test ? 2 : 4}">
-                <span>烧烧鱼饭</span>：这周有点问题，什么问题。这周有点问题，什么问题。这周有点什问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。这周这周有点问题，什么问题。这周有点问题，什么问题。这周有点什么问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。
+              <p :style="{'-webkit-line-clamp': show_text ? 4 : 2}">
+                <span>{{kt_info.check_info.creator_info.real_name}}</span>：{{kt_info.check_info.remarks}}
               </p>
-              <i class="iconfont" @click="test = !test" :class="test ? 'icon-xiangxia' : 'icon-xiangshang'"></i>
+              <i class="iconfont" @click="show_text = !show_text" :class="show_text ? 'icon-xiangshang' : 'icon-xiangxia'"></i>
             </div>
           </div>
           <div class="feedback">
@@ -26,23 +42,23 @@
             <div class="rate">
               <li>
                 <span>满意度</span>
-                <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+                <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </li>
               <li>
                 <span>相关度</span>
-                <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+                <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </li>
             </div>
-            <el-form-item>
-              <el-input class="custom-input" type="textarea" v-model="form.feedback" maxlength="50" placeholder="描述一下你的看法吧"></el-input>
+            <el-form-item prop="remark">
+              <el-input class="custom-input" type="textarea" v-model="form.remark" maxlength="50" placeholder="描述一下你的看法吧"></el-input>
             </el-form-item>
           </div>
         </div>
       </el-form>
       <div class="footer" slot="footer">
-        <el-checkbox class="custom-checkbox" v-model="form.checked">仅本人可见</el-checkbox>
+        <el-checkbox class="custom-checkbox" v-model="form.self_view">仅本人可见</el-checkbox>
         <div class="btn">
           <el-button class="cancel" @click="beforeClose">取消</el-button>
           <el-button class="confirm" @click="confirmClose('ruleForm')">确定</el-button>
@@ -59,13 +75,16 @@
   export default {
     data() {
       return {
-        test: false,
+        show_text: false,
         form: {
-          checked: false,
-          rate: 0,
-          feedback: ''
+          performance: 0, // ETC 满意度
+          relativity: 0, // ETC 相关度
+          remark: '', // ETC 反馈信息
+          self_view: false // ETC 仅本人可见
         },
-        rules: {}
+        rules: {
+          remark: [{required: true, message: ' ', trigger: 'change'}]
+        }
       };
     },
     methods: {
@@ -74,11 +93,12 @@
         let that = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            TaskApi().finishTask(that.close_info).then(res => {
+            const params = Object.assign({}, {task_id: that.kt_info.task_id}, that.form);
+            TaskApi().feedback(params).then(res => {
               if(res.status) {
-                this.$emit('handleTaskClose');
+                this.$emit('handleTaskFeedback');
                 that.closeDialog();
-                that.$message({message: '关闭成功', type: 'success'});
+                that.$message({message: '反馈成功', type: 'success'});
               } else {
                 that.$message({message: res.message, type: 'error'});
               }
@@ -111,6 +131,9 @@
       }
     },
     computed: {
+      kt_info() {
+        return this.task_feedback.parent;
+      },
       ...mapState({
         task_feedback: store => store.task_feedback
       })
@@ -123,6 +146,8 @@
 
   .task-feedback {
     .main {
+      max-height: 500px;
+      overflow-y: auto;
       .info {
         padding: $up-down $left-right;
         background-color: $backColor;
@@ -210,8 +235,9 @@
         }
       }
       .feedback {
-        padding: $up-down $left-right;
+        padding: 0 $left-right;
         h4 {
+          margin: $up-down 0;
           font-size: $h1Font;
           font-weight: $h1Weight;
           line-height: 1;

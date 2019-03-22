@@ -27,19 +27,13 @@
           </div>
           <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
             <li>
-              <h4>
-                <span>KT完成表现分</span>
-                <i class="iconfont icon-icon_info"></i>
-              </h4>
-              <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+              <span>满意度</span>
+              <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </li>
             <li>
-              <h4>
-                <span>OKR的相关程度</span>
-                <i class="iconfont icon-icon_info"></i>
-              </h4>
-              <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+              <span>相关度</span>
+              <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </li>
           </div>
@@ -68,7 +62,8 @@
         task_info: '',
         form: {
           type: '1',
-          rate: 0,
+          performance: 0,
+          relativity: 0,
           summary: '',
           percent: '',
           duration: ''
@@ -124,7 +119,8 @@
           remark: that.form.summary,
           speedTime: that.form.duration,
           progress: that.form.percent,
-          feel: that.form.rate,
+          performance: that.form.performance,
+          relativity: that.form.relativity,
           type: that.form.type
         };
       },
@@ -211,18 +207,11 @@
           &:last-child {
             margin-bottom: 0;
           }
-          h4 {
+          span {
+            font-size: $h3Font;
+            font-weight: 400;
             line-height: 1;
-            span {
-              font-size: $h3Font;
-              font-weight: 400;
-              color: $h2Color;
-            }
-            i {
-              margin-left: 5px;
-              font-size: $h3Font;
-              color: $h1Color;
-            }
+            color: $h2Color;
           }
           .el-rate {
             margin-left: 15px;
