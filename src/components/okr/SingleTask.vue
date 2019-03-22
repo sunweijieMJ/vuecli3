@@ -98,7 +98,7 @@
       .info-title {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         span {
           display: flex;
           justify-content: center;
@@ -191,6 +191,7 @@
               padding: 0;
               margin: 0;
               .el-progress-bar__outer {
+                background: #DEDEDE;
                 width: 145px;
                 .el-progress-bar__inner {
                   background: linear-gradient(90deg,rgba(251,136,81,1) 0%,rgba(226,82,108,1) 100%);

@@ -176,7 +176,7 @@ export default {
     background: white;
     .kr-box{
       background: #FAFAFA;
-      padding: 0 50px 16px 50px;
+      padding: 0 50px 9px 50px;
       li{
         display: flex;
         justify-content: space-between;
@@ -398,16 +398,17 @@ export default {
               .grocess{
                 .el-progress{
                   margin-left: 50px;
-                  width: 170px;
+                  width: 190px;
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
+                  .el-progress__text{
+                    font-size: 13px !important;
+                  }
                   .el-progress-bar{
-                    .el-progress__text{
-                      font-size: 13px !important;
-                    }
+                    
                     .el-progress-bar__outer{
-                      width: 130px;
+                      width: 145px;
                       height: 9px;
                       background: #DEDEDE;
                       border-radius: 8px;
