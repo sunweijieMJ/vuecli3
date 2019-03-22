@@ -21,7 +21,8 @@
           ></el-cascader>
         </div>
         <div class="checkout-btn">
-          <span class="iconfont icon-icon_view"></span>
+          <span class="iconfont icon-icon_view" v-if="!chekcout_view"></span>
+          <span class="iconfont icon-icon_view2" v-else></span>
           <span class="checkout-view" @click="chekcoutView">切换视图</span>
         </div>
       </div>
@@ -296,9 +297,10 @@
         font-weight:400;
         color: #303133;
         line-height: 1;
+        cursor: pointer;
+        @extend %textlight;
         .checkout-view{
-          cursor: pointer;
-          @extend %textlight;
+          
         }
         .iconfont{
           margin-right: 4px;

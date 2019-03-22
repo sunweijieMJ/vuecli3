@@ -125,7 +125,6 @@
           display: flex;
           align-items: center;
           .name {
-            
             display: flex;
             align-items: center;
             width: 270px;
@@ -137,11 +136,12 @@
               color: $themeColor;
             }
             i {
-              font-size: $h4Font;
+              font-size: 12px;
               color: #909399;
             }
             span {
               @include tofl(250px);
+              line-height: 1;
               margin-left: 3px;
               font-size: $h4Font;
               color: #909399;
