@@ -1,44 +1,42 @@
 <template>
   <div class="task-list">
-    <no-result v-if="loading.noresult"></no-result>
-    <template v-else>
-      <div class="task-select">
-        <div class="check-left">
-          <div class="switch-checkout">
-            <span :class="switch_index === sindex ? 'hight' : ''" v-for="(s, sindex) in switch_btn" :key="sindex" @click="switchButton(sindex, s.status)">{{s.btn}}</span>
-          </div>
-          <el-cascader
-            v-if="active_task === 'all'"
-            v-model="active_part"
-            placeholder="全部作者"
-            expand-trigger="hover"
-            popper-class="custom-cascader"
-            :options="part_list"
-            :clearable="true"
-            :show-all-levels="false"
-            @active-item-change="handleItemChange"
-            @change="resetList()"
-          ></el-cascader>
+    <div class="task-select">
+      <div class="check-left">
+        <div class="switch-checkout">
+          <span :class="switch_index === sindex ? 'hight' : ''" v-for="(s, sindex) in switch_btn" :key="sindex" @click="switchButton(sindex, s.status)">{{s.btn}}</span>
         </div>
-        <div class="checkout-btn">
-          <span class="iconfont icon-icon_view" v-if="!chekcout_view"></span>
-          <span class="iconfont icon-icon_view2" v-else></span>
-          <span class="checkout-view" @click="chekcoutView">切换视图</span>
-        </div>
+        <el-cascader
+          v-if="active_task === 'all'"
+          v-model="active_part"
+          placeholder="全部作者"
+          expand-trigger="hover"
+          popper-class="custom-cascader"
+          :options="part_list"
+          :clearable="true"
+          :show-all-levels="false"
+          @active-item-change="handleItemChange"
+          @change="resetList()"
+        ></el-cascader>
       </div>
-      <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-        <li v-for="(item, index) in (chekcout_view === 0 ? task_list : group_list)" :key="index">
-          <single-task :item="item" v-show="chekcout_view === 0"></single-task>
-          <AggregationList v-show="chekcout_view === 1" :item="item"
-          :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
-          @addTask="addTask"></AggregationList>
-        </li>
-        <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
-      </ul>
-      <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
-      <task-follow @handleTaskCheck="resetList()"></task-follow>
-      <task-close @handleTaskClose="resetList()"></task-close>
-    </template>
+      <div class="checkout-btn">
+        <span class="iconfont icon-icon_view" v-if="!chekcout_view"></span>
+        <span class="iconfont icon-icon_view2" v-else></span>
+        <span class="checkout-view" @click="chekcoutView">切换视图</span>
+      </div>
+    </div>
+    <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
+      <li v-for="(item, index) in (chekcout_view === 0 ? task_list : group_list)" :key="index">
+        <single-task :item="item" v-show="chekcout_view === 0"></single-task>
+        <AggregationList v-show="chekcout_view === 1" :item="item"
+        :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
+        @addTask="addTask"></AggregationList>
+      </li>
+      <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
+    </ul>
+    <no-result v-if="loading.noresult"></no-result>
+    <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
+    <task-follow @handleTaskCheck="resetList()"></task-follow>
+    <task-close @handleTaskClose="resetList()"></task-close>
   </div>
 </template>
 <script>
@@ -211,7 +209,6 @@
               that.$set(that.part_list, i, that.part_list[i]);
             }
           }
-          this.resetData();
         });
       },
       // 角色列表
@@ -288,7 +285,7 @@
       margin: 12px auto 0;
     }
     .task-select{
-      
+
       .checkout-btn{
         cursor: pointer;
         display: flex;
@@ -301,7 +298,7 @@
         cursor: pointer;
         @extend %textlight;
         .checkout-view{
-          
+
         }
         .iconfont{
           margin-right: 4px;
