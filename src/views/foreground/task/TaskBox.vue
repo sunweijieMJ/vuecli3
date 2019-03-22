@@ -124,7 +124,7 @@
       // 获取未读消息
       getReportUnread() {
         ReportApi().getReportUnread({}).then(res => {
-          this.unread.report = true || Boolean(res.data.wait_read);
+          this.unread.report = Boolean(res.data.wait_read);
         });
       }
     },
