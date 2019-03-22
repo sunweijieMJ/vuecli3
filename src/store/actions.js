@@ -57,6 +57,9 @@ const actions = {
   setTaskFollow: ({commit}, data) => {
     commit(types.TASK_FOLLOW, data);
   },
+  setTaskFeedback: ({commit}, data) => {
+    commit(types.TASK_FEEDBACK, data);
+  },
   setUploadPhoto: ({commit}, data) => {
     commit(types.UPLOAD_PHOTO, data);
   },

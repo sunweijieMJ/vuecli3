@@ -30,7 +30,7 @@
               <textarea :placeholder="`点评下${report_detail.basic.user_info.real_name}的周报吧`" maxlength="1000"
                 v-model="feedback.text" @focus="feedback.focus = true"></textarea>
               <div class="control" v-if="feedback.focus">
-                <el-checkbox v-model="feedback.checked">仅本人可见</el-checkbox>
+                <el-checkbox class="custom-checkbox" v-model="feedback.checked">仅本人可见</el-checkbox>
                 <div class="btn">
                   <span @click="feedback.focus = false">取消</span>
                   <el-button class="confirm" @click="publishFeedBack">提交</el-button>
@@ -330,30 +330,6 @@
               justify-content: space-between;
               align-items: center;
               padding: 7px 16px;
-              .el-checkbox {
-                .el-checkbox__input {
-                  .el-checkbox__inner {
-                    box-sizing: border-box;
-                    width: 18px;
-                    height: 18px;
-                    border-radius: 50%;
-                    &::after {
-                      top: 3px;
-                      left: 6px;
-                    }
-                  }
-                  &.is-focus .el-checkbox__inner{
-                    border-color: #dcdfe6;
-                  }
-                }
-                &.is-checked .el-checkbox__inner {
-                  border-color: $linkBlue;
-                  background-color: $linkBlue;
-                }
-                 &.is-checked .el-checkbox__label {
-                   color: $linkBlue;
-                 }
-              }
               .btn {
                 >span {
                   margin-right: 22px;

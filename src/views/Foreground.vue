@@ -46,6 +46,7 @@
     <div class="main">
       <router-view></router-view>
     </div>
+    <task-feedback></task-feedback>
   </div>
 </template>
 <script>
@@ -54,8 +55,10 @@
   import NoticeApi from '../api/Notice.js';
   import frequent from '../mixins/frequent.js';
   import readMore from '../utils/filters/readMore.js';
+  import {TaskFeedback} from '../components/okr';
 
   export default {
+    components: {TaskFeedback},
     mixins: [frequent],
     data() {
       return {

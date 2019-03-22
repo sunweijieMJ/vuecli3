@@ -6,5 +6,6 @@ export const OKR_PUBLISH = 'OKR_PUBLISH'; // ETC 发布OKR弹框
 export const TASK_PUBLISH = 'TASK_PUBLISH'; // ETC 发布Task弹框
 export const TASK_CLOSE = 'TASK_CLOSE'; // ETC 关闭Task弹框
 export const TASK_FOLLOW = 'TASK_FOLLOW'; // ETC 跟进Task弹框
+export const TASK_FEEDBACK = 'TASK_FEEDBACK'; // ETC Task feedback
 export const UPLOAD_PHOTO = 'UPLOAD_PHOTO'; // ETC 修改头像弹框
 export const SEND_FLAG = 'SEND_FLAG'; // ETC 发送action

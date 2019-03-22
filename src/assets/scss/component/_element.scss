@@ -264,6 +264,32 @@ $up-down: 30px;
   }
 }
 
+// checkbox
+.custom-checkbox {
+  .el-checkbox__input {
+    .el-checkbox__inner {
+      box-sizing: border-box;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      &::after {
+        top: 3px;
+        left: 6px;
+      }
+    }
+    &.is-focus .el-checkbox__inner{
+      border-color: #dcdfe6;
+    }
+  }
+  &.is-checked .el-checkbox__inner {
+    border-color: $linkBlue;
+    background-color: $linkBlue;
+  }
+  &.is-checked .el-checkbox__label {
+    color: $linkBlue;
+  }
+}
+
 // message
 .el-message-box {
   width: 460px;

@@ -17,22 +17,35 @@
               <el-radio class="custom-radio" v-model="form.type" label="2">已完成</el-radio>
             </div>
           </div>
-          <div class="rate">
-            <h4>自我评价</h4>
-            <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
-              :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
-          </div>
-          <div class="summary">
-            <el-form-item prop="summary">
-              <el-input class="custom-input" type="textarea" v-model="form.summary" placeholder="记录下最新的进展吧"></el-input>
-            </el-form-item>
-          </div>
           <div class="num">
             <el-form-item label="完成度" prop="percent">
               <el-input class="custom-input" v-model="form.percent" placeholder="最小单位为1"></el-input>
             </el-form-item>
             <el-form-item label="投入时长" prop="duration">
-              <el-input class="custom-input" v-model="form.duration" placeholder="最小单位为0.1"></el-input>
+              <el-input class="custom-input" v-model="form.duration" placeholder="最小单位为0.5"></el-input>
+            </el-form-item>
+          </div>
+          <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
+            <li>
+              <h4>
+                <span>KT完成表现分</span>
+                <i class="iconfont icon-icon_info"></i>
+              </h4>
+              <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+                :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+            </li>
+            <li>
+              <h4>
+                <span>OKR的相关程度</span>
+                <i class="iconfont icon-icon_info"></i>
+              </h4>
+              <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+                :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+            </li>
+          </div>
+          <div class="summary">
+            <el-form-item prop="summary">
+              <el-input class="custom-input" type="textarea" v-model="form.summary" maxlength="500" :placeholder="form.type === '1' ? '记录下执行中遇到的问题、个人表现和最新进展吧' : '对整个KT做下复盘吧'"></el-input>
             </el-form-item>
           </div>
         </div>
@@ -136,6 +149,7 @@
 
   .task-follow {
     .main {
+      transition: height 0.5s;
       .status {
         display: flex;
         padding: $up-down $left-right;
@@ -148,44 +162,6 @@
         }
         .radio {
           margin-left: 60px;
-        }
-      }
-      .rate {
-        display: flex;
-        align-items: center;
-        padding: $up-down $left-right;
-        h4 {
-          font-size: $h3Font;
-          font-weight: 400;
-          line-height: 21px;
-          color: $h2Color;
-        }
-        .el-rate {
-          margin-left: 15px;
-        }
-      }
-      .summary {
-        padding: 0 $left-right;
-        .is-error {
-          textarea {
-            border-color: #f56c6c;
-          }
-        }
-        textarea {
-          box-sizing: border-box;
-          width: 100%;
-          height: 152px;
-          padding: 10px 20px;
-          border-radius: 2px;
-          font-size: $h3Font;
-          line-height: 25px;
-          resize: none;
-          background: $backColor;
-          &::placeholder {
-            font-size: $h3Font;
-            line-height: 28px;
-            color: $h3Color;
-          }
         }
       }
       .num {
@@ -221,6 +197,59 @@
               content: '%';
               top: 14px;right: 30px;
             }
+          }
+        }
+      }
+      .rate {
+        padding: 0 $left-right;
+        overflow: hidden;
+        transition: height 0.5s;
+        li {
+          display: flex;
+          align-items: center;
+          margin-bottom: $up-down;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          h4 {
+            line-height: 1;
+            span {
+              font-size: $h3Font;
+              font-weight: 400;
+              color: $h2Color;
+            }
+            i {
+              margin-left: 5px;
+              font-size: $h3Font;
+              color: $h1Color;
+            }
+          }
+          .el-rate {
+            margin-left: 15px;
+          }
+        }
+      }
+      .summary {
+        padding: 0 $left-right $up-down;
+        .is-error {
+          textarea {
+            border-color: #f56c6c;
+          }
+        }
+        textarea {
+          box-sizing: border-box;
+          width: 100%;
+          height: 152px;
+          padding: 10px 20px;
+          border-radius: 2px;
+          font-size: $h3Font;
+          line-height: 25px;
+          resize: none;
+          background: $backColor;
+          &::placeholder {
+            font-size: $h3Font;
+            line-height: 28px;
+            color: $h3Color;
           }
         }
       }
