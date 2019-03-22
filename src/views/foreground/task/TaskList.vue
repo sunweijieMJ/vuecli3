@@ -27,8 +27,8 @@
       </div>
       <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
         <li v-for="(item, index) in (chekcout_view === 0 ? task_list : group_list)" :key="index">
-          <single-task :item="item" v-if="chekcout_view === 0"></single-task>
-          <AggregationList v-if="chekcout_view === 1" :item="item"
+          <single-task :item="item" v-show="chekcout_view === 0"></single-task>
+          <AggregationList v-show="chekcout_view === 1" :item="item"
           :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
           @addTask="addTask"></AggregationList>
         </li>
@@ -113,6 +113,7 @@
           this.pageInfo.page_size = 15;
           this.chekcout_view = 0;
         }
+        window.sessionStorage.setItem('chekcout_view', this.chekcout_view);
         this.resetData();
       },
       // 切换状态列表
@@ -153,6 +154,9 @@
       infinite() {
         let that = this;
         that.disabled = true;
+        if(window.sessionStorage.getItem('chekcout_view')){
+          this.chekcout_view = +window.sessionStorage.getItem('chekcout_view');
+        }
         if(this.chekcout_view){
           this.pageInfo.page_size = 5;
           that.getGroupList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {

@@ -1,73 +1,77 @@
 <template>
   <div class="aggregation">
-    <div class="okr-kt" v-if="item.task_list.list.length" v-for="(ac, aindex) in 1" :key="aindex">
-      <el-collapse accordion v-model="activeNames" @change="handleChange">
-        <el-collapse-item :name="aindex">
-          <template slot="title">
-            <div class="title-box">
-              <div class="title-mes">
-                <div :class="{icon: true, isActive: activeJudge(aindex)}">
-                  <span style="cursor: pointer;" class="iconfont icon-sanjiaoyou"></span>
+    <div v-if="item.task_list && item.task_list.list.length">
+      <div class="okr-kt" v-for="(ac, aindex) in 1" :key="aindex">
+        <el-collapse accordion v-model="activeNames" @change="handleChange">
+          <el-collapse-item :name="aindex">
+            <template slot="title">
+              <div class="title-box" @mouseover="mouseenter" @mouseout="mouseout">
+                <div class="title-mes">
+                  <div :class="{icon: true, isActive: activeJudge(aindex)}">
+                    <span style="cursor: pointer;" class="iconfont icon-sanjiaoyou"></span>
+                  </div>
+                  <div>
+                    <span class="okr-name" @click.stop="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info.obj_id}`)" v-if="item.obj_info">{{item.obj_info.okr_name}}</span>
+                  </div>
                 </div>
-                <div>
-                  <span class="okr-name" @click.stop="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info.obj_id}`)" v-if="item.obj_info">{{item.obj_info.okr_name}}</span>
+                <div class="insert" @mouseenter="mouseenter" @click.stop="addTask" v-if="item.obj_info && item.obj_info.is_member && obj.switch_index === 0 && mouse_state">
+                  <span class="span2">
+                    <span @mouseenter="mouseenter" class="iconfont icon-icon_add2"></span>
+                    <span @mouseenter="mouseenter" class="add-kt">添加KT</span>
+                  </span>
                 </div>
               </div>
-              <div class="insert" @click.stop="addTask" v-if="item.obj_info && item.obj_info.is_member && obj.switch_index === 0">
-                <span class="iconfont icon-icon_add2"></span>
-                <span class="add-kt">添加KT</span>
+            </template>
+            <ul class="kr-box">
+              <li v-for="(kr, krindex) in item.newKr" :key="krindex">
+                <div class="okr-krs">
+                  <span class="tags">KR</span><span>{{kr.kr_name}}</span>
+                </div>
+                <div class="confidence">
+                  <span>信心指数 </span><span class="percent">{{kr.confidenc_index}}%</span>
+                </div>
+              </li>
+            </ul>
+          </el-collapse-item>
+        </el-collapse>
+        <div class="kt-box">
+          <ul>
+            <li v-for="(kt, ktindex) in item.task_list.list" :key="ktindex + pages">
+              <div class="keytask">
+                <span class="KT">KT</span>
+                <span class="keytask-name" @click="pathSkip(`/foreground/fore_task/task_detail/${kt.task_id}`)">{{kt.task_name}}</span>
               </div>
-            </div>
-          </template>
-          <ul class="kr-box">
-            <li v-for="(kr, krindex) in item.newKr" :key="krindex">
-              <div class="okr-krs">
-                <span class="tags">KR</span><span>{{kr.kr_name}}</span>
-              </div>
-              <div class="confidence">
-                <span>信心指数 </span><span class="percent">{{kr.confidenc_index}}%</span>
+              <div class="desc">
+                <div class="left">
+                  <el-popover
+                    placement="bottom-start"
+                    trigger="hover">
+                    <img slot="reference" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)" :src="kt.users_info.header_photo" alt="">
+                    <user-popover :userinfo="kt.users_info"></user-popover>
+                  </el-popover>
+                  <span class="name" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)">{{kt.users_info.user_name}}</span>
+                  <span v-if="kt.edit_time">编辑于 {{kt.edit_time | timeFilter}}</span>
+                  <span v-else>创建于 {{kt.create_time | timeFilter}}</span>
+                </div>
+                <div class="right">
+                  <div>
+                    <span>{{`${Moment().format(kt.start_time)}-${Moment().format(kt.end_time)}`}}</span><span></span>
+                  </div>
+                  <div class="grocess">
+                    <el-progress :percentage="kt.progress" :stroke-width="9"></el-progress>
+                    <!-- <p class="progress" v-else>
+                      <span>完成度</span>
+                      <i>{{kt.progress}}</i>
+                    </p> -->
+                  </div>
+                </div>
               </div>
             </li>
           </ul>
-        </el-collapse-item>
-      </el-collapse>
-      <div class="kt-box">
-        <ul>
-          <li v-for="(kt, ktindex) in item.task_list.list" :key="ktindex + pages">
-            <div class="keytask">
-              <span class="KT">KT</span>
-              <span class="keytask-name" @click="pathSkip(`/foreground/fore_task/task_detail/${kt.task_id}`)">{{kt.task_name}}</span>
-            </div>
-            <div class="desc">
-              <div class="left">
-                <el-popover
-                  placement="bottom-start"
-                  trigger="hover">
-                  <img slot="reference" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)" :src="kt.users_info.header_photo" alt="">
-                  <user-popover :userinfo="kt.users_info"></user-popover>
-                </el-popover>
-                <span class="name" v-if="kt.users_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${kt.creator_id}`)">{{kt.users_info.user_name}}</span>
-                <span v-if="kt.edit_time">编辑于 {{kt.edit_time | timeFilter}}</span>
-                <span v-else>创建于 {{kt.create_time | timeFilter}}</span>
-              </div>
-              <div class="right">
-                <div>
-                  <span>{{`${Moment().format(kt.start_time)}-${Moment().format(kt.end_time)}`}}</span><span></span>
-                </div>
-                <div class="grocess">
-                  <el-progress :percentage="kt.progress" :stroke-width="9"></el-progress>
-                  <!-- <p class="progress" v-else>
-                    <span>完成度</span>
-                    <i>{{kt.progress}}</i>
-                  </p> -->
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="check-more">
-        <span @click="CheckMore(item.obj_info.obj_id)" v-if="item.task_list.cnt > item.task_list.list.length && hiddenMore">查看更多KT</span>
+        </div>
+        <div class="check-more">
+          <span @click="CheckMore(item.obj_info.obj_id)" v-if="item.task_list.cnt > item.task_list.list.length && hiddenMore">查看更多KT</span>
+        </div>
       </div>
     </div>
   </div>
@@ -92,10 +96,17 @@ export default {
       activeNames: '',
       okr_list: [], // ETC okr列表
       pages: 1,
-      hiddenMore: true
+      hiddenMore: true,
+      mouse_state: false
     };
   },
   methods: {
+    mouseenter(){
+      this.mouse_state = true;
+    },
+    mouseout(){
+      this.mouse_state = false;
+    },
     addTask(){
       this.$emit('addTask', this.item.obj_info);
     },
@@ -165,11 +176,11 @@ export default {
     background: white;
     .kr-box{
       background: #FAFAFA;
-      padding: 0 50px;
+      padding: 0 50px 16px 50px;
       li{
         display: flex;
         justify-content: space-between;
-        padding-bottom: 19px;
+        padding-bottom: 12px;
         .okr-krs{
           display: flex;
           align-items: center;
@@ -189,9 +200,12 @@ export default {
             color: #FFFFFF;
             margin-right: 10px;
           }
+          span{
+            line-height: 1;
+          }
         }
         .confidence{
-          width: 95px;
+          width: 91px;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -280,11 +294,25 @@ export default {
       font-weight:500;
       color: #303133;
       font-size: 15px;
+      position: relative;
       .insert{
+        width: 500px;
+        background-image: url('../../../../static/img/jianbian_bg.png');
+        background-size: 100% 100%;
+        padding-right: 36px;
+        position: absolute;
+        top: 0;
+        right: 0;
         display: flex;
         align-items: center;
-        cursor: pointer;
-        @extend %textlight;
+        justify-content: flex-end;
+        .span2{
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          cursor: pointer;
+          @extend %textlight;
+        }
         .add-kt{
           
         }
