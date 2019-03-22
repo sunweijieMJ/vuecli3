@@ -229,7 +229,7 @@
 <style lang="scss">
   .report-list {
     box-sizing: border-box;
-    height: calc(100vh - 144px);
+    height: calc(100vh - 152px);
     padding-top: 12px;
     .report-main {
       display: flex;
