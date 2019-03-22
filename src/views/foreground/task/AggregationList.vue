@@ -58,11 +58,11 @@
                     <span>{{`${Moment().format(kt.start_time)}-${Moment().format(kt.end_time)}`}}</span><span></span>
                   </div>
                   <div class="grocess">
-                    <el-progress :percentage="kt.progress" :stroke-width="9"></el-progress>
-                    <!-- <p class="progress" v-else>
+                    <el-progress :percentage="kt.progress" :stroke-width="9" v-if="kt.status === 1"></el-progress>
+                    <p class="progress" v-else>
                       <span>完成度</span>
                       <i>{{kt.progress}}</i>
-                    </p> -->
+                    </p>
                   </div>
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default {
       li{
         display: flex;
         justify-content: space-between;
-        padding-bottom: 12px;
+        padding-bottom: 16px;
         .okr-krs{
           display: flex;
           align-items: center;
@@ -212,6 +212,9 @@ export default {
           font-size: 13px;
           font-weight: 400;
           color: #909399;
+          span{
+            line-height: 1;
+          }
           .percent{
             color: #303133;
           }
@@ -297,7 +300,7 @@ export default {
       position: relative;
       .insert{
         width: 500px;
-        background-image: url('../../../../static/img/jianbian_bg.png');
+        background-image: url('../../../../static/img/pnl_bg.png');
         background-size: 100% 100%;
         padding-right: 36px;
         position: absolute;
@@ -392,11 +395,14 @@ export default {
               .grocess{
                 .el-progress{
                   margin-left: 50px;
-                  width: 190px;
+                  width: 170px;
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
                   .el-progress-bar{
+                    .el-progress__text{
+                      font-size: 13px !important;
+                    }
                     .el-progress-bar__outer{
                       width: 130px;
                       height: 9px;
@@ -411,8 +417,12 @@ export default {
                   }
                 }
                 .progress {
+                  width: 170px;
+                  margin-left: 50px;
                   display: flex;
+                  justify-content: flex-end;
                   align-items: flex-end;
+                  padding-bottom: 7px;
                   span {
                     font-size: $h4Font;
                     color: $h2Color;
