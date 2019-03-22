@@ -151,7 +151,7 @@
         let that = this;
         that.disabled = true;
         if(this.chekcout_view){
-          console.log(1)
+          this.pageInfo.page_size = 5;
           that.getGroupList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
             that.disabled = false;
@@ -167,6 +167,7 @@
             }
           });
         }else{
+          this.pageInfo.page_size = 15;
           that.getTaskList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
             that.disabled = false;
