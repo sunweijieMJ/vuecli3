@@ -21,7 +21,7 @@
           </el-tab-pane>
         </el-tabs>
         <div class="write-report" v-if="active_menu === 'ReportList'" @click="querySkip('ReportRedact')">
-          <i class="iconfont icon-icon_add"></i>
+          <i class="iconfont icon-icon_add3"></i>
           <span>写周报</span>
         </div>
       </div>
@@ -124,7 +124,7 @@
       // 获取未读消息
       getReportUnread() {
         ReportApi().getReportUnread({}).then(res => {
-          this.unread.report = Boolean(res.data.wait_read);
+          this.unread.report = true || Boolean(res.data.wait_read);
         });
       }
     },
@@ -177,8 +177,9 @@
                 .el-badge {
                   vertical-align: initial;
                   .is-dot {
+                    border: none;
                     top: 6px;
-                    right: 0;
+                    right: -3px;
                   }
                 }
                 li {
@@ -217,11 +218,11 @@
           cursor: pointer;
           @extend %imglight;
           i {
-            font-size: 20px;
+            font-size: 22px;
           }
           span {
-            margin-left: 5px;
-            font-size: $h3Font;
+            margin-left: 8px;
+            font-size: $h2Font;
             font-weight: $h1Weight;
             line-height: 1;
           }
@@ -231,15 +232,23 @@
   }
   .task-report {
     padding: 0;
+    border-radius: 2px;
     .el-dropdown-menu__item {
       padding: 16px;
       font-size: $h3Font;
       line-height: 1;
       color: $h1Color;
+      border-bottom: 1px solid $lineColor;
+      &:last-of-type {
+        border-bottom: 0;
+      }
       &:hover {
-        color: $themeColor;
+        color: $h1Color;
         background-color: $backColor;
       }
+    }
+    .popper__arrow {
+      display: none;
     }
   }
 </style>

@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="chao-link">
-          <span class="iconfont icon-icon_link" v-show="okr_name ? okr_name : false"></span>
+          <span class="iconfont icon-icon_link1" v-show="okr_name ? okr_name : false"></span>
           <span class="chao-limit" @click="goOkrDetail(obj_id)">{{okr_name}}</span>
         </div>
         <div class="joinners">
