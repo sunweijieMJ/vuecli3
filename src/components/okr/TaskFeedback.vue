@@ -14,10 +14,9 @@
                 <p>50%</p>
               </li>
             </div>
-            <div class="desc">
-              <h5>烧烧鱼饭</h5>
-              <p>：这周有点问题，什么问题。这周有点问题，什么问题。这周有点什问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。这周这周有点问题，什么问题。这周有点问题，什么问题。这周有点什么问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。</p>
-            </div>
+            <p class="desc">
+              <span>烧烧鱼饭</span>：这周有点问题，什么问题。这周有点问题，什么问题。这周有点什问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。这周这周有点问题，什么问题。这周有点问题，什么问题。这周有点什么问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。
+            </p>
           </div>
           <div class="feedback"></div>
         </div>
@@ -166,16 +165,12 @@
           }
         }
         .desc {
-          h5 {
-            font-size: $h3Font;
+          @include erow(2);
+          font-size: $h3Font;
+          line-height: 25px;
+          color: $h1Color;
+          span {
             font-weight: $h1Weight;
-            line-height: 25px;
-            color: $h1Color;
-          }
-          p {
-            font-size: $h3Font;
-            line-height: 25px;
-            color: $h1Color;
           }
         }
       }
