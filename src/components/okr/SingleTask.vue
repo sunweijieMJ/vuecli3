@@ -8,7 +8,7 @@
       <div class="info-desc">
         <div class="okr">
           <p class="name" @click="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info[0].obj_id}`)">
-            <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link"></i>
+            <i v-if="item.obj_info && item.obj_info.length && item.obj_info[0]" class="iconfont icon-icon_link1"></i>
             <span v-if="item.obj_info && item.obj_info.length && item.obj_info[0]">{{item.obj_info[0].objective_name}}</span>
           </p>
           <div class="owner" v-if="item.creator_info" @click.stop="pathSkip(`/foreground/fore_mine/profile/${item.creator_info.user_id}`)">

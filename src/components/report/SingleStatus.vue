@@ -15,9 +15,7 @@
     width: 54px;
     height: 18px;
     border-radius: 9px;
-    border: 1px solid;
     font-size: $h4Font;
     font-weight: $h1Weight;
-    line-height: 1;
   }
 </style>
