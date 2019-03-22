@@ -14,11 +14,31 @@
                 <p>50%</p>
               </li>
             </div>
-            <p class="desc">
-              <span>烧烧鱼饭</span>：这周有点问题，什么问题。这周有点问题，什么问题。这周有点什问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。这周这周有点问题，什么问题。这周有点问题，什么问题。这周有点什么问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。
-            </p>
+            <div class="desc">
+              <p :style="{'-webkit-line-clamp': test ? 2 : 4}">
+                <span>烧烧鱼饭</span>：这周有点问题，什么问题。这周有点问题，什么问题。这周有点什问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。这周这周有点问题，什么问题。这周有点问题，什么问题。这周有点什么问题。这周有点问题什么问题。这周有点问题，什么问题。这周有点问题，什么问题。
+              </p>
+              <i class="iconfont" @click="test = !test" :class="test ? 'icon-xiangxia' : 'icon-xiangshang'"></i>
+            </div>
           </div>
-          <div class="feedback"></div>
+          <div class="feedback">
+            <h4>你的反馈</h4>
+            <div class="rate">
+              <li>
+                <span>满意度</span>
+                <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+                  :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+              </li>
+              <li>
+                <span>相关度</span>
+                <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
+                  :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+              </li>
+            </div>
+            <el-form-item>
+              <el-input class="custom-input" type="textarea" v-model="form.feedback" maxlength="50" placeholder="描述一下你的看法吧"></el-input>
+            </el-form-item>
+          </div>
         </div>
       </el-form>
       <div class="footer" slot="footer">
@@ -39,8 +59,11 @@
   export default {
     data() {
       return {
+        test: false,
         form: {
-          checked: false
+          checked: false,
+          rate: 0,
+          feedback: ''
         },
         rules: {}
       };
@@ -129,7 +152,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          margin-top: 25px;
+          padding: 0 44px;
+          margin: 25px 0 14px;
           li {
             box-sizing: border-box;
             position: relative;
@@ -165,16 +189,52 @@
           }
         }
         .desc {
-          @include erow(2);
-          font-size: $h3Font;
-          line-height: 25px;
-          color: $h1Color;
-          span {
-            font-weight: $h1Weight;
+          display: flex;
+          padding: 0 30px 0 44px;
+          p {
+            transition: all 0.3s;
+            @include erow(2);
+            font-size: $h3Font;
+            line-height: 25px;
+            color: $h1Color;
+            span {
+              font-weight: $h1Weight;
+            }
+          }
+          i {
+            align-self: flex-end;
+            font-size: 14px;
+            line-height: 14px;
+            cursor: pointer;
           }
         }
       }
-      .feedback {}
+      .feedback {
+        padding: $up-down $left-right;
+        h4 {
+          font-size: $h1Font;
+          font-weight: $h1Weight;
+          line-height: 1;
+          color: $themeColor;
+        }
+        .rate {
+          li {
+            display: flex;
+            margin-bottom: 30px;
+            >span {
+              margin-right: 40px;
+              font-size: $h3Font;
+              line-height: 1;
+              color: $h2Color;
+            }
+          }
+        }
+        .el-form-item {
+          textarea {
+            height: 184px;
+          }
+        }
+      }
     }
     .el-dialog__wrapper {
       .el-dialog__header {

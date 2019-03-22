@@ -128,9 +128,12 @@ $up-down: 30px;
     }
   }
   textarea {
+    resize: none;
     font-size: $h3Font;
     color: $h1Color;
     border-color: #fff;
+    border-radius: 2px;
+    background-color: $backColor;
     &:focus {
       border-color: $linkBlue;
     }
