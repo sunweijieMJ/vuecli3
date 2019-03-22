@@ -14,8 +14,8 @@
                     <span class="okr-name" @click.stop="pathSkip(`/foreground/fore_okr/okr_detail/${item.obj_info.obj_id}`)" v-if="item.obj_info">{{item.obj_info.okr_name}}</span>
                   </div>
                 </div>
-                <div class="insert" @mouseenter="mouseenter" @click.stop="addTask" v-if="item.obj_info && item.obj_info.is_member && obj.switch_index === 0 && mouse_state">
-                  <span class="span2">
+                <div class="insert" @mouseenter="mouseenter" v-if="item.obj_info && item.obj_info.is_member && obj.switch_index === 0 && mouse_state">
+                  <span class="span2" @click.stop="addTask">
                     <span @mouseenter="mouseenter" class="iconfont icon-icon_add2"></span>
                     <span @mouseenter="mouseenter" class="add-kt">添加KT</span>
                   </span>
@@ -302,7 +302,7 @@ export default {
         width: 500px;
         background-image: url('../../../../static/img/pnl_bg.png');
         background-size: 100% 100%;
-        padding-right: 36px;
+        padding-right: 50px;
         position: absolute;
         top: 0;
         right: 0;
