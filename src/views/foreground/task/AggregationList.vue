@@ -22,7 +22,7 @@
                 </div>
               </div>
             </template>
-            <ul class="kr-box">
+            <ul class="kr-box" v-if="item.newKr && item.newKr.length">
               <li v-for="(kr, krindex) in item.newKr" :key="krindex">
                 <div class="okr-krs">
                   <span class="tags">KR</span><span>{{kr.kr_name}}</span>
