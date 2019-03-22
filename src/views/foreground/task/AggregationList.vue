@@ -320,7 +320,7 @@ export default {
           @extend %textlight;
         }
         .add-kt{
-          
+
         }
         .iconfont{
           margin-right: 5px;
@@ -406,7 +406,7 @@ export default {
                     font-size: 13px !important;
                   }
                   .el-progress-bar{
-                    
+
                     .el-progress-bar__outer{
                       width: 145px;
                       height: 9px;

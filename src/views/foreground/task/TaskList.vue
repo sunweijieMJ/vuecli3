@@ -209,6 +209,7 @@
               that.$set(that.part_list, i, that.part_list[i]);
             }
           }
+          this.resetData();
         });
       },
       // 角色列表
@@ -296,9 +297,6 @@
         line-height: 1;
         cursor: pointer;
         @extend %textlight;
-        .checkout-view{
-
-        }
         .iconfont{
           margin-right: 4px;
         }
