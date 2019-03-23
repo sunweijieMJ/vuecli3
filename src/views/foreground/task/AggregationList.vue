@@ -37,7 +37,8 @@
         <div class="kt-box">
           <ul>
             <li v-for="(kt, ktindex) in item.task_list.list" :key="ktindex + pages">
-              <div class="keytask">
+              <single-task :item="kt"></single-task>
+              <!--<div class="keytask">
                 <span class="KT">KT</span>
                 <span class="keytask-name" @click="pathSkip(`/foreground/fore_task/task_detail/${kt.task_id}`)">{{kt.task_name}}</span>
               </div>
@@ -65,7 +66,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </div>-->
             </li>
           </ul>
         </div>
@@ -81,6 +82,7 @@ import Moment from '../../../utils/business/moment.js';
 import OkrApi from '../../../api/Okr.js';
 import TaskApi from '../../../api/Task.js';
 import frequent from '../../../../src/mixins/frequent.js';
+import {SingleTask, TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
 import {UserPopover} from '../../../components/popup';
 
 export default {
@@ -88,7 +90,7 @@ export default {
   mixins: [frequent],
   name: 'AggregationList',
   components: {
-    UserPopover
+    UserPopover, SingleTask, TaskPublish, TaskFollow, TaskClose
   },
   data(){
     return {
@@ -167,6 +169,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.single-task {
+  width: 100%;
+  margin-bottom: 2px;
+  border-radius: 0px;
+  background-color: #fff;
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.05);
+}
 .aggregation{
   box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
   border-radius: 2px;
@@ -222,10 +231,10 @@ export default {
       }
     }
     .kt-box{
-      padding: 0 50px;
+      /*padding: 0 50px;*/
       ul{
         li{
-          padding: 23px 0 22px 0;
+          /*padding: 23px 0 22px 0;*/
           border-bottom: 1px solid #F6F6F6;
           &:last-child{
             border-bottom: none;
@@ -368,6 +377,12 @@ export default {
 }
 </style>
 <style lang="scss">
+.single-task .task-info .info-title {
+  margin-bottom: 0px!important;
+}
+.single-task .task-info .info-desc .desc {
+  margin-top:15px;
+}
 .aggregation{
   .okr-kt{
     .el-collapse{

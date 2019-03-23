@@ -136,6 +136,7 @@
               for (let i = 0; i < newList.length; i++) {
                 for (let j = 0; j < newList[i].task_list.list.length; j++) {
                   newList[i].task_list.list[j].users_info = res.data.list[i].task_list.users_info[res.data.list[i].task_list.list[j].task_owner_id];
+                  newList[i].task_list.list[j].creator_info = res.data.list[i].task_list.users_info[res.data.list[i].task_list.list[j].task_owner_id];
                 }
               }
             }
