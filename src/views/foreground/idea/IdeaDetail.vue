@@ -312,8 +312,8 @@
       @media screen and (min-width: 1000px){
         padding: 35px 66px 25px;
       }
-      @media screen and (min-width: 999px){
-        padding: 35px 15px 25px;
+      @media screen and (max-width: 750px){
+        padding: 35px 5%;
       }
       .thump-title {
         margin-bottom: 20px;
