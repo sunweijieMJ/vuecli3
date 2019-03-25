@@ -63,7 +63,7 @@
         if(new Date().getDay() === 1) {
           that.daterange = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate() - 1)];
         } else {
-          const start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1 - new Date().getDay() || 7);
+          const start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1 - (new Date().getDay() || 7));
           that.daterange = [start, Date.now()];
         }
       }
