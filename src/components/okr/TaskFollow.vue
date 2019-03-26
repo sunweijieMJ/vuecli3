@@ -13,8 +13,8 @@
           <div class="status">
             <h4>状态</h4>
             <div class="radio">
-              <el-radio class="custom-radio" v-model="form.type" label="1">进行中</el-radio>
-              <el-radio class="custom-radio" v-model="form.type" label="2">已完成</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="1">跟进中</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="2">跟进已完成</el-radio>
             </div>
           </div>
           <div class="num">
@@ -27,12 +27,12 @@
           </div>
           <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
             <li>
-              <span>满意度</span>
+              <span>KT完成表现分</span>
               <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </li>
             <li>
-              <span>相关度</span>
+              <span>OKR的相关程度</span>
               <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </li>

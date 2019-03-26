@@ -31,7 +31,7 @@
               </li>
             </div>
             <div class="desc" v-if="kt_info.check_info">
-              <p :style="{'-webkit-line-clamp': show_text ? 4 : 2}">
+              <p :style="{'-webkit-line-clamp': show_text ? 'initial' : 2}">
                 <span>{{kt_info.check_info.creator_info.real_name}}</span>：{{kt_info.check_info.remarks}}
               </p>
               <i class="iconfont" @click="show_text = !show_text" :class="show_text ? 'icon-xiangshang' : 'icon-xiangxia'"></i>

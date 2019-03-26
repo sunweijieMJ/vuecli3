@@ -151,6 +151,8 @@
       // 菜单改变
       handleClick(e) {
         let that = this;
+        that.active_part = [];
+        that.active_kind = [];
         that.$router.push({name: that.$route.name, query: {active_okr: e.name}});
       },
       // 角色列表

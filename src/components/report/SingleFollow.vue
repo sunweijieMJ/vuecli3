@@ -18,7 +18,7 @@
     </div>
     <div class="follow" v-if="item.check_info && !hideFollow">
       <div class="title">
-        <template v-if="+item.status === 1">
+        <template v-if="+item.status === 2">
           <li>
             <span>完成度</span>
             <p>{{item.check_info.progress}}%</p>

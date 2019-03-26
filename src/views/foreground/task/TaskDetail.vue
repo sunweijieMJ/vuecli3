@@ -59,10 +59,7 @@
         <div class="task-dynamic" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
-        <!-- <div class="telated-task" v-if="task_basic.is_key_task"> -->
-        <div class="telated-task" v-if="0">
-          <RelatedTask :task_list="task_list" :keyTask="task_basic"></RelatedTask>
-        </div>
+        <task-back :basic="task_basic"></task-back>
       </div>
     </div>
     <div class="drop-link-class" v-if="+task_basic.status === 1">
@@ -96,7 +93,7 @@
 </template>
 <script>
 import TaskDynamic from './taskdetail/TaskDynamic';
-import RelatedTask from './taskdetail/RelatedTask';
+import TaskBack from './taskdetail/TaskBack';
 import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
 
@@ -105,7 +102,7 @@ import {TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, RelatedTask, Loading, TaskPublish, TaskFollow, TaskClose, UserPopover
+    TaskDynamic, TaskBack, Loading, TaskPublish, TaskFollow, TaskClose, UserPopover
   },
   data(){
     return {
@@ -132,7 +129,6 @@ export default {
   },
   methods: {
     goProFile(user_id){
-      // this.$router.push({name: 'Profile', params: {id: user_id}});
       window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
     },
     goOkrDetail(obj_id){
@@ -141,7 +137,6 @@ export default {
     // 所有参与者
     showAllJoinner(val) {
       window.open(`/foreground/fore_mine/profile/${val}`, '_blank');
-      // return val;
     },
     handleCommand() {
       return;
