@@ -63,6 +63,8 @@
       color: $h3Color;
     }
     .main {
+      border-radius:2px;
+      box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
       background-color: #fff;
       .title {
         box-sizing: border-box;
@@ -163,6 +165,8 @@
       display: flex;
       flex-direction: column;
       height: 217px;
+      border-radius:2px;
+      box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
       background-color: #fff;
       p {
         margin: 87px auto 50px;
