@@ -10,7 +10,7 @@
                 <i class="iconfont icon-icon_more1"></i>
               </li>
               <el-dropdown-menu  class="task-report" slot="dropdown">
-                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
+                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? (self_info.is_leader === 1 ? task_menu : task_menu.slice(0, 3).concat(task_menu[4])) : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
                   <el-badge v-if="vitem.type === 'feedbacking'" :isDot="unread.feedback">{{vitem.label}}</el-badge>
                   <span v-else>{{vitem.label}}</span>
                 </el-dropdown-item>
@@ -107,6 +107,7 @@
     created() {
       let that = this;
       that.getTodoList();
+      // that.self_info.level === 3 ? that.task_menu.splice(3, 1) : that.task_menu;
       const query = that.$route.query;
       if(query.label) {
         that.menu_list[that.$route.name] = {

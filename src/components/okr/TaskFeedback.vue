@@ -31,9 +31,10 @@
               </li>
             </div>
             <div class="desc">
-              <p :style="{'-webkit-line-clamp': show_text ? 'initial' : 2}">
-                <span>{{kt_info.creator_info.real_name}}</span>：{{kt_info.review_comment}}
-              </p>
+              <div class="text">
+                <span><strong>{{kt_info.creator_info.real_name}}</strong> 的自评：</span>
+                <p :style="{'-webkit-line-clamp': show_text ? 'initial' : 2}">{{kt_info.review_comment}}</p>
+              </div>
               <i class="iconfont" @click="show_text = !show_text" :class="show_text ? 'icon-xiangshang' : 'icon-xiangxia'"></i>
             </div>
           </div>
@@ -52,13 +53,13 @@
               </li>
             </div>
             <el-form-item prop="remark">
-              <el-input class="custom-input" type="textarea" v-model="form.remark" maxlength="50" placeholder="描述一下你的看法吧"></el-input>
+              <el-input class="custom-input" type="textarea" v-model="form.remark" maxlength="500" placeholder="详细描述你的观点，帮助下属成长"></el-input>
             </el-form-item>
           </div>
         </div>
       </el-form>
       <div class="footer" slot="footer">
-        <el-checkbox class="custom-checkbox" v-model="form.self_view">仅本人可见</el-checkbox>
+        <el-checkbox class="custom-checkbox" v-model="form.self_view">仅KT的Owner可见</el-checkbox>
         <div class="btn">
           <el-button class="cancel" @click="beforeClose">取消</el-button>
           <el-button class="confirm" @click="confirmClose('ruleForm')">确定</el-button>
@@ -92,7 +93,7 @@
         let that = this;
         const p = that.$el.querySelector('.desc p');
         if(p.offsetHeight <= 50 && p.style['-webkit-line-clamp'] === 'initial') {
-          p.nextSibling.style.display = 'none';
+          p.parentNode.nextSibling.style.display = 'none';
         } else {
           that.show_text = false;
         }
@@ -142,7 +143,10 @@
     watch: {
       'task_feedback.status'(cur) {
         if(cur) {
-          this.$nextTick(() => {
+          let that = this;
+          Object.assign(that.$data, that.$options.data());
+          origin = JSON.parse(JSON.stringify(that.$data.form));
+          that.$nextTick(() => {
             this.calcDesc();
           });
         }
@@ -234,17 +238,20 @@
         .desc {
           display: flex;
           padding: 0 30px 0 44px;
-          p {
-            transition: all 0.3s;
-            position: relative;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            font-size: $h3Font;
-            line-height: 25px;
-            color: $h1Color;
+          .text {
             span {
-              font-weight: $h1Weight;
+              font-size: $h3Font;
+              line-height: 1;
+              color: $h1Color;
+            }
+            p {
+              position: relative;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              font-size: $h3Font;
+              line-height: 25px;
+              color: $h1Color;
             }
           }
           i {

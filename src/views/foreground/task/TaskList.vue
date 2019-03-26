@@ -18,18 +18,18 @@
           @change="resetList()"
         ></el-cascader>
       </div>
-      <div class="checkout-btn">
+      <div class="checkout-btn" v-if="active_task !== 'feedbacking'">
         <span class="iconfont icon-icon_view" v-if="!chekcout_view"></span>
         <span class="iconfont icon-icon_view2" v-else></span>
         <span class="checkout-view" @click="chekcoutView">切换视图</span>
       </div>
     </div>
     <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-      <li v-for="(item, index) in (chekcout_view === 0 ? task_list : group_list)" :key="index">
-        <single-task :item="item" v-show="chekcout_view === 0"></single-task>
-        <AggregationList v-show="chekcout_view === 1" :item="item"
-        :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
-        @addTask="addTask"></AggregationList>
+      <li v-for="(item, index) in ((chekcout_view === 0 || active_task === 'feedbacking') ? task_list : group_list)" :key="index">
+        <single-task :item="item" v-if="chekcout_view === 0 || active_task === 'feedbacking'"></single-task>
+        <AggregationList v-if="chekcout_view === 1" :item="item"
+          :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
+          @addTask="addTask"></AggregationList>
       </li>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
@@ -49,7 +49,7 @@
   import AggregationList from './AggregationList';
 
   export default {
-    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, TaskFeedback,  AggregationList},
+    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, TaskFeedback, AggregationList},
     mixins: [frequent],
     data() {
       return {
@@ -137,9 +137,8 @@
           lastId: this.loading.last_id
         }).then(res => {
           if(res.status){
-            let newList = [];
-            newList = res.data.list;
-            if(newList.length){
+            let newList = res.data.list || [];
+            if(newList.length) {
               for (let i = 0; i < newList.length; i++) {
                 for (let j = 0; j < newList[i].task_list.list.length; j++) {
                   newList[i].task_list.list[j].users_info = res.data.list[i].task_list.users_info[res.data.list[i].task_list.list[j].task_owner_id];
@@ -159,7 +158,7 @@
         if(window.sessionStorage.getItem('chekcout_view')){
           this.chekcout_view = +window.sessionStorage.getItem('chekcout_view');
         }
-        if(this.chekcout_view){
+        if(this.chekcout_view && that.active_task !== 'feedbacking'){
           this.pageInfo.page_size = 5;
           that.getGroupList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
@@ -175,7 +174,7 @@
               that.loading.nomore = true;
             }
           });
-        }else{
+        } else {
           this.pageInfo.page_size = 15;
           that.getTaskList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
