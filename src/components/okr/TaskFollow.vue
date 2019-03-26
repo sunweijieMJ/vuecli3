@@ -26,12 +26,12 @@
             </el-form-item>
           </div>
           <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
-            <el-form-item prop="performance">
+            <el-form-item prop="performance" :key="form.performance + 'performance'">
               <span>KT完成表现分</span>
               <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </el-form-item>
-            <el-form-item prop="relativity">
+            <el-form-item prop="relativity" :key="form.relativity + 'relativity'">
               <span>OKR相关程度</span>
               <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
