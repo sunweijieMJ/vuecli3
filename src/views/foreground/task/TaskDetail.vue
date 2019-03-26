@@ -155,10 +155,7 @@ export default {
       this.infinite();
     },
     handleTaskFeedback() {
-      this.dynamic_list = [];
-      this.pageInfo.current_page = 0;
-      this.last_id = '';
-      this.infinite();
+      this.getTaskBasicInfo();
     },
     handleTaskEdit() {
       this.getTaskBasicInfo();

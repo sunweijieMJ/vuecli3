@@ -33,7 +33,7 @@
             <div class="desc">
               <div class="text">
                 <span><strong>{{kt_info.creator_info.real_name}}</strong> 的自评：</span>
-                <p :style="{'-webkit-line-clamp': show_text ? 'initial' : 2}">{{kt_info.review_comment}}</p>
+                <p :style="{'-webkit-line-clamp': show_text ? 'initial' : 2}" v-html="textFilter(kt_info.review_comment)"></p>
               </div>
               <i class="iconfont" @click="show_text = !show_text" :class="show_text ? 'icon-xiangshang' : 'icon-xiangxia'"></i>
             </div>
@@ -41,16 +41,16 @@
           <div class="feedback">
             <h4>你的反馈</h4>
             <div class="rate">
-              <li>
-                <span>满意度</span>
+              <el-form-item prop="performance">
+                <span>KT完成表现分</span>
                 <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
-              </li>
-              <li>
-                <span>相关度</span>
+              </el-form-item>
+              <el-form-item prop="relativity">
+                <span>OKR相关程度</span>
                 <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
-              </li>
+              </el-form-item>
             </div>
             <el-form-item prop="remark">
               <el-input class="custom-input" type="textarea" v-model="form.remark" maxlength="500" placeholder="详细描述你的观点，帮助下属成长"></el-input>
@@ -71,11 +71,14 @@
 <script>
   import {mapState} from 'vuex';
   import TaskApi from '../../api/Task.js';
+  import textFilter from '../../utils/filters/textFilter.js';
+  import {validatePerformance} from './validate.js';
   let origin = {};
 
   export default {
     data() {
       return {
+        textFilter,
         show_text: true,
         form: {
           performance: 0, // ETC 满意度
@@ -84,6 +87,8 @@
           self_view: false // ETC 仅本人可见
         },
         rules: {
+          performance: [{required: true, validator: validatePerformance, trigger: 'change'}],
+          relativity: [{required: true, validator: validatePerformance, trigger: 'change'}],
           remark: [{required: true, message: ' ', trigger: 'change'}]
         }
       };
@@ -106,7 +111,7 @@
             const params = Object.assign({}, {task_id: that.kt_info.task_id}, that.form);
             TaskApi().feedback(params).then(res => {
               if(res.status) {
-                this.$emit('handleTaskFeedback', res.data.id);
+                this.$emit('handleTaskFeedback');
                 that.closeDialog();
                 that.$message({message: '反馈成功', type: 'success'});
               } else {
@@ -272,10 +277,16 @@
           color: $themeColor;
         }
         .rate {
-          li {
+          .is-error .el-form-item__content span{
+            color: #f56c6c;
+          }
+          .el-form-item__content {
             display: flex;
             margin-bottom: 30px;
             >span {
+              display: inline-flex;
+              align-items: center;
+              width: 100px;
               margin-right: 40px;
               font-size: $h3Font;
               line-height: 1;

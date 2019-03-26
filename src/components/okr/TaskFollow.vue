@@ -26,16 +26,16 @@
             </el-form-item>
           </div>
           <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
-            <li>
+            <el-form-item prop="performance">
               <span>KT完成表现分</span>
               <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
-            </li>
-            <li>
+            </el-form-item>
+            <el-form-item prop="relativity">
               <span>OKR相关程度</span>
               <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
-            </li>
+            </el-form-item>
           </div>
           <div class="summary">
             <el-form-item prop="summary">
@@ -54,7 +54,7 @@
 <script>
   import {mapState} from 'vuex';
   import TaskApi from '../../api/Task.js';
-  import {validatePercent, validateDuration} from './validate.js';
+  import {validatePercent, validateDuration, validatePerformance} from './validate.js';
 
   export default {
     data() {
@@ -71,7 +71,9 @@
         rules: {
           summary: [{required: true, message: ' ', trigger: 'change'}],
           percent: [{required: true, validator: validatePercent, trigger: 'change'}],
-          duration: [{required: true, validator: validateDuration, trigger: 'change'}]
+          duration: [{required: true, validator: validateDuration, trigger: 'change'}],
+          performance: [{required: true, validator: validatePerformance, trigger: 'change'}],
+          relativity: [{required: true, validator: validatePerformance, trigger: 'change'}]
         }
       };
     },
@@ -200,10 +202,13 @@
         padding: 0 $left-right;
         overflow: hidden;
         transition: height 0.5s;
-        li {
+        .is-error .el-form-item__content span{
+          color: #f56c6c;
+        }
+        .el-form-item__content {
           display: flex;
           align-items: center;
-          margin-bottom: $up-down;
+          margin-bottom: $up-down !important;
           &:last-child {
             margin-bottom: 0;
           }

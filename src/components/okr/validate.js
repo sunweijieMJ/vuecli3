@@ -28,6 +28,14 @@ const validateDuration = (rule, value, callback) => {
   }
 };
 
+const validatePerformance = (rule, value, callback) => {
+  if (value === 0) {
+    callback(new Error(' '));
+  } else {
+    callback();
+  }
+};
+
 export {
-  validatePercent, validateDuration
+  validatePercent, validateDuration, validatePerformance
 };

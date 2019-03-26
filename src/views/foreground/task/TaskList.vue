@@ -37,7 +37,7 @@
     <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
     <task-follow @handleTaskCheck="resetList()"></task-follow>
     <task-close @handleTaskClose="resetList()"></task-close>
-    <task-feedback @handleTaskFeedback="handleTaskFeedback"></task-feedback>
+    <task-feedback @handleTaskFeedback="resetList()"></task-feedback>
   </div>
 </template>
 <script>
@@ -102,10 +102,6 @@
       },
       addTask(data){
         this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: data});
-      },
-      // 反馈成功
-      handleTaskFeedback(id) {
-        this.paramsSkip('TaskDetail', {id});
       },
       // 切换视图
       chekcoutView(){

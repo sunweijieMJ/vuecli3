@@ -153,7 +153,7 @@
             if(action === 'save') {
               that.$message({message: '保存成功，再次写周报会打开保存的内容~', type: 'success'});
             } else {
-              that.$router.push({name: 'ReportList'});
+              that.$router.push({name: 'ReportList', query: {label: '我的周报', type: 'self'}});
               that.$message({message: '发布成功', type: 'success'});
             }
           } else {

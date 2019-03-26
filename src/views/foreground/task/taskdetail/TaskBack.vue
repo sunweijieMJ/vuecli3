@@ -28,7 +28,7 @@
               :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
           </li>
         </div>
-        <div class="remark">{{basic.feedback_comment}}</div>
+        <div class="remark" v-html="textFilter(basic.feedback_comment)"></div>
       </div>
     </div>
     <div class="null" v-if="basic.status === 2 && basic.need_feedbacker === self_info.user_id && basic.to_info">
@@ -42,9 +42,15 @@
 </template>
 <script>
   import {mapState} from 'vuex';
+  import textFilter from '../../../../utils/filters/textFilter.js';
 
   export default {
     props: ['basic'],
+    data() {
+      return {
+        textFilter
+      };
+    },
     computed: mapState({
       self_info: store => store.self_info
     })
