@@ -16,7 +16,6 @@
         </div>
         <div class="joinners">
           <div class="left" v-if="task_basic.to_info">
-            <!-- <img :src="task_basic.to_info.header_photo" alt=""> -->
             <el-popover
               placement="bottom"
               trigger="hover"
@@ -34,7 +33,6 @@
             </div>
           </div>
           <div class="right">
-            <!-- <img v-for="(a, index) in task_basic.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt=""> -->
             <el-popover
               placement="bottom"
               trigger="hover"

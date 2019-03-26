@@ -11,7 +11,6 @@
       <li v-for="(rt, rtindex) in task_list" :key="rtindex">
         <span class="related-t">T</span>
         <span class="con" @click.stop="gotTaskDetail(rt.task_id)">{{rt.task_name}}</span>
-        <!-- <img :src="rt.user_info.header_photo" alt=""> -->
         <el-popover
           placement="bottom"
           trigger="hover"

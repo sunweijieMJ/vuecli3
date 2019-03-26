@@ -30,21 +30,53 @@
           </div>
         </div>
         <div class="hot" v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'">
-          <div class="rate">
+          <!-- <div class="rate">
             <el-rate class="small-rate" v-model="dy.score" show-score disabled :allow-half="true" show-text
               :disabled-void-color="'#c0c4cc'"
               :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+          </div> -->
+
+          <!-- 更改的内容 -->
+          <div class="categray">
+            <div class="cut">
+              <span>完成度</span>
+              <div class="rate core">
+                50%
+              </div>
+            </div>
+            <div class="cut">
+              <span>总投入时长</span>
+              <div class="rate core">
+                50%
+              </div>
+            </div>
+            <div class="cut">
+              <span>满意度</span>
+              <div class="rate">
+                <el-rate class="small-rate" v-model="dy.score" show-score disabled :allow-half="true" show-text
+                  :disabled-void-color="'#c0c4cc'"
+                  :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+              </div>
+            </div>
+            <div class="cut">
+              <span>相关度</span>
+              <div class="rate">
+                <el-rate class="small-rate" v-model="dy.score" show-score disabled :allow-half="true" show-text
+                  :disabled-void-color="'#c0c4cc'"
+                  :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+              </div>
+            </div>
           </div>
-          <div class="final">
+          <!-- <div class="final">
             <span class="left">
               完成度
               <span class="bignum">{{dy.progress}}</span>
               <span class="bignum min">%</span>
             </span>
             <span class="right">
-              总投入时长<span class="bignum">{{dy.spend_time}}</span>
+              总投入时长 <span class="bignum">{{dy.spend_time}}天</span>
             </span>
-          </div>
+          </div> -->
         </div>
         <p v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'" class="des" v-html="textFilter(dy.remarks)"></p>
       </li>
@@ -90,7 +122,7 @@ export default {
 <style lang="scss" scoped>
 .dynamic-left{
   // width: 586px;
-  width: 750px;
+  width: 700px;
   .header{
     padding: 21px 2px;
     font-size: $h2Font;
@@ -104,8 +136,9 @@ export default {
     box-shadow:0px 0px 6px 0px rgba(0,0,0,0.05);
     border-radius:2px;
     .item-state{
-      width: 706px;
-      padding: 16px 22px;
+      width: 660px;
+      padding: 11px 20px;
+
       border-bottom: 1px solid #f6f6f6;
       font-size:15px;
       font-weight:500;
@@ -117,8 +150,9 @@ export default {
     }
     li{
       // 510
-      width: 674px;
-      padding: 26px 38px 26px 38px;
+      width: 644px;
+      padding: 26px 28px 26px 28px;
+
       .person-photo{
         display: flex;
         align-items: center;
@@ -162,12 +196,13 @@ export default {
         }
       }
       .hot{
-        margin-top: 13px;
+        margin-top: 19px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         .rate{
           display: flex;
+          justify-content: center;;
           align-items: center;
           .number{
             margin-left: 7px;
@@ -177,12 +212,12 @@ export default {
           }
         }
         .final{
-          margin-left: 23px;
+          // margin-left: 23px;
           color: #606266;
           font-size: 13px;
           .bignum{
-            color: #FF7678;
-            font-size: $h2Font;
+            color: #303133;
+            font-size: 15px;
             font-weight: 500;
           }
           .min{
@@ -190,12 +225,33 @@ export default {
             font-weight: normal;
           }
           .left{
-            margin-right: 12px;
+            margin-right: 47px;
+          }
+        }
+        .categray{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          .cut{
+            width: 25%;
+            border-right: 1px solid #EAE9E9;
+            text-align: center;
+            &:last-child{
+              border-right: none;
+            }
+            .core{
+              font-size:15px;
+              font-weight: 500;
+              color: #303133;
+              // margin-top: 7px;
+              // line-height: 1;
+            }
           }
         }
       }
       .des{
-        margin-top: 14px;
+        margin-top: 9px;
         word-spacing: 1px;
         font-size:15px;
         color: #303133;
@@ -204,7 +260,7 @@ export default {
     }
   }
   .null{
-    width:496px;
+    width:446px;
     height:42px;
     padding: 54px 45px;
     background:rgba(255,255,255,1);
