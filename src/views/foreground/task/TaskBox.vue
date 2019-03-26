@@ -23,7 +23,7 @@
             </el-badge>
           </el-tab-pane>
         </el-tabs>
-        <div class="write-report" v-if="active_menu === 'ReportList'" @click="querySkip('ReportRedact')">
+        <div class="write-report" @click="querySkip('ReportRedact')">
           <i class="iconfont icon-icon_add3"></i>
           <span>写周报</span>
         </div>
@@ -34,7 +34,6 @@
 </template>
 <script>
   import {mapState} from 'vuex';
-  import ReportApi from '../../../api/Report.js';
   import NoticeApi from '../../../api/Notice.js';
   import frequent from '../../../mixins/frequent.js';
 

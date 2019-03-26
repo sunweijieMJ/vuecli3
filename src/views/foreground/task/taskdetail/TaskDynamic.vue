@@ -3,10 +3,9 @@
     <div class="header">动态({{dynamic_num}})</div>
     <ul class="main" v-if="dynamic_list.length" v-for="(dy, dyindex) in dynamic_list" :key="dyindex">
       <div class="item-state">
-        <i class="iconfont icon-icon_add2" v-if="dy.type_name === '创建'"></i>
-        <i class="iconfont icon-icon_edit" v-if="dy.type_name === '编辑'"></i>
-        <i class="iconfont icon-icon_close_l" v-if="dy.type_name === '完成'"></i>
-        <i class="iconfont icon-icon_check" v-if="dy.type_name === '跟进'"></i>
+        <i class="iconfont icon-icon_add2" v-if="dy.type === 5"></i>
+        <i class="iconfont icon-icon_edit" v-else-if="dy.type === 6"></i>
+        <i class="iconfont icon-icon_check" v-else></i>
         <span>{{dy.type_name}}</span>
       </div>
       <li>
@@ -21,15 +20,15 @@
           <div>
             <p>
               <span class="name" @click="pathSkip(`/foreground/fore_mine/profile/${dy.user_info.user_id}`)">{{dy.user_info.user_name}}</span>
-              <span class="description">{{dy.type_name}}了这个Task</span>
-              <span class="checkout" v-if="dy.type_name === '创建' || dy.type_name === '编辑'" @click="pathSkip('/foreground/fore_notice/log_list', {log_type: 2, log_id: dy.task_id, anchor: dy.mao_id})">查看</span>
+              <span class="description">{{(dy.type === 5 || dy.type === 6) ? dy.type_name : '跟进'}}了这个Task</span>
+              <span class="checkout" v-if="dy.type === 5 || dy.type === 6" @click="pathSkip('/foreground/fore_notice/log_list', {log_type: 2, log_id: dy.task_id, anchor: dy.mao_id})">查看</span>
             </p>
             <p class="time">{{dy.publish_time | timeFilter}}</p>
           </div>
         </div>
-        <div class="hot" v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'">
+        <div class="hot" v-if="dy.type !== 5 && dy.type !== 6">
           <!-- 更改的内容 -->
-          <div class="categray">
+          <div class="categray" v-if="dy.type === 2">
             <div class="cut">
               <span>完成度</span>
               <div class="rate core">
@@ -59,7 +58,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="final">
+          <div class="final" v-else>
             <span class="left">
               完成度
               <span class="bignum">{{dy.progress}}</span>
@@ -68,9 +67,9 @@
             <span class="right">
               总投入时长 <span class="bignum">{{dy.spend_time}}天</span>
             </span>
-          </div> -->
+          </div>
         </div>
-        <p v-if="dy.type_name !== '创建' && dy.type_name !== '编辑'" class="des" v-html="textFilter(dy.remarks)"></p>
+        <p v-if="dy.type !== 5 && dy.type !== 6" class="des" v-html="textFilter(dy.remarks)"></p>
       </li>
     </ul>
     <ul class="null" v-else>

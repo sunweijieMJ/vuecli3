@@ -37,18 +37,20 @@
     <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
     <task-follow @handleTaskCheck="resetList()"></task-follow>
     <task-close @handleTaskClose="resetList()"></task-close>
-    <task-feedback @handleTaskFeedback="resetList()"></task-feedback>
+    <task-feedback @handleTaskFeedback="handleTaskFeedback"></task-feedback>
   </div>
 </template>
 <script>
   import TaskApi from '../../../api/Task.js';
   import UserApi from '../../../api/User.js';
+  import frequent from '../../../mixins/frequent.js';
   import {Loading, NoResult} from '../../../components/public';
   import {SingleTask, TaskPublish, TaskFollow, TaskClose, TaskFeedback} from '../../../components/okr';
   import AggregationList from './AggregationList';
 
   export default {
     components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, TaskFeedback,  AggregationList},
+    mixins: [frequent],
     data() {
       return {
         active_task: '', // ETC 当前激活菜单
@@ -101,6 +103,10 @@
       addTask(data){
         this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: data});
       },
+      // 反馈成功
+      handleTaskFeedback(id) {
+        this.paramsSkip('TaskDetail', {id});
+      },
       // 切换视图
       chekcoutView(){
         if(this.chekcout_view === 0){
@@ -146,7 +152,6 @@
           }
         });
       },
-
       // 触底刷新
       infinite() {
         let that = this;
