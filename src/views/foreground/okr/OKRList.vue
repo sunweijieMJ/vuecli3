@@ -46,7 +46,7 @@
         <p>当前没有内容</p>
       </div>
     </ul>
-    <o-k-r-publish @handleOkrPublish="handleOkrPublish"></o-k-r-publish>
+    <o-k-r-publish @handleOkrPublish="resetList()"></o-k-r-publish>
   </div>
 </template>
 <script>
@@ -153,10 +153,6 @@
         let that = this;
         that.$router.push({name: that.$route.name, query: {active_okr: e.name}});
       },
-      // 发布回调
-      handleOkrPublish() {
-        this.resetList();
-      },
       // 角色列表
       getPartList() {
         let that = this;
@@ -203,43 +199,15 @@
         });
       },
       // 重置okr列表
-      resetList(qtype = this.active_okr, qdep_id = this.active_part[0], quser_id = this.active_part[1], okr_type = this.active_kind[0]) {
+      resetList() {
         let that = this;
-        that.disabled = true;
         // 重置数据
         that.okr_list = [];
         Object.assign(that.$data.pageInfo, that.$options.data().pageInfo);
         Object.assign(that.$data.loading, that.$options.data().loading);
         Object.assign(that.$data.disabled, that.$options.data().disabled);
 
-        OkrApi().getOkrList({lastId: that.loading.last_id, currPage: ++that.pageInfo.current_page, qtype, qdep_id, quser_id, okr_type}).then(res => {
-          const user_info = res.data.user_info;
-          const okr_list = res.data.list;
-          that.loading.last_id = res.data.last_id;
-          that.pageInfo.page_total = Math.ceil(res.data.cnt / that.pageInfo.page_size);
-          // 数据整理
-          for(let i = okr_list.length - 1; i >= 0; i--) {
-            if(!okr_list[i]) {
-              okr_list.splice(i, 1);
-              continue;
-            }
-            okr_list[i].creator_info = user_info[okr_list[i].creator_id];
-          }
-          that.okr_list = okr_list;
-
-          // 触底判断
-          that.disabled = false;
-          if(!that.okr_list.length) {
-            that.disabled = true;
-            that.loading = {
-              nomore: true,
-              noresult: true
-            };
-          } else if(that.pageInfo.current_page >= that.pageInfo.page_total){
-            that.disabled = true;
-            that.loading.nomore = true;
-          }
-        });
+        that.infinite();
       }
     },
     watch: {

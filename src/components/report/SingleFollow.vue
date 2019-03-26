@@ -18,18 +18,38 @@
     </div>
     <div class="follow" v-if="item.check_info && !hideFollow">
       <div class="title">
-        <p>
-          <span>自评</span>
-          <i>&nbsp;{{item.check_info.score}}</i>
-        </p>
-        <p>
-          <span>完成度</span>
-          <i>&nbsp;{{item.check_info.progress}}%</i>
-        </p>
-        <p>
-          <span>总投入时长</span>
-          <i>&nbsp;{{item.check_info.spend_time}}</i>
-        </p>
+        <template v-if="+item.status === 1">
+          <li>
+            <span>完成度</span>
+            <p>{{item.check_info.progress}}%</p>
+          </li>
+          <li>
+            <span>总投入时长</span>
+            <p>{{item.check_info.spend_time}}天</p>
+          </li>
+          <li>
+            <span>满意度</span>
+            <el-rate class="small-rate" v-model="item.check_info.review_performance" show-score disabled :allow-half="true" show-text
+              :disabled-void-color="'#c0c4cc'"
+              :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+          </li>
+          <li>
+            <span>相关度</span>
+            <el-rate class="small-rate" v-model="item.check_info.review_relativity" show-score disabled :allow-half="true" show-text
+              :disabled-void-color="'#c0c4cc'"
+              :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+          </li>
+        </template>
+        <template v-else>
+          <p>
+            <span>完成度</span>
+            <strong>{{item.check_info.progress}}%</strong>
+          </p>
+          <p>
+            <span>投入时长</span>
+            <strong>{{item.check_info.spend_time}}天</strong>
+          </p>
+        </template>
       </div>
       <p class="content" v-html="textFilter(item.check_info.remarks)"></p>
     </div>
@@ -130,23 +150,49 @@
         display: flex;
         align-items: center;
         margin-bottom: 10px;
-        p {
+        li {
+          box-sizing: border-box;
+          position: relative;
           display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           align-items: center;
-          margin-right: 23px;
-          &:last-child {
-            margin-right: 0;
+          width: 25%;
+          height: 48px;
+          padding: 7px 0;
+          &::after {
+            position: absolute;
+            content: '';
+            top: 0; right: 0;
+            width: 2px;
+            height: 48px;
+            background-color: #EAE9E9;
+          }
+          &:last-child::after {
+            display: none;
           }
           span {
             font-size: $h4Font;
             line-height: 1;
             color: $h3Color;
           }
-          i {
-            font-size: $h4Font;
-            font-style: normal;
+          p {
+            font-size: $h3Font;
+            font-weight: $h1Weight;
             line-height: 1;
-            color: $themeColor;
+            color: $h1Color;
+          }
+        }
+        >p {
+          margin-right: 23px;
+          span {
+            margin-right: 5px;
+            font-size: $h4Font;
+            color: $h3Color;
+          }
+          strong {
+            font-size: $h3Font;
+            color: $h1Font;
           }
         }
       }

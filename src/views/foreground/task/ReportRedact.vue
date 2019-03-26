@@ -391,7 +391,7 @@
     }
     >.main {
       padding: 0 $left-right;
-      .week {
+      >.week {
         padding: $up-down 0;
         border-bottom: 2px solid $lineColor;
         &.summary {
@@ -420,7 +420,7 @@
         >.list {
           margin-top: $up-down;
           padding: 0 $up-down 0 10px;
-          li {
+          >li {
             margin-bottom: $up-down;
             &:last-of-type {
               margin-bottom: 0;

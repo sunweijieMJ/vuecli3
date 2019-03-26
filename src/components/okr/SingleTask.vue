@@ -4,6 +4,7 @@
       <div class="info-title">
         <span>{{item.is_key_task ? 'KT' : 'T'}}</span>
         <h4 @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">{{item.task_name}}</h4>
+        <single-status v-if="1" :text="'待反馈'" :color="'#FF7676'" :back="'#FEEDED'"></single-status>
       </div>
       <div class="info-desc">
         <div class="okr">
@@ -67,10 +68,11 @@
   import frequent from '../../mixins/frequent.js';
   import Moment from '../../utils/business/moment.js';
   import {UserPopover} from '../../components/popup';
+  import {SingleStatus} from '../../components/report';
   import TaskCheck from '../../components/popup/TaskCheck.vue';
 
   export default {
-    components: {UserPopover, TaskCheck},
+    components: {UserPopover, TaskCheck, SingleStatus},
     mixins: [frequent],
     props: ['item'],
     data() {
@@ -111,7 +113,7 @@
           color: #fff;
         }
         h4 {
-          margin-left: 10px;
+          margin: 0 3px 0 10px;
           font-size: $h2Font;
           font-weight: $h1Weight;
           color: $h1Color;
@@ -125,7 +127,7 @@
           display: flex;
           align-items: center;
           .name {
-            
+
             display: flex;
             align-items: center;
             width: 270px;

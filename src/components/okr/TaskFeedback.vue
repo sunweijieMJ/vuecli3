@@ -8,7 +8,7 @@
               <span>KT</span>
               <h4>{{kt_info.task_name}}</h4>
             </div>
-            <div class="num">
+            <div class="num" v-if="kt_info.check_info">
               <li>
                 <span>完成度</span>
                 <p>{{kt_info.check_info.progress}}%</p>
@@ -30,7 +30,7 @@
                   :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </li>
             </div>
-            <div class="desc">
+            <div class="desc" v-if="kt_info.check_info">
               <p :style="{'-webkit-line-clamp': show_text ? 4 : 2}">
                 <span>{{kt_info.check_info.creator_info.real_name}}</span>：{{kt_info.check_info.remarks}}
               </p>
@@ -169,7 +169,7 @@
             margin-left: 8px;
             font-size: $h3Font;
             font-weight: $h1Weight;
-            line-height: 1;
+            line-height: 1.4;
             color: $h1Color;
           }
         }
