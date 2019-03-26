@@ -8,31 +8,31 @@
               <span>KT</span>
               <h4>{{kt_info.task_name}}</h4>
             </div>
-            <div class="num" v-if="kt_info.check_info">
+            <div class="num">
               <li>
                 <span>完成度</span>
-                <p>{{kt_info.check_info.progress}}%</p>
+                <p>{{kt_info.progress}}%</p>
               </li>
               <li>
                 <span>总投入时长</span>
-                <p>{{kt_info.check_info.spend_time}}天</p>
+                <p>{{kt_info.spend_time}}天</p>
               </li>
               <li>
                 <span>满意度</span>
-                <el-rate class="small-rate" v-model="kt_info.check_info.review_performance" show-score disabled :allow-half="true" show-text
+                <el-rate class="small-rate" v-model="kt_info.review_performance" show-score disabled :allow-half="true" show-text
                   :disabled-void-color="'#c0c4cc'"
                   :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </li>
               <li>
                 <span>相关度</span>
-                <el-rate class="small-rate" v-model="kt_info.check_info.review_relativity" show-score disabled :allow-half="true" show-text
+                <el-rate class="small-rate" v-model="kt_info.review_relativity" show-score disabled :allow-half="true" show-text
                   :disabled-void-color="'#c0c4cc'"
                   :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </li>
             </div>
-            <div class="desc" v-if="kt_info.check_info">
+            <div class="desc">
               <p :style="{'-webkit-line-clamp': show_text ? 'initial' : 2}">
-                <span>{{kt_info.check_info.creator_info.real_name}}</span>：{{kt_info.check_info.remarks}}
+                <span>{{kt_info.creator_info.real_name}}</span>：{{kt_info.review_comment}}
               </p>
               <i class="iconfont" @click="show_text = !show_text" :class="show_text ? 'icon-xiangshang' : 'icon-xiangxia'"></i>
             </div>
@@ -75,7 +75,7 @@
   export default {
     data() {
       return {
-        show_text: false,
+        show_text: true,
         form: {
           performance: 0, // ETC 满意度
           relativity: 0, // ETC 相关度
@@ -88,6 +88,15 @@
       };
     },
     methods: {
+      calcDesc() {
+        let that = this;
+        const p = that.$el.querySelector('.desc p');
+        if(p.offsetHeight <= 50 && p.style['-webkit-line-clamp'] === 'initial') {
+          p.nextSibling.style.display = 'none';
+        } else {
+          that.show_text = false;
+        }
+      },
       // 确认关闭
       confirmClose(formName) {
         let that = this;
@@ -126,6 +135,15 @@
         } else {
           that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
             that.closeDialog();
+          });
+        }
+      }
+    },
+    watch: {
+      'task_feedback.status'(cur) {
+        if(cur) {
+          this.$nextTick(() => {
+            this.calcDesc();
           });
         }
       }
@@ -218,7 +236,10 @@
           padding: 0 30px 0 44px;
           p {
             transition: all 0.3s;
-            @include erow(2);
+            position: relative;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
             font-size: $h3Font;
             line-height: 25px;
             color: $h1Color;

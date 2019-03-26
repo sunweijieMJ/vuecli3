@@ -18,17 +18,13 @@ const validatePercent = (rule, value, callback) => {
 
 // 投入时长验证
 const validateDuration = (rule, value, callback) => {
-  const reg = /^[0-9]+.?[0-9]*$/;
+  const reg = /^[1-9]\d*\.[5]$|0\.[5]$|^[1-9]\d*$/;
   if (value === '') {
     callback(new Error(' '));
   } else if (reg.test(value)) {
-    if (value < 0.1) {
-      callback(new Error('最小单位为0.1天'));
-    } else {
-      callback();
-    }
+    callback();
   } else {
-    callback(new Error('请输入数字'));
+    callback(new Error('最小单位为0.5天'));
   }
 };
 

@@ -5,6 +5,7 @@
         <span>{{item.is_key_task ? 'KT' : 'T'}}</span>
         <h4 @click="pathSkip(`/foreground/fore_task/task_detail/${item.task_id}`)">{{item.task_name}}</h4>
         <single-status v-if="item.status === 2 && item.need_feedbacker === self_info.user_id" :text="'待反馈'" :color="'#FF7676'" :back="'#FEEDED'"></single-status>
+        <single-status v-if="item.status === 4" :text="'已反馈'" :color="'#5581C7'" :back="'#EAF1FB'"></single-status>
       </div>
       <div class="info-desc">
         <div class="okr">

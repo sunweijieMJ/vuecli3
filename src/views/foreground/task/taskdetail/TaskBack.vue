@@ -1,7 +1,7 @@
 <template>
-  <div class="task-back" v-if="basic.status === 2 && basic.need_feedbacker === self_info.user_id">
+  <div class="task-back" v-if="(basic.status === 2 && basic.need_feedbacker === self_info.user_id) || basic.status === 4">
     <div class="header">反馈</div>
-    <div class="main" v-if="basic.feedbacker">
+    <div class="main" v-if="basic.status === 4">
       <div class="title">
         <i class="iconfont icon-icon_feedback_s"></i>
         <span>反馈</span>
@@ -31,22 +31,19 @@
         <div class="remark">{{basic.feedback_comment}}</div>
       </div>
     </div>
-    <div class="null" v-else>
-      <p>{{self_info.real_name}}期待你的反馈哦…</p>
+    <div class="null" v-if="basic.status === 2 && basic.need_feedbacker === self_info.user_id && basic.to_info">
+      <p>{{basic.to_info.real_name}}期待你的反馈哦…</p>
       <div class="write" @click="$store.dispatch('setTaskFeedback', {status: true, parent: basic})">
         <i class="iconfont icon-icon_feedback_s"></i>
         <span>写反馈</span>
       </div>
     </div>
-    <task-feedback></task-feedback>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex';
-  import {TaskFeedback} from '../../../../components/okr';
 
   export default {
-    components: {TaskFeedback},
     props: ['basic'],
     computed: mapState({
       self_info: store => store.self_info

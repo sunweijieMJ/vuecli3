@@ -2,7 +2,7 @@
   <div class="task-list">
     <div class="task-select">
       <div class="check-left">
-        <div class="switch-checkout">
+        <div class="switch-checkout" v-if="active_task !== 'feedbacking'">
           <span :class="switch_index === sindex ? 'hight' : ''" v-for="(s, sindex) in switch_btn" :key="sindex" @click="switchButton(sindex, s.status)">{{s.btn}}</span>
         </div>
         <el-cascader
@@ -37,17 +37,18 @@
     <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
     <task-follow @handleTaskCheck="resetList()"></task-follow>
     <task-close @handleTaskClose="resetList()"></task-close>
+    <task-feedback @handleTaskFeedback="resetList()"></task-feedback>
   </div>
 </template>
 <script>
   import TaskApi from '../../../api/Task.js';
   import UserApi from '../../../api/User.js';
   import {Loading, NoResult} from '../../../components/public';
-  import {SingleTask, TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
+  import {SingleTask, TaskPublish, TaskFollow, TaskClose, TaskFeedback} from '../../../components/okr';
   import AggregationList from './AggregationList';
 
   export default {
-    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, AggregationList},
+    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, TaskFeedback,  AggregationList},
     data() {
       return {
         active_task: '', // ETC 当前激活菜单

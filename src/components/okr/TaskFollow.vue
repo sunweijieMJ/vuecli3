@@ -32,7 +32,7 @@
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </li>
             <li>
-              <span>OKR的相关程度</span>
+              <span>OKR相关程度</span>
               <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </li>

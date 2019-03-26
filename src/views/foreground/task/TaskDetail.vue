@@ -89,6 +89,7 @@
     <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskEdit="handleTaskEdit" @handleTaskPublish="handleTaskPublish"></task-publish>
     <TaskClose @handleTaskClose="handleTaskClose"></TaskClose>
     <TaskFollow @handleTaskCheck="handleTaskCheck"></TaskFollow>
+    <task-feedback @handleTaskFeedback="handleTaskFeedback"></task-feedback>
   </div>
 </template>
 <script>
@@ -98,11 +99,11 @@ import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
 
 import UserPopover from '../../../components/popup/UserPopover';
-import {TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
+import {TaskPublish, TaskFollow, TaskClose, TaskFeedback} from '../../../components/okr';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, TaskBack, Loading, TaskPublish, TaskFollow, TaskClose, UserPopover
+    TaskDynamic, TaskBack, Loading, TaskPublish, TaskFollow, TaskClose, TaskFeedback, UserPopover
   },
   data(){
     return {
@@ -153,6 +154,12 @@ export default {
       this.last_id = '';
       this.infinite();
     },
+    handleTaskFeedback() {
+      this.dynamic_list = [];
+      this.pageInfo.current_page = 0;
+      this.last_id = '';
+      this.infinite();
+    },
     handleTaskEdit() {
       this.getTaskBasicInfo();
     },
@@ -166,6 +173,7 @@ export default {
       taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
         if(res.status){
           this.task_basic = res.data;
+          this.task_basic.creator_info = this.task_basic.to_info;
           if(res.data.obj_infos && Object.values(res.data.obj_infos)){
             this.okr_name = Object.values(res.data.obj_infos)[0].objective_name;
             this.obj_id = Object.values(res.data.obj_infos)[0].obj_id;
@@ -234,9 +242,7 @@ export default {
   },
   mounted(){
     this.getTaskBasicInfo();
-    // this.getTaskDynamicList();
     this.getOkrKeyTask();
-
   }
 };
 </script>
