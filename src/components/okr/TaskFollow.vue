@@ -150,6 +150,7 @@
       transition: height 0.5s;
       .status {
         display: flex;
+        align-items: center;
         padding: $up-down $left-right;
         border-bottom: 1px solid $lineColor;
         h4 {
@@ -159,7 +160,7 @@
           color: $h2Color;
         }
         .radio {
-          margin-left: 60px;
+          margin-left: 35px;
         }
       }
       .num {

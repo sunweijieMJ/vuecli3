@@ -23,6 +23,8 @@ const Axios = axios.create({
 
 // 添加响应拦截器
 Axios.interceptors.response.use((response) => {
+  console.log(response.config.url)
+  console.log(response.config.url.split('?')[0].split(baseURL)[1])
   if (interceptor.submit_request.includes(response.config.url.split('?')[0].split(baseURL)[1])) {
     store.dispatch('setSendFlag', false);
   }
@@ -60,10 +62,10 @@ class Abstract {
         baseURL = process.env.VUE_APP_BaseURL;
       }
       // 终止重复请求
-      console.log(url)
       console.log(url.split('?')[0])
-      console.log(interceptor.submit_request)
+      console.log(interceptor.submit_request.includes(url.split('?')[0]))
       if (interceptor.submit_request.includes(url.split('?')[0])) {
+        console.log(store.state.send_flag)
         if (store.state.send_flag) {
           resolve({status: false, message: '重复请求终止', data: null});
           return;
