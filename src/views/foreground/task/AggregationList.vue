@@ -397,7 +397,7 @@ export default {
               .grocess{
                 .el-progress{
                   margin-left: 50px;
-                  width: 190px;
+                  width: 170px;
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
@@ -405,7 +405,6 @@ export default {
                     font-size: 13px !important;
                   }
                   .el-progress-bar{
-
                     .el-progress-bar__outer{
                       width: 145px;
                       height: 9px;

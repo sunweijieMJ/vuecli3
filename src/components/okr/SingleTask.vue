@@ -132,7 +132,6 @@
           display: flex;
           align-items: center;
           .name {
-
             display: flex;
             align-items: center;
             width: 270px;
