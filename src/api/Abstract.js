@@ -60,6 +60,9 @@ class Abstract {
         baseURL = process.env.VUE_APP_BaseURL;
       }
       // 终止重复请求
+      console.log(url)
+      console.log(url.split('?')[0])
+      console.log(interceptor.submit_request)
       if (interceptor.submit_request.includes(url.split('?')[0])) {
         if (store.state.send_flag) {
           resolve({status: false, message: '重复请求终止', data: null});
