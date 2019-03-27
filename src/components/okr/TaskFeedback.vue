@@ -43,12 +43,12 @@
             <div class="rate">
               <el-form-item prop="performance" :key="form.performance + 'performance'">
                 <span>KT完成表现分</span>
-                <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-text :texts="['极差 1.0', '失望 2.0', '一般 3.0', '满意 4.0', '惊喜 5.0']"
+                <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </el-form-item>
               <el-form-item prop="relativity" :key="form.relativity + 'relativity'">
                 <span>OKR相关程度</span>
-                <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['极差 1.0', '失望 2.0', '一般 3.0', '满意 4.0', '惊喜 5.0']"
+                <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </el-form-item>
             </div>
