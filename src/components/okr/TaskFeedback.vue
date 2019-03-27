@@ -73,7 +73,6 @@
   import TaskApi from '../../api/Task.js';
   import textFilter from '../../utils/filters/textFilter.js';
   import {validatePerformance} from './validate.js';
-  let origin = {};
 
   export default {
     data() {
@@ -129,14 +128,8 @@
       },
       // 关闭前
       beforeClose() {
-        let [that, flag] = [this, true];
-        for(let key in origin) {
-          if(JSON.stringify(origin[key]) !== JSON.stringify(this.$data.form[key])) {
-            flag = false;
-            break;
-          }
-        }
-        if(flag) {
+        let that = this;
+        if(JSON.stringify(that.$data.form) === JSON.stringify(that.$options.data().form)) {
           that.closeDialog();
         } else {
           that.$confirm('您填写的内容将不做保留', '取消', {type: 'warning'}).then(() => {
@@ -150,7 +143,6 @@
         if(cur) {
           let that = this;
           Object.assign(that.$data, that.$options.data());
-          origin = JSON.parse(JSON.stringify(that.$data.form));
           that.$nextTick(() => {
             this.calcDesc();
           });

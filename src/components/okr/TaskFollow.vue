@@ -13,8 +13,8 @@
           <div class="status">
             <h4>状态</h4>
             <div class="radio">
-              <el-radio class="custom-radio" v-model="form.type" label="1">跟进中</el-radio>
-              <el-radio class="custom-radio" v-model="form.type" label="2">跟进已完成</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="1">KT跟进中</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="2">KT已完成</el-radio>
             </div>
           </div>
           <div class="num">
@@ -26,12 +26,12 @@
             </el-form-item>
           </div>
           <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
-            <el-form-item prop="performance" :key="form.performance + 'performance'">
+            <el-form-item v-if="form.type === '2'" prop="performance" :key="form.performance + 'performance'">
               <span>KT完成表现分</span>
               <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </el-form-item>
-            <el-form-item prop="relativity" :key="form.relativity + 'relativity'">
+            <el-form-item v-if="form.type === '2'" prop="relativity" :key="form.relativity + 'relativity'">
               <span>OKR相关程度</span>
               <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-score
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
