@@ -35,7 +35,7 @@
     </ul>
     <no-result v-if="loading.noresult"></no-result>
     <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
-    <task-follow @handleTaskCheck="resetList()"></task-follow>
+    <task-follow @handleTaskCheck="handleTaskCheck"></task-follow>
     <task-close @handleTaskClose="resetList()"></task-close>
     <task-feedback @handleTaskFeedback="handleTaskFeedback"></task-feedback>
   </div>
@@ -102,6 +102,10 @@
       },
       addTask(data){
         this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: data});
+      },
+      handleTaskCheck(data) {
+        if(data.status === '2') this.switchButton(1, 2);
+        this.resetList();
       },
       // 反馈成功
       handleTaskFeedback(id) {
