@@ -247,10 +247,9 @@ $up-down: 30px;
 
 // radio
 .custom-radio {
-  .el-radio__input {
-
-  }
+  font-weight: normal;
   .el-radio__label {
+    font-size: $h3Font;
     color: $h2Color;
   }
   &.is-checked {
