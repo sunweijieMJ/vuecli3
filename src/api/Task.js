@@ -98,6 +98,8 @@ class Task extends Abstract {
    * @param {number | required} speedTime 花费时间
    * @param {number | required} progress 进度
    * @param {number | required} feel 满意程度从1 ~4 升序
+   * @param {number | required} performance 表现分
+   * @param {number | required} relativity 相关度
    * @param {number | required} type 1:跟进，2：完成
    */
   checkTask(data) {
@@ -124,6 +126,18 @@ class Task extends Abstract {
    */
   closeTask(data) {
     return this.postReq('Task.TaskClose', data);
+  }
+
+  /**
+   * task Feedback
+   * @param {number | required} taskId
+   * @param {number | required} performance 表现分
+   * @param {number | required} relativity 相关度
+   * @param {string | required} remark 评语
+   * @param {boolean | required} self_view 个人可见
+   */
+  feedback(data) {
+    return this.postReq('Task.TaskFeedback', data);
   }
 
   /**

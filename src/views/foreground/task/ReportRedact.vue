@@ -153,7 +153,7 @@
             if(action === 'save') {
               that.$message({message: '保存成功，再次写周报会打开保存的内容~', type: 'success'});
             } else {
-              that.$router.push({name: 'ReportList'});
+              that.$router.push({name: 'ReportList', query: {label: '我的周报', type: 'self'}});
               that.$message({message: '发布成功', type: 'success'});
             }
           } else {
@@ -391,7 +391,7 @@
     }
     >.main {
       padding: 0 $left-right;
-      .week {
+      >.week {
         padding: $up-down 0;
         border-bottom: 2px solid $lineColor;
         &.summary {
@@ -420,7 +420,7 @@
         >.list {
           margin-top: $up-down;
           padding: 0 $up-down 0 10px;
-          li {
+          >li {
             margin-bottom: $up-down;
             &:last-of-type {
               margin-bottom: 0;

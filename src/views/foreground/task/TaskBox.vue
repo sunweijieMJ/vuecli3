@@ -3,14 +3,17 @@
     <div class="header">
       <div class="menu-box">
         <el-tabs v-model="active_menu" @tab-click="handleClick">
-          <el-tab-pane v-for="(witem, windex) in menu_list" :key="witem.type + self_info.level + unread.report"  :label="witem.label" :name="witem.name" :type="witem.type">
+          <el-tab-pane v-for="(witem, windex) in menu_list" :key="witem.type + self_info.level + unread.report + unread.feedback"  :label="witem.label" :name="witem.name" :type="witem.type">
             <el-dropdown v-if="witem.name === active_menu" slot="label" @command="handleCommand" trigger="click">
               <li>
                 <span>{{witem.label}}</span>
                 <i class="iconfont icon-icon_more1"></i>
               </li>
               <el-dropdown-menu  class="task-report" slot="dropdown">
-                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? task_menu : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">{{vitem.label}}</el-dropdown-item>
+                <el-dropdown-item v-for="(vitem, vindex) in (active_menu === 'TaskList' ? (self_info.is_leader === 1 ? task_menu : task_menu.slice(0, 3).concat(task_menu[4])) : (self_info.level !== 1 ? report_menu.slice(0, 2) : report_menu))" :key="vindex" :command="vitem">
+                  <el-badge v-if="vitem.type === 'feedbacking'" :isDot="unread.feedback">{{vitem.label}}</el-badge>
+                  <span v-else>{{vitem.label}}</span>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <el-badge v-if="unread.report && active_menu === 'TaskList' && windex === 'ReportList'" slot="label" :isDot="unread.report">
@@ -20,7 +23,7 @@
             </el-badge>
           </el-tab-pane>
         </el-tabs>
-        <div class="write-report" v-if="active_menu === 'ReportList'" @click="querySkip('ReportRedact')">
+        <div class="write-report" @click="querySkip('ReportRedact')">
           <i class="iconfont icon-icon_add3"></i>
           <span>写周报</span>
         </div>
@@ -31,7 +34,7 @@
 </template>
 <script>
   import {mapState} from 'vuex';
-  import ReportApi from '../../../api/Report.js';
+  import NoticeApi from '../../../api/Notice.js';
   import frequent from '../../../mixins/frequent.js';
 
   export default {
@@ -40,7 +43,8 @@
       return {
         active_menu: this.$route.name,
         unread: {
-          report: false
+          report: false,
+          feedback: false
         },
         menu_list: {
           TaskList: {
@@ -49,7 +53,7 @@
             type: 'create'
           },
           ReportList: {
-            label: '我收到的',
+            label: '收到周报',
             name: 'ReportList',
             type: 'recipient'
           }
@@ -71,6 +75,11 @@
             type: 'team'
           },
           {
+            label: '待反馈KT',
+            name: 'TaskList',
+            type: 'feedbacking'
+          },
+          {
             label: '全部KT',
             name: 'TaskList',
             type: 'all'
@@ -78,7 +87,7 @@
         ],
         report_menu: [
           {
-            label: '我收到的',
+            label: '收到周报',
             name: 'ReportList',
             type: 'recipient'
           },
@@ -97,7 +106,8 @@
     },
     created() {
       let that = this;
-      that.getReportUnread();
+      that.getTodoList();
+      // that.self_info.level === 3 ? that.task_menu.splice(3, 1) : that.task_menu;
       const query = that.$route.query;
       if(query.label) {
         that.menu_list[that.$route.name] = {
@@ -113,7 +123,7 @@
         let that = this;
         if(e.name === that.$route.name) return;
         that.$router.push({name: e.name, query: {label: that.menu_list[e.name].label, type: that.menu_list[e.name].type}});
-        that.getReportUnread();
+        that.getTodoList();
       },
       // select筛选
       handleCommand(command) {
@@ -122,9 +132,11 @@
         that.$router.push({name: that.$route.name, query: {label: command.label, type: command.type}});
       },
       // 获取未读消息
-      getReportUnread() {
-        ReportApi().getReportUnread({}).then(res => {
-          this.unread.report = Boolean(res.data.wait_read);
+      getTodoList() {
+        let that = this;
+        NoticeApi().getTodoList({}).then(res => {
+          that.unread.report = Boolean(res.data.wait_read);
+          that.unread.feedback = Boolean(res.data.need_feedback);
         });
       }
     },
@@ -246,6 +258,20 @@
         color: $h1Color;
         background-color: $backColor;
       }
+      .el-badge {
+        .is-dot {
+          right: 0;
+        }
+      }
+    }
+    .popper__arrow {
+      display: none;
+    }
+    .popper__arrow {
+      display: none;
+    }
+    .popper__arrow {
+      display: none;
     }
     .popper__arrow {
       display: none;

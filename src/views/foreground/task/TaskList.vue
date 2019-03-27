@@ -2,7 +2,7 @@
   <div class="task-list">
     <div class="task-select">
       <div class="check-left">
-        <div class="switch-checkout">
+        <div class="switch-checkout" v-if="active_task !== 'feedbacking'">
           <span :class="switch_index === sindex ? 'hight' : ''" v-for="(s, sindex) in switch_btn" :key="sindex" @click="switchButton(sindex, s.status)">{{s.btn}}</span>
         </div>
         <el-cascader
@@ -18,18 +18,18 @@
           @change="resetList()"
         ></el-cascader>
       </div>
-      <div class="checkout-btn">
+      <div class="checkout-btn" v-if="active_task !== 'feedbacking'">
         <span class="iconfont icon-icon_view" v-if="!chekcout_view"></span>
         <span class="iconfont icon-icon_view2" v-else></span>
         <span class="checkout-view" @click="chekcoutView">切换视图</span>
       </div>
     </div>
     <ul class="list" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
-      <li v-for="(item, index) in (chekcout_view === 0 ? task_list : group_list)" :key="index">
-        <single-task :item="item" v-show="chekcout_view === 0"></single-task>
-        <AggregationList v-show="chekcout_view === 1" :item="item"
-        :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
-        @addTask="addTask"></AggregationList>
+      <li v-for="(item, index) in ((chekcout_view === 0 || active_task === 'feedbacking') ? task_list : group_list)" :key="index">
+        <single-task :item="item" v-if="chekcout_view === 0 || active_task === 'feedbacking'"></single-task>
+        <AggregationList v-if="chekcout_view === 1" :item="item"
+          :obj="{qtype: active_task, qdep_id: active_part[0], quser_id: active_part[1], status: 1, switch_index: switch_index}"
+          @addTask="addTask"></AggregationList>
       </li>
       <loading :loading="disabled" :nomore="loading.nomore" :noresult="loading.noresult"></loading>
     </ul>
@@ -37,17 +37,20 @@
     <task-publish @handleTaskEdit="resetList()" @handleTaskPublish="resetList()"></task-publish>
     <task-follow @handleTaskCheck="resetList()"></task-follow>
     <task-close @handleTaskClose="resetList()"></task-close>
+    <task-feedback @handleTaskFeedback="handleTaskFeedback"></task-feedback>
   </div>
 </template>
 <script>
   import TaskApi from '../../../api/Task.js';
   import UserApi from '../../../api/User.js';
+  import frequent from '../../../mixins/frequent.js';
   import {Loading, NoResult} from '../../../components/public';
-  import {SingleTask, TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
+  import {SingleTask, TaskPublish, TaskFollow, TaskClose, TaskFeedback} from '../../../components/okr';
   import AggregationList from './AggregationList';
 
   export default {
-    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, AggregationList},
+    components: {SingleTask, Loading, NoResult, TaskPublish, TaskFollow, TaskClose, TaskFeedback, AggregationList},
+    mixins: [frequent],
     data() {
       return {
         active_task: '', // ETC 当前激活菜单
@@ -100,6 +103,10 @@
       addTask(data){
         this.$store.dispatch('setTaskPublish', {status: true, type: 'create', parent: data});
       },
+      // 反馈成功
+      handleTaskFeedback(id) {
+        this.paramsSkip('TaskDetail', {id});
+      },
       // 切换视图
       chekcoutView(){
         if(this.chekcout_view === 0){
@@ -130,9 +137,8 @@
           lastId: this.loading.last_id
         }).then(res => {
           if(res.status){
-            let newList = [];
-            newList = res.data.list;
-            if(newList.length){
+            let newList = res.data.list || [];
+            if(newList.length) {
               for (let i = 0; i < newList.length; i++) {
                 for (let j = 0; j < newList[i].task_list.list.length; j++) {
                   newList[i].task_list.list[j].users_info = res.data.list[i].task_list.users_info[res.data.list[i].task_list.list[j].task_owner_id];
@@ -146,7 +152,6 @@
           }
         });
       },
-
       // 触底刷新
       infinite() {
         let that = this;
@@ -154,7 +159,7 @@
         if(window.sessionStorage.getItem('chekcout_view')){
           this.chekcout_view = +window.sessionStorage.getItem('chekcout_view');
         }
-        if(this.chekcout_view){
+        if(this.chekcout_view && that.active_task !== 'feedbacking'){
           this.pageInfo.page_size = 5;
           that.getGroupList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
@@ -170,7 +175,7 @@
               that.loading.nomore = true;
             }
           });
-        }else{
+        } else {
           this.pageInfo.page_size = 15;
           that.getTaskList(that.loading.last_id, ++that.pageInfo.current_page).then(() => {
             // 触底判断
@@ -210,6 +215,7 @@
               that.$set(that.part_list, i, that.part_list[i]);
             }
           }
+          this.resetData();
         });
       },
       // 角色列表
@@ -286,7 +292,6 @@
       margin: 12px auto 0;
     }
     .task-select{
-
       .checkout-btn{
         cursor: pointer;
         display: flex;
@@ -298,9 +303,6 @@
         line-height: 1;
         cursor: pointer;
         @extend %textlight;
-        .checkout-view{
-
-        }
         .iconfont{
           margin-right: 4px;
         }

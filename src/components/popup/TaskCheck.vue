@@ -1,8 +1,8 @@
 <template>
-  <div class="task-check" v-if="item.status === 1 && (item.task_owner_id === self_info.user_id)">
-    <!-- (item.participants ? item.participants.includes(self_info.user_id) : false) -->
+  <div class="task-check">
+     <!-- && item.need_feedbacker === self_info.user_id && menuitem.name === '反馈' -->
     <li v-for="(menuitem, index) in check_list" :key="index" @click.stop="handleTask(menuitem)"
-      v-if="(item.is_key_task && (item.participants && item.participants.includes(self_info.user_id)) && menuitem.name === '添加Task') || (item.task_owner_id === self_info.user_id && menuitem.name !== '添加Task')">
+      v-if="(item.status === 1 && item.task_owner_id === self_info.user_id && menuitem.name !== '反馈') || (item.status === 2 && item.need_feedbacker === self_info.user_id && menuitem.name === '反馈')">
       <i :class="menuitem.icon" class="iconfont"></i>
       <span>{{menuitem.name}}</span>
     </li>
@@ -24,6 +24,10 @@
             name: '编辑',
             icon: 'icon-okrziyuan-'
           },
+          {
+            name: '反馈',
+            icon: 'icon-icon_close_l1'
+          },
           // {
           //   name: '关闭',
           //   icon: 'icon-icon_close_l1'
@@ -35,6 +39,12 @@
         ]
       };
     },
+    created() {
+      let that = this;
+      that.$nextTick(() => {
+        if(!that.$el.children.length) that.$el.style.display = 'none';
+      });
+    },
     methods: {
       handleTask(item) {
         let that = this;
@@ -44,6 +54,9 @@
             break;
           case '编辑':
             that.$store.dispatch('setTaskPublish', {status: true, type: 'edit', taskId: that.item.task_id});
+            break;
+          case '反馈':
+            that.$store.dispatch('setTaskFeedback', {status: true, parent: that.item});
             break;
           case '关闭':
             that.$store.dispatch('setTaskClose', {status: true, parent: that.item});

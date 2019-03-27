@@ -128,9 +128,12 @@ $up-down: 30px;
     }
   }
   textarea {
+    resize: none;
     font-size: $h3Font;
     color: $h1Color;
     border-color: #fff;
+    border-radius: 2px;
+    background-color: $backColor;
     &:focus {
       border-color: $linkBlue;
     }
@@ -259,8 +262,35 @@ $up-down: 30px;
       }
     }
     .el-radio__label {
+      font-size: $h3Font;
       color: $h1Color;
     }
+  }
+}
+
+// checkbox
+.custom-checkbox {
+  .el-checkbox__input {
+    .el-checkbox__inner {
+      box-sizing: border-box;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      &::after {
+        top: 3px;
+        left: 6px;
+      }
+    }
+    &.is-focus .el-checkbox__inner{
+      border-color: #dcdfe6;
+    }
+  }
+  &.is-checked .el-checkbox__inner {
+    border-color: $linkBlue;
+    background-color: $linkBlue;
+  }
+  &.is-checked .el-checkbox__label {
+    color: $linkBlue;
   }
 }
 

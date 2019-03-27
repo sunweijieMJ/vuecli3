@@ -23,7 +23,8 @@ const urlDict = {
     'MessageList': '/com/messagelist', // ETC 消息列表
     'MessagePush': '/com/messagepush', // ETC 推送消息
     'MessageUnread': '/com/unreadmessagecnt', // ETC 未读信息总数
-    'LogList': '/com/loglist' // ETC 日志列表
+    'LogList': '/com/loglist', // ETC 日志列表
+    'TodoList': '/com/todolist' // ETC ETC 未读消息数
   },
   'Idea': {
     'IdeaPublish': '/thinks/publish', // ETC 发布信息
@@ -69,6 +70,7 @@ const urlDict = {
     'TaskCheck': '/okr/task/check', // ETC check task 任务
     'TaskFinish': '/okr/task/finish', // ETC finish task 任务
     'TaskClose': '/okr/task/close', // ETC 关闭 task 任务
+    'TaskFeedback': '/okr/task/feedback', // ETC task feedback
     'GroupList': 'okr/task/grouplist' // ETC okr/task聚合
   },
   'Report': {

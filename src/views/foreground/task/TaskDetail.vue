@@ -16,7 +16,6 @@
         </div>
         <div class="joinners">
           <div class="left" v-if="task_basic.to_info">
-            <!-- <img :src="task_basic.to_info.header_photo" alt=""> -->
             <el-popover
               placement="bottom"
               trigger="hover"
@@ -34,7 +33,6 @@
             </div>
           </div>
           <div class="right">
-            <!-- <img v-for="(a, index) in task_basic.participants" :key="index" v-if="a.header_photo" :src="a.header_photo" alt=""> -->
             <el-popover
               placement="bottom"
               trigger="hover"
@@ -61,10 +59,7 @@
         <div class="task-dynamic" v-infinite-scroll="infinite" infinite-scroll-disabled="disabled">
           <TaskDynamic :dynamic_list="dynamic_list" :dynamic_num="dynamic_num"></TaskDynamic>
         </div>
-        <!-- <div class="telated-task" v-if="task_basic.is_key_task"> -->
-        <div class="telated-task" v-if="0">
-          <RelatedTask :task_list="task_list" :keyTask="task_basic"></RelatedTask>
-        </div>
+        <task-back :basic="task_basic"></task-back>
       </div>
     </div>
     <div class="drop-link-class" v-if="+task_basic.status === 1">
@@ -94,20 +89,21 @@
     <task-publish @handleTaskCreate="handleTaskCreate" @handleTaskEdit="handleTaskEdit" @handleTaskPublish="handleTaskPublish"></task-publish>
     <TaskClose @handleTaskClose="handleTaskClose"></TaskClose>
     <TaskFollow @handleTaskCheck="handleTaskCheck"></TaskFollow>
+    <task-feedback @handleTaskFeedback="handleTaskFeedback"></task-feedback>
   </div>
 </template>
 <script>
 import TaskDynamic from './taskdetail/TaskDynamic';
-import RelatedTask from './taskdetail/RelatedTask';
+import TaskBack from './taskdetail/TaskBack';
 import {Loading} from '../../../components/public';
 import taskApi from '../../../api/Task.js';
 
 import UserPopover from '../../../components/popup/UserPopover';
-import {TaskPublish, TaskFollow, TaskClose} from '../../../components/okr';
+import {TaskPublish, TaskFollow, TaskClose, TaskFeedback} from '../../../components/okr';
 export default {
   name: 'taskpage',
   components: {
-    TaskDynamic, RelatedTask, Loading, TaskPublish, TaskFollow, TaskClose, UserPopover
+    TaskDynamic, TaskBack, Loading, TaskPublish, TaskFollow, TaskClose, TaskFeedback, UserPopover
   },
   data(){
     return {
@@ -134,7 +130,6 @@ export default {
   },
   methods: {
     goProFile(user_id){
-      // this.$router.push({name: 'Profile', params: {id: user_id}});
       window.open(`/foreground/fore_mine/profile/${user_id}`, '_blank');
     },
     goOkrDetail(obj_id){
@@ -143,7 +138,6 @@ export default {
     // 所有参与者
     showAllJoinner(val) {
       window.open(`/foreground/fore_mine/profile/${val}`, '_blank');
-      // return val;
     },
     handleCommand() {
       return;
@@ -160,6 +154,9 @@ export default {
       this.last_id = '';
       this.infinite();
     },
+    handleTaskFeedback() {
+      this.getTaskBasicInfo();
+    },
     handleTaskEdit() {
       this.getTaskBasicInfo();
     },
@@ -173,6 +170,7 @@ export default {
       taskApi().getBasicInfo({taskId: this.$route.params.id}).then(res => {
         if(res.status){
           this.task_basic = res.data;
+          this.task_basic.creator_info = this.task_basic.to_info;
           if(res.data.obj_infos && Object.values(res.data.obj_infos)){
             this.okr_name = Object.values(res.data.obj_infos)[0].objective_name;
             this.obj_id = Object.values(res.data.obj_infos)[0].obj_id;
@@ -241,9 +239,7 @@ export default {
   },
   mounted(){
     this.getTaskBasicInfo();
-    // this.getTaskDynamicList();
     this.getOkrKeyTask();
-
   }
 };
 </script>

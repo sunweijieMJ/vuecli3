@@ -23,6 +23,9 @@ const mutations = {
   [types.TASK_FOLLOW]: (state, data) => {
     state.task_follow = data;
   },
+  [types.TASK_FEEDBACK]: (state, data) => {
+    state.task_feedback = data;
+  },
   [types.UPLOAD_PHOTO]: (state, data) => {
     state.upload_photo = data;
   },

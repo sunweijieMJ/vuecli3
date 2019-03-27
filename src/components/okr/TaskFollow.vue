@@ -13,26 +13,33 @@
           <div class="status">
             <h4>状态</h4>
             <div class="radio">
-              <el-radio class="custom-radio" v-model="form.type" label="1">进行中</el-radio>
-              <el-radio class="custom-radio" v-model="form.type" label="2">已完成</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="1">KT跟进中</el-radio>
+              <el-radio class="custom-radio" v-model="form.type" label="2">KT已完成</el-radio>
             </div>
-          </div>
-          <div class="rate">
-            <h4>自我评价</h4>
-            <el-rate class="middle-rate" v-model="form.rate" :allow-half="true" show-score
-              :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
-          </div>
-          <div class="summary">
-            <el-form-item prop="summary">
-              <el-input class="custom-input" type="textarea" v-model="form.summary" placeholder="记录下最新的进展吧"></el-input>
-            </el-form-item>
           </div>
           <div class="num">
             <el-form-item label="完成度" prop="percent">
               <el-input class="custom-input" v-model="form.percent" placeholder="最小单位为1"></el-input>
             </el-form-item>
             <el-form-item label="投入时长" prop="duration">
-              <el-input class="custom-input" v-model="form.duration" placeholder="最小单位为0.1"></el-input>
+              <el-input class="custom-input" v-model="form.duration" placeholder="最小单位为0.5"></el-input>
+            </el-form-item>
+          </div>
+          <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
+            <el-form-item v-if="form.type === '2'" prop="performance" :key="form.performance + 'performance'">
+              <span>KT完成表现分</span>
+              <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
+                :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+            </el-form-item>
+            <el-form-item v-if="form.type === '2'" prop="relativity" :key="form.relativity + 'relativity'">
+              <span>OKR相关程度</span>
+              <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
+                :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
+            </el-form-item>
+          </div>
+          <div class="summary">
+            <el-form-item prop="summary">
+              <el-input class="custom-input" type="textarea" v-model="form.summary" maxlength="500" :placeholder="form.type === '1' ? '记录下执行中遇到的问题、个人表现和最新进展吧' : '对整个KT做下复盘吧'"></el-input>
             </el-form-item>
           </div>
         </div>
@@ -47,7 +54,7 @@
 <script>
   import {mapState} from 'vuex';
   import TaskApi from '../../api/Task.js';
-  import {validatePercent, validateDuration} from './validate.js';
+  import {validatePercent, validateDuration, validatePerformance} from './validate.js';
 
   export default {
     data() {
@@ -55,7 +62,8 @@
         task_info: '',
         form: {
           type: '1',
-          rate: 0,
+          performance: 0,
+          relativity: 0,
           summary: '',
           percent: '',
           duration: ''
@@ -63,7 +71,9 @@
         rules: {
           summary: [{required: true, message: ' ', trigger: 'change'}],
           percent: [{required: true, validator: validatePercent, trigger: 'change'}],
-          duration: [{required: true, validator: validateDuration, trigger: 'change'}]
+          duration: [{required: true, validator: validateDuration, trigger: 'change'}],
+          performance: [{required: true, validator: validatePerformance, trigger: 'change'}],
+          relativity: [{required: true, validator: validatePerformance, trigger: 'change'}]
         }
       };
     },
@@ -111,7 +121,8 @@
           remark: that.form.summary,
           speedTime: that.form.duration,
           progress: that.form.percent,
-          feel: that.form.rate,
+          performance: that.form.performance,
+          relativity: that.form.relativity,
           type: that.form.type
         };
       },
@@ -136,8 +147,10 @@
 
   .task-follow {
     .main {
+      transition: height 0.5s;
       .status {
         display: flex;
+        align-items: center;
         padding: $up-down $left-right;
         border-bottom: 1px solid $lineColor;
         h4 {
@@ -147,45 +160,7 @@
           color: $h2Color;
         }
         .radio {
-          margin-left: 60px;
-        }
-      }
-      .rate {
-        display: flex;
-        align-items: center;
-        padding: $up-down $left-right;
-        h4 {
-          font-size: $h3Font;
-          font-weight: 400;
-          line-height: 21px;
-          color: $h2Color;
-        }
-        .el-rate {
-          margin-left: 15px;
-        }
-      }
-      .summary {
-        padding: 0 $left-right;
-        .is-error {
-          textarea {
-            border-color: #f56c6c;
-          }
-        }
-        textarea {
-          box-sizing: border-box;
-          width: 100%;
-          height: 152px;
-          padding: 10px 20px;
-          border-radius: 2px;
-          font-size: $h3Font;
-          line-height: 25px;
-          resize: none;
-          background: $backColor;
-          &::placeholder {
-            font-size: $h3Font;
-            line-height: 28px;
-            color: $h3Color;
-          }
+          margin-left: 35px;
         }
       }
       .num {
@@ -194,7 +169,6 @@
         padding: $up-down $left-right;
         .el-form-item {
           .el-form-item__label {
-            width: 50px;
             padding: 0;
             font-size: $h3Font;
             line-height: 21px;
@@ -221,6 +195,58 @@
               content: '%';
               top: 14px;right: 30px;
             }
+          }
+        }
+      }
+      .rate {
+        padding: 0 $left-right;
+        overflow: hidden;
+        transition: height 0.5s;
+        .is-error .el-form-item__content span{
+          color: #f56c6c;
+        }
+        .el-form-item__content {
+          display: flex;
+          align-items: center;
+          margin-bottom: $up-down !important;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          >span {
+            width: 100px;
+          }
+          span {
+            font-size: $h3Font;
+            font-weight: 400;
+            line-height: 1;
+            color: $h2Color;
+          }
+          .el-rate {
+            margin-left: 15px;
+          }
+        }
+      }
+      .summary {
+        padding: 0 $left-right $up-down;
+        .is-error {
+          textarea {
+            border-color: #f56c6c;
+          }
+        }
+        textarea {
+          box-sizing: border-box;
+          width: 100%;
+          height: 152px;
+          padding: 10px 20px;
+          border-radius: 2px;
+          font-size: $h3Font;
+          line-height: 25px;
+          resize: none;
+          background: $backColor;
+          &::placeholder {
+            font-size: $h3Font;
+            line-height: 28px;
+            color: $h3Color;
           }
         }
       }

@@ -179,7 +179,6 @@ export default {
 .aggregation{
   box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.05);
   border-radius: 2px;
-  
   .okr-kt{
     margin-bottom: 13px;
     background: white;
@@ -329,7 +328,6 @@ export default {
           @extend %textlight;
         }
         .add-kt{
-          
         }
         .iconfont{
           margin-right: 5px;
@@ -421,7 +419,6 @@ export default {
                     font-size: 13px !important;
                   }
                   .el-progress-bar{
-                    
                     .el-progress-bar__outer{
                       width: 145px;
                       height: 9px;

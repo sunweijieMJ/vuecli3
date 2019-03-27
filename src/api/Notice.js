@@ -41,6 +41,13 @@ class Notice extends Abstract {
     return this.getReq('Notice.LogList', data);
   }
 
+  /**
+   * 未读信息总数
+   */
+  getTodoList(data) {
+    return this.getReq('Notice.TodoList', data);
+  }
+
 }
 
 // 单列模式返回对象

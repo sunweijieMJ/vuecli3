@@ -26,6 +26,10 @@ const state = {
     status: false,
     source: ''
   },
+  task_feedback: { // ETC Task反馈框
+    status: false,
+    source: ''
+  },
   upload_photo: { // ETC 修改头像框
     status: false,
     source: ''

@@ -30,7 +30,7 @@
               <textarea :placeholder="`点评下${report_detail.basic.user_info.real_name}的周报吧`" maxlength="1000"
                 v-model="feedback.text" @focus="feedback.focus = true"></textarea>
               <div class="control" v-if="feedback.focus">
-                <el-checkbox v-model="feedback.checked">仅本人可见</el-checkbox>
+                <el-checkbox class="custom-checkbox" v-model="feedback.checked">仅本人可见</el-checkbox>
                 <div class="btn">
                   <span @click="feedback.focus = false">取消</span>
                   <el-button class="confirm" @click="publishFeedBack">提交</el-button>
@@ -61,7 +61,7 @@
     components: {SingleReport, SingleInfo, Loading, NoResult},
     data() {
       return {
-        active_report: 'self', // ETC 当前类型
+        active_report: 'recipient', // ETC 当前类型
         part_list: [], // ETC 部门列表
         active_part: [], // ETC 当前作者
         current_report: -1, // ETC 当前周报
@@ -88,7 +88,7 @@
     created() {
       let that = this;
       that.getPartList();
-      that.active_report = that.$route.query.type || 'self';
+      that.active_report = that.$route.query.type || 'recipient';
     },
     methods: {
       // 周报反馈
@@ -216,7 +216,7 @@
       $route(to, from) {
         let that = this;
         if(to.name === that.$route.name && from.name === that.$route.name) {
-          that.active_report = that.$route.query.type || 'self';
+          that.active_report = that.$route.query.type || 'recipient';
           that.resetList();
         }
       }
@@ -330,30 +330,6 @@
               justify-content: space-between;
               align-items: center;
               padding: 7px 16px;
-              .el-checkbox {
-                .el-checkbox__input {
-                  .el-checkbox__inner {
-                    box-sizing: border-box;
-                    width: 18px;
-                    height: 18px;
-                    border-radius: 50%;
-                    &::after {
-                      top: 3px;
-                      left: 6px;
-                    }
-                  }
-                  &.is-focus .el-checkbox__inner{
-                    border-color: #dcdfe6;
-                  }
-                }
-                &.is-checked .el-checkbox__inner {
-                  border-color: $linkBlue;
-                  background-color: $linkBlue;
-                }
-                 &.is-checked .el-checkbox__label {
-                   color: $linkBlue;
-                 }
-              }
               .btn {
                 >span {
                   margin-right: 22px;
