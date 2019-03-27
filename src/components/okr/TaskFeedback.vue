@@ -110,7 +110,7 @@
             const params = Object.assign({}, {task_id: that.kt_info.task_id}, that.form);
             TaskApi().feedback(params).then(res => {
               if(res.status) {
-                this.$emit('handleTaskFeedback');
+                this.$emit('handleTaskFeedback', res.data.id);
                 that.closeDialog();
                 that.$message({message: '反馈成功', type: 'success'});
               } else {
