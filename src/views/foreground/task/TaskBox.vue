@@ -267,6 +267,9 @@
     .popper__arrow {
       display: none;
     }
+    .popper__arrow {
+      display: none;
+    }
   }
 </style>
 
