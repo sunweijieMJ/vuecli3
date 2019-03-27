@@ -275,6 +275,12 @@
           .el-form-item__content {
             display: flex;
             margin-bottom: 30px;
+            .el-rate__text {
+              font-size: $h3Font;
+              font-weight: 400;
+              line-height: 1;
+              color: $h2Color;
+            }
             >span {
               display: inline-flex;
               align-items: center;
