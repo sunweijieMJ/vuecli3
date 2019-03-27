@@ -27,13 +27,13 @@
           </div>
           <div class="rate" :style="{height: form.type === '2' ? '100px' : 0}">
             <el-form-item v-if="form.type === '2'" prop="performance" :key="form.performance + 'performance'">
-              <span>KT完成表现分</span>
+              <span>KT完成的表现</span>
               <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </el-form-item>
             <el-form-item v-if="form.type === '2'" prop="relativity" :key="form.relativity + 'relativity'">
               <span>OKR相关程度</span>
-              <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
+              <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['不相关', '无法评估', '低相关', '中相关', '高相关']"
                 :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
             </el-form-item>
           </div>

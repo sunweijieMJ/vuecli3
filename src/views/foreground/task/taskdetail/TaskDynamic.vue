@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="cut">
-              <span>满意度</span>
+              <span>表现</span>
               <div class="rate">
                 <el-rate class="small-rate" v-model="dy.review_performance" show-score disabled :allow-half="true" show-text
                   :disabled-void-color="'#c0c4cc'"

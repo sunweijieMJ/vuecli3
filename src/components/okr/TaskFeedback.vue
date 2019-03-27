@@ -18,7 +18,7 @@
                 <p>{{kt_info.spend_time}}天</p>
               </li>
               <li>
-                <span>满意度</span>
+                <span>表现</span>
                 <el-rate class="small-rate" v-model="kt_info.review_performance" show-score disabled :allow-half="true" show-text
                   :disabled-void-color="'#c0c4cc'"
                   :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
@@ -42,13 +42,13 @@
             <h4>你的反馈</h4>
             <div class="rate">
               <el-form-item prop="performance" :key="form.performance + 'performance'">
-                <span>KT完成表现分</span>
+                <span>KT完成的表现</span>
                 <el-rate class="middle-rate" v-model="form.performance" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </el-form-item>
               <el-form-item prop="relativity" :key="form.relativity + 'relativity'">
                 <span>OKR相关程度</span>
-                <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['糟糕', '失望', '一般', '满意', '超预期']"
+                <el-rate class="middle-rate" v-model="form.relativity" :allow-half="true" show-text :texts="['不相关', '无法评估', '低相关', '中相关', '高相关']"
                   :void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
               </el-form-item>
             </div>

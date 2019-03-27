@@ -16,7 +16,7 @@
         </div>
         <div class="rate">
           <li>
-            <span>满意度</span>
+            <span>表现</span>
             <el-rate class="small-rate" v-model="basic.feedback_performance" show-score disabled :allow-half="true" show-text
               :disabled-void-color="'#c0c4cc'"
               :disabled-void-icon-class="'icon-icon_star iconfont'" :icon-classes="['icon-icon_star iconfont', 'icon-icon_star iconfont','icon-icon_star iconfont']"></el-rate>
