@@ -211,6 +211,7 @@
               that.$set(that.part_list, i, that.part_list[i]);
             }
           }
+          this.resetData();
         });
       },
       // 角色列表
