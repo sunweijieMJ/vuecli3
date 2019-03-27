@@ -8,7 +8,7 @@
               <span>KT</span>
               <h4>{{kt_info.task_name}}</h4>
             </div>
-            <div class="num" v-if="kt_info.check_info">
+            <div class="num">
               <li>
                 <span>完成度</span>
                 <p>{{kt_info.progress}}%</p>
