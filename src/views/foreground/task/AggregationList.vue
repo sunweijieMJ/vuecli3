@@ -148,7 +148,7 @@ export default {
           newKTlist = res.data.list;
           if(newKTlist.length){
             for (let i = 0; i < newKTlist.length; i++) {
-              newKTlist[i].users_info = res.data.users_info[newKTlist[i].task_owner_id];
+              newKTlist[i].creator_info = res.data.users_info[newKTlist[i].task_owner_id];
             }
           }
           let newKt = [];
