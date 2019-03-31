@@ -125,7 +125,7 @@
         if(new Date().getDay() === 1) {
           date = [new Date().setDate(new Date().getDate() - 7), new Date().setDate(new Date().getDate() - 1)];
         } else {
-          const start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1 - new Date().getDay() || 7);
+          const start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1 - (new Date().getDay() || 7));
           date = [start, Date.now()];
         }
         that.getReportDetail({start_day: Moment().format(date[0]), end_day: Moment().format(date[1])}).then(() => {
