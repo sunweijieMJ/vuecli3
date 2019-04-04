@@ -363,6 +363,7 @@
       @include tofl(100%);
       max-height: $h4Font;
       font-size: $h4Font;
+      line-height: $h4Font;
       color: $h2Color;
       a {
         font-size: $h4Font;
